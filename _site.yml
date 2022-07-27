@@ -1,13 +1,8 @@
-name: "SETO Data Analysis""
-output_dir: "docs"
+name: "SETO Data Analysis"
+output_dir: "docs" ## if making website hostable on github with jekyll
 navbar:
+  title: "NavBar Title"
   right:
     - text: "Home"
       href: index.html
-    - text: "About"
-      href: about.html
-    - text: "Projects"
-      href: projects.html
-output: 
-  rmdformats::readthedown:
-    toc_depth: 5
+
