@@ -1,0 +1,13 @@
+name: "SETO Data Analysis""
+output_dir: "docs"
+navbar:
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
+    - text: "Projects"
+      href: projects.html
+output: 
+  rmdformats::readthedown:
+    toc_depth: 5
