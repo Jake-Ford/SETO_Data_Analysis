@@ -1,7 +1,7 @@
 name: "SETO Data Analysis"
 output_dir: "docs" ## if making website hostable on github with jekyll
 navbar:
-  title: "NavBar Title"
+  title: "SETO Data Analysis"
   right:
     - text: "Home"
       href: index.html
