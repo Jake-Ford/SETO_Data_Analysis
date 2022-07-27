@@ -1,8 +1,15 @@
 ---
-title: "It's full of cars!"
-output: html_document
+title: "SETO Data Analysis"
+author: "Jacob Ford, Solstice Data Scientist"
+date: "`r Sys.Date()`"
+output: 
+  rmdformats::readthedown:
+    toc_depth: 5
+    
+knit: (function(inputFile, encoding) { 
+        rmarkdown::render(inputFile, encoding = encoding, 
+        output_file = file.path(dirname(inputFile), 'index.html')) })
 ---
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
