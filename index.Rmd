@@ -169,6 +169,8 @@ This research focuses on community shared solar (CSS) programs that are third-pa
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
+##clean survey zip and race to match ACS categories
+
 survey$zip <- str_pad(survey$zip, width=5, side="left", pad="0")
 
 
