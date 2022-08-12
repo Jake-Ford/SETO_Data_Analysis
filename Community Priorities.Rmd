@@ -1,0 +1,668 @@
+---
+title: "Churn and Default"
+author: "Jacob Ford, Solstice Data Scientist"
+date: "`r Sys.Date()`"
+output: 
+  rmdformats::readthedown:
+    toc_depth: 5
+
+knit: (function(inputFile, encoding) { 
+        rmarkdown::render(inputFile, encoding = encoding, 
+        output_file = file.path(dirname(inputFile), 'community_priorities.html')) })
+---
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+#Load packages we'll need throughout the entire document
+library(readxl)
+library(sf)
+library(dplyr)
+library(janitor)
+library(dplyr)
+library(tidycensus)
+library(tidyverse)
+options(tigris_use_cache = TRUE)
+library(nngeo)
+library(plotly)
+library(kableExtra)
+library(haven)
+library(rms)
+library(rmdformats)
+library(ggplot2)
+library(plotly)
+
+
+options(scipen = 100)
+
+
+```
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+## Change the below to match your local drive ##
+
+input_folder <- '/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/'
+
+
+
+setwd(input_folder)
+
+
+```
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+# 1. Community Solar Priorities
+
+survey_name = paste(input_folder,"1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.xlsx", sep="")
+
+survey <- read_excel(survey_name)
+
+# 2. Developer & Financier
+
+dev_input = paste(input_folder, "2. Developer and Financier/", sep="")
+
+#dev_input ='/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/Developer and Financier Survey/'
+
+
+
+
+# 3. Churn & Default
+
+cd_input = paste(input_folder, "3. Churn and Default/", sep="")
+
+
+#cd_input = '/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/Churn & Default Analysis'
+
+
+
+
+```
+
+
+# Community Solar Priorities 
+
+## Research Questions
+
+The primary research questions we are attempting to investigate are listed below:
+
+1. How does contract attributes such as subscriber contract page length, savings rate, term length or cancellation fee attached to a subscriber agreement influence adoption rates for community shared solar?
+2. How does contract adoption rate differ between contract variables across term categories?
+3. How do varying demographics respond differently to contract variables included in community shared solar subscriber contracts?
+4. Outside of customer contract priorities, what other preferences do individuals have for the design of community solar programs?
+
+The primary outcome from the Community Solar Priorities research will be the contract adoption rate, measured at the point of the survey.The secondary outcome from the Community Solar Priorities research will be hypothesis- generating data collected on broad customer priorities related to community solar program design that can inform future research.
+
+## Hypotheses
+
+The following constitute the contract attribute hypotheses. Each is phrased as the null hypotheses. 
+
+1. There is no significant difference in contract adoption between programs with a 9-page contract and 23-page contract.
+2. There is no significant difference in contract adoption between programs with 5% savings, 10% savings, and 20% savings.
+3. There is no significant difference in contract adoption between programs with and without a cancellation fee.
+4. There is no significant difference in contract adoption between programs with a 1-year term length and those with a 25-year term length.
+5. There is no significant difference in contract adoption across demographic characteristics, including race, income and homeownership status.
+
+
+
+
+A number of independent variables will be used for both contract attributes and demographic data. Interaction variables will be tested for significant, along with a initial stepwise regression to determine which variables to initially include. The below equation is a summary of the full model used in this analysis. The dependent variable is a binary variable for contract adoption, $y_{signup}$, where 1 signifies the contract was adopted and 0 signifies it was not.  
+
+\begin{equation}
+
+y_{signup} = \beta_{0} + \beta_{1}x_{sr} +\beta_{2}x_{cly} +\beta_{3}x_{clp}  +\beta_{4}x_{cf} + \\  \beta{5}x_{inc}+\beta_{6}x_{race} + \beta{7}x_{hs} +\beta_{8}x_{fam} + \beta_{9}x_{rev} + \beta_{10}x_{ord}+ e_{i}
+
+\end{equation}
+
+where,
+
+
+* $x_{sr}$: savings rates on monthly energy bill in contracts, listed at either 5%, 10% or 20%
+* $x_{cly}$: contract length years, either 1 or 25 years
+* $x_{clp}$: contract length pages, either 10 or 20 pages
+* $x_{cf}$: cancellation fee, either zero or $250
+* $x_{inc}$: income, listed as Low (up to 50% of AMI), Moderate (50% - 120% of AMI), or High (>120% AMI)
+* $x_{race}$: Categories include Asian, Black or African American, Hispanic or Latino, White and Other POC
+* $x_{hs}$: Homeowner status for Homeowner, Renter or Other
+* $x_{fam}$: More or less familiar with community solar
+* $x_{rev}$: How much respondent reviewed the contract; up to half the contract review is captured by "less review", over half and up to the whole contract is "more review"
+* $x_{ord}$: Contract review order, likely not necessary.
+
+Other variables of interest to consider: government program - x_govt
+
+
+This research focuses on community shared solar (CSS) programs that are third-party owned and have participants subscribe to ongoing payments. Typically, within these programs, customers are given predefined, discrete contract terms rather than being able to compare multiple offerings or select their own terms. Our research is attempting to mimic this approach by giving customers a randomly assigned contract and surveying them on their willingness to adopt this program.
+
+![](table3.png)
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+##clean survey zip and race to match ACS categories
+
+survey$zip <- str_pad(survey$zip, width=5, side="left", pad="0")
+
+
+survey <- survey %>%
+  mutate( Race2 = case_when(
+    race_eth == "White" ~ race_eth,
+    race_eth == "Black or African American" ~ race_eth,
+    race_eth =="Hispanic or Latino" ~ race_eth,
+    race_eth == "Asian" ~ race_eth,
+    TRUE ~ "Other - POC"
+  )) %>%
+  mutate(zip_2 = as.integer(zip)) %>%
+  mutate(state_2 = case_when(
+    is.na(state) & startsWith(zip, '8') ~ "CO",
+    is.na(state) & startsWith(zip, '6') ~ "IL",
+    is.na(state) & startsWith(zip, '0') ~ "MA",
+    is.na(state) & startsWith(zip, '2') ~ "MD",
+    is.na(state) & startsWith(zip, '5') ~ "MN",
+    is.na(state) & startsWith(zip, '1') ~ "NY",
+    is.na(state) & startsWith(zip, '97') ~ "OR",
+    is.na(state) & startsWith(zip, '9') ~ "CA",
+    TRUE ~ state
+  )) %>%
+# drop two observations (one record) that don't have zip or state
+  filter(!is.na(state_2))
+
+survey$x_cf <- as.factor(survey$x_cf)
+survey$x_sr <- factor(survey$x_sr, levels=c("5% savings rate", "10% savings rate", "20% savings rate"))
+
+
+```
+
+
+
+
+
+
+
+
+## Descriptive Statistics
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(vtable)
+
+labs <- data.frame(
+    y_signup = "Sign Up",
+    x_ord = 'Contract Review Order',
+    x_sr = "Savings Rate",
+    x_cf = "Cancellation Fee",
+    x_clp = "Contract Length Pages",
+    x_cly = "Contract Length Years",
+    x_source = 'Source',
+    x_rev = "Time Spent Reviewing Contracts",
+    x_gov = "Government Assistance",
+    x_race = "Race", 
+    x_hs = "Homeownership",
+    x_inc = "Income",
+    x_fam = "Familiar with CS"
+    )
+
+vars <- c("y_signup","x_ord", "x_sr", "x_cf", "x_clp", "x_cly", "x_source", "x_rev",
+          "x_gov", "x_race", "x_hs", "x_inc", "x_fam" )
+
+st(survey, vars=vars, label=labs, col.breaks = 7)
+
+```
+
+
+### Demographic Comparison
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+temp <- get_acs(
+  geography="state", 
+  state=c("CA", "CO", "IL", "MA", "MD", "MN", "NY", "OR"),
+  variables=c("White" ="B03002_003",
+              "Black or African American" = "B03002_004",
+              "Native American or Alaskan Native" = "B03002_005",
+              "Asian" = "B03002_006",
+              "Native Hawaiian or Pacific Islander" = "B03002_007",
+              "Other" = "B03002_008",
+              "Multiracial" = "B03002_009",
+              "Hispanic or Latino" = "B03002_012"),
+  year=2020, 
+  geometry=FALSE)
+
+
+temp_state <- temp %>%
+#  filter(NAME=="California") %>%
+  select(Race=variable, Total = estimate) %>%
+  mutate( Race2 = case_when(
+    Race == "White" ~ Race,
+    Race == "Black or African American" ~ Race,
+    Race =="Hispanic or Latino" ~ Race,
+    Race == "Asian" ~ Race,
+    TRUE ~ "Other - POC"
+  )) %>%
+  group_by(Race2) %>%
+  summarise(Total = sum(Total)) %>%
+  arrange(Race2) %>%
+  mutate(Proportion = Total/sum(Total)) 
+
+
+survey_race <- survey %>%
+  group_by(Race=Race2, .drop=FALSE) %>%
+#  filter(state=="CA") %>%
+  summarise(Total = n()/2) %>%
+  mutate(Proportion = Total/sum(Total)) %>%
+  arrange(Race)   
+
+
+join_with_survey <- cbind(temp_state, survey_race)
+
+join_with_survey <- join_with_survey[,-4]
+
+temp_hold <- join_with_survey %>%
+  select(Race=Race2, Census_Total = Total, Census_Proportion = Proportion, 
+         Survey_Total = Total.1, Survey_Proportion = Proportion.1) 
+
+
+race_total <- temp_hold %>%
+  mutate(Deserves=Census_Total/(sum(Census_Total)/sum(Survey_Total))) %>%
+  mutate(Proportion_Weight = Deserves/Survey_Total,
+         Population_Weight = Census_Total/Survey_Total,
+         Check_Proportion_Weight = Proportion_Weight * Survey_Total,
+         Check_Population_Weight=Population_Weight * Survey_Total) %>%
+    arrange(-Census_Total)%>%
+    adorn_totals("row")
+
+
+race_total$Population_Weight[race_total$Race=="Total"] <- sum(race_total$Survey_Total[1:5] * race_total$Population_Weight[1:5])
+
+race_total_table <- race_total %>%
+  select(Race, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+  kbl(caption = "Descriptive Statistics, 8-State Region",
+      digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+  kable_classic(full_width = T, html_font = "Cambria") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+
+
+race_total_table
+```
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+survey_race_graph <- race_total %>%
+  select(Race, Census = Census_Proportion, Survey = Survey_Proportion) %>%
+  filter(Race !="Total")
+
+
+graph_temp <- reshape2::melt(survey_race_graph, id.var='Race') 
+
+
+
+g <- ggplot(graph_temp, aes(x=reorder(Race, -value), y=value))+geom_bar(aes(fill=variable),stat='identity', position='dodge') +theme_classic()+
+  xlab('') + ylab('Proportion') + labs(color='') +   ggtitle("SETO Survey State and Census Race Totals, 8-State Region")+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))
+ggplotly(g)
+
+
+
+
+```
+
+
+Sources: 
+
+1. Government Programs: [Urban Institute](https://www.urban.org/sites/default/files/publication/99674/five_things_you_may_not_know_about_the_us_social_safety_net_1.pdf)
+2. Race, Income, Homeownership
+
+
+
+### Crosstab Graphics
+
+#### Savings Rate & Income
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+p <- ggplot(survey) +
+  geom_bar(aes(x=x_sr, fill=y_signup),
+           position = "dodge") +facet_wrap(~x_inc) + theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
+
+ggplotly(p)
+```
+
+#### Savings Rate & Race
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+p <- ggplot(survey) +
+  geom_bar(aes(x=x_race, fill=y_signup),
+           position = "dodge") +facet_wrap(~x_sr) + theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
+
+ggplotly(p)
+```
+
+#### Race & Income
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+p <- ggplot(survey) +
+  geom_bar(aes(x=x_race, fill=y_signup),
+           position = "dodge") +facet_wrap(~x_inc) + theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
+
+ggplotly(p)
+```
+
+
+
+
+#### Cancellation Fee & Income
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+p <- ggplot(survey) +
+  geom_bar(aes(x=factor(x_cf), fill=y_signup),
+           position = "dodge") +facet_wrap(~x_inc) + theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
+
+ggplotly(p)
+```
+
+
+#### Cancellation Fee & Race
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+p <- ggplot(survey) +
+  geom_bar(aes(x=factor(x_cf), fill=y_signup),
+           position = "dodge") +facet_wrap(~x_race) + theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
+
+ggplotly(p)
+```
+
+
+
+
+
+#### Contract Years & Income
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+p <- ggplot(survey) +
+  geom_bar(aes(x=factor(x_cly), fill=y_signup),
+           position = "dodge") +facet_wrap(~x_inc) + theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
+
+ggplotly(p)
+```
+
+
+#### Contract Years & Race
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+p <- ggplot(survey) +
+  geom_bar(aes(x=factor(x_cly), fill=y_signup),
+           position = "dodge") +facet_wrap(~x_race) + theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
+
+ggplotly(p)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Primary Analysis
+
+
+ *to-do* 
+ 
+ add intro/dialogue 
+ 
+ 
+<style>
+### Stepwise
+
+
+{
+   display: none;
+ }
+</style>
+
+
+
+### Regression Tables
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+
+temp_data <- read_dta(paste(input_folder, "1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", sep=""))
+
+temp_data$x_sr <- as.factor(temp_data$x_sr)
+temp_data$x_cly <- as.factor(temp_data$x_cly)
+temp_data$x_clp <- as.factor(temp_data$x_clp)
+temp_data$x_cf <- as.factor(temp_data$x_cf)
+temp_data$x_inc <- as.factor(temp_data$x_inc)
+temp_data$x_race <- as.factor(temp_data$x_race)
+temp_data$x_hs <- as.factor(temp_data$x_hs)
+temp_data$x_fam <- as.factor(temp_data$x_fam)
+temp_data$x_gov <- as.factor(temp_data$x_gov)
+temp_data$x_source <- as.factor(temp_data$x_source)
+
+temp_data$x_rev <- as.factor(temp_data$x_rev)
+temp_data$x_ord <- as.factor(temp_data$x_ord)
+
+
+```
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(stargazer)
+
+
+# drop third homestatus answer of other
+
+model_data <- temp_data %>%
+  mutate(x_hs_drop_other = case_when(
+    x_hs==1 ~ 1,
+    x_hs==2 ~ 2
+  )) %>%
+  dplyr::select(id, y_signup, x_sr, x_cly, x_clp, x_cf, x_inc, x_race, x_hs_drop_other, x_fam, x_rev, x_ord,x_gov, x_source, weight_income, weight_race)
+
+model_data$x_hs_drop_other <- as.factor(model_data$x_hs_drop_other)
+
+
+attr(model_data, "model.varnames") <- c("id", "Sign Up", "Savings Rate 10%", "Savings Rate 20%","Contract Length 25 Years", "Contract Length 20 Pages", "Cancellation Fee $250", "High Income", "Moderate Income", "Black", "Hispanic", "Asian", "Other", "Renter", "More Familiar", "More Reviewed", "weight income", "weight race" )
+
+# 
+model_data <- model_data %>%
+  filter(!is.na(x_ord)) %>%
+  filter(!is.na(x_hs_drop_other))
+
+names(attributes(model_data))
+attr(model_data, "model.varnames")
+
+model_data$x_inc <- relevel(model_data$x_inc, ref='3')
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r message=FALSE, warning=FALSE}
+
+##load all models that we'll analyze
+
+cols <- c("x_sr", "x_cly", "x_clp", "x_cf", "x_inc", "x_race", "x_hs_drop_other", "x_fam" , "x_rev")
+
+model_data[cols] <- lapply(model_data[cols], as.factor)
+
+model_data$x_inc <- relevel(model_data$x_inc, ref='3')
+
+mod1=lrm(y_signup ~ x_sr  , x=T, y=T, weight=weight_race, data=model_data, normwt=T)
+mod1 = robcov(mod1, cluster=model_data$id)
+
+mod2=lrm(y_signup ~ x_sr + x_cly+x_clp  , x=T, y=T, weight=weight_race, data=model_data, normwt=T)
+mod2 = robcov(mod2, cluster=model_data$id)
+
+mod3=lrm(y_signup ~ x_sr + x_cly+x_clp+x_cf   , x=T, y=T, weight=weight_race, data=model_data, normwt=T)
+mod3 = robcov(mod3, cluster=model_data$id)
+
+mod4=lrm(y_signup ~ x_sr  + x_cly+x_clp+x_cf + x_inc , x=T, y=T, weight=weight_race, data=model_data, normwt=T)
+mod4 = robcov(mod4, cluster=model_data$id)
+
+mod5=lrm(y_signup ~ x_sr  + x_cly+x_clp+x_cf + x_inc + x_race   , x=TRUE, y=TRUE, weight=weight_race, data=model_data, normwt=T)
+mod5 = robcov(mod5, cluster=model_data$id)
+
+mod6=lrm(y_signup ~ x_sr  + x_cly+x_clp+x_cf + x_inc + x_race + x_hs_drop_other , x=T, y=T, weight=weight_race, data=model_data, normwt=T)
+mod6 = robcov(mod6, cluster=model_data$id)
+
+mod7=lrm(y_signup ~ x_sr  + x_cly+x_clp+x_cf + x_inc + x_race + x_hs_drop_other + x_fam , x=T, y=T, weight=weight_race, data=model_data, normwt=T)
+mod7 = robcov(mod7, cluster=model_data$id)
+
+mod8=lrm(y_signup ~ x_sr  + x_cly+x_clp+x_cf + x_inc + x_race + x_hs_drop_other + x_fam +x_rev , x=T, y=T, weight=weight_race, data=model_data, normwt=T)
+mod8 = robcov(mod8, cluster=model_data$id)
+
+
+```
+
+
+
+#### Table 1
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+## first four models
+
+stargazer(mod1, mod2, mod3, mod4, type="text", align=TRUE,
+          title="Regression Table 1",
+           covariate.labels = attr(model_data, "model.varnames")[3:9], 
+          dep.var.labels = attr(model_data, "model.varnames")[2])
+```
+
+
+
+
+
+
+
+
+#### Table 2
+
+
+```{r message=FALSE, warning=FALSE}
+
+stargazer(mod5, mod6, mod7, mod8, type="text", align=TRUE,
+          title="Regression Table 2",
+          covariate.labels = attr(model_data, "model.varnames")[3:16], 
+          dep.var.labels = attr(model_data, "model.varnames")[2])
+```
+
+### Odds Ratios
+
+
+#### Table 1
+
+
+```{r message=FALSE, warning=FALSE}
+stargazer(mod1, mod2, mod3, mod4, type="text", align=TRUE,
+        covariate.labels = attr(model_data, "model.varnames")[3:9], 
+        dep.var.labels = attr(model_data, "model.varnames")[2],
+        apply.coef = exp,
+        apply.se = exp,
+        title = "Odds Ratio, Table 1")
+
+
+```
+
+
+
+
+#### Table 2
+
+
+```{r message=FALSE, warning=FALSE}
+stargazer(mod5, mod6, mod7, mod8, type="text", align=TRUE,
+          covariate.labels = attr(model_data, "model.varnames")[3:16], 
+          dep.var.labels = attr(model_data, "model.varnames")[2],
+          apply.coef = exp,
+          apply.se = exp,
+          title = "Odds Ratio, Table 2")
+
+
+
+```
+
+
+
+
+### Discussion
+
+
+
+**Main Takeaways**
+
+1. Table 1
+ + Contract length of 25 years compared to 1 year remained a significant deterrent to contract acceptance rates.
+ + Relative to low income, moderate and higher income respondents were more likely to accept the contract, holding th effect of savings rate, cancellation fee, and contract length constant. 
+2. Table 2
+ + Contract lenght remained a constant deterrance 
+ + Homeowner status, rent vs homeowner, was not observed as a statistically significant effect on signup rate. Likely some multicollinearity due to effect (sign) varying from model 2 to model 4. 
+ + After including familiarity and reviewed dummies, savings rate becomes statistically significant effect on likelihood of contract adoption. 
+ + More familiar with community solar implies significantly more likely to adopt contract (suggests importance of education) - odds ratio of >4 in model 3 and 4
+ + In looking at contract adoption by race, Hispanics were the only group observed with a statistically significant effect in models 1 and 2. Relative to white, hispanic rates were higher. This effect is negated after additional IVs are introduces in models 3 and 4. 
+
+
+
+
+From Table 1, four models are presented analyzing changes in probability of sign up. Controlling for all other variables, contract length and income were found to have statistically significant effects on the rate of sign up. Contract length was found to have a strong negative impact on probability of contract adoption. For example, holding all variables constant, from model 2 we see that the odds ratio for contract length of 25 years is 0.782, meaning the group with contracts of 25 years are 0.782 times as likely as the group with contracts of 1 year of signing up, or a 21.8% decrease in odds of signing up. 
+
+Interestingly, lower income respondents were much less likely to adopt the contract, even when controlling for savings rate, contract length and number of pages, and cancellation fees. High income and medium income respondents were 1.3 and 1.7 times the odds to adopt the contract compared to low income respondents, controlling for contract attributes.  
+
+
+
+
+
+
+
+
+
+## Secondary Analysis
+
+The secondary analysis will include an ordered logit model to investigate the degree of which the same independent variables above influence the likert scale questions asked in the survey. Ordered logit models are commonly utilized with outputs of interest are categorized in discrete sequences, such as a Likert scale. 
+
+
+
+
+
+
+
+
+### Would/Would Not Sign Up
+
+#### Savings Rate
+
+Tables 1-4 in output/regressions
+
+
+
+
+
+### Agree/Disagree
+
+
+

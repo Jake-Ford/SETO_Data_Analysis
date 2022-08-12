@@ -1,0 +1,1589 @@
+---
+title: "Churn and Default"
+author: "Jacob Ford, Solstice Data Scientist"
+date: "`r Sys.Date()`"
+output: 
+  rmdformats::readthedown:
+    toc_depth: 5
+
+knit: (function(inputFile, encoding) { 
+        rmarkdown::render(inputFile, encoding = encoding, 
+        output_file = file.path(dirname(inputFile), 'developer_and_financier.html')) })
+---
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+#Load packages we'll need throughout the entire document
+library(readxl)
+library(sf)
+library(dplyr)
+library(janitor)
+library(dplyr)
+library(tidycensus)
+library(tidyverse)
+options(tigris_use_cache = TRUE)
+library(nngeo)
+library(plotly)
+library(kableExtra)
+library(haven)
+library(rms)
+library(rmdformats)
+library(ggplot2)
+library(plotly)
+
+
+options(scipen = 100)
+
+
+```
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+## Change the below to match your local drive ##
+
+input_folder <- '/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/'
+
+dev_input = paste(input_folder, "2. Developer and Financier/", sep="")
+
+
+setwd(input_folder)
+
+
+```
+
+
+
+
+
+
+# Developer & Financier
+
+Developer and Financier Research: survey responses from developers and financiers to assess price sensitivities of language used in contract agreements
+
+
+Due to the exploratory nature of this research, Solstice intends to leave analyses associated with the developer and financier component of this research unstructured in part. As a result of the expected small sample size, described in more detail below, we do not expect to be able to test for significance between observations. Rather, this analysis will be conducted through a detailed analysis of primary data collected via survey responses. Absence of existing published data detailing limiting factors and decision points related to constructing community solar  subscriber agreements makes it difficult to establish a baseline in order to conduct hypotheses-generated analyses as outlined in previous sections. This research takes a grounded theory approach to construct theory through primary data collection and subsequent comparative
+analysis. 
+
+## Research Questions
+
+
+Average program terms
+
+1. What is the average savings rate offered by developers and financiers within their community solar programs?
+2. Do savings rates offered by different community solar developers and financiers?
+3. What are average term length offered by developers and financiers within their community solar programs?
+4. Do cancellation clauses offered by developers and financiers within their community solar programs?
+5. What is the average subscriber contract page length offered by developers and financiers within their community solar programs?
+
+Further,
+
+1. Do economic/financing factors influence developers and financiers to structure community solar subscriber contracts?
+2. Under what conditions are developers willing to adjust their programmatic terms to include LMI populations in their programs?
+
+
+The primary outcome of this research will be collecting and analyzing average terms used by solar developers and financiers in existing community solar contracts. The secondary outcome of the survey responses from developers and financiers will be measured by variables suggested to influence and limit offerings for existing community solar products.
+
+
+
+
+
+
+
+
+
+
+## Processing and Cleaning
+
+There were 254 unique responses. 
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+devd_raw <- read.csv(paste(dev_input, "Data/Developer and Financier Survey_July 20, 2022_06.45.csv", sep=""))
+
+
+
+#remove first two rows of data + only include finished responses
+
+devd <- devd_raw[-1:-2,] %>%
+  filter(Finished=="True") %>%
+  mutate(Latitude = round(as.double(LocationLatitude),2),
+         Longitude = round(as.double(LocationLongitude),2))
+
+devd <- st_as_sf(devd,coords = c("Longitude", "Latitude"))
+
+# Labels for Factor variables 
+savings_levels <- c("0-5% savings per month", "6-10% savings per month", "11-15% savings per month",
+  "16-20% savings per month", "21-50% savings per month")
+
+term_levels <- c("No minimum length", "1-3 years", "4-6 years",
+  "7-10 years", "11-15 years", "16-20 years", "20 or more years")
+
+cancel_levels <- c("No cancellation fee", "$1-$100", "$101-$250", "$251-$500",
+                   "$501-$1,000", "More than $1,000")
+
+differ_levels <- c("Yes", "No", "Unsure")
+
+# factor(sizes, levels = c("small", "medium", "large"))
+# 
+# 
+# devd$savings_rate <- factor(devd$Q11,
+
+dev_sum <- devd %>%
+  st_drop_geometry() %>%
+  mutate(
+      #Savings Rates
+      savings_rate = Q11,
+      savings_rate_differ = Q12,
+      savings_rate_lmi_differ = case_when(
+        Q13 == "Higher savings" ~ Q13,
+        Q13 == "Lower savings" ~ Q13),
+      
+      #Term Length
+      term_length = Q14,
+      term_length_differ = Q15,
+      term_length_lmi_differ = case_when(
+        Q16 == "Longer terms" ~ Q16,
+        Q16 == "Shorter terms" ~ Q16),
+      
+      #Cancellation Fee
+      cancel_fee = Q17,
+      cancel_fee_differ = Q18,
+      cancel_fee_lmi_differ = case_when(
+        Q19 == "Higher cancellation fees" ~ Q19,
+        Q19 == "Lower cancellation fees" ~ Q19),  
+      
+      #Perceived default rate for market
+      default_market = Q27_1,
+      default_lmi = Q27_2,
+      
+      #Perceived churn rate for market
+      churn_market = Q27_1.1,
+      churn_lmi = Q27_2.1,
+      
+    ) %>%
+  
+  # Drop NA values and other erroneous entries
+  filter(savings_rate %in% savings_levels) %>%
+  filter(term_length %in% term_levels) %>%
+  filter(cancel_fee %in% cancel_levels) %>%
+  
+  #Apply factor levels
+  mutate(savings_rate = factor(savings_rate, levels=savings_levels),
+         savings_rate_differ = factor(savings_rate_differ, levels=differ_levels),
+         
+         term_length = factor(term_length, levels=term_levels),
+         term_length_differ = factor(term_length_differ, levels=differ_levels),
+         
+         cancel_fee = factor(cancel_fee, levels=cancel_levels),
+         cancel_fee_differ = factor(cancel_fee_differ, levels=differ_levels))
+
+```
+
+## Descriptive Statistics
+
+
+### Savings Rates
+
+
+
+
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+sr_data <- dev_sum %>%
+  mutate(
+    sr = case_when(
+      savings_rate=="0-5% savings per month" | savings_rate=="6-10% savings per month"  ~ 1,
+      savings_rate=="11-15% savings per month" ~ 2,
+      savings_rate=="16-20% savings per month" ~ 3,
+      savings_rate=="21-50% savings per month" ~ 4,
+      TRUE ~ 0
+    )
+  ) %>%
+  mutate(new_sr_differ = case_when(
+    savings_rate_differ=="Yes" ~ 1,
+    savings_rate_differ=="No" ~ 0,
+  )) %>%
+  mutate(sr_one = case_when(
+    sr == 1 ~ 1, 
+    TRUE ~ 0
+  ),
+  sr_two = case_when(
+    sr == 2 ~ 1, 
+    TRUE ~ 0
+  ),
+  sr_three = case_when(
+    sr == 3 ~ 1, 
+    TRUE ~ 0
+  ),
+  sr_four = case_when(
+    sr == 4 ~ 1, 
+    TRUE ~ 0
+  ))
+
+sr_data$sr <- factor(sr_data$sr)
+
+mylogit <- glm(new_sr_differ ~ sr, data = sr_data, family = "binomial")
+summary(mylogit)
+
+
+
+
+```
+
+
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE,fig.cap = "An amazing plot"}
+library(scales)
+
+temp_data <- dev_sum %>%
+  group_by(savings_rate) %>%
+  summarise(total = n()) %>%
+  mutate(percent_total = percent(total/sum(total)))
+
+p<-ggplot(data=temp_data, aes(x=savings_rate, y=total))+
+  geom_bar(stat = 'identity', aes(text=paste0(
+    "Total: ", total,
+    "<br>",
+    "Percent: ", percent_total
+  ))) + theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) +
+  xlab("")+ ggtitle("Average Savings Rate for Community Solar")
+
+ggplotly(p, tooltip="text")
+
+
+## save out 
+
+p <- ggplot(data=temp_data, aes(x=savings_rate, y=total))+
+  geom_bar(stat = 'identity', aes(text=paste0(
+    "Total: ", total,
+    "<br>",
+    "Percent: ", percent_total
+  ))) + theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) +
+  xlab("")+ ggtitle("Average Savings Rate for Community Solar") +
+    geom_text(aes(label=total), position=position_dodge(width=0.9), vjust=-0.25)
+
+p
+```
+
+34.4% of respondents marked savings rate from 0-10%; 33% recorded 11-15%, and 32.5% answered 16-50%. Hence, nearly two-thirds of respondents recorded over 10% for savings rate for community solar. 
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+temp_data <- dev_sum %>%
+  group_by(savings_rate_differ) %>%
+  summarise(total = n()) %>%
+  mutate(percent_total = percent(total/sum(total)))
+
+p<-ggplot(data=temp_data, aes(x=savings_rate_differ, y=total))+
+  geom_bar(stat = 'identity', aes(text=paste0(
+    "Total: ", total,
+    "<br>",
+    "Percent: ", percent_total
+  ))) + theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) +
+  xlab("") + ggtitle("Does Savings Rate Differ for LMI Customers")
+
+ggplotly(p, tooltip="text")
+
+
+```
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+temp_data <- dev_sum %>%
+  filter(!is.na(savings_rate_lmi_differ)) %>%
+  group_by(savings_rate_lmi_differ) %>%
+  summarise(total = n()) %>%
+  mutate(percent_total = percent(total/sum(total)))
+
+p<-ggplot(data=temp_data, aes(x=savings_rate_lmi_differ, y=total))+
+  geom_bar(stat = 'identity', aes(text=paste0(
+    "Total: ", total,
+    "<br>",
+    "Percent: ", percent_total
+  ))) + theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) +
+  xlab("") + ggtitle("If Yes, how do savings rate differ for LMI Customers compared to market rates?")
+
+ggplotly(p, tooltip="text")
+
+
+
+```
+
+
+
+
+### Term Length
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+temp_data <- dev_sum %>%
+  group_by(term_length) %>%
+  summarise(total = n()) %>%
+  mutate(percent_total = percent(total/sum(total)))
+
+p<-ggplot(data=temp_data, aes(x=term_length, y=total))+
+  geom_bar(stat = 'identity', aes(text=paste0(
+    "Total: ", total,
+    "<br>",
+    "Percent: ", percent_total
+  ))) + theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) +
+  xlab("")+ ggtitle("Average Term Length for Community Solar")
+
+ggplotly(p, tooltip="text")
+
+
+
+
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+temp_data <- dev_sum %>%
+  filter(!is.na(term_length_differ)) %>%
+  group_by(term_length_differ) %>%
+  summarise(total = n()) %>%
+  mutate(percent_total = percent(total/sum(total)))
+
+p<-ggplot(data=temp_data, aes(x=term_length_differ, y=total))+
+  geom_bar(stat = 'identity', aes(text=paste0(
+    "Total: ", total,
+    "<br>",
+    "Percent: ", percent_total
+  ))) + theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) +
+  xlab("") + ggtitle("Does Savings Rate Differ for LMI Customers")
+
+ggplotly(p, tooltip="text")
+
+
+```
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+temp_data <- dev_sum %>%
+  filter(!is.na(term_length_lmi_differ)) %>%
+  group_by(term_length_lmi_differ) %>%
+  summarise(total = n()) %>%
+  mutate(percent_total = percent(total/sum(total)))
+
+p<-ggplot(data=temp_data, aes(x=term_length_lmi_differ, y=total))+
+  geom_bar(stat = 'identity', aes(text=paste0(
+    "Total: ", total,
+    "<br>",
+    "Percent: ", percent_total
+  ))) + theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) +
+  xlab("") + ggtitle("If Yes, how do term rates differ for LMI Customers compared to market rates?")
+
+ggplotly(p, tooltip="text")
+
+
+```
+
+
+
+
+
+### Cancellation Fee
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+temp_data <- dev_sum %>%
+  filter(!is.na(cancel_fee)) %>%
+  group_by(cancel_fee) %>%
+  summarise(total = n()) %>%
+  mutate(percent_total = percent(total/sum(total)))
+
+p<-ggplot(data=temp_data, aes(x=cancel_fee, y=total))+
+  geom_bar(stat = 'identity', aes(text=paste0(
+    "Total: ", total,
+    "<br>",
+    "Percent: ", percent_total
+  ))) + theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) +
+  xlab("")+ ggtitle("Average cancellation fee for Community Solar")
+
+ggplotly(p, tooltip="text")
+
+
+
+```
+
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+temp_data <- dev_sum %>%
+  filter(!is.na(cancel_fee_differ)) %>%
+  group_by(cancel_fee_differ) %>%
+  summarise(total = n()) %>%
+  mutate(percent_total = percent(total/sum(total)))
+
+p<-ggplot(data=temp_data, aes(x=cancel_fee_differ, y=total))+
+  geom_bar(stat = 'identity', aes(text=paste0(
+    "Total: ", total,
+    "<br>",
+    "Percent: ", percent_total
+  ))) + theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) +
+  xlab("") + ggtitle("Does cancellation fee Differ for LMI Customers")
+
+ggplotly(p, tooltip="text")
+
+
+
+```
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+temp_data <- dev_sum %>%
+  filter(!is.na(cancel_fee_lmi_differ)) %>%
+  group_by(cancel_fee_lmi_differ) %>%
+  summarise(total = n()) %>%
+  mutate(percent_total = percent(total/sum(total)))
+
+p<-ggplot(data=temp_data, aes(x=cancel_fee_lmi_differ, y=total))+
+  geom_bar(stat = 'identity', aes(text=paste0(
+    "Total: ", total,
+    "<br>",
+    "Percent: ", percent_total
+  ))) + theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) +
+  xlab("") + ggtitle("If Yes, how do cancellation fees differ for LMI customers compared to market rates?")
+
+ggplotly(p, tooltip="text")
+
+
+
+```
+
+### Factors: Ability to make CS accessibility to LMI {.tabset}
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+importance_levels <- c("Not at all important", "Slightly important", "Moderately important", "Very important", "Extremely important")
+
+temp_data <- devd %>%
+  st_drop_geometry() %>%
+  mutate(
+    Q21_1 = factor(Q21_1, levels=importance_levels),
+    Q21_2 = factor(Q21_2, levels=importance_levels),
+    Q21_3 = factor(Q21_3, levels=importance_levels),
+    Q21_4 = factor(Q21_4, levels=importance_levels),
+    Q21_5 = factor(Q21_5, levels=importance_levels),
+    Q21_6 = factor(Q21_6, levels=importance_levels),
+    Q21_7 = factor(Q21_7, levels=importance_levels),
+    Q21_8 = factor(Q21_8, levels=importance_levels)
+  ) 
+
+temp_data_1 <- temp_data %>%
+  group_by(Q21_1) %>%
+  filter(Q21_1 != "") %>%
+  summarise(Q21_1=n()) %>%
+  mutate(Importance = importance_levels) %>%
+  select(Importance, Q21_1) 
+
+
+temp_data_2 <- temp_data %>%
+  group_by(Q21_2) %>%
+  filter(Q21_2 != "") %>%
+  summarise(Q21_2=n()) %>%
+  mutate(Importance = importance_levels) %>%
+  select(Importance,Q21_2) 
+
+temp_data_3 <- temp_data %>%
+  group_by(Q21_3) %>%
+  filter(Q21_3 != "") %>%
+  summarise(Q21_3=n()) %>%
+  mutate(Importance = importance_levels) %>%
+  select(Importance,Q21_3) 
+
+temp_data_4 <- temp_data %>%
+  group_by(Q21_4) %>%
+  filter(Q21_4 != "") %>%
+  summarise(Q21_4=n()) %>%
+  mutate(Importance = importance_levels) %>%
+  select(Importance,Q21_4) 
+
+temp_data_5 <- temp_data %>%
+  group_by(Q21_5) %>%
+  filter(Q21_5 != "") %>%
+  summarise(Q21_5=n()) %>%
+  mutate(Importance = importance_levels) %>%
+  select(Importance,Q21_5) 
+
+temp_data_6 <- temp_data %>%
+  group_by(Q21_6) %>%
+  filter(Q21_6 != "") %>%
+  summarise(Q21_6=n()) %>%
+  mutate(Importance = importance_levels) %>%
+  select(Importance,Q21_6) 
+
+
+
+final_data <- cbind(temp_data_1, temp_data_2,temp_data_3,temp_data_4,temp_data_5,temp_data_6)
+
+
+final_data$order <- c(1,2,3,4,5)
+
+
+```
+
+
+
+
+
+
+#### CAC
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+#Q21_1
+
+fig <- plot_ly(temp_data_1, labels = ~Importance, values = ~Q21_1, type = 'pie', sort=F)
+fig <- fig %>% layout(title = 'High customer acquisition costs',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+fig
+```
+
+
+#### Churn
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#Q21_2
+
+fig <- plot_ly(temp_data_2, labels = ~Importance, values = ~Q21_2, type = 'pie', sort=F)
+fig <- fig %>% layout(title = 'Risk of subscriber churn',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+fig
+```
+
+#### Default
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+#Q21_3
+
+fig <- plot_ly(temp_data_3, labels = ~Importance, values = ~Q21_3, type = 'pie', sort=F)
+fig <- fig %>% layout(title = 'Risk of subscriber default',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+fig
+```
+
+
+#### Communication
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+#Q21_4
+
+fig <- plot_ly(temp_data_4, labels = ~Importance, values = ~Q21_4, type = 'pie', sort=F)
+fig <- fig %>% layout(title = 'Difficult to communicate community solar product',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+fig
+```
+
+
+#### LMI ID
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+#Q21_5
+
+fig <- plot_ly(temp_data_5, labels = ~Importance, values = ~Q21_5, type = 'pie', sort=F)
+fig <- fig %>% layout(title = 'Difficulty qualifying households as LMI',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+fig
+```
+
+
+#### Financing
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+#Q21_6
+
+fig <- plot_ly(temp_data_6, labels = ~Importance, values = ~Q21_6, type = 'pie', sort=F)
+fig <- fig %>% layout(title = 'Lack of available project financing',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+fig
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### {-}
+
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+agg_data <- final_data[,c(1,2,4,6,8,10,12)] %>%
+  mutate(new_cat = case_when(
+    Importance == "Not at all important" | Importance == "Slightly important" ~ "No",
+    Importance =="Moderately important" ~ "Maybe", 
+    TRUE ~ "Yes"
+  )) 
+
+
+agg <- melt(agg_data, id="new_cat") %>%
+  filter(variable!="Importance") %>%
+  mutate(value = as.integer(value)) %>%
+  group_by(variable) %>%
+  summarise(
+    No = sum(value[new_cat=="No"]),
+    Maybe = sum(value[new_cat=="Maybe"]),
+    Yes = sum(value[new_cat=="Yes"]),
+
+    total=sum(value)
+
+  )
+
+agg
+```
+
+#### Takeaways
+
+1. Customer aqcuisition costs (CAC) was the strongest factor, with 55.5% responding as either very or extremely important. 
+
+2. Defaults were relatively less important, nearly a quarter (23.6%) responding that it was either not at all or slightly important. When compared to threat of churn, respondents shifted from slightly to moderately important, implying that churn is more of a concern compared to default. 
+
+
+
+#### Bar Charts
+
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(reshape)
+
+stacked_data <- melt(final_data, id='Importance') %>%
+  filter(variable!="order") %>%
+  mutate(order = case_when(
+    Importance=="Not at all important" ~ 1,
+    Importance=="Slightly important" ~ 2, 
+    Importance=="Moderately important" ~ 3, 
+    Importance=="Very important" ~ 4, 
+    Importance=="Extremely important" ~ 5
+  )) %>%
+  mutate( Factors = case_when(
+    variable=="Q21_1" ~ "High customer acquisition costs",
+    variable=="Q21_2" ~ "Risk of subscriber churn",
+    variable=="Q21_3" ~ "Risk of subscriber default",
+    variable=="Q21_4" ~ "Difficulty communicating CS",
+    variable=="Q21_5" ~ "difficulty qualifying LMI HHs",
+    variable=="Q21_6" ~ "Lack of project financing",
+    
+  )
+    
+  )
+
+
+
+b <- ggplot(data = stacked_data, aes(x = reorder(Importance, -order), y = value, fill = Factors,
+                                     text=paste("Factor", Factors, "\nValue:", value))) + 
+       geom_bar(stat = 'identity', position = 'dodge') + coord_flip() + xlab("") + ylab("")+ theme_minimal()
+
+ggplotly(b, tooltip="text")
+
+```
+
+
+
+
+
+
+### Factors: Influence decision to include LMI in projects {.tabset}
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+importance_levels <- c("Not at all important", "Slightly important", "Moderately important", "Very important", "Extremely important")
+
+temp_data <- devd %>%
+  st_drop_geometry() %>%
+  mutate(
+    Q24_1 = factor(Q24_1, levels=importance_levels),
+    Q24_2 = factor(Q24_2, levels=importance_levels),
+    Q24_3 = factor(Q24_3, levels=importance_levels),
+    Q24_4 = factor(Q24_4, levels=importance_levels),
+    Q24_5 = factor(Q24_5, levels=importance_levels)
+  ) 
+
+temp_data_1 <- temp_data %>%
+  group_by(Q24_1) %>%
+  filter(Q24_1 != "") %>%
+  summarise(Q24_1=n()) %>%
+  mutate(Importance = importance_levels) %>%
+  select(Importance, Q24_1) 
+
+
+temp_data_2 <- temp_data %>%
+  group_by(Q24_2) %>%
+  filter(Q24_2 != "") %>%
+  summarise(Q24_2=n()) %>%
+  mutate(Importance = importance_levels) %>%
+  select(Importance,Q24_2) 
+
+temp_data_3 <- temp_data %>%
+  group_by(Q24_3) %>%
+  filter(Q24_3 != "") %>%
+  summarise(Q24_3=n()) %>%
+  mutate(Importance = importance_levels) %>%
+  select(Importance,Q24_3) 
+
+temp_data_4 <- temp_data %>%
+  group_by(Q24_4) %>%
+  filter(Q24_4 != "") %>%
+  summarise(Q24_4=n()) %>%
+  mutate(Importance = importance_levels) %>%
+  select(Importance,Q24_4) 
+
+temp_data_5 <- temp_data %>%
+  group_by(Q24_5) %>%
+  filter(Q24_5 != "") %>%
+  summarise(Q24_5=n()) %>%
+  mutate(Importance = importance_levels) %>%
+  select(Importance,Q24_5) 
+
+
+
+
+
+final_data <- cbind(temp_data_1, temp_data_2,temp_data_3,temp_data_4,temp_data_5)
+
+
+final_data$order <- c(1,2,3,4,5)
+
+
+
+```
+
+
+
+
+
+#### Policy
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+temp_data_1$Importance = factor(temp_data_1$Importance, levels=importance_levels)
+
+#Q24_1
+
+fig <- plot_ly(temp_data_1, labels = ~Importance, values = ~Q24_1, type = 'pie', sort=F)
+fig <- fig %>% layout(title = 'Policy/Program Requirements',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+fig
+
+
+
+
+```
+
+
+#### Community Interest
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#Q24_2
+
+fig <- plot_ly(temp_data_2, labels = ~Importance, values = ~Q24_2, type = 'pie', sort=F)
+fig <- fig %>% layout(title = 'Community Interest',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+fig
+
+
+
+```
+
+#### Financier Interest
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+#Q24_3
+
+fig <- plot_ly(temp_data_3, labels = ~Importance, values = ~Q24_3, type = 'pie', sort=F)
+fig <- fig %>% layout(title = 'Financier/Investor Interest',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+fig
+
+
+
+
+```
+
+
+#### Company Interest
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+#Q24_4
+
+fig <- plot_ly(temp_data_4, labels = ~Importance, values = ~Q24_4, type = 'pie', sort=F)
+fig <- fig %>% layout(title = 'Company Interest',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+fig
+
+
+
+```
+
+
+#### Equity
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+#Q24_5
+
+fig <- plot_ly(temp_data_5, labels = ~Importance, values = ~Q24_5, type = 'pie', sort=F)
+fig <- fig %>% layout(title = 'Equity and Inclusion',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+fig
+```
+
+
+
+
+### {-}
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+agg_data <- final_data[,c(1,2,4,6,8,10)] %>%
+  mutate(new_cat = case_when(
+    Importance == "Not at all important" | Importance == "Slightly important" ~ "No",
+    Importance =="Moderately important" ~ "Maybe", 
+    TRUE ~ "Yes"
+  )) 
+
+
+agg <- melt(agg_data, id="new_cat") %>%
+  filter(variable!="Importance") %>%
+  mutate(value = as.integer(value)) %>%
+  group_by(variable) %>%
+  summarise(
+    No = sum(value[new_cat=="No"]),
+    Maybe = sum(value[new_cat=="Maybe"]),
+    Yes = sum(value[new_cat=="Yes"]),
+
+    total=sum(value)
+
+  )
+
+agg
+```
+
+#### Takeaways
+
+1. For factors influencing the decision to include LMI households in CS projects, the most common answer was policy requirements and equity/inclusion efforts, with 63% and 58% or respondents marking these as very or extremely important, respectively. 
+
+2. Community interest exhibited a large degree of moderate importance, with 44.7% of respondents, whereas only 43% respondents marked it as either very or extremely important, the smallest proportion exhibited in each of the five questions. 
+
+#### Bar Charts
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+stacked_data <- melt(final_data, id='Importance') %>%
+  filter(variable!="order") %>%
+  mutate(order = case_when(
+    Importance=="Not at all important" ~ 1,
+    Importance=="Slightly important" ~ 2, 
+    Importance=="Moderately important" ~ 3, 
+    Importance=="Very important" ~ 4, 
+    Importance=="Extremely important" ~ 5
+  )) %>%
+  mutate( Factors = case_when(
+    variable=="Q24_1" ~ "Policy/program requirements",
+    variable=="Q24_2" ~ "Community interest",
+    variable=="Q24_3" ~ "Financier/investor interest",
+    variable=="Q24_4" ~ "My company's interest",
+    variable=="Q24_5" ~ "Equity and inclusion"
+    
+  )
+    
+  ) %>%
+  filter(!is.na(Factors))
+
+
+
+b <- ggplot(data = stacked_data, aes(x = reorder(Importance, -order), y = value, fill = Factors,
+                                     text=paste("Factor", Factors, "\nValue:", value))) + 
+       geom_bar(stat = 'identity', position = 'dodge') + coord_flip() + xlab("") + ylab("")+ theme_minimal()
+
+ggplotly(b, tooltip="text")
+
+```
+
+
+
+
+
+### Factors: Fill out CS Projects Quickly {.tabset}
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+importance_levels <- c("Definitely not", "Probably not", "Might or might not", "Probably yes", "Definitely yes")
+
+temp_data <- devd %>%
+  st_drop_geometry() %>%
+  mutate(
+    Q26_1 = factor(Q26_1, levels=importance_levels),
+    Q26_2 = factor(Q26_2, levels=importance_levels),
+    Q26_3 = factor(Q26_3, levels=importance_levels),
+    Q26_4 = factor(Q26_4, levels=importance_levels),
+    Q26_5 = factor(Q26_5, levels=importance_levels),
+    Q26_6 = factor(Q26_6, levels=importance_levels),
+    Q26_7 = factor(Q26_7, levels=importance_levels)
+  ) 
+
+temp_data_1 <- temp_data %>%
+  group_by(Q26_1) %>%
+  filter(Q26_1 != "") %>%
+  summarise(Q26_1=n()) %>%
+  mutate(Importance = importance_levels) %>%
+  select(Importance, Q26_1) 
+
+
+temp_data_2 <- temp_data %>%
+  filter(Q26_2 != "") %>%
+  group_by(Q26_2, .drop=FALSE) %>%
+  summarise(Q26_2=n()) %>%
+  mutate(Importance = importance_levels) %>%
+  select(Importance,Q26_2) 
+
+temp_data_3 <- temp_data %>%
+  group_by(Q26_3) %>%
+  filter(Q26_3 != "") %>%
+  summarise(Q26_3=n()) %>%
+  mutate(Importance = importance_levels) %>%
+  select(Importance,Q26_3) 
+
+temp_data_4 <- temp_data %>%
+  group_by(Q26_4) %>%
+  filter(Q26_4 != "") %>%
+  summarise(Q26_4=n()) %>%
+  mutate(Importance = importance_levels) %>%
+  select(Importance,Q26_4) 
+
+temp_data_5 <- temp_data %>%
+  group_by(Q26_5) %>%
+  filter(Q26_5 != "") %>%
+  summarise(Q26_5=n()) %>%
+  mutate(Importance = importance_levels) %>%
+  select(Importance,Q26_5) 
+
+temp_data_6 <- temp_data %>%
+  group_by(Q26_6) %>%
+  filter(Q26_6 != "") %>%
+  summarise(Q26_6=n()) %>%
+  mutate(Importance = importance_levels) %>%
+  select(Importance,Q26_6) 
+
+
+temp_data_7 <- temp_data %>%
+  group_by(Q26_7) %>%
+  filter(Q26_7 != "") %>%
+  summarise(Q26_7=n()) %>%
+  mutate(Importance = importance_levels) %>%
+  select(Importance,Q26_7) 
+
+
+
+
+final_data <- cbind(temp_data_1, temp_data_2,temp_data_3,temp_data_4,temp_data_5,temp_data_6,temp_data_7)
+
+
+final_data$order <- c(1,2,3,4,5)
+
+
+```
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+agg_data <- final_data[,c(1,2,4,6,8,10,12,14)] %>%
+  mutate(new_cat = case_when(
+    Importance == "Definitely not" | Importance == "Probably not" ~ "No",
+    Importance =="Might or might not" ~ "Maybe", 
+    TRUE ~ "Yes"
+  )) 
+
+
+agg <- melt(agg_data, id="new_cat") %>%
+  filter(variable!="Importance") %>%
+  mutate(value = as.integer(value)) %>%
+  group_by(variable) %>%
+  summarise(
+    No = sum(value[new_cat=="No"]),
+    Maybe = sum(value[new_cat=="Maybe"]),
+    Yes = sum(value[new_cat=="Yes"]),
+
+    total=sum(value)
+
+  )
+
+agg
+```
+
+
+
+
+
+
+
+#### Savings rate
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+temp_data_1$Importance = factor(temp_data_1$Importance, levels=importance_levels)
+
+#Q26_1
+
+fig <- plot_ly(temp_data_1, labels = ~Importance, values = ~Q26_1, type = 'pie', sort=F)
+fig <- fig %>% layout(title = 'Savings rate',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+fig
+
+
+
+```
+
+
+#### Term length
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#Q26_2
+
+fig <- plot_ly(temp_data_2, labels = ~Importance, values = ~Q26_2, type = 'pie', sort=F)
+fig <- fig %>% layout(title = 'Contract term length',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+fig
+
+```
+
+#### Cancel fee
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#Q26_3
+
+fig <- plot_ly(temp_data_3, labels = ~Importance, values = ~Q26_3, type = 'pie', sort=F)
+fig <- fig %>% layout(title = 'Cancellation fees',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+fig
+
+```
+
+
+#### No On-bill credit
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+#Q26_4
+
+fig <- plot_ly(temp_data_4, labels = ~Importance, values = ~Q26_4, type = 'pie', sort=F)
+fig <- fig %>% layout(title = 'Lack of on-bill crediting',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+fig
+
+```
+
+
+#### On-bill credit
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+#Q26_5
+
+fig <- plot_ly(temp_data_5, labels = ~Importance, values = ~Q26_5, type = 'pie', sort=F)
+fig <- fig %>% layout(title = 'Presence of on-bill crediting',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+fig
+
+```
+
+#### Contract complex
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+#Q26_6
+
+fig <- plot_ly(temp_data_6, labels = ~Importance, values = ~Q26_6, type = 'pie', sort=F)
+fig <- fig %>% layout(title = 'Contract complexity/length',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+fig
+
+
+```
+
+
+#### Trust
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+#Q26_7
+
+fig <- plot_ly(temp_data_7, labels = ~Importance, values = ~Q26_7, type = 'pie', sort=F)
+fig <- fig %>% layout(title = 'Trust of developers or project owners',
+         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
+fig
+
+```
+
+
+
+
+
+
+
+
+### {-}
+
+
+#### Takeaways
+
+1. presence of on-bill credit for community solar projects exhibited the strongest positive response, with 58% of respondents recording it as probably or definitely impacted speed of CS projects being completed. 
+2. Conversely, though marginally different, contract complexity and trust were the least powerful, with 17.6% and 19% of respondents, respectively, stating it either probably not or definitely did not have an effect on projects being quickly filled out.   
+
+
+#### Bar Charts
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+stacked_data <- melt(final_data, id='Importance') %>%
+  filter(variable!="order") %>%
+  mutate(order = case_when(
+    Importance=="Definitely not" ~ 1,
+    Importance=="Probably not" ~ 2, 
+    Importance=="Might or might not" ~ 3, 
+    Importance=="Probably yes" ~ 4, 
+    Importance=="Definitely yes" ~ 5
+  )) %>%
+  mutate( Factors = case_when(
+    variable=="Q26_1" ~ "Savings rate",
+    variable=="Q26_2" ~ "Contract term length",
+    variable=="Q26_3" ~ "Termination fees",
+    variable=="Q26_4" ~ "Lack of on-bill crediting",
+    variable=="Q26_5" ~ "Presence of on-bill crediting",
+    variable=="Q26_6" ~ "Contract complexity/length",
+    variable=="Q26_7" ~ "Trust of developers or project owners"    
+  )
+    
+  ) %>%
+  filter(!is.na(Factors))
+
+
+
+b <- ggplot(data = stacked_data, aes(x = reorder(Importance, -order), y = value, fill = Factors,
+                                     text=paste("Factor", Factors, "\nValue:", value))) + 
+       geom_bar(stat = 'identity', position = 'dodge') + coord_flip() + xlab("") + ylab("")+ theme_minimal()
+
+ggplotly(b, tooltip="text")
+
+```
+
+
+
+### Savings Rate for Market and LMI
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+default_levels <- c("0-2%", "3-5%", "6-8%", "9-11%")
+churn_levels <-  c("0-4%", "5-10%", "11-15%", "16-20%")
+
+temp_data <- dev_sum %>%
+  mutate(
+    default_market = factor(default_market, levels=default_levels),
+    default_lmi = factor(default_lmi, levels=default_levels),
+  ) 
+
+temp_dev <- dev_sum %>%
+  filter(default_market != "Unsure") %>%
+  group_by(default_market) %>%
+  summarise(default_market=n()) %>%
+  mutate(Importance = default_levels,
+         pct_market = default_market/sum(default_market)) %>%
+  select(Importance, default_market) 
+
+
+temp_lmi <- dev_sum %>%
+  filter(default_lmi != "Unsure") %>%
+  filter(default_lmi !="") %>%
+  group_by(default_lmi) %>%
+  summarise(default_lmi=n()) %>%
+  mutate(Importance = default_levels,
+         pct_lmi = default_lmi/sum(default_lmi)) %>%
+  select(default_lmi) 
+
+
+
+
+
+final_data <- cbind(temp_dev, temp_lmi)
+
+
+final_data$order <- c(1,2,3,4)
+
+
+
+
+```
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+stacked_data <- melt(final_data, id='Importance') %>%
+  filter(variable!="order") %>%
+  mutate(order = case_when(
+    Importance=="0-2%" ~ 1,
+    Importance=="3-5%" ~ 2, 
+    Importance=="6-8%" ~ 3, 
+    Importance=="9-11%" ~ 4
+  )) %>%
+  mutate( Factors =  variable) %>%
+  filter(!is.na(Factors))
+
+
+b <- ggplot(data = stacked_data, aes(x = reorder(Importance, -order), y = value, fill = Factors,
+                                     text=paste("Factor", Factors, "\nValue:", value))) + 
+       geom_bar(stat = 'identity', position = 'dodge') + coord_flip() + xlab("") + ylab("")+ theme_minimal() +
+      ggtitle("Guess the default rate you experience for the two groups:")
+
+ggplotly(b, tooltip="text")
+
+```
+
+
+### Churn Rate for Market and LMI
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+default_levels <- c("0-2%", "3-5%", "6-8%", "9-11%")
+churn_levels <-  c("0-4%", "5-10%", "11-15%", "16-20%")
+
+temp_data <- dev_sum %>%
+  mutate(
+    churn_market = factor(churn_market, levels=churn_levels),
+    churn_lmi = factor(churn_lmi, levels=churn_levels),
+  ) 
+
+temp_dev <- temp_data %>%
+  filter(churn_market != "Unsure") %>%
+  group_by(churn_market) %>%
+  summarise(churn_market=n()) %>%
+  mutate(Importance = churn_levels) %>%
+  select(Importance, churn_market) 
+
+
+temp_lmi <- temp_data %>%
+  filter(churn_lmi != "Unsure") %>%
+  group_by(churn_lmi) %>%
+  summarise(churn_lmi=n()) %>%
+  mutate(Importance = churn_levels) %>%
+  select( churn_lmi) 
+
+
+
+final_data <- cbind(temp_dev, temp_lmi)
+
+
+final_data$order <- c(1,2,3,4)
+
+
+
+
+```
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+stacked_data <- melt(final_data, id='Importance') %>%
+  filter(variable!="order") %>%
+  mutate(order = case_when(
+    Importance=="0-4%" ~ 1,
+    Importance=="5-10%" ~ 2, 
+    Importance=="11-15%" ~ 3, 
+    Importance=="16-20%" ~ 4
+  )) %>%
+  mutate( Factors =  variable) %>%
+  filter(!is.na(Factors))
+
+
+b <- ggplot(data = stacked_data, aes(x = reorder(Importance, -order), y = value, fill = Factors,
+                                     text=paste("Factor", Factors, "\nValue:", value))) + 
+       geom_bar(stat = 'identity', position = 'dodge') + coord_flip() + xlab("") + ylab("")+ theme_minimal() +
+      ggtitle("Guess the churn rate you experience for the two groups:")
+
+ggplotly(b, tooltip="text")
+
+```
+### Project stage by highest churn/default
+
+COD = commerical operational date (?)
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+time_levels <- c("Prior to COD", "Within first year of operation", "Within 1-3 years", "Within 3-5 years", "After 5 years")
+
+
+temp_data <- dev_sum %>%
+  mutate(
+    churn_time = factor(Q30_1, levels=time_levels),
+    default_time = factor(Q30_2, levels=time_levels),
+  ) 
+
+temp_churn <- temp_data %>%
+  filter(churn_time !="") %>%
+  group_by(churn_time) %>%
+  summarise(churn_time=n()) %>%
+  mutate(Importance = time_levels) %>%
+  select(Importance, churn_time) 
+
+
+temp_default <- temp_data %>%
+  filter(default_time !="") %>%
+  group_by(default_time) %>%
+  summarise(default_time=n()) %>%
+  mutate(Importance = time_levels) %>%
+  select( default_time) 
+
+
+
+final_data <- cbind(temp_churn, temp_default)
+
+
+final_data$order <- c(1,2,3,4,5)
+
+
+
+
+```
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+stacked_data <- melt(final_data, id='Importance') %>%
+  filter(variable!="order") %>%
+  mutate(order = case_when(
+    Importance=="Prior to COD" ~ 1,
+    Importance=="Within first year of operation" ~ 2, 
+    Importance=="Within 1-3 years" ~ 3, 
+    Importance=="Within 3-5 years" ~ 4,
+    Importance=="After 5 years" ~ 5
+  )) %>%
+  mutate( Factors =  variable) %>%
+  filter(!is.na(Factors))
+
+
+b <- ggplot(data = stacked_data, aes(x = reorder(Importance, -order), y = value, fill = Factors,
+                                     text=paste("Factor", Factors, "\nValue:", value))) + 
+       geom_bar(stat = 'identity', position = 'dodge') + coord_flip() + xlab("") + ylab("")+ theme_minimal() +
+      ggtitle("Project Phase where highest rates observed:")
+
+ggplotly(b, tooltip="text")
+
+```
+
+
+
+
+## Loan Loss Reserve 
+
+
+### Alleviate Risk
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+risk_levels <- c("Moderately unlikely","Slightly unlikely" , "Neither likely nor unlikely", "Moderately likely", "Slightly likely", "Extremely likely")
+
+
+
+temp_data <- dev_sum %>%
+  mutate(
+    loan_loss_risk = factor(Q33_1, levels=risk_levels),
+  ) %>%
+  filter(!is.na(loan_loss_risk)) %>%
+  group_by(loan_loss_risk) %>%
+  summarise(total = n()) %>%
+  mutate(percent_total = percent(total/sum(total)))
+
+p<-ggplot(data=temp_data, aes(x=loan_loss_risk, y=total))+
+  geom_bar(stat = 'identity', aes(text=paste0(
+    "Total: ", total,
+    "<br>",
+    "Percent: ", percent_total
+  ))) + theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) +
+  xlab("")+ ggtitle("Average cancellation fee for Community Solar")
+
+ggplotly(p, tooltip="text")
+
+
+```
+
+
+### Ideal Loan Loss Reserve
+
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+
+temp_data <- dev_sum %>%
+  mutate(
+    loan_loss_rev = as.integer(Q34_1),
+  ) %>%
+  filter(!is.na(loan_loss_rev)) 
+
+
+
+
+p<-ggplot(data=temp_data, aes(x=loan_loss_rev)) +
+  #geom_line(stat="count") + 
+  geom_histogram(binwidth=10) +
+  theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) +
+  xlab("% Revenue Covered")+ ggtitle("percentage of total project revenue for ideal loan loss reserve (10% bin)")
+ggplotly(p)
+
+
+
+```
+
+
+Summary statistics for loan loan reserve, percentage of total project revenue:
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+summary(temp_data$loan_loss_rev, na.rm=T)
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+#Removed values of ideal loss reserve revenue protection of 2018 anad 50000
+
+temp_data <- dev_sum %>%
+  mutate(
+    loan_loss_rev = as.integer(Q35_1),
+  ) %>%
+  filter(!is.na(loan_loss_rev)) %>%
+  filter(loan_loss_rev < 2000)
+
+
+
+
+p<-ggplot(data=temp_data, aes(x=loan_loss_rev)) +
+  # geom_line(stat="count") +
+  geom_histogram(binwidth=10) + 
+  theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) +
+  xlab("Years")+ ggtitle("Ideal number of years loan loss reserve would cover (10 year bin)")
+ggplotly(p)
+
+
+
+```
+
+
+
+Summary statistics for loan loan reserve, percentage of total years covered:
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+summary(temp_data$loan_loss_rev, na.rm=T)
+```
+
+## Respondent Map
+
+Coordinates have been obfuscated to protect location. 
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(leaflet)
+
+library(tidycensus)
+
+
+
+leaflet() %>%
+  addProviderTiles("CartoDB.Positron") %>%
+#  addTiles() %>%
+  addCircleMarkers(data=devd,
+             radius=8)
+
+
+
+```
+
+
+
+

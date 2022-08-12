@@ -5,6 +5,12 @@ navbar:
   right:
     - text: "Home"
       href: index.html
+    - text: "Community Priorities"
+      href: community_priorities.html
+    - text: "Developer and Financier Survey"
+      href: developer_and_financier.html
+    - text: "Churn and Default"
+      href: churn_and_default.html
     - text: "Survey Weights"
       href: survey_weights.html
 
