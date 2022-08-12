@@ -30,49 +30,46 @@ options(scipen = 100)
 
 ```
 
-```{r message=FALSE, warning=FALSE, include=FALSE}
 
-## Change the below to match your local drive ##
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
 
 input_folder <- '/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/'
-
-
-
-setwd(input_folder)
-
-getwd()
-```
-
-
-
-```{r message=FALSE, warning=FALSE, include=FALSE}
-
-# 1. Community Solar Priorities
-
 survey_name = paste(input_folder,"1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.xlsx", sep="")
 
 survey <- read_excel(survey_name)
 
-# 2. Developer & Financier
-
-dev_input = paste(input_folder, "2. Developer and Financier/", sep="")
-
-#dev_input ='/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/Developer and Financier Survey/'
+survey$zip <- str_pad(survey$zip, width=5, side="left", pad="0")
 
 
+survey <- survey %>%
+  mutate( Race2 = case_when(
+    race_eth == "White" ~ race_eth,
+    race_eth == "Black or African American" ~ race_eth,
+    race_eth =="Hispanic or Latino" ~ race_eth,
+    race_eth == "Asian" ~ race_eth,
+    TRUE ~ "Other - POC"
+  )) %>%
+  mutate(zip_2 = as.integer(zip)) %>%
+  mutate(state_2 = case_when(
+    is.na(state) & startsWith(zip, '8') ~ "CO",
+    is.na(state) & startsWith(zip, '6') ~ "IL",
+    is.na(state) & startsWith(zip, '0') ~ "MA",
+    is.na(state) & startsWith(zip, '2') ~ "MD",
+    is.na(state) & startsWith(zip, '5') ~ "MN",
+    is.na(state) & startsWith(zip, '1') ~ "NY",
+    is.na(state) & startsWith(zip, '97') ~ "OR",
+    is.na(state) & startsWith(zip, '9') ~ "CA",
+    TRUE ~ state
+  )) %>%
+# drop two observations (one record) that don't have zip or state
+  filter(!is.na(state_2))
 
-
-# 3. Churn & Default
-
-cd_input = paste(input_folder, "3. Churn and Default/", sep="")
-
-
-#cd_input = '/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/Churn & Default Analysis'
-
-
-
+survey$x_cf <- as.factor(survey$x_cf)
+survey$x_sr <- factor(survey$x_sr, levels=c("5% savings rate", "10% savings rate", "20% savings rate"))
 
 ```
+
 
 
 ## Survey Weights

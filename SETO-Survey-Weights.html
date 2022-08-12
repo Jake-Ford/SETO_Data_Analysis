@@ -1,0 +1,2749 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+<meta name="date" content="2022-08-12" />
+
+<title>SETO Survey Weights</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">SETO Data Analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">SETO Survey Weights</h1>
+<h4 class="date">2022-08-12</h4>
+
+</div>
+
+
+<div id="survey-weights" class="section level2">
+<h2>Survey Weights</h2>
+<p>The population for this component of our research is adults (18+) in
+the eight states we will include within this study: MA, NY, CA, OR, IL,
+MD, CO, and MN. We have chosen to oversample-populations that are
+considered low- to moderate-income (LMI) defined as up to 50% and
+between 50%-80% of an area’s median income, in accordance with the
+Department of Housing and Urban Development’s (HUD) <a
+href="https://www.hudexchange.info/programs/acs-low-mod-summary-data/">definitions</a>
+of each term. We have also chosen to oversample minority and renter
+populations in this research, surpassing the proportional estimates of
+these demographics supplied by the 2018 American Community Survey (ACS)
+estimates.</p>
+<p>As late June 2023, 1,493 individuals responded to the survey. Given
+the oversampling of income, minority and renter populations, survey
+weights must be designed and implemented to avoid bias in describing the
+population.</p>
+<div id="race-weights" class="section level3">
+<h3>Race Weights</h3>
+<style>
+### Race Function
+{
+   display: none;
+ }
+</style>
+<p>Race, along with all demographic data, is self-attested through the
+survey. The categories included: Asian, Black or African American,
+Hispanic or Latino, Multiracial, Native American or Alaskan Native,
+Native Hawaiin or Pacific Islander, Other, White. To construct state
+level weights, the categories were further condensed into the following:
+Asian, Black or African American, Hispanic or Latino, Other, and
+White.</p>
+<p>Using the American Community Survey (ACS) 2020 5-Year data, from
+table <a
+href="https://data.census.gov/cedsci/table?q=B03002&amp;tid=ACSDT5Y2020.B03002">B03002</a>,
+a comparable crosstab was developed to match the race categories for the
+survey.</p>
+<p>The chart below shows the race proportions for the survey compared
+against the state totals for each of the eight states where responses
+were collected. Note, the oversampling of Black, Asian, and Other - POC
+is evident, whereas White and Hispanic or Latino are undersampled.</p>
+<div id="total" class="section level4">
+<h4>Total</h4>
+<table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+Descriptive Statistics, 8-State Region
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Race
+</th>
+<th style="text-align:right;">
+Census_Total
+</th>
+<th style="text-align:right;">
+Survey_Total
+</th>
+<th style="text-align:right;">
+Weight
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+White
+</td>
+<td style="text-align:right;">
+52,150,851
+</td>
+<td style="text-align:right;">
+602
+</td>
+<td style="text-align:right;">
+86,629.32
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hispanic or Latino
+</td>
+<td style="text-align:right;">
+24,830,970
+</td>
+<td style="text-align:right;">
+207
+</td>
+<td style="text-align:right;">
+119,956.38
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Asian
+</td>
+<td style="text-align:right;">
+9,585,168
+</td>
+<td style="text-align:right;">
+217
+</td>
+<td style="text-align:right;">
+44,171.28
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Black or African American
+</td>
+<td style="text-align:right;">
+9,540,566
+</td>
+<td style="text-align:right;">
+290
+</td>
+<td style="text-align:right;">
+32,898.50
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Other - POC
+</td>
+<td style="text-align:right;">
+3,841,546
+</td>
+<td style="text-align:right;">
+177
+</td>
+<td style="text-align:right;">
+21,703.65
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+99,949,101
+</td>
+<td style="text-align:right;">
+1,493
+</td>
+<td style="text-align:right;">
+99,949,101.00
+</td>
+</tr>
+</tbody>
+</table>
+<div id="htmlwidget-cf939318b1b3dcd5e82c" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-cf939318b1b3dcd5e82c">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,3.775,2.775,4.775],"y":[0.521774087792946,0.248436151516761,0.0959004923916224,0.095454245256293,0.0384350230423783],"text":["reorder(Race, -value): White<br />value: 0.52177409<br />variable: Census","reorder(Race, -value): Hispanic or Latino<br />value: 0.24843615<br />variable: Census","reorder(Race, -value): Asian<br />value: 0.09590049<br />variable: Census","reorder(Race, -value): Black or African American<br />value: 0.09545425<br />variable: Census","reorder(Race, -value): Other - POC<br />value: 0.03843502<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,4.225,3.225,5.225],"y":[0.403215003348962,0.138647019423979,0.145344943067649,0.194239785666443,0.118553248492967],"text":["reorder(Race, -value): White<br />value: 0.40321500<br />variable: Survey","reorder(Race, -value): Hispanic or Latino<br />value: 0.13864702<br />variable: Survey","reorder(Race, -value): Asian<br />value: 0.14534494<br />variable: Survey","reorder(Race, -value): Black or African American<br />value: 0.19423979<br />variable: Survey","reorder(Race, -value): Other - POC<br />value: 0.11855325<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":90.8858941524698,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"SETO Survey State and Census Race Totals, 8-State Region","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["White","Hispanic or Latino","Black or African American","Asian","Other - POC"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["White","Hispanic or Latino","Black or African American","Asian","Other - POC"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0260887043896473,0.547862792182593],"tickmode":"array","ticktext":["0.0","0.1","0.2","0.3","0.4","0.5"],"tickvals":[0,0.1,0.2,0.3,0.4,0.5],"categoryorder":"array","categoryarray":["0.0","0.1","0.2","0.3","0.4","0.5"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"3315252cae12":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"3315252cae12","visdat":{"3315252cae12":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="california" class="section level4">
+<h4>California</h4>
+<table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+Descriptive Statistics
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Race
+</th>
+<th style="text-align:right;">
+Census_Total
+</th>
+<th style="text-align:right;">
+Survey_Total
+</th>
+<th style="text-align:right;">
+Weight
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Hispanic or Latino
+</td>
+<td style="text-align:right;">
+15,380,929
+</td>
+<td style="text-align:right;">
+107
+</td>
+<td style="text-align:right;">
+143,747.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+White
+</td>
+<td style="text-align:right;">
+14,365,145
+</td>
+<td style="text-align:right;">
+134
+</td>
+<td style="text-align:right;">
+107,202.57
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Asian
+</td>
+<td style="text-align:right;">
+5,743,983
+</td>
+<td style="text-align:right;">
+120
+</td>
+<td style="text-align:right;">
+47,866.53
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Black or African American
+</td>
+<td style="text-align:right;">
+2,142,371
+</td>
+<td style="text-align:right;">
+82
+</td>
+<td style="text-align:right;">
+26,126.48
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Other - POC
+</td>
+<td style="text-align:right;">
+1,713,595
+</td>
+<td style="text-align:right;">
+72
+</td>
+<td style="text-align:right;">
+23,799.93
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+39,346,023
+</td>
+<td style="text-align:right;">
+515
+</td>
+<td style="text-align:right;">
+39,346,023.00
+</td>
+</tr>
+</tbody>
+</table>
+<div id="htmlwidget-c0577ceaa095c6f7c303" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c0577ceaa095c6f7c303">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.775,0.775,2.775,3.775,4.775],"y":[0.390914451506319,0.365097763502044,0.145986368177541,0.0544494929004642,0.0435519239136316],"text":["reorder(Race, -value): Hispanic or Latino<br />value: 0.39091445<br />variable: Census","reorder(Race, -value): White<br />value: 0.36509776<br />variable: Census","reorder(Race, -value): Asian<br />value: 0.14598637<br />variable: Census","reorder(Race, -value): Black or African American<br />value: 0.05444949<br />variable: Census","reorder(Race, -value): Other - POC<br />value: 0.04355192<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[2.225,1.225,3.225,4.225,5.225],"y":[0.207766990291262,0.260194174757282,0.233009708737864,0.159223300970874,0.139805825242718],"text":["reorder(Race, -value): Hispanic or Latino<br />value: 0.20776699<br />variable: Survey","reorder(Race, -value): White<br />value: 0.26019417<br />variable: Survey","reorder(Race, -value): Asian<br />value: 0.23300971<br />variable: Survey","reorder(Race, -value): Black or African American<br />value: 0.15922330<br />variable: Survey","reorder(Race, -value): Other - POC<br />value: 0.13980583<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":90.8858941524698,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"California","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["White","Hispanic or Latino","Asian","Black or African American","Other - POC"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["White","Hispanic or Latino","Asian","Black or African American","Other - POC"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0195457225753159,0.410460174081635],"tickmode":"array","ticktext":["0.0","0.1","0.2","0.3","0.4"],"tickvals":[0,0.1,0.2,0.3,0.4],"categoryorder":"array","categoryarray":["0.0","0.1","0.2","0.3","0.4"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"33157e5f7003":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"33157e5f7003","visdat":{"33157e5f7003":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="colorado" class="section level4">
+<h4>Colorado</h4>
+<table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+Descriptive Statistics
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Race
+</th>
+<th style="text-align:right;">
+Census_Total
+</th>
+<th style="text-align:right;">
+Survey_Total
+</th>
+<th style="text-align:right;">
+Weight
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+White
+</td>
+<td style="text-align:right;">
+3,837,450
+</td>
+<td style="text-align:right;">
+82
+</td>
+<td style="text-align:right;">
+46,798.17
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hispanic or Latino
+</td>
+<td style="text-align:right;">
+1,231,126
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+42,452.62
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Black or African American
+</td>
+<td style="text-align:right;">
+224,190
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+10,190.45
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Other - POC
+</td>
+<td style="text-align:right;">
+213,895
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+11,257.63
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Asian
+</td>
+<td style="text-align:right;">
+178,265
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+14,855.42
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+5,684,926
+</td>
+<td style="text-align:right;">
+164
+</td>
+<td style="text-align:right;">
+5,684,926.00
+</td>
+</tr>
+</tbody>
+</table>
+<div id="htmlwidget-6ced8efe3f4fe96e7a2f" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6ced8efe3f4fe96e7a2f">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775],"y":[0.675021979177917,0.216559723028937,0.0394358695258302,0.0376249400607853,0.0313574882065307],"text":["reorder(Race, -value): White<br />value: 0.67502198<br />variable: Census","reorder(Race, -value): Hispanic or Latino<br />value: 0.21655972<br />variable: Census","reorder(Race, -value): Black or African American<br />value: 0.03943587<br />variable: Census","reorder(Race, -value): Other - POC<br />value: 0.03762494<br />variable: Census","reorder(Race, -value): Asian<br />value: 0.03135749<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225],"y":[0.5,0.176829268292683,0.134146341463415,0.115853658536585,0.0731707317073171],"text":["reorder(Race, -value): White<br />value: 0.50000000<br />variable: Survey","reorder(Race, -value): Hispanic or Latino<br />value: 0.17682927<br />variable: Survey","reorder(Race, -value): Black or African American<br />value: 0.13414634<br />variable: Survey","reorder(Race, -value): Other - POC<br />value: 0.11585366<br />variable: Survey","reorder(Race, -value): Asian<br />value: 0.07317073<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":90.8858941524698,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Colorado","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["White","Hispanic or Latino","Black or African American","Other - POC","Asian"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["White","Hispanic or Latino","Black or African American","Other - POC","Asian"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0337510989588959,0.708773078136813],"tickmode":"array","ticktext":["0.0","0.2","0.4","0.6"],"tickvals":[0,0.2,0.4,0.6],"categoryorder":"array","categoryarray":["0.0","0.2","0.4","0.6"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"3315656fcfbd":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"3315656fcfbd","visdat":{"3315656fcfbd":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="illinois" class="section level4">
+<h4>Illinois</h4>
+<table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+Descriptive Statistics
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Race
+</th>
+<th style="text-align:right;">
+Census_Total
+</th>
+<th style="text-align:right;">
+Survey_Total
+</th>
+<th style="text-align:right;">
+Weight
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+White
+</td>
+<td style="text-align:right;">
+7,737,459
+</td>
+<td style="text-align:right;">
+74
+</td>
+<td style="text-align:right;">
+104,560.26
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hispanic or Latino
+</td>
+<td style="text-align:right;">
+2,190,696
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+115,299.79
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Black or African American
+</td>
+<td style="text-align:right;">
+1,766,586
+</td>
+<td style="text-align:right;">
+54
+</td>
+<td style="text-align:right;">
+32,714.56
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Asian
+</td>
+<td style="text-align:right;">
+702,457
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+39,025.39
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Other - POC
+</td>
+<td style="text-align:right;">
+318,966
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+21,264.40
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+12,716,164
+</td>
+<td style="text-align:right;">
+180
+</td>
+<td style="text-align:right;">
+12,716,164.00
+</td>
+</tr>
+</tbody>
+</table>
+<div id="htmlwidget-a5c623764695cb0e268b" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a5c623764695cb0e268b">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,2.775,1.775,3.775,4.775],"y":[0.608474300897661,0.172276482121495,0.138924442937351,0.0552412661554223,0.0250835078880706],"text":["reorder(Race, -value): White<br />value: 0.60847430<br />variable: Census","reorder(Race, -value): Hispanic or Latino<br />value: 0.17227648<br />variable: Census","reorder(Race, -value): Black or African American<br />value: 0.13892444<br />variable: Census","reorder(Race, -value): Asian<br />value: 0.05524127<br />variable: Census","reorder(Race, -value): Other - POC<br />value: 0.02508351<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,3.225,2.225,4.225,5.225],"y":[0.411111111111111,0.105555555555556,0.3,0.1,0.0833333333333333],"text":["reorder(Race, -value): White<br />value: 0.41111111<br />variable: Survey","reorder(Race, -value): Hispanic or Latino<br />value: 0.10555556<br />variable: Survey","reorder(Race, -value): Black or African American<br />value: 0.30000000<br />variable: Survey","reorder(Race, -value): Asian<br />value: 0.10000000<br />variable: Survey","reorder(Race, -value): Other - POC<br />value: 0.08333333<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":90.8858941524698,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Illinois","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["White","Black or African American","Hispanic or Latino","Asian","Other - POC"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["White","Black or African American","Hispanic or Latino","Asian","Other - POC"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.030423715044883,0.638898015942544],"tickmode":"array","ticktext":["0.0","0.2","0.4","0.6"],"tickvals":[0,0.2,0.4,0.6],"categoryorder":"array","categoryarray":["0.0","0.2","0.4","0.6"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"33151d7f6591":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"33151d7f6591","visdat":{"33151d7f6591":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="massachusetts" class="section level4">
+<h4>Massachusetts</h4>
+<table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+Descriptive Statistics
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Race
+</th>
+<th style="text-align:right;">
+Census_Total
+</th>
+<th style="text-align:right;">
+Survey_Total
+</th>
+<th style="text-align:right;">
+Weight
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+White
+</td>
+<td style="text-align:right;">
+4,865,022
+</td>
+<td style="text-align:right;">
+58
+</td>
+<td style="text-align:right;">
+83,879.69
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hispanic or Latino
+</td>
+<td style="text-align:right;">
+828,140
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+207,035.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Black or African American
+</td>
+<td style="text-align:right;">
+466,288
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+16,653.14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Asian
+</td>
+<td style="text-align:right;">
+462,831
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+35,602.39
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Other - POC
+</td>
+<td style="text-align:right;">
+250,722
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+17,908.71
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+6,873,003
+</td>
+<td style="text-align:right;">
+117
+</td>
+<td style="text-align:right;">
+6,873,003.00
+</td>
+</tr>
+</tbody>
+</table>
+<div id="htmlwidget-f46219455e7d9949b91f" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f46219455e7d9949b91f">{"x":{"data":[{"orientation":"v","width":[0.45,0.449999999999999,0.45,0.45,0.45],"base":[0,0,0,0,0],"x":[0.775,4.775,1.775,2.775,3.775],"y":[0.707845173354355,0.120491726833234,0.0678434157529103,0.0673404332865852,0.0364792507729154],"text":["reorder(Race, -value): White<br />value: 0.70784517<br />variable: Census","reorder(Race, -value): Hispanic or Latino<br />value: 0.12049173<br />variable: Census","reorder(Race, -value): Black or African American<br />value: 0.06784342<br />variable: Census","reorder(Race, -value): Asian<br />value: 0.06734043<br />variable: Census","reorder(Race, -value): Other - POC<br />value: 0.03647925<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.449999999999999,0.45,0.45,0.45],"base":[0,0,0,0,0],"x":[1.225,5.225,2.225,3.225,4.225],"y":[0.495726495726496,0.0341880341880342,0.239316239316239,0.111111111111111,0.11965811965812],"text":["reorder(Race, -value): White<br />value: 0.49572650<br />variable: Survey","reorder(Race, -value): Hispanic or Latino<br />value: 0.03418803<br />variable: Survey","reorder(Race, -value): Black or African American<br />value: 0.23931624<br />variable: Survey","reorder(Race, -value): Asian<br />value: 0.11111111<br />variable: Survey","reorder(Race, -value): Other - POC<br />value: 0.11965812<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":90.8858941524698,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Massachusetts","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["White","Black or African American","Asian","Other - POC","Hispanic or Latino"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["White","Black or African American","Asian","Other - POC","Hispanic or Latino"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0353922586677177,0.743237432022072],"tickmode":"array","ticktext":["0.0","0.2","0.4","0.6"],"tickvals":[0,0.2,0.4,0.6],"categoryorder":"array","categoryarray":["0.0","0.2","0.4","0.6"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"331510c45da6":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"331510c45da6","visdat":{"331510c45da6":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="maryland" class="section level4">
+<h4>Maryland</h4>
+<table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+Descriptive Statistics
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Race
+</th>
+<th style="text-align:right;">
+Census_Total
+</th>
+<th style="text-align:right;">
+Survey_Total
+</th>
+<th style="text-align:right;">
+Weight
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+White
+</td>
+<td style="text-align:right;">
+3,028,494
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+108,160.50
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Black or African American
+</td>
+<td style="text-align:right;">
+1,773,702
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:right;">
+52,167.71
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hispanic or Latino
+</td>
+<td style="text-align:right;">
+619,418
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+206,472.67
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Asian
+</td>
+<td style="text-align:right;">
+382,027
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+95,506.75
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Other - POC
+</td>
+<td style="text-align:right;">
+233,983
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+58,495.75
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+6,037,624
+</td>
+<td style="text-align:right;">
+73
+</td>
+<td style="text-align:right;">
+6,037,624.00
+</td>
+</tr>
+</tbody>
+</table>
+<div id="htmlwidget-018e70b01a51afdeb449" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-018e70b01a51afdeb449">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775],"y":[0.501603610956893,0.293774835928836,0.102593006785451,0.0632743940331495,0.0387541522956713],"text":["reorder(Race, -value): White<br />value: 0.50160361<br />variable: Census","reorder(Race, -value): Black or African American<br />value: 0.29377484<br />variable: Census","reorder(Race, -value): Hispanic or Latino<br />value: 0.10259301<br />variable: Census","reorder(Race, -value): Asian<br />value: 0.06327439<br />variable: Census","reorder(Race, -value): Other - POC<br />value: 0.03875415<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225],"y":[0.383561643835616,0.465753424657534,0.0410958904109589,0.0547945205479452,0.0547945205479452],"text":["reorder(Race, -value): White<br />value: 0.38356164<br />variable: Survey","reorder(Race, -value): Black or African American<br />value: 0.46575342<br />variable: Survey","reorder(Race, -value): Hispanic or Latino<br />value: 0.04109589<br />variable: Survey","reorder(Race, -value): Asian<br />value: 0.05479452<br />variable: Survey","reorder(Race, -value): Other - POC<br />value: 0.05479452<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":90.8858941524698,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Maryland","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["White","Black or African American","Hispanic or Latino","Asian","Other - POC"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["White","Black or African American","Hispanic or Latino","Asian","Other - POC"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0250801805478447,0.526683791504738],"tickmode":"array","ticktext":["0.0","0.1","0.2","0.3","0.4","0.5"],"tickvals":[0,0.1,0.2,0.3,0.4,0.5],"categoryorder":"array","categoryarray":["0.0","0.1","0.2","0.3","0.4","0.5"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"3315705e0d41":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"3315705e0d41","visdat":{"3315705e0d41":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="minnesota" class="section level4">
+<h4>Minnesota</h4>
+<table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+Descriptive Statistics
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Race
+</th>
+<th style="text-align:right;">
+Census_Total
+</th>
+<th style="text-align:right;">
+Survey_Total
+</th>
+<th style="text-align:right;">
+Weight
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+White
+</td>
+<td style="text-align:right;">
+4,422,490
+</td>
+<td style="text-align:right;">
+46
+</td>
+<td style="text-align:right;">
+96,141.09
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Black or African American
+</td>
+<td style="text-align:right;">
+354,540
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+39,393.33
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hispanic or Latino
+</td>
+<td style="text-align:right;">
+307,675
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+153,837.50
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Asian
+</td>
+<td style="text-align:right;">
+273,100
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+54,620.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Other - POC
+</td>
+<td style="text-align:right;">
+242,361
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+60,590.25
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+5,600,166
+</td>
+<td style="text-align:right;">
+66
+</td>
+<td style="text-align:right;">
+5,600,166.00
+</td>
+</tr>
+</tbody>
+</table>
+<div id="htmlwidget-a29150ae9e877f08b5d0" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a29150ae9e877f08b5d0">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.449999999999999,0.45,0.45],"base":[0,0,0,0,0],"x":[0.775,1.775,4.775,2.775,3.775],"y":[0.789706947972614,0.0633088376308845,0.0549403356971918,0.0487664115670857,0.0432774671322243],"text":["reorder(Race, -value): White<br />value: 0.78970695<br />variable: Census","reorder(Race, -value): Black or African American<br />value: 0.06330884<br />variable: Census","reorder(Race, -value): Hispanic or Latino<br />value: 0.05494034<br />variable: Census","reorder(Race, -value): Asian<br />value: 0.04876641<br />variable: Census","reorder(Race, -value): Other - POC<br />value: 0.04327747<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.449999999999999,0.45,0.45],"base":[0,0,0,0,0],"x":[1.225,2.225,5.225,3.225,4.225],"y":[0.696969696969697,0.136363636363636,0.0303030303030303,0.0757575757575758,0.0606060606060606],"text":["reorder(Race, -value): White<br />value: 0.69696970<br />variable: Survey","reorder(Race, -value): Black or African American<br />value: 0.13636364<br />variable: Survey","reorder(Race, -value): Hispanic or Latino<br />value: 0.03030303<br />variable: Survey","reorder(Race, -value): Asian<br />value: 0.07575758<br />variable: Survey","reorder(Race, -value): Other - POC<br />value: 0.06060606<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":90.8858941524698,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Minnesota","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["White","Black or African American","Asian","Other - POC","Hispanic or Latino"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["White","Black or African American","Asian","Other - POC","Hispanic or Latino"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0394853473986307,0.829192295371244],"tickmode":"array","ticktext":["0.0","0.2","0.4","0.6","0.8"],"tickvals":[0,0.2,0.4,0.6,0.8],"categoryorder":"array","categoryarray":["0.0","0.2","0.4","0.6","0.8"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"3315548ace26":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"3315548ace26","visdat":{"3315548ace26":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="new-york" class="section level4">
+<h4>New York</h4>
+<table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+Descriptive Statistics
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Race
+</th>
+<th style="text-align:right;">
+Census_Total
+</th>
+<th style="text-align:right;">
+Survey_Total
+</th>
+<th style="text-align:right;">
+Weight
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+White
+</td>
+<td style="text-align:right;">
+10,766,297
+</td>
+<td style="text-align:right;">
+137
+</td>
+<td style="text-align:right;">
+78,586.11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hispanic or Latino
+</td>
+<td style="text-align:right;">
+3,720,707
+</td>
+<td style="text-align:right;">
+37
+</td>
+<td style="text-align:right;">
+100,559.65
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Black or African American
+</td>
+<td style="text-align:right;">
+2,737,471
+</td>
+<td style="text-align:right;">
+59
+</td>
+<td style="text-align:right;">
+46,397.81
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Asian
+</td>
+<td style="text-align:right;">
+1,657,284
+</td>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:right;">
+41,432.10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Other - POC
+</td>
+<td style="text-align:right;">
+633,090
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+17,585.83
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+19,514,849
+</td>
+<td style="text-align:right;">
+309
+</td>
+<td style="text-align:right;">
+19,514,849.00
+</td>
+</tr>
+</tbody>
+</table>
+<div id="htmlwidget-d43834720b42b6028fea" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d43834720b42b6028fea">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,2.775,1.775,3.775,4.775],"y":[0.551697684158356,0.190660301804026,0.140276309593787,0.0849242543460111,0.0324414500978204],"text":["reorder(Race, -value): White<br />value: 0.55169768<br />variable: Census","reorder(Race, -value): Hispanic or Latino<br />value: 0.19066030<br />variable: Census","reorder(Race, -value): Black or African American<br />value: 0.14027631<br />variable: Census","reorder(Race, -value): Asian<br />value: 0.08492425<br />variable: Census","reorder(Race, -value): Other - POC<br />value: 0.03244145<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,3.225,2.225,4.225,5.225],"y":[0.44336569579288,0.119741100323625,0.190938511326861,0.129449838187702,0.116504854368932],"text":["reorder(Race, -value): White<br />value: 0.44336570<br />variable: Survey","reorder(Race, -value): Hispanic or Latino<br />value: 0.11974110<br />variable: Survey","reorder(Race, -value): Black or African American<br />value: 0.19093851<br />variable: Survey","reorder(Race, -value): Asian<br />value: 0.12944984<br />variable: Survey","reorder(Race, -value): Other - POC<br />value: 0.11650485<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":90.8858941524698,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"New York","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["White","Black or African American","Hispanic or Latino","Asian","Other - POC"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["White","Black or African American","Hispanic or Latino","Asian","Other - POC"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0275848842079178,0.579282568366273],"tickmode":"array","ticktext":["0.0","0.2","0.4"],"tickvals":[0,0.2,0.4],"categoryorder":"array","categoryarray":["0.0","0.2","0.4"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"3315622a6d27":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"3315622a6d27","visdat":{"3315622a6d27":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="oregon" class="section level4">
+<h4>Oregon</h4>
+<table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+Descriptive Statistics
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Race
+</th>
+<th style="text-align:right;">
+Census_Total
+</th>
+<th style="text-align:right;">
+Survey_Total
+</th>
+<th style="text-align:right;">
+Weight
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+White
+</td>
+<td style="text-align:right;">
+3,128,494
+</td>
+<td style="text-align:right;">
+43
+</td>
+<td style="text-align:right;">
+72,755.67
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Hispanic or Latino
+</td>
+<td style="text-align:right;">
+552,279
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+92,046.50
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Other - POC
+</td>
+<td style="text-align:right;">
+234,934
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+18,071.85
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Asian
+</td>
+<td style="text-align:right;">
+185,221
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+37,044.20
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Black or African American
+</td>
+<td style="text-align:right;">
+75,418
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+37,709.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+4,176,346
+</td>
+<td style="text-align:right;">
+69
+</td>
+<td style="text-align:right;">
+4,176,346.00
+</td>
+</tr>
+</tbody>
+</table>
+<div id="htmlwidget-00ed94f6316eca4c919b" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-00ed94f6316eca4c919b">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,2.775,1.775,3.775,4.775],"y":[0.749098374512074,0.132239761743878,0.0562534809136982,0.0443500131454626,0.0180583696848872],"text":["reorder(Race, -value): White<br />value: 0.74909837<br />variable: Census","reorder(Race, -value): Hispanic or Latino<br />value: 0.13223976<br />variable: Census","reorder(Race, -value): Other - POC<br />value: 0.05625348<br />variable: Census","reorder(Race, -value): Asian<br />value: 0.04435001<br />variable: Census","reorder(Race, -value): Black or African American<br />value: 0.01805837<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,3.225,2.225,4.225,5.225],"y":[0.623188405797101,0.0869565217391304,0.188405797101449,0.072463768115942,0.0289855072463768],"text":["reorder(Race, -value): White<br />value: 0.62318841<br />variable: Survey","reorder(Race, -value): Hispanic or Latino<br />value: 0.08695652<br />variable: Survey","reorder(Race, -value): Other - POC<br />value: 0.18840580<br />variable: Survey","reorder(Race, -value): Asian<br />value: 0.07246377<br />variable: Survey","reorder(Race, -value): Black or African American<br />value: 0.02898551<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":90.8858941524698,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Oregon","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["White","Other - POC","Hispanic or Latino","Asian","Black or African American"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["White","Other - POC","Hispanic or Latino","Asian","Black or African American"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0374549187256037,0.786553293237677],"tickmode":"array","ticktext":["0.0","0.2","0.4","0.6"],"tickvals":[0,0.2,0.4,0.6],"categoryorder":"array","categoryarray":["0.0","0.2","0.4","0.6"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"33152255f9c5":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"33152255f9c5","visdat":{"33152255f9c5":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<style>
+#### Apply Weights
+
+
+{
+   display: none;
+ }
+</style>
+<style>
+### Gender Weights
+
+
+{
+   display: none;
+ }
+</style>
+<style>
+### gender Function
+{
+   display: none;
+ }
+</style>
+<style>
+#### Total
+
+
+{
+   display: none;
+ }
+</style>
+<style>
+
+#### California
+
+
+{
+   display: none;
+ }
+</style>
+<style>
+
+#### Colorado
+
+
+{
+   display: none;
+ }
+</style>
+<style>
+
+#### Illinois
+
+
+{
+   display: none;
+ }
+</style>
+<style>
+
+#### Massachusetts
+
+
+{
+   display: none;
+ }
+</style>
+<style>
+
+#### Maryland
+
+
+{
+   display: none;
+ }
+</style>
+<style>
+
+#### Minnesota
+
+
+{
+   display: none;
+ }
+</style>
+<style>
+
+#### New York
+
+
+{
+   display: none;
+ }
+</style>
+<style>
+
+#### Oregon
+
+
+{
+   display: none;
+ }
+</style>
+<style>
+#### Apply Weights
+
+
+{
+   display: none;
+ }
+</style>
+</div>
+</div>
+<div id="income-weights" class="section level3">
+<h3>Income Weights</h3>
+<p>Respondents to the survey were asked to report their household income
+respective to customized AMI categories, dependent on both their
+household size and zip code using a custom income group calculation
+methodology (zips to fips.do). This calculation allowed for respondents
+to select income ranges for their household that corresponded to
+&lt;30%, 30-50%, 50-80%, 80-120% and over 120% area median income
+(AMI).</p>
+<p>Income weights are taken from the Housing and Urban Development (HUD)
+Office of Policy Development and Research (PD&amp;R) Comprehensive
+Housing Affordability Strategy (CHAS) data. This data is released on a
+lagged timetable relative to the American Community Survey from the U.S.
+Census Bureau. Hence, the latest data available is five year 2018
+data.</p>
+<p><strong>to-do</strong>: AMI last bucket is over 80, there is one more
+for 100% and over</p>
+<ol style="list-style-type: decimal">
+<li>note that this is from table 11, where we can back into the
+calculation used by SETO</li>
+<li>CHAS output is for households, which is technically correct, but
+gender and race are by person, so the totals by state won’t look quite
+similar</li>
+</ol>
+<style>
+### CHAS
+{
+   display: none;
+ }
+</style>
+<table class=" lightable-classic" style="font-family: Cambria; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+HUD CHAS 2014-2018 Houseolds by AMI
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+state
+</th>
+<th style="text-align:right;">
+1: Less than 30% AMI
+</th>
+<th style="text-align:right;">
+2: Between 30-50% AMI
+</th>
+<th style="text-align:right;">
+3: Between 50-80% AMI
+</th>
+<th style="text-align:right;">
+4: Between 80-120% AMI
+</th>
+<th style="text-align:right;">
+5: More than 120% AMI
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+California
+</td>
+<td style="text-align:right;">
+1,833,800
+</td>
+<td style="text-align:right;">
+1,535,410
+</td>
+<td style="text-align:right;">
+2,026,165
+</td>
+<td style="text-align:right;">
+2,294,225
+</td>
+<td style="text-align:right;">
+5,275,825
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Colorado
+</td>
+<td style="text-align:right;">
+231,820
+</td>
+<td style="text-align:right;">
+219,560
+</td>
+<td style="text-align:right;">
+342,150
+</td>
+<td style="text-align:right;">
+412,225
+</td>
+<td style="text-align:right;">
+907,645
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Illinois
+</td>
+<td style="text-align:right;">
+646,950
+</td>
+<td style="text-align:right;">
+560,715
+</td>
+<td style="text-align:right;">
+773,960
+</td>
+<td style="text-align:right;">
+894,685
+</td>
+<td style="text-align:right;">
+1,953,715
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Maryland
+</td>
+<td style="text-align:right;">
+269,455
+</td>
+<td style="text-align:right;">
+239,485
+</td>
+<td style="text-align:right;">
+255,970
+</td>
+<td style="text-align:right;">
+389,530
+</td>
+<td style="text-align:right;">
+1,038,070
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Massachusetts
+</td>
+<td style="text-align:right;">
+393,300
+</td>
+<td style="text-align:right;">
+282,985
+</td>
+<td style="text-align:right;">
+336,210
+</td>
+<td style="text-align:right;">
+448,605
+</td>
+<td style="text-align:right;">
+1,140,815
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Minnesota
+</td>
+<td style="text-align:right;">
+248,055
+</td>
+<td style="text-align:right;">
+244,935
+</td>
+<td style="text-align:right;">
+342,430
+</td>
+<td style="text-align:right;">
+449,560
+</td>
+<td style="text-align:right;">
+882,820
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+New York
+</td>
+<td style="text-align:right;">
+1,288,115
+</td>
+<td style="text-align:right;">
+891,935
+</td>
+<td style="text-align:right;">
+1,101,585
+</td>
+<td style="text-align:right;">
+1,268,170
+</td>
+<td style="text-align:right;">
+2,766,735
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Oregon
+</td>
+<td style="text-align:right;">
+167,840
+</td>
+<td style="text-align:right;">
+165,925
+</td>
+<td style="text-align:right;">
+254,310
+</td>
+<td style="text-align:right;">
+293,920
+</td>
+<td style="text-align:right;">
+709,845
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+5,079,335
+</td>
+<td style="text-align:right;">
+4,140,950
+</td>
+<td style="text-align:right;">
+5,432,780
+</td>
+<td style="text-align:right;">
+6,450,920
+</td>
+<td style="text-align:right;">
+14,675,470
+</td>
+</tr>
+</tbody>
+</table>
+<div id="total-1" class="section level4">
+<h4>Total</h4>
+<table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+Descriptive Statistics, 8-State Region
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Income
+</th>
+<th style="text-align:right;">
+Census_Total
+</th>
+<th style="text-align:right;">
+Survey_Total
+</th>
+<th style="text-align:right;">
+Weight
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1: Less than 30% AMI
+</td>
+<td style="text-align:right;">
+10,158,670
+</td>
+<td style="text-align:right;">
+218
+</td>
+<td style="text-align:right;">
+46,599.40
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2: Between 30-50% AMI
+</td>
+<td style="text-align:right;">
+8,281,900
+</td>
+<td style="text-align:right;">
+191
+</td>
+<td style="text-align:right;">
+43,360.73
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3: Between 50-80% AMI
+</td>
+<td style="text-align:right;">
+10,865,560
+</td>
+<td style="text-align:right;">
+360
+</td>
+<td style="text-align:right;">
+30,182.11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4: Between 80-120% AMI
+</td>
+<td style="text-align:right;">
+12,901,840
+</td>
+<td style="text-align:right;">
+338
+</td>
+<td style="text-align:right;">
+38,171.12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5: More than 120% AMI
+</td>
+<td style="text-align:right;">
+29,350,940
+</td>
+<td style="text-align:right;">
+386
+</td>
+<td style="text-align:right;">
+76,038.71
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+71,558,910
+</td>
+<td style="text-align:right;">
+1,493
+</td>
+<td style="text-align:right;">
+71,558,910.00
+</td>
+</tr>
+</tbody>
+</table>
+<div id="htmlwidget-b921d334f892370738b8" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b921d334f892370738b8">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775],"y":[0.14196233564765,0.115735412962551,0.151840770073217,0.180296765280522,0.41016471603606],"text":["Income: 1: Less than 30% AMI<br />value: 0.1419623<br />variable: Census","Income: 2: Between 30-50% AMI<br />value: 0.1157354<br />variable: Census","Income: 3: Between 50-80% AMI<br />value: 0.1518408<br />variable: Census","Income: 4: Between 80-120% AMI<br />value: 0.1802968<br />variable: Census","Income: 5: More than 120% AMI<br />value: 0.4101647<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225],"y":[0.146014735432016,0.127930341594106,0.241125251172137,0.226389819156062,0.25853985264568],"text":["Income: 1: Less than 30% AMI<br />value: 0.1460147<br />variable: Survey","Income: 2: Between 30-50% AMI<br />value: 0.1279303<br />variable: Survey","Income: 3: Between 50-80% AMI<br />value: 0.2411253<br />variable: Survey","Income: 4: Between 80-120% AMI<br />value: 0.2263898<br />variable: Survey","Income: 5: More than 120% AMI<br />value: 0.2585399<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":81.7080812917904,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"SETO Survey State and Census Income Totals, 8-State Region","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.020508235801803,0.430672951837863],"tickmode":"array","ticktext":["0.0","0.1","0.2","0.3","0.4"],"tickvals":[0,0.1,0.2,0.3,0.4],"categoryorder":"array","categoryarray":["0.0","0.1","0.2","0.3","0.4"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"331511de3428":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"331511de3428","visdat":{"331511de3428":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<style>
+### Income Function
+{
+   display: none;
+ }
+</style>
+</div>
+<div id="california-1" class="section level4">
+<h4>California</h4>
+<table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+Descriptive Statistics
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Income
+</th>
+<th style="text-align:right;">
+Census_Total
+</th>
+<th style="text-align:right;">
+Survey_Total
+</th>
+<th style="text-align:right;">
+Weight
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1: Less than 30% AMI
+</td>
+<td style="text-align:right;">
+1,833,800
+</td>
+<td style="text-align:right;">
+81
+</td>
+<td style="text-align:right;">
+22,639.51
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2: Between 30-50% AMI
+</td>
+<td style="text-align:right;">
+1,535,410
+</td>
+<td style="text-align:right;">
+49
+</td>
+<td style="text-align:right;">
+31,334.90
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3: Between 50-80% AMI
+</td>
+<td style="text-align:right;">
+2,026,165
+</td>
+<td style="text-align:right;">
+115
+</td>
+<td style="text-align:right;">
+17,618.83
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4: Between 80-120% AMI
+</td>
+<td style="text-align:right;">
+2,294,225
+</td>
+<td style="text-align:right;">
+104
+</td>
+<td style="text-align:right;">
+22,059.86
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5: More than 120% AMI
+</td>
+<td style="text-align:right;">
+5,275,825
+</td>
+<td style="text-align:right;">
+126
+</td>
+<td style="text-align:right;">
+41,871.63
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+12,965,425
+</td>
+<td style="text-align:right;">
+475
+</td>
+<td style="text-align:right;">
+12,965,425.00
+</td>
+</tr>
+</tbody>
+</table>
+<div id="htmlwidget-1adbf59ab926f0024682" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1adbf59ab926f0024682">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775],"y":[0.141437708366675,0.118423422294294,0.15627447615485,0.176949463669722,0.406914929514459],"text":["Income: 1: Less than 30% AMI<br />value: 0.1414377<br />variable: Census","Income: 2: Between 30-50% AMI<br />value: 0.1184234<br />variable: Census","Income: 3: Between 50-80% AMI<br />value: 0.1562745<br />variable: Census","Income: 4: Between 80-120% AMI<br />value: 0.1769495<br />variable: Census","Income: 5: More than 120% AMI<br />value: 0.4069149<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225],"y":[0.170526315789474,0.103157894736842,0.242105263157895,0.218947368421053,0.265263157894737],"text":["Income: 1: Less than 30% AMI<br />value: 0.1705263<br />variable: Survey","Income: 2: Between 30-50% AMI<br />value: 0.1031579<br />variable: Survey","Income: 3: Between 50-80% AMI<br />value: 0.2421053<br />variable: Survey","Income: 4: Between 80-120% AMI<br />value: 0.2189474<br />variable: Survey","Income: 5: More than 120% AMI<br />value: 0.2652632<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":81.7080812917904,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"California","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0203457464757229,0.427260675990182],"tickmode":"array","ticktext":["0.0","0.1","0.2","0.3","0.4"],"tickvals":[0,0.1,0.2,0.3,0.4],"categoryorder":"array","categoryarray":["0.0","0.1","0.2","0.3","0.4"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"3315f4c10b3":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"3315f4c10b3","visdat":{"3315f4c10b3":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="colorado-1" class="section level4">
+<h4>Colorado</h4>
+<table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+Descriptive Statistics
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Income
+</th>
+<th style="text-align:right;">
+Census_Total
+</th>
+<th style="text-align:right;">
+Survey_Total
+</th>
+<th style="text-align:right;">
+Weight
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1: Less than 30% AMI
+</td>
+<td style="text-align:right;">
+231,820
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+33,117.14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2: Between 30-50% AMI
+</td>
+<td style="text-align:right;">
+219,560
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+31,365.71
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3: Between 50-80% AMI
+</td>
+<td style="text-align:right;">
+342,150
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+18,007.90
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4: Between 80-120% AMI
+</td>
+<td style="text-align:right;">
+412,225
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+37,475.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5: More than 120% AMI
+</td>
+<td style="text-align:right;">
+907,645
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+34,909.42
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+2,113,400
+</td>
+<td style="text-align:right;">
+70
+</td>
+<td style="text-align:right;">
+2,113,400.00
+</td>
+</tr>
+</tbody>
+</table>
+<div id="htmlwidget-ddbcd666f60d564a1c76" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ddbcd666f60d564a1c76">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775],"y":[0.109690546039557,0.103889467209236,0.161895523800511,0.195052995173654,0.429471467777042],"text":["Income: 1: Less than 30% AMI<br />value: 0.1096905<br />variable: Census","Income: 2: Between 30-50% AMI<br />value: 0.1038895<br />variable: Census","Income: 3: Between 50-80% AMI<br />value: 0.1618955<br />variable: Census","Income: 4: Between 80-120% AMI<br />value: 0.1950530<br />variable: Census","Income: 5: More than 120% AMI<br />value: 0.4294715<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225],"y":[0.1,0.1,0.271428571428571,0.157142857142857,0.371428571428571],"text":["Income: 1: Less than 30% AMI<br />value: 0.1000000<br />variable: Survey","Income: 2: Between 30-50% AMI<br />value: 0.1000000<br />variable: Survey","Income: 3: Between 50-80% AMI<br />value: 0.2714286<br />variable: Survey","Income: 4: Between 80-120% AMI<br />value: 0.1571429<br />variable: Survey","Income: 5: More than 120% AMI<br />value: 0.3714286<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":81.7080812917904,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Colorado","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0214735733888521,0.450945041165894],"tickmode":"array","ticktext":["0.0","0.1","0.2","0.3","0.4"],"tickvals":[0,0.1,0.2,0.3,0.4],"categoryorder":"array","categoryarray":["0.0","0.1","0.2","0.3","0.4"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"331576d63bf2":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"331576d63bf2","visdat":{"331576d63bf2":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="illinois-1" class="section level4">
+<h4>Illinois</h4>
+<table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+Descriptive Statistics
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Income
+</th>
+<th style="text-align:right;">
+Census_Total
+</th>
+<th style="text-align:right;">
+Survey_Total
+</th>
+<th style="text-align:right;">
+Weight
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1: Less than 30% AMI
+</td>
+<td style="text-align:right;">
+646,950
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+30,807.14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2: Between 30-50% AMI
+</td>
+<td style="text-align:right;">
+560,715
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+25,487.04
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3: Between 50-80% AMI
+</td>
+<td style="text-align:right;">
+773,960
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+27,641.43
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4: Between 80-120% AMI
+</td>
+<td style="text-align:right;">
+894,685
+</td>
+<td style="text-align:right;">
+30
+</td>
+<td style="text-align:right;">
+29,822.83
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5: More than 120% AMI
+</td>
+<td style="text-align:right;">
+1,953,715
+</td>
+<td style="text-align:right;">
+62
+</td>
+<td style="text-align:right;">
+31,511.53
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+4,830,025
+</td>
+<td style="text-align:right;">
+163
+</td>
+<td style="text-align:right;">
+4,830,025.00
+</td>
+</tr>
+</tbody>
+</table>
+<div id="htmlwidget-564ab77c43fe07e3d3e1" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-564ab77c43fe07e3d3e1">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775],"y":[0.133943406090031,0.116089461234673,0.16023933623532,0.185234030879757,0.40449376556022],"text":["Income: 1: Less than 30% AMI<br />value: 0.1339434<br />variable: Census","Income: 2: Between 30-50% AMI<br />value: 0.1160895<br />variable: Census","Income: 3: Between 50-80% AMI<br />value: 0.1602393<br />variable: Census","Income: 4: Between 80-120% AMI<br />value: 0.1852340<br />variable: Census","Income: 5: More than 120% AMI<br />value: 0.4044938<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225],"y":[0.128834355828221,0.134969325153374,0.171779141104294,0.184049079754601,0.380368098159509],"text":["Income: 1: Less than 30% AMI<br />value: 0.1288344<br />variable: Survey","Income: 2: Between 30-50% AMI<br />value: 0.1349693<br />variable: Survey","Income: 3: Between 50-80% AMI<br />value: 0.1717791<br />variable: Survey","Income: 4: Between 80-120% AMI<br />value: 0.1840491<br />variable: Survey","Income: 5: More than 120% AMI<br />value: 0.3803681<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":81.7080812917904,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Illinois","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.020224688278011,0.424718453838231],"tickmode":"array","ticktext":["0.0","0.1","0.2","0.3","0.4"],"tickvals":[0,0.1,0.2,0.3,0.4],"categoryorder":"array","categoryarray":["0.0","0.1","0.2","0.3","0.4"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"331576905719":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"331576905719","visdat":{"331576905719":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="massachusetts-1" class="section level4">
+<h4>Massachusetts</h4>
+<table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+Descriptive Statistics
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Income
+</th>
+<th style="text-align:right;">
+Census_Total
+</th>
+<th style="text-align:right;">
+Survey_Total
+</th>
+<th style="text-align:right;">
+Weight
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1: Less than 30% AMI
+</td>
+<td style="text-align:right;">
+393,300
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+49,162.50
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2: Between 30-50% AMI
+</td>
+<td style="text-align:right;">
+282,985
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+28,298.50
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3: Between 50-80% AMI
+</td>
+<td style="text-align:right;">
+336,210
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+22,414.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4: Between 80-120% AMI
+</td>
+<td style="text-align:right;">
+448,605
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+20,391.14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5: More than 120% AMI
+</td>
+<td style="text-align:right;">
+1,140,815
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+39,338.45
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+2,601,915
+</td>
+<td style="text-align:right;">
+84
+</td>
+<td style="text-align:right;">
+2,601,915.00
+</td>
+</tr>
+</tbody>
+</table>
+<div id="htmlwidget-e11e4eb7fcd6fa343184" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e11e4eb7fcd6fa343184">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775],"y":[0.151157897164204,0.108760278487191,0.129216365638386,0.172413395518301,0.438452063191918],"text":["Income: 1: Less than 30% AMI<br />value: 0.1511579<br />variable: Census","Income: 2: Between 30-50% AMI<br />value: 0.1087603<br />variable: Census","Income: 3: Between 50-80% AMI<br />value: 0.1292164<br />variable: Census","Income: 4: Between 80-120% AMI<br />value: 0.1724134<br />variable: Census","Income: 5: More than 120% AMI<br />value: 0.4384521<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225],"y":[0.0952380952380952,0.119047619047619,0.178571428571429,0.261904761904762,0.345238095238095],"text":["Income: 1: Less than 30% AMI<br />value: 0.0952381<br />variable: Survey","Income: 2: Between 30-50% AMI<br />value: 0.1190476<br />variable: Survey","Income: 3: Between 50-80% AMI<br />value: 0.1785714<br />variable: Survey","Income: 4: Between 80-120% AMI<br />value: 0.2619048<br />variable: Survey","Income: 5: More than 120% AMI<br />value: 0.3452381<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":81.7080812917904,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Massachusetts","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0219226031595959,0.460374666351514],"tickmode":"array","ticktext":["0.0","0.1","0.2","0.3","0.4"],"tickvals":[0,0.1,0.2,0.3,0.4],"categoryorder":"array","categoryarray":["0.0","0.1","0.2","0.3","0.4"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"33152cd190f1":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"33152cd190f1","visdat":{"33152cd190f1":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="maryland-1" class="section level4">
+<h4>Maryland</h4>
+<table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+Descriptive Statistics
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Income
+</th>
+<th style="text-align:right;">
+Census_Total
+</th>
+<th style="text-align:right;">
+Survey_Total
+</th>
+<th style="text-align:right;">
+Weight
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1: Less than 30% AMI
+</td>
+<td style="text-align:right;">
+269,455
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+29,939.44
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2: Between 30-50% AMI
+</td>
+<td style="text-align:right;">
+239,485
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+23,948.50
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3: Between 50-80% AMI
+</td>
+<td style="text-align:right;">
+255,970
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+15,057.06
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4: Between 80-120% AMI
+</td>
+<td style="text-align:right;">
+389,530
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+21,640.56
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5: More than 120% AMI
+</td>
+<td style="text-align:right;">
+1,038,070
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+54,635.26
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+2,192,510
+</td>
+<td style="text-align:right;">
+73
+</td>
+<td style="text-align:right;">
+2,192,510.00
+</td>
+</tr>
+</tbody>
+</table>
+<div id="htmlwidget-f36fbc08ccc5a0239c42" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f36fbc08ccc5a0239c42">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775],"y":[0.122897957135885,0.109228692229454,0.116747472075384,0.177663955922664,0.473461922636613],"text":["Income: 1: Less than 30% AMI<br />value: 0.1228980<br />variable: Census","Income: 2: Between 30-50% AMI<br />value: 0.1092287<br />variable: Census","Income: 3: Between 50-80% AMI<br />value: 0.1167475<br />variable: Census","Income: 4: Between 80-120% AMI<br />value: 0.1776640<br />variable: Census","Income: 5: More than 120% AMI<br />value: 0.4734619<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225],"y":[0.123287671232877,0.136986301369863,0.232876712328767,0.246575342465753,0.26027397260274],"text":["Income: 1: Less than 30% AMI<br />value: 0.1232877<br />variable: Survey","Income: 2: Between 30-50% AMI<br />value: 0.1369863<br />variable: Survey","Income: 3: Between 50-80% AMI<br />value: 0.2328767<br />variable: Survey","Income: 4: Between 80-120% AMI<br />value: 0.2465753<br />variable: Survey","Income: 5: More than 120% AMI<br />value: 0.2602740<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":81.7080812917904,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Maryland","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0236730961318306,0.497135018768444],"tickmode":"array","ticktext":["0.0","0.1","0.2","0.3","0.4"],"tickvals":[0,0.1,0.2,0.3,0.4],"categoryorder":"array","categoryarray":["0.0","0.1","0.2","0.3","0.4"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"331556206dd0":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"331556206dd0","visdat":{"331556206dd0":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="minnesota-1" class="section level4">
+<h4>Minnesota</h4>
+<table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+Descriptive Statistics
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Income
+</th>
+<th style="text-align:right;">
+Census_Total
+</th>
+<th style="text-align:right;">
+Survey_Total
+</th>
+<th style="text-align:right;">
+Weight
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1: Less than 30% AMI
+</td>
+<td style="text-align:right;">
+248,055
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+24,805.50
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2: Between 30-50% AMI
+</td>
+<td style="text-align:right;">
+244,935
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+27,215.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3: Between 50-80% AMI
+</td>
+<td style="text-align:right;">
+342,430
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+42,803.75
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4: Between 80-120% AMI
+</td>
+<td style="text-align:right;">
+449,560
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+37,463.33
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5: More than 120% AMI
+</td>
+<td style="text-align:right;">
+882,820
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+33,954.61
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+2,167,800
+</td>
+<td style="text-align:right;">
+65
+</td>
+<td style="text-align:right;">
+2,167,800.00
+</td>
+</tr>
+</tbody>
+</table>
+<div id="htmlwidget-e7778161ec169eb8fdc2" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e7778161ec169eb8fdc2">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775],"y":[0.114427068917797,0.112987821754774,0.157961989113387,0.207380754682166,0.407242365531876],"text":["Income: 1: Less than 30% AMI<br />value: 0.1144271<br />variable: Census","Income: 2: Between 30-50% AMI<br />value: 0.1129878<br />variable: Census","Income: 3: Between 50-80% AMI<br />value: 0.1579620<br />variable: Census","Income: 4: Between 80-120% AMI<br />value: 0.2073808<br />variable: Census","Income: 5: More than 120% AMI<br />value: 0.4072424<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225],"y":[0.153846153846154,0.138461538461538,0.123076923076923,0.184615384615385,0.4],"text":["Income: 1: Less than 30% AMI<br />value: 0.1538462<br />variable: Survey","Income: 2: Between 30-50% AMI<br />value: 0.1384615<br />variable: Survey","Income: 3: Between 50-80% AMI<br />value: 0.1230769<br />variable: Survey","Income: 4: Between 80-120% AMI<br />value: 0.1846154<br />variable: Survey","Income: 5: More than 120% AMI<br />value: 0.4000000<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":81.7080812917904,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Minnesota","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0203621182765938,0.427604483808469],"tickmode":"array","ticktext":["0.0","0.1","0.2","0.3","0.4"],"tickvals":[0,0.1,0.2,0.3,0.4],"categoryorder":"array","categoryarray":["0.0","0.1","0.2","0.3","0.4"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"3315120847ed":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"3315120847ed","visdat":{"3315120847ed":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="new-york-1" class="section level4">
+<h4>New York</h4>
+<table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+Descriptive Statistics
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Income
+</th>
+<th style="text-align:right;">
+Census_Total
+</th>
+<th style="text-align:right;">
+Survey_Total
+</th>
+<th style="text-align:right;">
+Weight
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1: Less than 30% AMI
+</td>
+<td style="text-align:right;">
+1,288,115
+</td>
+<td style="text-align:right;">
+47
+</td>
+<td style="text-align:right;">
+27,406.70
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2: Between 30-50% AMI
+</td>
+<td style="text-align:right;">
+891,935
+</td>
+<td style="text-align:right;">
+50
+</td>
+<td style="text-align:right;">
+17,838.70
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3: Between 50-80% AMI
+</td>
+<td style="text-align:right;">
+1,101,585
+</td>
+<td style="text-align:right;">
+59
+</td>
+<td style="text-align:right;">
+18,670.93
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4: Between 80-120% AMI
+</td>
+<td style="text-align:right;">
+1,268,170
+</td>
+<td style="text-align:right;">
+58
+</td>
+<td style="text-align:right;">
+21,865.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5: More than 120% AMI
+</td>
+<td style="text-align:right;">
+2,766,735
+</td>
+<td style="text-align:right;">
+62
+</td>
+<td style="text-align:right;">
+44,624.76
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+7,316,540
+</td>
+<td style="text-align:right;">
+276
+</td>
+<td style="text-align:right;">
+7,316,540.00
+</td>
+</tr>
+</tbody>
+</table>
+<div id="htmlwidget-2d05e4a57976c62b96ee" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2d05e4a57976c62b96ee">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775],"y":[0.176055211889773,0.121906666265749,0.150560920872434,0.173329196587458,0.378148004384586],"text":["Income: 1: Less than 30% AMI<br />value: 0.1760552<br />variable: Census","Income: 2: Between 30-50% AMI<br />value: 0.1219067<br />variable: Census","Income: 3: Between 50-80% AMI<br />value: 0.1505609<br />variable: Census","Income: 4: Between 80-120% AMI<br />value: 0.1733292<br />variable: Census","Income: 5: More than 120% AMI<br />value: 0.3781480<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225],"y":[0.170289855072464,0.181159420289855,0.213768115942029,0.210144927536232,0.22463768115942],"text":["Income: 1: Less than 30% AMI<br />value: 0.1702899<br />variable: Survey","Income: 2: Between 30-50% AMI<br />value: 0.1811594<br />variable: Survey","Income: 3: Between 50-80% AMI<br />value: 0.2137681<br />variable: Survey","Income: 4: Between 80-120% AMI<br />value: 0.2101449<br />variable: Survey","Income: 5: More than 120% AMI<br />value: 0.2246377<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":81.7080812917904,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"New York","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0189074002192293,0.397055404603815],"tickmode":"array","ticktext":["0.0","0.1","0.2","0.3"],"tickvals":[0,0.1,0.2,0.3],"categoryorder":"array","categoryarray":["0.0","0.1","0.2","0.3"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"33156d912ae5":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"33156d912ae5","visdat":{"33156d912ae5":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="oregon-1" class="section level4">
+<h4>Oregon</h4>
+<table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+Descriptive Statistics
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Income
+</th>
+<th style="text-align:right;">
+Census_Total
+</th>
+<th style="text-align:right;">
+Survey_Total
+</th>
+<th style="text-align:right;">
+Weight
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1: Less than 30% AMI
+</td>
+<td style="text-align:right;">
+167,840
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+33,568.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2: Between 30-50% AMI
+</td>
+<td style="text-align:right;">
+165,925
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+23,703.57
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3: Between 50-80% AMI
+</td>
+<td style="text-align:right;">
+254,310
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+23,119.09
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4: Between 80-120% AMI
+</td>
+<td style="text-align:right;">
+293,920
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+41,988.57
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5: More than 120% AMI
+</td>
+<td style="text-align:right;">
+709,845
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+29,576.88
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+1,591,840
+</td>
+<td style="text-align:right;">
+54
+</td>
+<td style="text-align:right;">
+1,591,840.00
+</td>
+</tr>
+</tbody>
+</table>
+<div id="htmlwidget-df5fb977f85906ce7a58" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-df5fb977f85906ce7a58">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775],"y":[0.105437732435421,0.104234722082621,0.159758518444065,0.184641672529902,0.445927354507991],"text":["Income: 1: Less than 30% AMI<br />value: 0.10543773<br />variable: Census","Income: 2: Between 30-50% AMI<br />value: 0.10423472<br />variable: Census","Income: 3: Between 50-80% AMI<br />value: 0.15975852<br />variable: Census","Income: 4: Between 80-120% AMI<br />value: 0.18464167<br />variable: Census","Income: 5: More than 120% AMI<br />value: 0.44592735<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225],"y":[0.0925925925925926,0.12962962962963,0.203703703703704,0.12962962962963,0.444444444444444],"text":["Income: 1: Less than 30% AMI<br />value: 0.09259259<br />variable: Survey","Income: 2: Between 30-50% AMI<br />value: 0.12962963<br />variable: Survey","Income: 3: Between 50-80% AMI<br />value: 0.20370370<br />variable: Survey","Income: 4: Between 80-120% AMI<br />value: 0.12962963<br />variable: Survey","Income: 5: More than 120% AMI<br />value: 0.44444444<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.7625570776256,"r":7.30593607305936,"b":81.7080812917904,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Oregon","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0222963677253995,0.46822372223339],"tickmode":"array","ticktext":["0.0","0.1","0.2","0.3","0.4"],"tickvals":[0,0.1,0.2,0.3,0.4],"categoryorder":"array","categoryarray":["0.0","0.1","0.2","0.3","0.4"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"33152ffd86b2":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"33152ffd86b2","visdat":{"33152ffd86b2":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<style>
+#### Apply Weights
+
+
+{
+   display: none;
+ }
+</style>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
