@@ -1,0 +1,2014 @@
+---
+title: "SETO Survey Weights"
+output: html_document
+date: '2022-08-12'
+
+knit: (function(inputFile, encoding) { 
+        rmarkdown::render(inputFile, encoding = encoding, 
+        output_file = file.path(dirname(inputFile), 'survey_weights.html')) })
+---
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+#Load packages we'll need throughout the entire document
+library(readxl)
+library(sf)
+library(dplyr)
+library(janitor)
+library(dplyr)
+library(tidycensus)
+library(tidyverse)
+options(tigris_use_cache = TRUE)
+library(nngeo)
+library(plotly)
+library(kableExtra)
+library(haven)
+library(rms)
+library(rmdformats)
+library(ggplot2)
+library(plotly)
+
+
+options(scipen = 100)
+
+
+```
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+input_folder <- '/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/'
+survey_name = paste(input_folder,"1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.xlsx", sep="")
+
+survey <- read_excel(survey_name)
+
+survey$zip <- str_pad(survey$zip, width=5, side="left", pad="0")
+
+
+survey <- survey %>%
+  mutate( Race2 = case_when(
+    race_eth == "White" ~ race_eth,
+    race_eth == "Black or African American" ~ race_eth,
+    race_eth =="Hispanic or Latino" ~ race_eth,
+    race_eth == "Asian" ~ race_eth,
+    TRUE ~ "Other - POC"
+  )) %>%
+  mutate(zip_2 = as.integer(zip)) %>%
+  mutate(state_2 = case_when(
+    is.na(state) & startsWith(zip, '8') ~ "CO",
+    is.na(state) & startsWith(zip, '6') ~ "IL",
+    is.na(state) & startsWith(zip, '0') ~ "MA",
+    is.na(state) & startsWith(zip, '2') ~ "MD",
+    is.na(state) & startsWith(zip, '5') ~ "MN",
+    is.na(state) & startsWith(zip, '1') ~ "NY",
+    is.na(state) & startsWith(zip, '97') ~ "OR",
+    is.na(state) & startsWith(zip, '9') ~ "CA",
+    TRUE ~ state
+  )) %>%
+# drop two observations (one record) that don't have zip or state
+  filter(!is.na(state_2))
+
+survey$x_cf <- as.factor(survey$x_cf)
+survey$x_sr <- factor(survey$x_sr, levels=c("5% savings rate", "10% savings rate", "20% savings rate"))
+
+```
+
+
+
+## Survey Weights
+
+The population for this component of our research is adults (18+) in the eight states we will include within this study: MA, NY, CA, OR, IL, MD, CO, and MN. We have chosen to oversample-populations that are considered low- to moderate-income (LMI) defined as up to 50% and between 50%-80% of an area’s median income, in accordance with the Department of Housing and Urban Development’s (HUD) [definitions](https://www.hudexchange.info/programs/acs-low-mod-summary-data/) of each term. We have also chosen to oversample minority and renter populations in this research, surpassing the proportional estimates of these demographics supplied by the 2018 American Community Survey (ACS) estimates. 
+
+As late June 2023, 1,493 individuals responded to the survey. Given the oversampling of income, minority and renter populations, survey weights must be designed and implemented to avoid bias in describing the population. 
+
+### Race Weights
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+#Load full Census Race Data
+
+temp <- get_acs(
+  geography="state", 
+  state=c("CA", "CO", "IL", "MA", "MD", "MN", "NY", "OR"),
+  variables=c("White" ="B03002_003",
+              "Black or African American" = "B03002_004",
+              "Native American or Alaskan Native" = "B03002_005",
+              "Asian" = "B03002_006",
+              "Native Hawaiian or Pacific Islander" = "B03002_007",
+              "Other" = "B03002_008",
+              "Multiracial" = "B03002_009",
+              "Hispanic or Latino" = "B03002_012"),
+  year=2020, 
+  geometry=FALSE)
+
+
+
+
+```
+
+
+
+<style>
+### Race Function
+{
+   display: none;
+ }
+</style>
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+race_by_state_table <- function(state_name, state_abbrev) {
+  
+  state_name = as.character(state_name)
+  
+  temp_state <- temp %>%
+    filter(NAME==state_name) %>%
+    select(Race=variable, Total = estimate) %>%
+    mutate( Race2 = case_when(
+      Race == "White" ~ Race,
+      Race == "Black or African American" ~ Race,
+      Race =="Hispanic or Latino" ~ Race,
+      Race == "Asian" ~ Race,
+      TRUE ~ "Other - POC"
+    )) %>%
+    group_by(Race2) %>%
+    summarise(Total = sum(Total)) %>%
+    arrange(Race2) %>%
+    mutate(Proportion = Total/sum(Total)) 
+  
+  
+  survey_race <- survey %>%
+    group_by(Race = Race2, .drop=FALSE) %>%
+    filter(state_2==state_abbrev) %>%
+    summarise(Total = n()/2) %>%
+    mutate(Proportion = Total/sum(Total)) %>%
+    arrange(Race)  
+  
+  
+  join_with_survey <- cbind(temp_state, survey_race)
+  
+  join_with_survey <- join_with_survey[,-4]
+  
+  temp_hold <- join_with_survey %>%
+    select(Race=Race2, Census_Total = Total, Census_Proportion = Proportion, 
+           Survey_Total = Total.1, Survey_Proportion = Proportion.1) 
+  
+  output_name = paste("gender_total", state_abbrev,sep="")
+    
+    
+  output_name <- temp_hold %>%
+    mutate(Deserves=Census_Total/(sum(Census_Total)/sum(Survey_Total))) %>%
+    mutate(Proportion_Weight = Deserves/Survey_Total,
+           Population_Weight = Census_Total/Survey_Total,
+           Check_Proportion_Weight = Proportion_Weight * Survey_Total,
+           Check_Population_Weight=Population_Weight * Survey_Total) %>%
+      arrange(-Census_Total)%>%
+      adorn_totals("row")
+  
+  
+  output_name$Population_Weight[output_name$Race=="Total"] <- sum(output_name$Survey_Total[1:5] * output_name$Population_Weight[1:5])
+
+  table_name = paste("race_table", state_abbrev,sep="")
+  
+  table_name <- output_name
+  
+  table_name
+  
+
+  
+}
+
+
+
+race_by_state_graph <- function(state_name, state_abbrev) {
+  
+  output_name <-  race_by_state_table(state_name, state_abbrev ) 
+  
+      
+  survey_race_graph <- output_name %>%
+    select(Race, Census = Census_Proportion, Survey = Survey_Proportion) %>%
+    filter(Race !="Total")
+
+  graph_temp <- reshape2::melt(survey_race_graph, id.var='Race') 
+
+  
+  g <- ggplot(graph_temp, aes(x=reorder(Race, -value), y=value))+geom_bar(aes(fill=variable),stat='identity', position='dodge') +theme_classic()+
+      xlab('') + ylab('Proportion') + labs(color='') +   ggtitle(state_name)+
+      theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))
+
+
+    ggplotly(g)
+
+}
+
+
+
+```
+
+
+
+
+
+Race, along with all demographic data, is self-attested through the survey. The categories included: Asian, Black or African American, Hispanic or Latino, Multiracial, Native American or Alaskan Native, Native Hawaiin or Pacific Islander, Other, White. To construct state level weights, the categories were further condensed into the following: Asian, Black or African American, Hispanic or Latino, Other, and White. 
+
+Using the American Community Survey (ACS) 2020 5-Year data, from table [B03002](https://data.census.gov/cedsci/table?q=B03002&tid=ACSDT5Y2020.B03002), a comparable crosstab was developed to match the race categories for the survey. 
+
+The chart below shows the race proportions for the survey compared against the state totals for each of the eight states where responses were collected. Note, the oversampling of Black, Asian, and Other - POC is evident, whereas White and Hispanic or Latino are undersampled. 
+
+#### Total
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+temp_state <- temp %>%
+#  filter(NAME=="California") %>%
+  select(Race=variable, Total = estimate) %>%
+  mutate( Race2 = case_when(
+    Race == "White" ~ Race,
+    Race == "Black or African American" ~ Race,
+    Race =="Hispanic or Latino" ~ Race,
+    Race == "Asian" ~ Race,
+    TRUE ~ "Other - POC"
+  )) %>%
+  group_by(Race2) %>%
+  summarise(Total = sum(Total)) %>%
+  arrange(Race2) %>%
+  mutate(Proportion = Total/sum(Total)) 
+
+
+survey_race <- survey %>%
+  group_by(Race=Race2, .drop=FALSE) %>%
+#  filter(state=="CA") %>%
+  summarise(Total = n()/2) %>%
+  mutate(Proportion = Total/sum(Total)) %>%
+  arrange(Race)   
+
+
+join_with_survey <- cbind(temp_state, survey_race)
+
+join_with_survey <- join_with_survey[,-4]
+
+temp_hold <- join_with_survey %>%
+  select(Race=Race2, Census_Total = Total, Census_Proportion = Proportion, 
+         Survey_Total = Total.1, Survey_Proportion = Proportion.1) 
+
+
+race_total <- temp_hold %>%
+  mutate(Deserves=Census_Total/(sum(Census_Total)/sum(Survey_Total))) %>%
+  mutate(Proportion_Weight = Deserves/Survey_Total,
+         Population_Weight = Census_Total/Survey_Total,
+         Check_Proportion_Weight = Proportion_Weight * Survey_Total,
+         Check_Population_Weight=Population_Weight * Survey_Total) %>%
+    arrange(-Census_Total)%>%
+    adorn_totals("row")
+
+
+race_total$Population_Weight[race_total$Race=="Total"] <- sum(race_total$Survey_Total[1:5] * race_total$Population_Weight[1:5])
+
+race_total_table <- race_total %>%
+  select(Race, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+  kbl(caption = "Descriptive Statistics, 8-State Region",
+      digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+  kable_classic(full_width = T, html_font = "Cambria") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+
+
+race_total_table
+```
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+survey_race_graph <- race_total %>%
+  select(Race, Census = Census_Proportion, Survey = Survey_Proportion) %>%
+  filter(Race !="Total")
+
+
+graph_temp <- reshape2::melt(survey_race_graph, id.var='Race') 
+
+
+
+g <- ggplot(graph_temp, aes(x=reorder(Race, -value), y=value))+geom_bar(aes(fill=variable),stat='identity', position='dodge') +theme_classic()+
+  xlab('') + ylab('Proportion') + labs(color='') +   ggtitle("SETO Survey State and Census Race Totals, 8-State Region")+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))
+ggplotly(g)
+
+
+
+
+```
+
+
+
+#### California
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+
+t <- race_by_state_table("California", "CA")
+
+
+
+temp_table <- t %>%
+    select(Race, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+    kbl(caption = "Descriptive Statistics",
+        digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+    kable_classic(full_width = T, html_font = "Cambria") %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+  
+temp_table
+```
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+race_by_state_graph("California", "CA") 
+
+```
+
+
+
+  
+
+#### Colorado
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+t <- race_by_state_table("Colorado", "CO")
+
+
+
+temp_table <- t %>%
+    select(Race, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+    kbl(caption = "Descriptive Statistics",
+        digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+    kable_classic(full_width = T, html_font = "Cambria") %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+  
+temp_table
+```
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+race_by_state_graph("Colorado", "CO")
+
+```
+
+#### Illinois
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+t <- race_by_state_table("Illinois", "IL")
+
+
+
+temp_table <- t %>%
+    select(Race, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+    kbl(caption = "Descriptive Statistics",
+        digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+    kable_classic(full_width = T, html_font = "Cambria") %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+  
+temp_table
+```
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+race_by_state_graph("Illinois", "IL")
+
+```
+
+#### Massachusetts
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+t <- race_by_state_table("Massachusetts", "MA")
+
+
+
+temp_table <- t %>%
+    select(Race, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+    kbl(caption = "Descriptive Statistics",
+        digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+    kable_classic(full_width = T, html_font = "Cambria") %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+  
+temp_table
+```
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+race_by_state_graph("Massachusetts", "MA")
+
+```
+
+
+#### Maryland
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+t <- race_by_state_table("Maryland", "MD")
+
+
+
+temp_table <- t %>%
+    select(Race, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+    kbl(caption = "Descriptive Statistics",
+        digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+    kable_classic(full_width = T, html_font = "Cambria") %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+  
+temp_table
+```
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+race_by_state_graph("Maryland", "MD")
+
+```
+
+
+#### Minnesota
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+t <- race_by_state_table("Minnesota", "MN")
+
+
+
+temp_table <- t %>%
+    select(Race, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+    kbl(caption = "Descriptive Statistics",
+        digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+    kable_classic(full_width = T, html_font = "Cambria") %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+  
+temp_table
+```
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+race_by_state_graph("Minnesota", "MN")
+
+```
+
+
+#### New York
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+t <- race_by_state_table("New York", "NY")
+
+
+
+temp_table <- t %>%
+    select(Race, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+    kbl(caption = "Descriptive Statistics",
+        digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+    kable_classic(full_width = T, html_font = "Cambria") %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+  
+temp_table
+```
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+race_by_state_graph("New York", "NY")
+
+```
+
+#### Oregon
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+t <- race_by_state_table("Oregon", "OR")
+
+
+
+temp_table <- t %>%
+    select(Race, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+    kbl(caption = "Descriptive Statistics",
+        digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+    kable_classic(full_width = T, html_font = "Cambria") %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+  
+temp_table
+```
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+race_by_state_graph("Oregon", "OR")
+
+```
+
+
+
+<style>
+#### Apply Weights
+
+
+{
+   display: none;
+ }
+</style>
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+
+race_by_state_table <- function(state_name, state_abbrev) {
+  
+  state_name = as.character(state_name)
+  
+  temp_state <- temp %>%
+    filter(NAME==state_name) %>%
+    select(Race=variable, Total = estimate) %>%
+    mutate( Race2 = case_when(
+      Race == "White" ~ Race,
+      Race == "Black or African American" ~ Race,
+      Race =="Hispanic or Latino" ~ Race,
+      Race == "Asian" ~ Race,
+      TRUE ~ "Other - POC"
+    )) %>%
+    group_by(Race2) %>%
+    summarise(Total = sum(Total)) %>%
+    arrange(Race2) %>%
+    mutate(Proportion = Total/sum(Total)) 
+  
+  
+  survey_race <- survey %>%
+    group_by(Race = Race2, .drop=FALSE) %>%
+    filter(state_2==state_abbrev) %>%
+    summarise(Total = n()/2) %>%
+    mutate(Proportion = Total/sum(Total)) %>%
+    arrange(Race)  
+  
+  
+  join_with_survey <- cbind(temp_state, survey_race)
+  
+  join_with_survey <- join_with_survey[,-4]
+  
+  temp_hold <- join_with_survey %>%
+    select(Race=Race2, Census_Total = Total, Census_Proportion = Proportion, 
+           Survey_Total = Total.1, Survey_Proportion = Proportion.1) 
+  
+  output_name = paste("gender_total", state_abbrev,sep="")
+    
+    
+  output_name <- temp_hold %>%
+    mutate(Deserves=Census_Total/(sum(Census_Total)/sum(Survey_Total))) %>%
+    mutate(Proportion_Weight = Deserves/Survey_Total,
+           Population_Weight = Census_Total/Survey_Total,
+           Check_Proportion_Weight = Proportion_Weight * Survey_Total,
+           Check_Population_Weight=Population_Weight * Survey_Total) %>%
+      arrange(-Census_Total)%>%
+      adorn_totals("row")
+  
+  
+  output_name$Population_Weight[output_name$Race=="Total"] <- sum(output_name$Survey_Total[1:5] * output_name$Population_Weight[1:5])
+
+  output_name
+  
+
+  
+}
+
+
+
+
+race_total_ca <- race_by_state_table("California", "CA")
+race_total_co <- race_by_state_table("Colorado", "CO")
+race_total_il <- race_by_state_table("Illinois", "IL")
+race_total_ma <- race_by_state_table("Massachusetts", "MA")
+race_total_md <- race_by_state_table("Maryland", "MD")
+race_total_mn <- race_by_state_table("Minnesota", "MN")
+race_total_ny <- race_by_state_table("New York", "NY")
+race_total_or <- race_by_state_table("Oregon", "OR")
+
+```
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+race_ca_temp <- race_total_ca %>%
+  select(Race, Population_Weight) %>%
+  mutate(State="CA")
+
+race_co_temp <- race_total_co %>%
+  select(Race, Population_Weight) %>%
+  mutate(State="CO")
+
+race_il_temp <- race_total_il %>%
+  select(Race, Population_Weight) %>%
+  mutate(State="IL")
+
+race_ma_temp <- race_total_ma %>%
+  select(Race, Population_Weight) %>%
+  mutate(State="MA")
+
+race_md_temp <- race_total_md %>%
+  select(Race, Population_Weight) %>%
+  mutate(State="MD")
+
+race_mn_temp <- race_total_mn %>%
+  select(Race, Population_Weight) %>%
+  mutate(State="MN")
+
+race_ny_temp <- race_total_ny %>%
+  select(Race, Population_Weight) %>%
+  mutate(State="NY")
+
+race_or_temp <- race_total_or %>%
+  select(Race, Population_Weight) %>%
+  mutate(State="OR")
+
+
+
+all_states <- rbind(race_ca_temp, race_co_temp, race_il_temp, race_ma_temp, race_md_temp, race_mn_temp, race_ny_temp, race_or_temp) %>%
+  filter(Race !="Total")
+
+rm(race_ca_temp, race_co_temp, race_il_temp, race_ma_temp, race_md_temp, race_mn_temp, race_ny_temp, race_or_temp)
+
+rm(race_total_ca, race_total_co, race_total_il, race_total_ma, race_total_md, race_total_mn, race_total_ny, race_total_or)
+
+```
+
+
+
+
+```{r echo=FALSE, message=TRUE, warning=FALSE}
+
+## apply weights to survey data
+
+survey$weight_race <- NA
+
+for (i in 1:length(survey$source)) {
+
+  survey$weight_race[i] <- all_states$Population_Weight[survey$state_2[i]==all_states$State & 
+                                                        survey$Race2[i] == all_states$Race]
+    
+}
+
+
+
+race_data <- survey %>%
+  dplyr::select(respid, weight_race)
+
+survey_race_excel_name = paste(input_folder,"1. Community Solar Priorities/Qualtrics Survey/seto_survey/data/weights_race.xlsx", sep="")
+
+
+library(xlsx)
+write.xlsx(race_data, survey_race_excel_name)
+
+
+```
+
+<style>
+### Gender Weights
+
+
+{
+   display: none;
+ }
+</style>
+
+
+
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#Load full Census Race Data
+
+
+# Note, gender may not be an appropriate weight as the Census Bureau only asks if people identify as "male" or "female". Whereas the SETO survey allowed respondents to self-identify. This calls into question the validity not of creating survey weights via gender variables, but of applying them to the survey dataset. The results are presented below. 
+
+survey <- survey %>%
+  mutate(gender_drop_other = case_when(
+    gender =="Female" ~ gender,
+    gender == "Male" ~ gender
+  ))
+
+temp <- get_acs(
+  geography="state", 
+  state=c("CA", "CO", "IL", "MA", "MD", "MN", "NY", "OR"),
+  variables=c("Male" ="B01001_002",
+              "Female" = "B01001_026"),
+  year=2020, 
+  geometry=FALSE)
+
+```
+
+
+
+<style>
+### gender Function
+{
+   display: none;
+ }
+</style>
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+gender_by_state_table <- function(state_name, state_abbrev) {
+ 
+  state_name = as.character(state_name)
+  
+  temp_state <- temp %>%
+    filter(NAME==state_name) %>%
+    select(gender=variable, Total = estimate) %>%
+    group_by(gender) %>%
+    summarise(Total = sum(Total)) %>%
+    arrange(gender) %>%
+    mutate(Proportion = Total/sum(Total)) 
+    
+  survey_race <- survey %>%
+    group_by(gender=gender_drop_other, .drop=FALSE) %>%
+    filter(state_2==state_abbrev) %>%
+    summarise(Total = n()/2) %>%
+    mutate(Proportion = Total/sum(Total)) %>%
+    arrange(gender)  %>%
+    filter(!is.na(gender))
+  
+  join_with_survey <- cbind(temp_state, survey_race)
+
+  join_with_survey <- join_with_survey[,-4]
+  
+  temp_hold <- join_with_survey %>%
+    select(gender, Census_Total = Total, Census_Proportion = Proportion, 
+           Survey_Total = Total.1, Survey_Proportion = Proportion.1) 
+  
+  output_name = paste("gender_total", state_abbrev,sep="")
+  
+  output_name <- temp_hold %>%
+    mutate(Deserves=Census_Total/(sum(Census_Total)/sum(Survey_Total))) %>%
+    mutate(Proportion_Weight = Deserves/Survey_Total,
+           Population_Weight = Census_Total/Survey_Total,
+           Check_Proportion_Weight = Proportion_Weight * Survey_Total,
+           Check_Population_Weight=Population_Weight * Survey_Total) %>%
+      arrange(-Census_Total)%>%
+      adorn_totals("row")
+  
+  
+  
+  output_name$Population_Weight[output_name$gender=="Total"] <- sum(output_name$Survey_Total[1:2] * output_name$Population_Weight[1:2])
+ 
+  table_name = paste("gender_table", state_abbrev,sep="")
+  
+  table_name <- output_name
+  
+  table_name
+  
+
+  
+}
+
+
+race_by_state_graph <- function(state_name, state_abbrev) {
+  
+  
+  state_name = as.character(state_name)
+  
+  temp_state <- temp %>%
+    filter(NAME==state_name) %>%
+    select(gender=variable, Total = estimate) %>%
+    group_by(gender) %>%
+    summarise(Total = sum(Total)) %>%
+    arrange(gender) %>%
+    mutate(Proportion = Total/sum(Total)) 
+    
+  survey_race <- survey %>%
+    group_by(gender=gender_drop_other, .drop=FALSE) %>%
+    filter(state_2==state_abbrev) %>%
+    summarise(Total = n()/2) %>%
+    mutate(Proportion = Total/sum(Total)) %>%
+    arrange(gender)  %>%
+    filter(!is.na(gender))
+  
+  join_with_survey <- cbind(temp_state, survey_race)
+
+  join_with_survey <- join_with_survey[,-4]
+  
+  temp_hold <- join_with_survey %>%
+    select(gender, Census_Total = Total, Census_Proportion = Proportion, 
+           Survey_Total = Total.1, Survey_Proportion = Proportion.1) 
+  
+  output_name = paste("gender_total", state_abbrev,sep="")
+  
+  output_name <- temp_hold %>%
+    mutate(Deserves=Census_Total/(sum(Census_Total)/sum(Survey_Total))) %>%
+    mutate(Proportion_Weight = Deserves/Survey_Total,
+           Population_Weight = Census_Total/Survey_Total,
+           Check_Proportion_Weight = Proportion_Weight * Survey_Total,
+           Check_Population_Weight=Population_Weight * Survey_Total) %>%
+      arrange(-Census_Total)%>%
+      adorn_totals("row")
+  
+  
+  output_name$Population_Weight[output_name$gender=="Total"] <- sum(output_name$Survey_Total[1:2] * output_name$Population_Weight[1:2])
+  
+  table_name = paste("gender_table", state_abbrev,sep="")
+  
+  table_name <- output_name %>%
+    select(gender, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+    kbl(caption = "Descriptive Statistics",
+        digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+    kable_classic(full_width = T, html_font = "Cambria") %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+  
+  
+  table_name
+    
+    
+  survey_gender_graph <- output_name %>%
+    select(gender, Census = Census_Proportion, Survey = Survey_Proportion) %>%
+    filter(gender !="Total")
+
+
+  graph_temp <- reshape2::melt(survey_gender_graph, id.var='gender') 
+  
+  
+  
+  g <- ggplot(graph_temp, aes(x=reorder(gender, -value), y=value))+geom_bar(aes(fill=variable),stat='identity', position='dodge') +theme_classic()+
+      xlab('') + ylab('Proportion') + labs(color='') +   ggtitle(state_name)+
+      theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))
+
+  
+    ggplotly(g)
+
+  
+  
+}
+
+```
+
+<style>
+#### Total
+
+
+{
+   display: none;
+ }
+</style>
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+
+temp_state <- temp %>%
+#  filter(NAME=="California") %>%
+  select(gender=variable, Total = estimate) %>%
+  group_by(gender) %>%
+  summarise(Total = sum(Total)) %>%
+  arrange(gender) %>%
+  mutate(Proportion = Total/sum(Total)) 
+
+
+survey_race <- survey %>%
+  group_by(gender=gender_drop_other, .drop=FALSE) %>%
+#  filter(state=="CA") %>%
+  summarise(Total = n()/2) %>%
+  mutate(Proportion = Total/sum(Total)) %>%
+  arrange(gender)  %>%
+  filter(!is.na(gender))
+
+
+join_with_survey <- cbind(temp_state, survey_race)
+
+join_with_survey <- join_with_survey[,-4]
+
+temp_hold <- join_with_survey %>%
+  select(gender, Census_Total = Total, Census_Proportion = Proportion, 
+         Survey_Total = Total.1, Survey_Proportion = Proportion.1) 
+
+
+gender_total <- temp_hold %>%
+  mutate(Deserves=Census_Total/(sum(Census_Total)/sum(Survey_Total))) %>%
+  mutate(Proportion_Weight = Deserves/Survey_Total,
+         Population_Weight = Census_Total/Survey_Total,
+         Check_Proportion_Weight = Proportion_Weight * Survey_Total,
+         Check_Population_Weight=Population_Weight * Survey_Total) %>%
+    arrange(-Census_Total)%>%
+    adorn_totals("row")
+
+
+gender_total$Population_Weight[gender_total$gender=="Total"] <- sum(gender_total$Survey_Total[1:2] * gender_total$Population_Weight[1:2])
+
+gender_total_table <- gender_total %>%
+  select(gender, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+  kbl(caption = "Descriptive Statistics, 8-State Region",
+      digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+  kable_classic(full_width = T, html_font = "Cambria") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+
+
+gender_total_table
+```
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+survey_gender_graph <- gender_total %>%
+  select(gender, Census = Census_Proportion, Survey = Survey_Proportion) %>%
+  filter(gender !="Total")
+
+
+graph_temp <- reshape2::melt(survey_gender_graph, id.var='gender') 
+
+
+
+g <- ggplot(graph_temp, aes(x=reorder(gender, -value), y=value))+geom_bar(aes(fill=variable),stat='identity', position='dodge') +theme_classic()+
+  xlab('') + ylab('Proportion') + labs(color='') +   ggtitle("SETO Survey State and Census gender Totals, 8-State Region")+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))
+ggplotly(g)
+
+
+
+
+```
+
+<style>
+
+#### California
+
+
+{
+   display: none;
+ }
+</style>
+
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+t <- gender_by_state_table("California", "CA")
+
+
+
+temp_table <- t %>%
+    select(gender, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+    kbl(caption = "Descriptive Statistics",
+        digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+    kable_classic(full_width = T, html_font = "Cambria") %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+  
+temp_table
+```
+
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+race_by_state_graph("California", "CA") 
+
+```
+
+  
+<style>
+
+#### Colorado
+
+
+{
+   display: none;
+ }
+</style>
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+t <- gender_by_state_table("Colorado", "CO")
+
+
+
+temp_table <- t %>%
+    select(gender, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+    kbl(caption = "Descriptive Statistics",
+        digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+    kable_classic(full_width = T, html_font = "Cambria") %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+  
+temp_table
+
+```
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+
+race_by_state_graph("Colorado", "CO") 
+
+```
+
+
+<style>
+
+#### Illinois
+
+
+{
+   display: none;
+ }
+</style>
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+t <- gender_by_state_table("Illinois", "IL")
+
+
+
+temp_table <- t %>%
+    select(gender, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+    kbl(caption = "Descriptive Statistics",
+        digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+    kable_classic(full_width = T, html_font = "Cambria") %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+  
+temp_table
+
+```
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+
+race_by_state_graph("Illinois", "IL") 
+
+```
+
+
+
+
+<style>
+
+#### Massachusetts
+
+
+{
+   display: none;
+ }
+</style>
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+t <- gender_by_state_table("Massachusetts", "MA")
+
+
+
+temp_table <- t %>%
+    select(gender, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+    kbl(caption = "Descriptive Statistics",
+        digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+    kable_classic(full_width = T, html_font = "Cambria") %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+  
+temp_table
+
+```
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+
+race_by_state_graph("Massachusetts", "MA") 
+
+```
+
+  
+
+
+
+<style>
+
+#### Maryland
+
+
+{
+   display: none;
+ }
+</style>
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+t <- gender_by_state_table("Maryland", "MD")
+
+
+
+temp_table <- t %>%
+    select(gender, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+    kbl(caption = "Descriptive Statistics",
+        digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+    kable_classic(full_width = T, html_font = "Cambria") %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+  
+temp_table
+
+```
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+
+race_by_state_graph("Maryland", "MD") 
+
+```
+
+<style>
+
+#### Minnesota
+
+
+{
+   display: none;
+ }
+</style>
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+t <- gender_by_state_table("Minnesota", "MN")
+
+
+
+temp_table <- t %>%
+    select(gender, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+    kbl(caption = "Descriptive Statistics",
+        digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+    kable_classic(full_width = T, html_font = "Cambria") %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+  
+temp_table
+
+```
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+
+race_by_state_graph("Minnesota", "MN") 
+
+```
+
+
+
+<style>
+
+#### New York
+
+
+{
+   display: none;
+ }
+</style>
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+t <- gender_by_state_table("New York", "NY")
+
+
+
+temp_table <- t %>%
+    select(gender, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+    kbl(caption = "Descriptive Statistics",
+        digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+    kable_classic(full_width = T, html_font = "Cambria") %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+  
+temp_table
+
+```
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+
+race_by_state_graph("New York", "NY") 
+
+```
+
+
+<style>
+
+#### Oregon
+
+
+{
+   display: none;
+ }
+</style>
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+t <- gender_by_state_table("Oregon", "OR")
+
+
+
+temp_table <- t %>%
+    select(gender, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+    kbl(caption = "Descriptive Statistics",
+        digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+    kable_classic(full_width = T, html_font = "Cambria") %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+  
+temp_table
+
+```
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+
+race_by_state_graph("Oregon", "OR") 
+
+```
+
+<style>
+#### Apply Weights
+
+
+{
+   display: none;
+ }
+</style>
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+gender_by_state_table <- function(state_name, state_abbrev) {
+ 
+  state_name = as.character(state_name)
+  
+  temp_state <- temp %>%
+    filter(NAME==state_name) %>%
+    select(gender=variable, Total = estimate) %>%
+    group_by(gender) %>%
+    summarise(Total = sum(Total)) %>%
+    arrange(gender) %>%
+    mutate(Proportion = Total/sum(Total)) 
+    
+  survey_race <- survey %>%
+    group_by(gender=gender_drop_other, .drop=FALSE) %>%
+    filter(state_2==state_abbrev) %>%
+    summarise(Total = n()/2) %>%
+    mutate(Proportion = Total/sum(Total)) %>%
+    arrange(gender)  %>%
+    filter(!is.na(gender))
+  
+  join_with_survey <- cbind(temp_state, survey_race)
+
+  join_with_survey <- join_with_survey[,-4]
+  
+  temp_hold <- join_with_survey %>%
+    select(gender, Census_Total = Total, Census_Proportion = Proportion, 
+           Survey_Total = Total.1, Survey_Proportion = Proportion.1) 
+  
+  output_name = paste("gender_total", state_abbrev,sep="")
+  
+  output_name <- temp_hold %>%
+    mutate(Deserves=Census_Total/(sum(Census_Total)/sum(Survey_Total))) %>%
+    mutate(Proportion_Weight = Deserves/Survey_Total,
+           Population_Weight = Census_Total/Survey_Total,
+           Check_Proportion_Weight = Proportion_Weight * Survey_Total,
+           Check_Population_Weight=Population_Weight * Survey_Total) %>%
+      arrange(-Census_Total)%>%
+      adorn_totals("row")
+  
+  
+  
+  output_name$Population_Weight[output_name$gender=="Total"] <- sum(output_name$Survey_Total[1:2] * output_name$Population_Weight[1:2])
+
+  output_name
+
+
+  
+}
+
+
+
+gender_total_ca <- gender_by_state_table("California", "CA")
+gender_total_co <- gender_by_state_table("Colorado", "CO")
+gender_total_il <- gender_by_state_table("Illinois", "IL")
+gender_total_ma <- gender_by_state_table("Massachusetts", "MA")
+gender_total_md <- gender_by_state_table("Maryland", "MD")
+gender_total_mn <- gender_by_state_table("Minnesota", "MN")
+gender_total_ny <- gender_by_state_table("New York", "NY")
+gender_total_or <- gender_by_state_table("Oregon", "OR")
+
+```
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+gender_total_ca <- gender_total_ca %>%
+  select(gender, Population_Weight) %>%
+  mutate(State="CA")
+
+gender_total_co <- gender_total_co %>%
+  select(gender, Population_Weight) %>%
+  mutate(State="CO")
+
+gender_total_il <- gender_total_il %>%
+  select(gender, Population_Weight) %>%
+  mutate(State="IL")
+
+gender_total_ma <- gender_total_ma %>%
+  select(gender, Population_Weight) %>%
+  mutate(State="MA")
+
+gender_total_md <- gender_total_md %>%
+  select(gender, Population_Weight) %>%
+  mutate(State="MD")
+
+gender_total_mn <- gender_total_mn %>%
+  select(gender, Population_Weight) %>%
+  mutate(State="MN")
+
+gender_total_ny <- gender_total_ny %>%
+  select(gender, Population_Weight) %>%
+  mutate(State="NY")
+
+gender_total_or <- gender_total_or %>%
+  select(gender, Population_Weight) %>%
+  mutate(State="OR")
+
+
+
+all_states <- rbind(gender_total_ca, gender_total_co, gender_total_il, gender_total_ma, gender_total_md, gender_total_mn, gender_total_ny, gender_total_or) %>%
+  filter(gender !="Total")
+
+
+
+rm(gender_total_ca, gender_total_co, gender_total_il, gender_total_ma, gender_total_md, gender_total_mn, gender_total_ny, gender_total_or)
+```
+
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+## apply weights to survey data
+
+survey$weight_gender <- NA
+
+for (i in 1:length(survey$source)) {
+
+  survey$weight_gender[i] <- all_states$Population_Weight[survey$state_2[i]==all_states$State & 
+                                                        survey$gender_drop_other[i] == all_states$gender]
+    
+}
+```
+
+
+
+
+
+
+
+### Income Weights
+
+Respondents to the survey were asked to report their household income respective to customized AMI categories, dependent on both their household size and zip code using a custom income group calculation methodology (zips to fips.do). This calculation allowed for respondents to select income ranges for their household that corresponded to <30%, 30-50%, 50-80%, 80-120% and over 120% area median income (AMI). 
+
+Income weights are taken from the Housing and Urban Development (HUD) Office of Policy Development and Research (PD&R) Comprehensive Housing Affordability Strategy (CHAS) data. This data is released on a lagged timetable relative to the American Community Survey from the U.S. Census Bureau. Hence, the latest data available is five year 2018 data. 
+
+**to-do**: AMI last bucket is over 80, there is one more for 100% and over
+
+1. note that this is from  table 11, where we can back into the calculation used by SETO 
+2. CHAS output is for households, which is technically correct, but gender and race are by person, so the totals by state won't look quite similar 
+
+
+
+
+
+
+<style>
+### CHAS
+{
+   display: none;
+ }
+</style>
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+under_thirty <- c('T11_est4','T11_est5','T11_est76','T11_est18','T11_est19',
+                  'T11_est32','T11_est33','T11_est47','T11_est48','T11_est61','T11_est62','T11_est75',sep="|")
+
+chas_name <- paste(input_folder, "3. Churn and Default/Central Hudson Preliminary Analysis/040/Table11.csv", sep="")
+
+chas_data_11 <- read.csv(paste(input_folder, "3. Churn and Default/Central Hudson Preliminary Analysis/040/Table11.csv", sep=""))%>%
+  filter(name %in% c("California", "Colorado", "Illinois", "Massachusetts", "Maryland",
+                     "Minnesota", "New York", "Oregon")) %>%
+  mutate( `1: Less than 30% AMI` = T11_est4 +T11_est5 + T11_est76 + T11_est18 + T11_est19 + 
+                  T11_est32 + T11_est33 + T11_est47 + T11_est48 + T11_est61 + T11_est62 + T11_est75,
+          
+          `2: Between 30-50% AMI` = T11_est6+T11_est7+T11_est20+T11_est21+T11_est34+T11_est35+T11_est49+T11_est50+T11_est63+T11_est64+T11_est77+T11_est78,
+          
+          `3: Between 50-80% AMI` = T11_est8+
+T11_est9+
+T11_est10+
+T11_est22+
+T11_est23+
+T11_est24+
+T11_est36+
+T11_est37+
+T11_est38+
+T11_est51+
+T11_est52+
+T11_est53+
+T11_est65+
+T11_est66+
+T11_est67+
+T11_est79+
+T11_est80+
+T11_est81,
+
+
+
+        `4: Between 80-120% AMI` = T11_est11+
+T11_est12+
+T11_est13+
+T11_est14+
+T11_est25+
+T11_est26+
+T11_est27+
+T11_est28+
+T11_est39+
+T11_est40+
+T11_est41+
+T11_est42+
+T11_est54+
+T11_est55+
+T11_est56+
+T11_est57+
+T11_est68+
+T11_est69+
+T11_est70+
+T11_est71+
+T11_est82+
+T11_est83+
+T11_est84+
+T11_est85, 
+
+      `5: More than 120% AMI` = T11_est15+
+T11_est16+
+T11_est29+
+T11_est30+
+T11_est43+
+T11_est44+
+T11_est58+
+T11_est59+
+T11_est72+
+T11_est73+
+T11_est86+
+T11_est87) %>%
+  select(state=name,  `1: Less than 30% AMI`, `2: Between 30-50% AMI`, `3: Between 50-80% AMI`, `4: Between 80-120% AMI`,  `5: More than 120% AMI`) %>%
+  adorn_totals("row")
+
+
+chas_data_11%>%
+  kbl(caption = "HUD CHAS 2014-2018 Houseolds by AMI",
+      digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+  kable_classic(full_width = F, html_font = "Cambria")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### Total
+
+
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+chas_df <-reshape::melt(chas_data_11,id.var="state" )
+
+
+```
+
+
+
+
+
+
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+temp_chas  <- chas_df %>%
+  group_by(Income = variable) %>%
+  summarise(Total = sum(value)) %>%
+  arrange(Income) %>%
+  mutate(Proportion = Total/sum(Total)) 
+
+
+survey_income <- survey %>%
+  group_by(Income=household_inc, .drop=FALSE) %>%
+#  filter(state=="CA") %>%
+  summarise(Total = n()/2) %>%
+  mutate(Proportion = Total/sum(Total)) %>%
+  arrange(Income)   
+
+
+join_with_survey <- cbind(temp_chas, survey_income)
+
+join_with_survey <- join_with_survey[,-4]
+
+temp_hold <- join_with_survey %>%
+  select(Income, Census_Total = Total, Census_Proportion = Proportion, 
+         Survey_Total = Total.1, Survey_Proportion = Proportion.1) 
+
+
+income_total <- temp_hold %>%
+  mutate(Deserves=Census_Total/(sum(Census_Total)/sum(Survey_Total))) %>%
+  mutate(Proportion_Weight = Deserves/Survey_Total,
+         Population_Weight = Census_Total/Survey_Total,
+         Check_Proportion_Weight = Proportion_Weight * Survey_Total,
+         Check_Population_Weight=Population_Weight * Survey_Total) %>%
+   # arrange(-Census_Total)%>%
+    adorn_totals("row")
+
+
+income_total$Population_Weight[income_total$Income=="Total"] <- sum(income_total$Survey_Total[1:5] * income_total$Population_Weight[1:5])
+
+income_total_table <- income_total %>%
+  select(Income, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+  kbl(caption = "Descriptive Statistics, 8-State Region",
+      digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+  kable_classic(full_width = T, html_font = "Cambria") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+
+
+income_total_table
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+survey_income_graph <- income_total %>%
+  select(Income, Census = Census_Proportion, Survey = Survey_Proportion) %>%
+  filter(Income !="Total")
+
+
+graph_temp <- reshape2::melt(survey_income_graph, id.var='Income') 
+
+
+
+g <- ggplot(graph_temp, aes(x=Income, y=value))+geom_bar(aes(fill=variable),stat='identity', position='dodge') +theme_classic()+
+  xlab('') + ylab('Proportion') + labs(color='') +   ggtitle("SETO Survey State and Census Income Totals, 8-State Region")+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))
+ggplotly(g)
+
+
+
+
+```
+
+
+
+
+
+
+
+<style>
+### Income Function
+{
+   display: none;
+ }
+</style>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+income_by_state_table <- function(state_name, state_abbrev) {
+  
+temp_chas  <- chas_df %>%
+  group_by(Income = variable) %>%
+  filter(state==state_name) %>%
+  summarise(Total = sum(value)) %>%
+  arrange(Income) %>%
+  mutate(Proportion = Total/sum(Total)) 
+
+
+survey_income <- survey %>%
+  group_by(Income=household_inc, .drop=FALSE) %>%
+  filter(state==state_abbrev) %>%
+  summarise(Total = n()/2) %>%
+  mutate(Proportion = Total/sum(Total)) %>%
+  arrange(Income)   
+
+  
+  join_with_survey <- cbind(temp_chas, survey_income)
+  
+  join_with_survey <- join_with_survey[,-4]
+  
+  temp_hold <- join_with_survey %>%
+    select(Income, Census_Total = Total, Census_Proportion = Proportion, 
+           Survey_Total = Total.1, Survey_Proportion = Proportion.1) 
+  
+  
+  output_name = paste("income_total", state_abbrev,sep="")
+  
+  
+  output_name <- temp_hold %>%
+    mutate(Deserves=Census_Total/(sum(Census_Total)/sum(Survey_Total))) %>%
+    mutate(Proportion_Weight = Deserves/Survey_Total,
+           Population_Weight = Census_Total/Survey_Total,
+           Check_Proportion_Weight = Proportion_Weight * Survey_Total,
+           Check_Population_Weight=Population_Weight * Survey_Total) %>%
+     # arrange(-Census_Total)%>%
+      adorn_totals("row")
+  
+  
+  
+  
+  
+  output_name$Population_Weight[output_name$Income=="Total"] <- sum(output_name$Survey_Total[1:5] * output_name$Population_Weight[1:5])
+  
+  table_name = paste("income_table", state_abbrev,sep="")
+  
+  table_name <- output_name %>%
+    dplyr::select(Income, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+    kbl(caption = "Descriptive Statistics",
+        digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+    kable_classic(full_width = T, html_font = "Cambria") %>%
+    kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+  
+  
+  table_name
+
+}
+
+
+
+
+income_by_state_graph <- function(state_name, state_abbrev) {
+  
+  
+  output_name <-  income_by_state_table(state_name, state_abbrev ) 
+  
+  
+  temp_chas  <- chas_df %>%
+    group_by(Income = variable) %>%
+    filter(state==state_name) %>%
+    summarise(Total = sum(value)) %>%
+    arrange(Income) %>%
+    mutate(Proportion = Total/sum(Total)) 
+
+
+  survey_income <- survey %>%
+    group_by(Income=household_inc, .drop=FALSE) %>%
+    filter(state==state_abbrev) %>%
+    summarise(Total = n()/2) %>%
+    mutate(Proportion = Total/sum(Total)) %>%
+    arrange(Income)   
+
+  
+  join_with_survey <- cbind(temp_chas, survey_income)
+  
+  join_with_survey <- join_with_survey[,-4]
+  
+  temp_hold <- join_with_survey %>%
+    select(Income, Census_Total = Total, Census_Proportion = Proportion, 
+           Survey_Total = Total.1, Survey_Proportion = Proportion.1) 
+  
+  
+  output_name = paste("income_total", state_abbrev,sep="")
+  
+  
+  output_name <- temp_hold %>%
+    mutate(Deserves=Census_Total/(sum(Census_Total)/sum(Survey_Total))) %>%
+    mutate(Proportion_Weight = Deserves/Survey_Total,
+           Population_Weight = Census_Total/Survey_Total,
+           Check_Proportion_Weight = Proportion_Weight * Survey_Total,
+           Check_Population_Weight=Population_Weight * Survey_Total) %>%
+     # arrange(-Census_Total)%>%
+      adorn_totals("row")
+  
+  
+  
+  
+  
+  output_name$Population_Weight[output_name$Income=="Total"] <- sum(output_name$Survey_Total[1:5] * output_name$Population_Weight[1:5])
+  
+  table_name = paste("income_table", state_abbrev,sep="")
+  
+
+      
+  survey_income_graph <- output_name %>%
+    select(Income, Census = Census_Proportion, Survey = Survey_Proportion) %>%
+    filter(Income !="Total")
+
+  graph_temp <- reshape2::melt(survey_income_graph, id.var='Income') 
+
+  
+  g <- ggplot(graph_temp, aes(x=Income, y=value))+geom_bar(aes(fill=variable),stat='identity', position='dodge') +theme_classic()+
+      xlab('') + ylab('Proportion') + labs(color='') +   ggtitle(state_name)+
+      theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))
+
+
+    ggplotly(g)
+
+}
+
+
+```
+
+
+
+#### California
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+income_by_state_table("California", "CA")
+
+income_by_state_graph("California", "CA")
+
+```
+
+
+#### Colorado
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+income_by_state_table("Colorado", "CO")
+
+income_by_state_graph("Colorado", "CO")
+
+```
+
+#### Illinois
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+income_by_state_table("Illinois", "IL")
+
+income_by_state_graph("Illinois", "IL")
+
+```
+
+
+#### Massachusetts
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+income_by_state_table("Massachusetts", "MA")
+
+income_by_state_graph("Massachusetts", "MA")
+
+```
+
+
+
+#### Maryland
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+income_by_state_table("Maryland", "MD")
+
+income_by_state_graph("Maryland", "MD")
+
+```
+
+
+#### Minnesota
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+income_by_state_table("Minnesota", "MN")
+
+income_by_state_graph("Minnesota", "MN")
+
+```
+
+
+#### New York
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+income_by_state_table("New York", "NY")
+
+income_by_state_graph("New York", "NY")
+
+```
+
+
+#### Oregon
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+income_by_state_table("Oregon", "OR")
+
+income_by_state_graph("Oregon", "OR")
+
+```
+
+
+
+
+
+
+
+<style>
+#### Apply Weights
+
+
+{
+   display: none;
+ }
+</style>
+
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+income_by_state_table <- function(state_name, state_abbrev) {
+  
+
+  
+temp_chas  <- chas_df %>%
+  group_by(Income = variable) %>%
+  filter(state==state_name) %>%
+  summarise(Total = sum(value)) %>%
+  arrange(Income) %>%
+  mutate(Proportion = Total/sum(Total)) 
+
+
+survey_income <- survey %>%
+  group_by(Income=household_inc, .drop=FALSE) %>%
+  filter(state==state_abbrev) %>%
+  summarise(Total = n()/2) %>%
+  mutate(Proportion = Total/sum(Total)) %>%
+  arrange(Income)   
+
+  
+  join_with_survey <- cbind(temp_chas, survey_income)
+  
+  join_with_survey <- join_with_survey[,-4]
+  
+  temp_hold <- join_with_survey %>%
+    select(Income, Census_Total = Total, Census_Proportion = Proportion, 
+           Survey_Total = Total.1, Survey_Proportion = Proportion.1) 
+  
+  
+  output_name = paste("income_total", state_abbrev,sep="")
+  
+  
+  output_name <- temp_hold %>%
+    mutate(Deserves=Census_Total/(sum(Census_Total)/sum(Survey_Total))) %>%
+    mutate(Proportion_Weight = Deserves/Survey_Total,
+           Population_Weight = Census_Total/Survey_Total,
+           Check_Proportion_Weight = Proportion_Weight * Survey_Total,
+           Check_Population_Weight=Population_Weight * Survey_Total) %>%
+     # arrange(-Census_Total)%>%
+      adorn_totals("row")
+  
+  
+  
+  
+  
+  output_name$Population_Weight[output_name$Income=="Total"] <- sum(output_name$Survey_Total[1:5] * output_name$Population_Weight[1:5])
+  
+  output_name
+ 
+
+
+
+  
+}
+
+
+
+income_total_ca <- income_by_state_table("California", "CA")
+income_total_co <- income_by_state_table("Colorado", "CO")
+income_total_il <- income_by_state_table("Illinois", "IL")
+income_total_ma <- income_by_state_table("Massachusetts", "MA")
+income_total_md <- income_by_state_table("Maryland", "MD")
+income_total_mn <- income_by_state_table("Minnesota", "MN")
+income_total_ny <- income_by_state_table("New York", "NY")
+income_total_or <- income_by_state_table("Oregon", "OR")
+
+```
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+income_total_ca <- income_total_ca %>%
+  select(Income, Population_Weight) %>%
+  mutate(State="CA")
+
+income_total_co <- income_total_co %>%
+  select(Income, Population_Weight) %>%
+  mutate(State="CO")
+
+income_total_il <- income_total_il %>%
+  select(Income, Population_Weight) %>%
+  mutate(State="IL")
+
+income_total_ma <- income_total_ma %>%
+  select(Income, Population_Weight) %>%
+  mutate(State="MA")
+
+income_total_md <- income_total_md %>%
+  select(Income, Population_Weight) %>%
+  mutate(State="MD")
+
+income_total_mn <- income_total_mn %>%
+  select(Income, Population_Weight) %>%
+  mutate(State="MN")
+
+income_total_ny <- income_total_ny %>%
+  select(Income, Population_Weight) %>%
+  mutate(State="NY")
+
+income_total_or <- income_total_or %>%
+  select(Income, Population_Weight) %>%
+  mutate(State="OR")
+
+
+
+all_states <- rbind(income_total_ca, income_total_co, income_total_il, income_total_ma, income_total_md, income_total_mn, income_total_ny, income_total_or) %>%
+  filter(Income !="Total")
+
+
+
+rm(income_total_ca, income_total_co, income_total_il, income_total_ma, income_total_md, income_total_mn, income_total_ny, income_total_or)
+```
+
+
+
+
+```{r echo=FALSE, message=TRUE, warning=FALSE}
+
+## apply weights to survey data
+
+survey$weight_income <- NA
+
+for (i in 1:length(survey$source)) {
+
+  survey$weight_income[i] <- all_states$Population_Weight[survey$state_2[i]==all_states$State &
+                                                            survey$household_inc[i] == all_states$Income]
+    
+}
+
+survey_income_excel_name = paste(input_folder,"1. Community Solar Priorities/Qualtrics Survey/seto_survey/data/weights_income.xlsx", sep="")
+
+weight_data <- survey %>%
+  dplyr::select(respid, weight_income)
+
+write.xlsx(weight_data, survey_income_excel_name)
+```
+
+
+

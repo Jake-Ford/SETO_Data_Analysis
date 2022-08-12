@@ -5,4 +5,7 @@ navbar:
   right:
     - text: "Home"
       href: index.html
+    - text: "Survey Weights"
+      href: survey_weights.html
+
 
