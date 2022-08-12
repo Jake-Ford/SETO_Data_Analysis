@@ -57,7 +57,7 @@ setwd(input_folder)
 
 
 
-# Developer & Financier
+
 
 Developer and Financier Research: survey responses from developers and financiers to assess price sensitivities of language used in contract agreements
 
@@ -65,7 +65,7 @@ Developer and Financier Research: survey responses from developers and financier
 Due to the exploratory nature of this research, Solstice intends to leave analyses associated with the developer and financier component of this research unstructured in part. As a result of the expected small sample size, described in more detail below, we do not expect to be able to test for significance between observations. Rather, this analysis will be conducted through a detailed analysis of primary data collected via survey responses. Absence of existing published data detailing limiting factors and decision points related to constructing community solar  subscriber agreements makes it difficult to establish a baseline in order to conduct hypotheses-generated analyses as outlined in previous sections. This research takes a grounded theory approach to construct theory through primary data collection and subsequent comparative
 analysis. 
 
-## Research Questions
+# Research Questions
 
 
 Average program terms
@@ -93,7 +93,7 @@ The primary outcome of this research will be collecting and analyzing average te
 
 
 
-## Processing and Cleaning
+# Processing and Cleaning
 
 There were 254 unique responses. 
 
@@ -180,10 +180,10 @@ dev_sum <- devd %>%
 
 ```
 
-## Descriptive Statistics
+# Descriptive Statistics
 
 
-### Savings Rates
+## Savings Rates
 
 
 
@@ -326,7 +326,7 @@ ggplotly(p, tooltip="text")
 
 
 
-### Term Length
+## Term Length
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -403,7 +403,7 @@ ggplotly(p, tooltip="text")
 
 
 
-### Cancellation Fee
+## Cancellation Fee
 
 
 
@@ -483,7 +483,7 @@ ggplotly(p, tooltip="text")
 
 ```
 
-### Factors: Ability to make CS accessibility to LMI {.tabset}
+## Factors: Ability to make CS accessibility to LMI {.tabset}
 
 
 
@@ -562,7 +562,7 @@ final_data$order <- c(1,2,3,4,5)
 
 
 
-#### CAC
+### CAC
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -577,7 +577,7 @@ fig
 ```
 
 
-#### Churn
+### Churn
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 #Q21_2
 
@@ -589,7 +589,7 @@ fig <- fig %>% layout(title = 'Risk of subscriber churn',
 fig
 ```
 
-#### Default
+### Default
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 
@@ -604,7 +604,7 @@ fig
 ```
 
 
-#### Communication
+### Communication
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 #Q21_4
@@ -618,7 +618,7 @@ fig
 ```
 
 
-#### LMI ID
+### LMI ID
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 #Q21_5
@@ -632,7 +632,7 @@ fig
 ```
 
 
-#### Financing
+### Financing
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 #Q21_6
@@ -690,7 +690,7 @@ agg <- melt(agg_data, id="new_cat") %>%
 agg
 ```
 
-#### Takeaways
+### Takeaways
 
 1. Customer aqcuisition costs (CAC) was the strongest factor, with 55.5% responding as either very or extremely important. 
 
@@ -698,7 +698,7 @@ agg
 
 
 
-#### Bar Charts
+### Bar Charts
 
 
 
@@ -743,7 +743,7 @@ ggplotly(b, tooltip="text")
 
 
 
-### Factors: Influence decision to include LMI in projects {.tabset}
+## Factors: Influence decision to include LMI in projects {.tabset}
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
@@ -812,7 +812,7 @@ final_data$order <- c(1,2,3,4,5)
 
 
 
-#### Policy
+### Policy
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -833,7 +833,7 @@ fig
 ```
 
 
-#### Community Interest
+### Community Interest
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 #Q24_2
 
@@ -848,7 +848,7 @@ fig
 
 ```
 
-#### Financier Interest
+### Financier Interest
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 
@@ -867,7 +867,7 @@ fig
 ```
 
 
-#### Company Interest
+### Company Interest
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 #Q24_4
@@ -884,7 +884,7 @@ fig
 ```
 
 
-#### Equity
+### Equity
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 #Q24_5
@@ -927,13 +927,13 @@ agg <- melt(agg_data, id="new_cat") %>%
 agg
 ```
 
-#### Takeaways
+### Takeaways
 
 1. For factors influencing the decision to include LMI households in CS projects, the most common answer was policy requirements and equity/inclusion efforts, with 63% and 58% or respondents marking these as very or extremely important, respectively. 
 
 2. Community interest exhibited a large degree of moderate importance, with 44.7% of respondents, whereas only 43% respondents marked it as either very or extremely important, the smallest proportion exhibited in each of the five questions. 
 
-#### Bar Charts
+### Bar Charts
 
 
 
@@ -973,7 +973,7 @@ ggplotly(b, tooltip="text")
 
 
 
-### Factors: Fill out CS Projects Quickly {.tabset}
+## Factors: Fill out CS Projects Quickly {.tabset}
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
@@ -1085,7 +1085,7 @@ agg
 
 
 
-#### Savings rate
+### Savings rate
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -1105,7 +1105,7 @@ fig
 ```
 
 
-#### Term length
+### Term length
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 #Q26_2
 
@@ -1118,7 +1118,7 @@ fig
 
 ```
 
-#### Cancel fee
+### Cancel fee
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 #Q26_3
 
@@ -1132,7 +1132,7 @@ fig
 ```
 
 
-#### No On-bill credit
+### No On-bill credit
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 #Q26_4
@@ -1147,7 +1147,7 @@ fig
 ```
 
 
-#### On-bill credit
+### On-bill credit
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 #Q26_5
@@ -1161,7 +1161,7 @@ fig
 
 ```
 
-#### Contract complex
+### Contract complex
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 #Q26_6
@@ -1177,7 +1177,7 @@ fig
 ```
 
 
-#### Trust
+### Trust
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 
@@ -1202,13 +1202,13 @@ fig
 ### {-}
 
 
-#### Takeaways
+### Takeaways
 
 1. presence of on-bill credit for community solar projects exhibited the strongest positive response, with 58% of respondents recording it as probably or definitely impacted speed of CS projects being completed. 
 2. Conversely, though marginally different, contract complexity and trust were the least powerful, with 17.6% and 19% of respondents, respectively, stating it either probably not or definitely did not have an effect on projects being quickly filled out.   
 
 
-#### Bar Charts
+### Bar Charts
 
 
 
@@ -1248,7 +1248,7 @@ ggplotly(b, tooltip="text")
 
 
 
-### Savings Rate for Market and LMI
+## Savings Rate for Market and LMI
 
 
 
@@ -1320,7 +1320,7 @@ ggplotly(b, tooltip="text")
 ```
 
 
-### Churn Rate for Market and LMI
+## Churn Rate for Market and LMI
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
@@ -1383,7 +1383,7 @@ b <- ggplot(data = stacked_data, aes(x = reorder(Importance, -order), y = value,
 ggplotly(b, tooltip="text")
 
 ```
-### Project stage by highest churn/default
+## Project stage by highest churn/default
 
 COD = commerical operational date (?)
 
@@ -1455,10 +1455,10 @@ ggplotly(b, tooltip="text")
 
 
 
-## Loan Loss Reserve 
+# Loan Loss Reserve 
 
 
-### Alleviate Risk
+## Alleviate Risk
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -1490,7 +1490,7 @@ ggplotly(p, tooltip="text")
 ```
 
 
-### Ideal Loan Loss Reserve
+## Ideal Loan Loss Reserve
 
 
 
@@ -1562,7 +1562,7 @@ Summary statistics for loan loan reserve, percentage of total years covered:
 summary(temp_data$loan_loss_rev, na.rm=T)
 ```
 
-## Respondent Map
+# Respondent Map
 
 Coordinates have been obfuscated to protect location. 
 

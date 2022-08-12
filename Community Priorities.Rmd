@@ -214,6 +214,16 @@ st(survey, vars=vars, label=labs, col.breaks = 7)
 
 ## Demographic Comparison
 
+<style>
+### Race
+
+
+{
+   display: none;
+ }
+</style>
+
+
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -313,10 +323,297 @@ ggplotly(g)
 ```
 
 
+
+
+
+<style>
+### Income
+
+
+{
+   display: none;
+ }
+</style>
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+under_thirty <- c('T11_est4','T11_est5','T11_est76','T11_est18','T11_est19',
+                  'T11_est32','T11_est33','T11_est47','T11_est48','T11_est61','T11_est62','T11_est75',sep="|")
+
+chas_name <- paste(input_folder, "3. Churn and Default/Central Hudson Preliminary Analysis/040/Table11.csv", sep="")
+
+chas_data_11 <- read.csv(paste(input_folder, "3. Churn and Default/Central Hudson Preliminary Analysis/040/Table11.csv", sep=""))%>%
+  filter(name %in% c("California", "Colorado", "Illinois", "Massachusetts", "Maryland",
+                     "Minnesota", "New York", "Oregon")) %>%
+  mutate( `1: Less than 30% AMI` = T11_est4 +T11_est5 + T11_est76 + T11_est18 + T11_est19 + 
+                  T11_est32 + T11_est33 + T11_est47 + T11_est48 + T11_est61 + T11_est62 + T11_est75,
+          
+          `2: Between 30-50% AMI` = T11_est6+T11_est7+T11_est20+T11_est21+T11_est34+T11_est35+T11_est49+T11_est50+T11_est63+T11_est64+T11_est77+T11_est78,
+          
+          `3: Between 50-80% AMI` = T11_est8+
+T11_est9+
+T11_est10+
+T11_est22+
+T11_est23+
+T11_est24+
+T11_est36+
+T11_est37+
+T11_est38+
+T11_est51+
+T11_est52+
+T11_est53+
+T11_est65+
+T11_est66+
+T11_est67+
+T11_est79+
+T11_est80+
+T11_est81,
+
+
+
+        `4: Between 80-120% AMI` = T11_est11+
+T11_est12+
+T11_est13+
+T11_est14+
+T11_est25+
+T11_est26+
+T11_est27+
+T11_est28+
+T11_est39+
+T11_est40+
+T11_est41+
+T11_est42+
+T11_est54+
+T11_est55+
+T11_est56+
+T11_est57+
+T11_est68+
+T11_est69+
+T11_est70+
+T11_est71+
+T11_est82+
+T11_est83+
+T11_est84+
+T11_est85, 
+
+      `5: More than 120% AMI` = T11_est15+
+T11_est16+
+T11_est29+
+T11_est30+
+T11_est43+
+T11_est44+
+T11_est58+
+T11_est59+
+T11_est72+
+T11_est73+
+T11_est86+
+T11_est87) %>%
+  select(state=name,  `1: Less than 30% AMI`, `2: Between 30-50% AMI`, `3: Between 50-80% AMI`, `4: Between 80-120% AMI`,  `5: More than 120% AMI`) %>%
+  adorn_totals("row")
+```
+
+
+
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+chas_df <-reshape::melt(chas_data_11,id.var="state" )
+
+
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+temp_chas  <- chas_df %>%
+  group_by(Income = variable) %>%
+  summarise(Total = sum(value)) %>%
+  arrange(Income) %>%
+  mutate(Proportion = Total/sum(Total)) 
+
+
+survey_income <- survey %>%
+  group_by(Income=household_inc, .drop=FALSE) %>%
+#  filter(state=="CA") %>%
+  summarise(Total = n()/2) %>%
+  mutate(Proportion = Total/sum(Total)) %>%
+  arrange(Income)   
+
+
+join_with_survey <- cbind(temp_chas, survey_income)
+
+join_with_survey <- join_with_survey[,-4]
+
+temp_hold <- join_with_survey %>%
+  select(Income, Census_Total = Total, Census_Proportion = Proportion, 
+         Survey_Total = Total.1, Survey_Proportion = Proportion.1) 
+
+
+income_total <- temp_hold %>%
+  mutate(Deserves=Census_Total/(sum(Census_Total)/sum(Survey_Total))) %>%
+  mutate(Proportion_Weight = Deserves/Survey_Total,
+         Population_Weight = Census_Total/Survey_Total,
+         Check_Proportion_Weight = Proportion_Weight * Survey_Total,
+         Check_Population_Weight=Population_Weight * Survey_Total) %>%
+   # arrange(-Census_Total)%>%
+    adorn_totals("row")
+
+
+income_total$Population_Weight[income_total$Income=="Total"] <- sum(income_total$Survey_Total[1:5] * income_total$Population_Weight[1:5])
+
+income_total_table <- income_total %>%
+  select(Income, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+  kbl(caption = "Descriptive Statistics, 8-State Region",
+      digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+  kable_classic(full_width = T, html_font = "Cambria") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+
+
+income_total_table
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+survey_income_graph <- income_total %>%
+  select(Income, Census = Census_Proportion, Survey = Survey_Proportion) %>%
+  filter(Income !="Total")
+
+
+graph_temp <- reshape2::melt(survey_income_graph, id.var='Income') 
+
+
+
+g <- ggplot(graph_temp, aes(x=Income, y=value))+geom_bar(aes(fill=variable),stat='identity', position='dodge') +theme_classic()+
+  xlab('') + ylab('Proportion') + labs(color='') +   ggtitle("SETO Survey State and Census Income Totals, 8-State Region")+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))
+ggplotly(g)
+
+
+
+
+```
+
+
+
+
+<style>
+### Homeownership
+
+
+{
+   display: none;
+ }
+</style>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+temp <- get_acs(
+  geography="state", 
+  state=c("CA", "CO", "IL", "MA", "MD", "MN", "NY", "OR"),
+  variables=c("01 Homeowner" ="B25003_002",
+              "02 Renter" = "B25003_003"),
+  year=2020, 
+  geometry=FALSE)
+
+
+temp_state <- temp %>%
+  select(x_hs=variable, Total = estimate) %>%
+  group_by(x_hs) %>%
+  summarise(Total = sum(Total)) %>%
+  arrange(x_hs) %>%
+  mutate(Proportion = Total/sum(Total)) 
+
+
+survey_race <- survey %>%
+  filter(x_hs !="03 Other") %>%
+  group_by(x_hs, .drop=FALSE) %>%
+#  filter(state=="CA") %>%
+  summarise(Total = n()/2) %>%
+  mutate(Proportion = Total/sum(Total)) %>%
+  arrange(x_hs)   
+
+
+join_with_survey <- cbind(temp_state, survey_race)
+
+join_with_survey <- join_with_survey[,-4]
+
+temp_hold <- join_with_survey %>%
+  select(x_hs, Census_Total = Total, Census_Proportion = Proportion, 
+         Survey_Total = Total.1, Survey_Proportion = Proportion.1) 
+
+
+hs_total <- temp_hold %>%
+  mutate(Deserves=Census_Total/(sum(Census_Total)/sum(Survey_Total))) %>%
+  mutate(Proportion_Weight = Deserves/Survey_Total,
+         Population_Weight = Census_Total/Survey_Total,
+         Check_Proportion_Weight = Proportion_Weight * Survey_Total,
+         Check_Population_Weight=Population_Weight * Survey_Total) %>%
+    arrange(-Census_Total)%>%
+    adorn_totals("row")
+
+
+hs_total$Population_Weight[hs_total$x_hs=="Total"] <- sum(hs_total$Survey_Total[1:3] * hs_total$Population_Weight[1:3])
+
+race_total_table <- hs_total %>%
+  select(x_hs, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+  kbl(caption = "Descriptive Statistics, 8-State Region",
+      digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+  kable_classic(full_width = T, html_font = "Cambria") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+
+
+race_total_table
+```
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+survey_race_graph <- hs_total %>%
+  select(x_hs, Census = Census_Proportion, Survey = Survey_Proportion) %>%
+  filter(x_hs !="Total")
+
+
+graph_temp <- reshape2::melt(survey_race_graph, id.var='x_hs') 
+
+
+
+g <- ggplot(graph_temp, aes(x=reorder(x_hs, -value), y=value))+geom_bar(aes(fill=variable),stat='identity', position='dodge') +theme_classic()+
+  xlab('') + ylab('Proportion') + labs(color='') +   ggtitle("SETO Survey State and Census Homeownership Totals, 8-State Region")+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))
+ggplotly(g)
+
+
+
+
+```
+
+
+
 Sources: 
 
-1. Government Programs: [Urban Institute](https://www.urban.org/sites/default/files/publication/99674/five_things_you_may_not_know_about_the_us_social_safety_net_1.pdf)
-2. Race, Income, Homeownership
+Race: 2020 5-Year ACS, Table B03002
+Homeownership: 2020 5 Year ACS, Table B25003
+Income: CHAS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
