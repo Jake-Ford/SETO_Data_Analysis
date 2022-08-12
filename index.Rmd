@@ -197,121 +197,51 @@ survey <- survey %>%
 # drop two observations (one record) that don't have zip or state
   filter(!is.na(state_2))
 
+survey$x_cf <- as.factor(survey$x_cf)
+survey$x_sr <- factor(survey$x_sr, levels=c("5% savings rate", "10% savings rate", "20% savings rate"))
 
 
 ```
+
+
+
+
+
 
 
 
 ## Descriptive Statistics
 
+### Demographics
 
-
+### Contract Characteristics
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(vtable)
 
-Variables <- c("Signed up", "Not signed up", 
-          "Savings Rate 5%", "Savings Rate 10%", "Savings Rate 20%",
-          "Cancellation Fee $0","Cancellation Fee $250",
-          "1-year contract", "25-year contract",
-          "Source = Qualtrics", "Source = Community Survey",
-          "On No Gov't programs", "On at least 1 Gov't Program",
-          
-          "Renter", "Owner",
-          "White", "Black", "Hispanic", "Asian", "Other - POC", 
-          
-          "Low Income", "Moderate Income", "High Income")
+labs <- data.frame(
+    y_signup = "Sign Up",
+    x_ord = 'Contract Review Order',
+    x_sr = "Savings Rate",
+    x_cf = "Cancellation Fee",
+    x_clp = "Contract Length Pages",
+    x_cly = "Contract Length Years",
+    x_source = 'Source',
+    x_rev = "Time Spent Reviewing Contracts",
+    x_gov = "Government Assistance",
+    x_race = "Race", 
+    x_hs = "Homeownership",
+    x_inc = "Income",
+    x_fam = "Familiar with CS"
+    )
 
+vars <- c("y_signup","x_ord", "x_sr", "x_cf", "x_clp", "x_cly", "x_source", "x_rev",
+          "x_gov", "x_race", "x_hs", "x_inc", "x_fam" )
 
-desc_temp <- data.frame(Variables)
-
-
-desc_temp$N<- NA
-desc_temp$Percent <- NA
-
-
-### N
-desc_temp$N[1] <- sum(survey$y_signup=="Yes", na.rm=T)
-desc_temp$N[2] <- sum(survey$y_signup=="No", na.rm=T)
-
-desc_temp$N[3] <- sum(survey$x_sr=="5% savings rate", na.rm = T)
-desc_temp$N[4] <- sum(survey$x_sr=="10% savings rate", na.rm = T)
-desc_temp$N[5] <- sum(survey$x_sr=="20% savings rate", na.rm = T)
-
-
-desc_temp$N[6] <- sum(survey$x_cf=="0", na.rm=T)
-desc_temp$N[7] <- sum(survey$x_cf=="250", na.rm=T)
-
-desc_temp$N[8] <- sum(survey$x_cly=="1-year contract", na.rm = T)
-desc_temp$N[9] <- sum(survey$x_cly=="25-year contract", na.rm = T)
-
-desc_temp$N[10] <- sum(survey$x_source=="01 Qualtrics Panel", na.rm = T)
-desc_temp$N[11] <- sum(survey$x_source=="02 Community", na.rm = T)
-
-desc_temp$N[12] <- sum(survey$x_gov=="01 None, Unknown, or Other", na.rm = T)
-desc_temp$N[13] <- sum(survey$x_gov=="02 At least one gov't program", na.rm = T)
-
-desc_temp$N[12] <- sum(survey$x_gov=="01 None, Unknown, or Other", na.rm = T)
-desc_temp$N[13] <- sum(survey$x_gov=="02 At least one gov't program", na.rm = T)
-
-desc_temp$N[14] <- sum(survey$x_hs=="01 Homeowner", na.rm = T)
-desc_temp$N[15] <- sum(survey$x_hs=="02 Renter", na.rm = T)
-
-desc_temp$N[16] <- sum(survey$x_race=="01 White", na.rm = T)
-desc_temp$N[17] <- sum(survey$x_race=="02 Black", na.rm = T)
-desc_temp$N[18] <- sum(survey$x_race=="03 Hispanic", na.rm = T)
-desc_temp$N[19] <- sum(survey$x_race=="04 Asian", na.rm = T)
-desc_temp$N[20] <- sum(survey$x_race=="05 Other POC", na.rm = T)
-
-desc_temp$N[21] <- sum(survey$x_inc=="03 Low income", na.rm = T)
-desc_temp$N[22] <- sum(survey$x_inc=="02 Moderate income", na.rm = T)
-desc_temp$N[23] <- sum(survey$x_inc=="01 High", na.rm = T)
-
-### Percent
-
-desc_temp$Percent[1] <- sum(survey$y_signup=="Yes", na.rm=T)/2986
-desc_temp$Percent[2] <- sum(survey$y_signup=="No", na.rm=T)/2986
-
-desc_temp$Percent[3] <- sum(survey$x_sr=="5% savings rate", na.rm = T)/2986
-desc_temp$Percent[4] <- sum(survey$x_sr=="10% savings rate", na.rm = T)/2986
-desc_temp$Percent[5] <- sum(survey$x_sr=="20% savings rate", na.rm = T)/2986
-
-
-desc_temp$Percent[6] <- sum(survey$x_cf=="0", na.rm=T)/2986
-desc_temp$Percent[7] <- sum(survey$x_cf=="250", na.rm=T)/2986
-
-desc_temp$Percent[8] <- sum(survey$x_cly=="1-year contract", na.rm = T)/2986
-desc_temp$Percent[9] <- sum(survey$x_cly=="25-year contract", na.rm = T)/2986
-
-desc_temp$Percent[10] <- sum(survey$x_source=="01 Qualtrics Panel", na.rm = T)/2986
-desc_temp$Percent[11] <- sum(survey$x_source=="02 Community", na.rm = T)/2986
-
-desc_temp$Percent[12] <- sum(survey$x_gov=="01 Percentone, Unknown, or Other", na.rm = T)/2986
-desc_temp$Percent[13] <- sum(survey$x_gov=="02 At least one gov't program", na.rm = T)/2986
-
-desc_temp$Percent[12] <- sum(survey$x_gov=="01 Percentone, Unknown, or Other", na.rm = T)/2986
-desc_temp$Percent[13] <- sum(survey$x_gov=="02 At least one gov't program", na.rm = T)/2986
-
-desc_temp$Percent[14] <- sum(survey$x_hs=="01 Homeowner", na.rm = T)/2986
-desc_temp$Percent[15] <- sum(survey$x_hs=="02 Renter", na.rm = T)/2986
-
-desc_temp$Percent[16] <- sum(survey$x_race=="01 White", na.rm = T)/2986
-desc_temp$Percent[17] <- sum(survey$x_race=="02 Black", na.rm = T)/2986
-desc_temp$Percent[18] <- sum(survey$x_race=="03 Hispanic", na.rm = T)/2986
-desc_temp$Percent[19] <- sum(survey$x_race=="04 Asian", na.rm = T)/2986
-desc_temp$Percent[20] <- sum(survey$x_race=="05 Other POC", na.rm = T)/2986
-
-desc_temp$Percent[21] <- sum(survey$x_inc=="03 Low income", na.rm = T)/2986
-desc_temp$Percent[22] <- sum(survey$x_inc=="02 Moderate income", na.rm = T)/2986
-desc_temp$Percent[23] <- sum(survey$x_inc=="01 High", na.rm = T)/2986
-
-
-
-desc_temp %>%
-  kbl(caption = "Descriptive Statistics",  digits=2) %>%
-  kable_classic(full_width = F, html_font = "Cambria")
+st(survey, vars=vars, label=labs, col.breaks = 7)
 
 ```
+
 
 
 
@@ -2612,7 +2542,7 @@ Developer and Financier Research: survey responses from developers and financier
 
 
 Due to the exploratory nature of this research, Solstice intends to leave analyses associated with the developer and financier component of this research unstructured in part. As a result of the expected small sample size, described in more detail below, we do not expect to be able to test for significance between observations. Rather, this analysis will be conducted through a detailed analysis of primary data collected via survey responses. Absence of existing published data detailing limiting factors and decision points related to constructing community solar  subscriber agreements makes it difficult to establish a baseline in order to conduct hypotheses-generated analyses as outlined in previous sections. This research takes a grounded theory approach to construct theory through primary data collection and subsequent comparative
-analysis.
+analysis. 
 
 ## Research Questions
 
