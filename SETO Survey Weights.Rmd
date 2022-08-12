@@ -79,13 +79,12 @@ survey$x_sr <- factor(survey$x_sr, levels=c("5% savings rate", "10% savings rate
 
 
 
-## Survey Weights
 
 The population for this component of our research is adults (18+) in the eight states we will include within this study: MA, NY, CA, OR, IL, MD, CO, and MN. We have chosen to oversample-populations that are considered low- to moderate-income (LMI) defined as up to 50% and between 50%-80% of an area’s median income, in accordance with the Department of Housing and Urban Development’s (HUD) [definitions](https://www.hudexchange.info/programs/acs-low-mod-summary-data/) of each term. We have also chosen to oversample minority and renter populations in this research, surpassing the proportional estimates of these demographics supplied by the 2018 American Community Survey (ACS) estimates. 
 
 As late June 2023, 1,493 individuals responded to the survey. Given the oversampling of income, minority and renter populations, survey weights must be designed and implemented to avoid bias in describing the population. 
 
-### Race Weights
+## Race Weights
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
@@ -113,7 +112,7 @@ temp <- get_acs(
 
 
 <style>
-### Race Function
+## Race Function
 {
    display: none;
  }
@@ -219,7 +218,7 @@ Using the American Community Survey (ACS) 2020 5-Year data, from table [B03002](
 
 The chart below shows the race proportions for the survey compared against the state totals for each of the eight states where responses were collected. Note, the oversampling of Black, Asian, and Other - POC is evident, whereas White and Hispanic or Latino are undersampled. 
 
-#### Total
+### Total
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -306,7 +305,7 @@ ggplotly(g)
 
 
 
-#### California
+### California
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -339,7 +338,7 @@ race_by_state_graph("California", "CA")
 
   
 
-#### Colorado
+### Colorado
 
 
 
@@ -369,7 +368,7 @@ race_by_state_graph("Colorado", "CO")
 
 ```
 
-#### Illinois
+### Illinois
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -396,7 +395,7 @@ race_by_state_graph("Illinois", "IL")
 
 ```
 
-#### Massachusetts
+### Massachusetts
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -424,7 +423,7 @@ race_by_state_graph("Massachusetts", "MA")
 ```
 
 
-#### Maryland
+### Maryland
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -452,7 +451,7 @@ race_by_state_graph("Maryland", "MD")
 ```
 
 
-#### Minnesota
+### Minnesota
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -480,7 +479,7 @@ race_by_state_graph("Minnesota", "MN")
 ```
 
 
-#### New York
+### New York
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -507,7 +506,7 @@ race_by_state_graph("New York", "NY")
 
 ```
 
-#### Oregon
+### Oregon
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -537,7 +536,7 @@ race_by_state_graph("Oregon", "OR")
 
 
 <style>
-#### Apply Weights
+### Apply Weights
 
 
 {
@@ -696,7 +695,7 @@ write.xlsx(race_data, survey_race_excel_name)
 ```
 
 <style>
-### Gender Weights
+## Gender Weights
 
 
 {
@@ -735,7 +734,7 @@ temp <- get_acs(
 
 
 <style>
-### gender Function
+## gender Function
 {
    display: none;
  }
@@ -875,7 +874,7 @@ race_by_state_graph <- function(state_name, state_abbrev) {
 ```
 
 <style>
-#### Total
+### Total
 
 
 {
@@ -962,7 +961,7 @@ ggplotly(g)
 
 <style>
 
-#### California
+### California
 
 
 {
@@ -1001,7 +1000,7 @@ race_by_state_graph("California", "CA")
   
 <style>
 
-#### Colorado
+### Colorado
 
 
 {
@@ -1040,7 +1039,7 @@ race_by_state_graph("Colorado", "CO")
 
 <style>
 
-#### Illinois
+### Illinois
 
 
 {
@@ -1080,7 +1079,7 @@ race_by_state_graph("Illinois", "IL")
 
 <style>
 
-#### Massachusetts
+### Massachusetts
 
 
 {
@@ -1121,7 +1120,7 @@ race_by_state_graph("Massachusetts", "MA")
 
 <style>
 
-#### Maryland
+### Maryland
 
 
 {
@@ -1157,7 +1156,7 @@ race_by_state_graph("Maryland", "MD")
 
 <style>
 
-#### Minnesota
+### Minnesota
 
 
 {
@@ -1194,7 +1193,7 @@ race_by_state_graph("Minnesota", "MN")
 
 <style>
 
-#### New York
+### New York
 
 
 {
@@ -1231,7 +1230,7 @@ race_by_state_graph("New York", "NY")
 
 <style>
 
-#### Oregon
+### Oregon
 
 
 {
@@ -1266,7 +1265,7 @@ race_by_state_graph("Oregon", "OR")
 ```
 
 <style>
-#### Apply Weights
+### Apply Weights
 
 
 {
@@ -1406,7 +1405,7 @@ for (i in 1:length(survey$source)) {
 
 
 
-### Income Weights
+## Income Weights
 
 Respondents to the survey were asked to report their household income respective to customized AMI categories, dependent on both their household size and zip code using a custom income group calculation methodology (zips to fips.do). This calculation allowed for respondents to select income ranges for their household that corresponded to <30%, 30-50%, 50-80%, 80-120% and over 120% area median income (AMI). 
 
@@ -1423,7 +1422,7 @@ Income weights are taken from the Housing and Urban Development (HUD) Office of 
 
 
 <style>
-### CHAS
+## CHAS
 {
    display: none;
  }
@@ -1528,7 +1527,7 @@ chas_data_11%>%
 
 
 
-#### Total
+### Total
 
 
 
@@ -1627,7 +1626,7 @@ ggplotly(g)
 
 
 <style>
-### Income Function
+## Income Function
 {
    display: none;
  }
@@ -1770,7 +1769,7 @@ income_by_state_graph <- function(state_name, state_abbrev) {
 
 
 
-#### California
+### California
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -1781,7 +1780,7 @@ income_by_state_graph("California", "CA")
 ```
 
 
-#### Colorado
+### Colorado
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -1791,7 +1790,7 @@ income_by_state_graph("Colorado", "CO")
 
 ```
 
-#### Illinois
+### Illinois
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -1802,7 +1801,7 @@ income_by_state_graph("Illinois", "IL")
 ```
 
 
-#### Massachusetts
+### Massachusetts
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -1814,7 +1813,7 @@ income_by_state_graph("Massachusetts", "MA")
 
 
 
-#### Maryland
+### Maryland
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -1825,7 +1824,7 @@ income_by_state_graph("Maryland", "MD")
 ```
 
 
-#### Minnesota
+### Minnesota
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -1836,7 +1835,7 @@ income_by_state_graph("Minnesota", "MN")
 ```
 
 
-#### New York
+### New York
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -1847,7 +1846,7 @@ income_by_state_graph("New York", "NY")
 ```
 
 
-#### Oregon
+### Oregon
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -1864,7 +1863,7 @@ income_by_state_graph("Oregon", "OR")
 
 
 <style>
-#### Apply Weights
+### Apply Weights
 
 
 {

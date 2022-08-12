@@ -13,16 +13,16 @@ knit: (function(inputFile, encoding) {
 
 
 
-# Churn & Default
 
 
-## Research Questions
 
-## Hypotheses
+# Research Questions
 
-## Descriptive Statistics
+# Hypotheses
 
-## Primary Analysis
+# Descriptive Statistics
+
+# Primary Analysis
 
 **note**
 
@@ -268,9 +268,9 @@ head(temp, 10) %>%
 
 
 
-## Descriptive Statistics
+# Descriptive Statistics
 
-### Total
+## Total
 
 
 
@@ -390,7 +390,7 @@ summary_stats %>%
 
 ```
 
-### Frog Hollow
+## Frog Hollow
 
 
 
@@ -508,7 +508,7 @@ summary_stats %>%
 
 ```
 
-### Howell
+## Howell
 
 
 
@@ -641,7 +641,7 @@ any_churn = sum(joined$Churn_Tag>0, na.rm=T)/nrow(joined)
 any_churn 
 ```
 
-### Tenure Length
+## Tenure Length
 
 
 Obersvations are next grouped by tenure length. 
@@ -733,7 +733,7 @@ ggplotly(p)
 
 
 
-### Income
+## Income
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -779,7 +779,7 @@ summary_table %>%
 ```
 
 
-### Churn Reasons
+## Churn Reasons
 
 When a respondent left the program, a reason was recorded, when available. The below summarises the accounts that experienced a churn, which may further be collapsed into categories. Note the total below may not match the churn totals in the above descriptive statistics due to defaulted payments and duplicates included. 
 
@@ -873,9 +873,9 @@ temp
 
 
 
-## Churn Figures 
+# Churn Figures 
 
-### Solar
+## Solar
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(ggplot2)
@@ -908,7 +908,7 @@ ggplotly(p)
 
 
 
-### Tenure & Churn by Payment Method 
+## Tenure & Churn by Payment Method 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -939,9 +939,9 @@ ggplotly(p)
 
 
 
-## Default Figures 
+# Default Figures 
 
-### Solar
+## Solar
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(ggplot2)
@@ -974,7 +974,7 @@ ggplotly(p)
 
 
 
-### Tenure & Default by Payment Method 
+## Tenure & Default by Payment Method 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -1014,7 +1014,7 @@ ggplotly(p)
 
 
 
-## Model 
+# Model 
 
 A logit model is deployed to analyze the probability of a home churning. The model in brief is described below. Without additional data collected from Experian, limited variability can be measured due to NA values in addition to limited number of coefficients to measure. 
 

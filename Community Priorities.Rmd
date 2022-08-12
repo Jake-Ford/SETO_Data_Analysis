@@ -80,9 +80,9 @@ cd_input = paste(input_folder, "3. Churn and Default/", sep="")
 ```
 
 
-# Community Solar Priorities 
 
-## Research Questions
+
+# Research Questions
 
 The primary research questions we are attempting to investigate are listed below:
 
@@ -93,7 +93,7 @@ The primary research questions we are attempting to investigate are listed below
 
 The primary outcome from the Community Solar Priorities research will be the contract adoption rate, measured at the point of the survey.The secondary outcome from the Community Solar Priorities research will be hypothesis- generating data collected on broad customer priorities related to community solar program design that can inform future research.
 
-## Hypotheses
+# Hypotheses
 
 The following constitute the contract attribute hypotheses. Each is phrased as the null hypotheses. 
 
@@ -181,7 +181,7 @@ survey$x_sr <- factor(survey$x_sr, levels=c("5% savings rate", "10% savings rate
 
 
 
-## Descriptive Statistics
+# Descriptive Statistics
 
 
 
@@ -212,7 +212,7 @@ st(survey, vars=vars, label=labs, col.breaks = 7)
 ```
 
 
-### Demographic Comparison
+## Demographic Comparison
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -320,9 +320,9 @@ Sources:
 
 
 
-### Crosstab Graphics
+## Crosstab Graphics
 
-#### Savings Rate & Income
+### Savings Rate & Income
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 p <- ggplot(survey) +
@@ -332,7 +332,7 @@ p <- ggplot(survey) +
 ggplotly(p)
 ```
 
-#### Savings Rate & Race
+### Savings Rate & Race
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 p <- ggplot(survey) +
@@ -342,7 +342,7 @@ p <- ggplot(survey) +
 ggplotly(p)
 ```
 
-#### Race & Income
+### Race & Income
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -356,7 +356,7 @@ ggplotly(p)
 
 
 
-#### Cancellation Fee & Income
+### Cancellation Fee & Income
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -368,7 +368,7 @@ ggplotly(p)
 ```
 
 
-#### Cancellation Fee & Race
+### Cancellation Fee & Race
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 p <- ggplot(survey) +
@@ -382,7 +382,7 @@ ggplotly(p)
 
 
 
-#### Contract Years & Income
+### Contract Years & Income
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -394,7 +394,7 @@ ggplotly(p)
 ```
 
 
-#### Contract Years & Race
+### Contract Years & Race
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 p <- ggplot(survey) +
@@ -416,7 +416,7 @@ ggplotly(p)
 
 
 
-## Primary Analysis
+# Primary Analysis
 
 
  *to-do* 
@@ -425,7 +425,7 @@ ggplotly(p)
  
  
 <style>
-### Stepwise
+## Stepwise
 
 
 {
@@ -435,7 +435,7 @@ ggplotly(p)
 
 
 
-### Regression Tables
+## Regression Tables
 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
@@ -542,7 +542,7 @@ mod8 = robcov(mod8, cluster=model_data$id)
 
 
 
-#### Table 1
+### Table 1
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -561,7 +561,7 @@ stargazer(mod1, mod2, mod3, mod4, type="text", align=TRUE,
 
 
 
-#### Table 2
+### Table 2
 
 
 ```{r message=FALSE, warning=FALSE}
@@ -572,10 +572,10 @@ stargazer(mod5, mod6, mod7, mod8, type="text", align=TRUE,
           dep.var.labels = attr(model_data, "model.varnames")[2])
 ```
 
-### Odds Ratios
+## Odds Ratios
 
 
-#### Table 1
+### Table 1
 
 
 ```{r message=FALSE, warning=FALSE}
@@ -592,7 +592,7 @@ stargazer(mod1, mod2, mod3, mod4, type="text", align=TRUE,
 
 
 
-#### Table 2
+### Table 2
 
 
 ```{r message=FALSE, warning=FALSE}
@@ -610,7 +610,7 @@ stargazer(mod5, mod6, mod7, mod8, type="text", align=TRUE,
 
 
 
-### Discussion
+## Discussion
 
 
 
@@ -641,7 +641,7 @@ Interestingly, lower income respondents were much less likely to adopt the contr
 
 
 
-## Secondary Analysis
+# Secondary Analysis
 
 The secondary analysis will include an ordered logit model to investigate the degree of which the same independent variables above influence the likert scale questions asked in the survey. Ordered logit models are commonly utilized with outputs of interest are categorized in discrete sequences, such as a Likert scale. 
 
@@ -652,9 +652,9 @@ The secondary analysis will include an ordered logit model to investigate the de
 
 
 
-### Would/Would Not Sign Up
+## Would/Would Not Sign Up
 
-#### Savings Rate
+### Savings Rate
 
 Tables 1-4 in output/regressions
 
@@ -662,7 +662,7 @@ Tables 1-4 in output/regressions
 
 
 
-### Agree/Disagree
+## Agree/Disagree
 
 
 
