@@ -1,5 +1,5 @@
 ---
-title: "Churn and Default"
+title: "Community Priorities"
 author: "Jacob Ford, Solstice Data Scientist"
 date: "`r Sys.Date()`"
 output: 
