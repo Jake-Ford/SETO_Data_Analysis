@@ -80,60 +80,23 @@ cd_input = paste(input_folder, "3. Churn and Default/", sep="")
 ```
 
 
+# Introduction
+
+Solar power is the fastest [growing](https://www.c2es.org/content/renewable-energy/#:~:text=Renewables%20made%20up%20nearly%2020,the%20fastest%2Dgrowing%20electricity%20source.) renewable energy source. Community solar projects lower the barrier to entry. This is accomplished by increasing the applicant pool by allowing those without rooftop access, such as renters or those in apartment buildings, and by lowering the financial burden of entry, as the fixed costs to install and operate the solar panels are collectivised rather than focused on one rooftop. 
+
+For potential customers, community solar contracts vary by their contract attributes. These include term length, cancellation fees, and potential savings rates relative to traditional utility bill companies. Given the importance of both the solar industry and the relatively incipient community solar industry, a dearth of research exists on how potential customer priorities are reflected in the likelihood of contract adoption. 
+
+This research seeks to fill this gap by developing quantitative measurements of community priorities in likelihood of contract adoption. An original data set comprised of potential community solar customers surveyed was collected. Along with respondents demographic information, draft contracts with varying degrees of contract attributes were shown to each participant and their contract adoption rates. Using a weighted logit model, the likelihood of contract adoption was analyzed by including predictors for various demographic data and contract attributes. Additionally, relative importance is through a multinomial logit model, allowing contract attributes and demographic information to be interpreted in predictive strength relative to respective reference groups. 
 
 
-# Research Questions
+# Literature Review
 
-The primary research questions we are attempting to investigate are listed below:
+**to-do**
 
-1. How does contract attributes such as subscriber contract page length, savings rate, term length or cancellation fee attached to a subscriber agreement influence adoption rates for community shared solar?
-2. How does contract adoption rate differ between contract variables across term categories?
-3. How do varying demographics respond differently to contract variables included in community shared solar subscriber contracts?
-4. Outside of customer contract priorities, what other preferences do individuals have for the design of community solar programs?
-
-The primary outcome from the Community Solar Priorities research will be the contract adoption rate, measured at the point of the survey.The secondary outcome from the Community Solar Priorities research will be hypothesis- generating data collected on broad customer priorities related to community solar program design that can inform future research.
-
-# Hypotheses
-
-The following constitute the contract attribute hypotheses. Each is phrased as the null hypotheses. 
-
-1. There is no significant difference in contract adoption between programs with a 9-page contract and 23-page contract.
-2. There is no significant difference in contract adoption between programs with 5% savings, 10% savings, and 20% savings.
-3. There is no significant difference in contract adoption between programs with and without a cancellation fee.
-4. There is no significant difference in contract adoption between programs with a 1-year term length and those with a 25-year term length.
-5. There is no significant difference in contract adoption across demographic characteristics, including race, income and homeownership status.
-
-
-
-
-A number of independent variables will be used for both contract attributes and demographic data. Interaction variables will be tested for significant, along with a initial stepwise regression to determine which variables to initially include. The below equation is a summary of the full model used in this analysis. The dependent variable is a binary variable for contract adoption, $y_{signup}$, where 1 signifies the contract was adopted and 0 signifies it was not.  
-
-\begin{equation}
-
-y_{signup} = \beta_{0} + \beta_{1}x_{sr} +\beta_{2}x_{cly} +\beta_{3}x_{clp}  +\beta_{4}x_{cf} + \\  \beta{5}x_{inc}+\beta_{6}x_{race} + \beta{7}x_{hs} +\beta_{8}x_{fam} + \beta_{9}x_{rev} + \beta_{10}x_{ord}+ e_{i}
-
-\end{equation}
-
-where,
-
-
-* $x_{sr}$: savings rates on monthly energy bill in contracts, listed at either 5%, 10% or 20%
-* $x_{cly}$: contract length years, either 1 or 25 years
-* $x_{clp}$: contract length pages, either 10 or 20 pages
-* $x_{cf}$: cancellation fee, either zero or $250
-* $x_{inc}$: income, listed as Low (up to 50% of AMI), Moderate (50% - 120% of AMI), or High (>120% AMI)
-* $x_{race}$: Categories include Asian, Black or African American, Hispanic or Latino, White and Other POC
-* $x_{hs}$: Homeowner status for Homeowner, Renter or Other
-* $x_{fam}$: More or less familiar with community solar
-* $x_{rev}$: How much respondent reviewed the contract; up to half the contract review is captured by "less review", over half and up to the whole contract is "more review"
-* $x_{ord}$: Contract review order, likely not necessary.
-
-Other variables of interest to consider: government program - x_govt
+# Data
 
 
 This research focuses on community shared solar (CSS) programs that are third-party owned and have participants subscribe to ongoing payments. Typically, within these programs, customers are given predefined, discrete contract terms rather than being able to compare multiple offerings or select their own terms. Our research is attempting to mimic this approach by giving customers a randomly assigned contract and surveying them on their willingness to adopt this program.
-
-![](table3.png)
 
 
 
@@ -181,7 +144,7 @@ survey$x_sr <- factor(survey$x_sr, levels=c("5% savings rate", "10% savings rate
 
 
 
-# Descriptive Statistics
+### Descriptive Statistics
 
 
 
@@ -215,7 +178,7 @@ st(survey, vars=vars, label=labs, col.breaks = 7)
 ## Demographic Comparison
 
 <style>
-### Race
+#### Race
 
 
 {
@@ -327,7 +290,7 @@ ggplotly(g)
 
 
 <style>
-### Income
+#### Income
 
 
 {
@@ -500,7 +463,7 @@ ggplotly(g)
 
 
 <style>
-### Homeownership
+#### Homeownership
 
 
 {
@@ -617,9 +580,9 @@ Income: CHAS
 
 
 
-## Crosstab Graphics
+### Crosstab Graphics
 
-### Savings Rate & Income
+#### Savings Rate & Income
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 p <- ggplot(survey) +
@@ -629,7 +592,7 @@ p <- ggplot(survey) +
 ggplotly(p)
 ```
 
-### Savings Rate & Race
+#### Savings Rate & Race
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 p <- ggplot(survey) +
@@ -639,7 +602,7 @@ p <- ggplot(survey) +
 ggplotly(p)
 ```
 
-### Race & Income
+#### Race & Income
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -653,7 +616,7 @@ ggplotly(p)
 
 
 
-### Cancellation Fee & Income
+#### Cancellation Fee & Income
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -665,7 +628,7 @@ ggplotly(p)
 ```
 
 
-### Cancellation Fee & Race
+#### Cancellation Fee & Race
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 p <- ggplot(survey) +
@@ -679,7 +642,7 @@ ggplotly(p)
 
 
 
-### Contract Years & Income
+#### Contract Years & Income
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -691,7 +654,7 @@ ggplotly(p)
 ```
 
 
-### Contract Years & Race
+#### Contract Years & Race
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 p <- ggplot(survey) +
@@ -709,6 +672,32 @@ ggplotly(p)
 
 
 
+# Methods
+
+
+A number of independent variables will be used for both contract attributes and demographic data. Interaction variables will be tested for significant, along with a initial stepwise regression to determine which variables to initially include. The below equation is a summary of the full model used in this analysis. The dependent variable is a binary variable for contract adoption, $y_{signup}$, where 1 signifies the contract was adopted and 0 signifies it was not.  
+
+\begin{equation}
+
+y_{signup} = \beta_{0} + \beta_{1}x_{sr} +\beta_{2}x_{cly} +\beta_{3}x_{clp}  +\beta_{4}x_{cf} + \\  \beta{5}x_{inc}+\beta_{6}x_{race} + \beta{7}x_{hs} +\beta_{8}x_{fam} + \beta_{9}x_{rev} + \beta_{10}x_{ord}+ e_{i}
+
+\end{equation}
+
+where,
+
+
+* $x_{sr}$: savings rates on monthly energy bill in contracts, listed at either 5%, 10% or 20%
+* $x_{cly}$: contract length years, either 1 or 25 years
+* $x_{clp}$: contract length pages, either 10 or 20 pages
+* $x_{cf}$: cancellation fee, either zero or $250
+* $x_{inc}$: income, listed as Low (up to 50% of AMI), Moderate (50% - 120% of AMI), or High (>120% AMI)
+* $x_{race}$: Categories include Asian, Black or African American, Hispanic or Latino, White and Other POC
+* $x_{hs}$: Homeowner status for Homeowner, Renter or Other
+* $x_{fam}$: More or less familiar with community solar
+* $x_{rev}$: How much respondent reviewed the contract; up to half the contract review is captured by "less review", over half and up to the whole contract is "more review"
+* $x_{ord}$: Contract review order, likely not necessary.
+
+Other variables of interest to consider: government program - x_govt
 
 
 
