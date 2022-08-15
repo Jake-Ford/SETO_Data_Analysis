@@ -177,24 +177,8 @@
       <ul>
       <li><a href="#descriptive-statistics">Descriptive
       Statistics</a></li>
-      <li><a href="#demographic-comparison">Demographic Comparison</a>
-      <ul>
-      <li><a href="#crosstab-graphics">Crosstab Graphics</a>
-      <ul>
-      <li><a href="#savings-rate-income">Savings Rate &amp;
-      Income</a></li>
-      <li><a href="#savings-rate-race">Savings Rate &amp; Race</a></li>
-      <li><a href="#race-income">Race &amp; Income</a></li>
-      <li><a href="#cancellation-fee-income">Cancellation Fee &amp;
-      Income</a></li>
-      <li><a href="#cancellation-fee-race">Cancellation Fee &amp;
-      Race</a></li>
-      <li><a href="#contract-years-income">Contract Years &amp;
-      Income</a></li>
-      <li><a href="#contract-years-race">Contract Years &amp;
-      Race</a></li>
-      </ul></li>
-      </ul></li>
+      <li><a href="#demographic-comparison">Demographic
+      Comparison</a></li>
       <li><a href="#model">Model</a></li>
       </ul></li>
       <li><a href="#results">Results</a>
@@ -210,7 +194,6 @@
       <li><a href="#table-1-1">Table 1</a></li>
       <li><a href="#table-2-1">Table 2</a></li>
       </ul></li>
-      <li><a href="#discussion">Discussion</a></li>
       <li><a href="#secondary-analysis">Secondary Analysis</a></li>
       <li><a href="#wouldwould-not-sign-up">Would/Would Not Sign Up</a>
       <ul>
@@ -218,7 +201,7 @@
       </ul></li>
       <li><a href="#agreedisagree">Agree/Disagree</a></li>
       </ul></li>
-      <li><a href="#discussion-1">Discussion</a></li>
+      <li><a href="#discussion">Discussion</a></li>
       </ul>
     </div>
     <div id="postamble" data-toggle="wy-nav-shift" class="status">
@@ -238,12 +221,18 @@ Ford, Solstice Data Scientist</p>
 <h1>Introduction</h1>
 <p>Solar power is the fastest <a
 href="https://www.c2es.org/content/renewable-energy/#:~:text=Renewables%20made%20up%20nearly%2020,the%20fastest%2Dgrowing%20electricity%20source.">growing</a>
-renewable energy source. Community solar projects lower the barrier to
-entry. This is accomplished by increasing the applicant pool by allowing
-those without rooftop access, such as renters or those in apartment
-buildings, and by lowering the financial burden of entry, as the fixed
-costs to install and operate the solar panels are collectivised rather
-than focused on one rooftop.</p>
+renewable energy source. Community shared solar (CSS) projects lower the
+barrier to entry. This is accomplished by increasing the applicant pool
+by allowing those without rooftop access, such as renters or those in
+apartment buildings, and by lowering the financial burden of entry, as
+the fixed costs to install and operate the solar panels are
+collectivised rather than focused on one rooftop. CSS programs that are
+third-party owned and have participants subscribe to ongoing payments.
+Typically, within these programs, customers are given predefined,
+discrete contract terms rather than being able to compare multiple
+offerings or select their own terms. Our research is attempting to mimic
+this approach by giving customers a randomly assigned contract and
+surveying them on their willingness to adopt this program.</p>
 <p>For potential customers, community solar contracts vary by their
 contract attributes. These include term length, cancellation fees, and
 potential savings rates relative to traditional utility bill companies.
@@ -270,488 +259,637 @@ groups.</p>
 </div>
 <div id="methods" class="section level1">
 <h1>Methods</h1>
-<p>This research focuses on community shared solar (CSS) programs that
-are third-party owned and have participants subscribe to ongoing
-payments. Typically, within these programs, customers are given
-predefined, discrete contract terms rather than being able to compare
-multiple offerings or select their own terms. Our research is attempting
-to mimic this approach by giving customers a randomly assigned contract
-and surveying them on their willingness to adopt this program.</p>
+<p>The population for this component of our research is adults (18+) in
+the eight states we will include within this study: Massachusetts, New
+York, California, Oregon, Illinois, Maryland, Colorado and Minnesota. We
+have chosen to oversample-populations that are considered low- to
+moderate-income (LMI) defined as up to 50% and between 50%-80% of an
+area’s median income, in accordance with the Department of Housing and
+Urban Development’s (HUD) definitions of each <a
+href="https://www.hudexchange.info/programs/acs-low-mod-summary-data/">term.</a>
+Solstice will explore the use of dynamic surveying, in which respondents
+are asked whether their income falls within the LMI ranges that
+correspond with their zip code and household size. This is the preferred
+approach for this research as it allows for comparing priorities across
+broad income categories and avoid non- response issues attached to
+asking respondents to self-attest their income levels. We have also
+chosen to oversample minority and renter populations in this research,
+surpassing the proportional estimates of these demographics supplied by
+the 2018 American Community Survey (ACS) estimates. We have designed
+this sampling scheme to center familiarity with community solar as a
+core demographic within this research, though we will not weight on this
+demographic due to lack of an applicable metric. By centering
+familiarity with community solar as a central demographic within this
+research, Solstice plans to incorporate respondents that are the likely
+next adopters of community solar and respondents from populations that
+are not currently effectively reached by community solar. All
+demographic information will be self-attested through the community
+solar priorities research survey.</p>
 <div id="descriptive-statistics" class="section level3">
 <h3>Descriptive Statistics</h3>
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<caption>
-Summary Statistics
-</caption>
-<thead>
-<tr>
-<th style="text-align:left;">
-Variable
-</th>
-<th style="text-align:left;">
-N
-</th>
-<th style="text-align:left;">
-Percent
-</th>
-<th style="text-align:left;">
-Variable
-</th>
-<th style="text-align:left;">
-N
-</th>
-<th style="text-align:left;">
-Percent
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-Sign Up
-</td>
-<td style="text-align:left;">
-2986
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-Time Spent Reviewing Contracts
-</td>
-<td style="text-align:left;">
-2986
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-… No
-</td>
-<td style="text-align:left;">
-1215
-</td>
-<td style="text-align:left;">
-40.7%
-</td>
-<td style="text-align:left;">
-… 01 Less review
-</td>
-<td style="text-align:left;">
-1202
-</td>
-<td style="text-align:left;">
-40.3%
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-… Yes
-</td>
-<td style="text-align:left;">
-1771
-</td>
-<td style="text-align:left;">
-59.3%
-</td>
-<td style="text-align:left;">
-… 02 More review
-</td>
-<td style="text-align:left;">
-1784
-</td>
-<td style="text-align:left;">
-59.7%
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Contract Review Order
-</td>
-<td style="text-align:left;">
-2985
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-Government Assistance
-</td>
-<td style="text-align:left;">
-2986
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-… 01 First review
-</td>
-<td style="text-align:left;">
-1492
-</td>
-<td style="text-align:left;">
-50%
-</td>
-<td style="text-align:left;">
-… 01 None, Unknown, or Other
-</td>
-<td style="text-align:left;">
-1340
-</td>
-<td style="text-align:left;">
-44.9%
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-… 02 Second review
-</td>
-<td style="text-align:left;">
-1493
-</td>
-<td style="text-align:left;">
-50%
-</td>
-<td style="text-align:left;">
-… 02 At least one gov’t program
-</td>
-<td style="text-align:left;">
-1646
-</td>
-<td style="text-align:left;">
-55.1%
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Savings Rate
-</td>
-<td style="text-align:left;">
-2986
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-Race
-</td>
-<td style="text-align:left;">
-2986
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-… 5% savings rate
-</td>
-<td style="text-align:left;">
-1001
-</td>
-<td style="text-align:left;">
-33.5%
-</td>
-<td style="text-align:left;">
-… 01 White
-</td>
-<td style="text-align:left;">
-1204
-</td>
-<td style="text-align:left;">
-40.3%
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-… 10% savings rate
-</td>
-<td style="text-align:left;">
-1003
-</td>
-<td style="text-align:left;">
-33.6%
-</td>
-<td style="text-align:left;">
-… 02 Black
-</td>
-<td style="text-align:left;">
-580
-</td>
-<td style="text-align:left;">
-19.4%
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-… 20% savings rate
-</td>
-<td style="text-align:left;">
-982
-</td>
-<td style="text-align:left;">
-32.9%
-</td>
-<td style="text-align:left;">
-… 03 Hispanic
-</td>
-<td style="text-align:left;">
-414
-</td>
-<td style="text-align:left;">
-13.9%
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Cancellation Fee
-</td>
-<td style="text-align:left;">
-2986
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-… 04 Asian
-</td>
-<td style="text-align:left;">
-434
-</td>
-<td style="text-align:left;">
-14.5%
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-… 0
-</td>
-<td style="text-align:left;">
-1495
-</td>
-<td style="text-align:left;">
-50.1%
-</td>
-<td style="text-align:left;">
-… 05 Other POC
-</td>
-<td style="text-align:left;">
-354
-</td>
-<td style="text-align:left;">
-11.9%
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-… 250
-</td>
-<td style="text-align:left;">
-1491
-</td>
-<td style="text-align:left;">
-49.9%
-</td>
-<td style="text-align:left;">
-Homeownership
-</td>
-<td style="text-align:left;">
-2986
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Contract Length Pages
-</td>
-<td style="text-align:left;">
-2986
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-… 01 Homeowner
-</td>
-<td style="text-align:left;">
-1728
-</td>
-<td style="text-align:left;">
-57.9%
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-… 10-page contract
-</td>
-<td style="text-align:left;">
-1491
-</td>
-<td style="text-align:left;">
-49.9%
-</td>
-<td style="text-align:left;">
-… 02 Renter
-</td>
-<td style="text-align:left;">
-1248
-</td>
-<td style="text-align:left;">
-41.8%
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-… 20-page contract
-</td>
-<td style="text-align:left;">
-1495
-</td>
-<td style="text-align:left;">
-50.1%
-</td>
-<td style="text-align:left;">
-… 03 Other
-</td>
-<td style="text-align:left;">
-10
-</td>
-<td style="text-align:left;">
-0.3%
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Contract Length Years
-</td>
-<td style="text-align:left;">
-2986
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-Income
-</td>
-<td style="text-align:left;">
-2986
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-… 1-year contract
-</td>
-<td style="text-align:left;">
-1496
-</td>
-<td style="text-align:left;">
-50.1%
-</td>
-<td style="text-align:left;">
-… 01 High
-</td>
-<td style="text-align:left;">
-772
-</td>
-<td style="text-align:left;">
-25.9%
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-… 25-year contract
-</td>
-<td style="text-align:left;">
-1490
-</td>
-<td style="text-align:left;">
-49.9%
-</td>
-<td style="text-align:left;">
-… 02 Moderate income
-</td>
-<td style="text-align:left;">
-1396
-</td>
-<td style="text-align:left;">
-46.8%
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Source
-</td>
-<td style="text-align:left;">
-2986
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-… 03 Low income
-</td>
-<td style="text-align:left;">
-818
-</td>
-<td style="text-align:left;">
-27.4%
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-… 01 Qualtrics Panel
-</td>
-<td style="text-align:left;">
-2520
-</td>
-<td style="text-align:left;">
-84.4%
-</td>
-<td style="text-align:left;">
-Familiar with CS
-</td>
-<td style="text-align:left;">
-2986
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-… 02 Community
-</td>
-<td style="text-align:left;">
-466
-</td>
-<td style="text-align:left;">
-15.6%
-</td>
-<td style="text-align:left;">
-… 01 Less familiar
-</td>
-<td style="text-align:left;">
-1354
-</td>
-<td style="text-align:left;">
-45.3%
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-… 02 More familiar
-</td>
-<td style="text-align:left;">
-1632
-</td>
-<td style="text-align:left;">
-54.7%
-</td>
-</tr>
-</tbody>
+<div id="yycaunezpm" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#yycaunezpm .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#yycaunezpm .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#yycaunezpm .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#yycaunezpm .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#yycaunezpm .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#yycaunezpm .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#yycaunezpm .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#yycaunezpm .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#yycaunezpm .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#yycaunezpm .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#yycaunezpm .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#yycaunezpm .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#yycaunezpm .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#yycaunezpm .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#yycaunezpm .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#yycaunezpm .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#yycaunezpm .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#yycaunezpm .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#yycaunezpm .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#yycaunezpm .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#yycaunezpm .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#yycaunezpm .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#yycaunezpm .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#yycaunezpm .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#yycaunezpm .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#yycaunezpm .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#yycaunezpm .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#yycaunezpm .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#yycaunezpm .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#yycaunezpm .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#yycaunezpm .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#yycaunezpm .gt_left {
+  text-align: left;
+}
+
+#yycaunezpm .gt_center {
+  text-align: center;
+}
+
+#yycaunezpm .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#yycaunezpm .gt_font_normal {
+  font-weight: normal;
+}
+
+#yycaunezpm .gt_font_bold {
+  font-weight: bold;
+}
+
+#yycaunezpm .gt_font_italic {
+  font-style: italic;
+}
+
+#yycaunezpm .gt_super {
+  font-size: 65%;
+}
+
+#yycaunezpm .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#yycaunezpm .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#yycaunezpm .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#yycaunezpm .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#yycaunezpm .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#yycaunezpm .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Variable by Signup</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>No</strong>, N = 1,215<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Yes</strong>, N = 1,771<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>p-value</strong><sup class="gt_footnote_marks">2</sup></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">x_ord</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center">0.7</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">01 First review</td>
+<td class="gt_row gt_center">612 (50%)</td>
+<td class="gt_row gt_center">880 (50%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">02 Second review</td>
+<td class="gt_row gt_center">602 (50%)</td>
+<td class="gt_row gt_center">891 (50%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">x_sr</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center">0.7</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">5% savings rate</td>
+<td class="gt_row gt_center">418 (34%)</td>
+<td class="gt_row gt_center">583 (33%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">10% savings rate</td>
+<td class="gt_row gt_center">404 (33%)</td>
+<td class="gt_row gt_center">599 (34%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">20% savings rate</td>
+<td class="gt_row gt_center">393 (32%)</td>
+<td class="gt_row gt_center">589 (33%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">x_cf</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center">0.7</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">0</td>
+<td class="gt_row gt_center">603 (50%)</td>
+<td class="gt_row gt_center">892 (50%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">250</td>
+<td class="gt_row gt_center">612 (50%)</td>
+<td class="gt_row gt_center">879 (50%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">x_clp</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center">0.7</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">10-page contract</td>
+<td class="gt_row gt_center">602 (50%)</td>
+<td class="gt_row gt_center">889 (50%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">20-page contract</td>
+<td class="gt_row gt_center">613 (50%)</td>
+<td class="gt_row gt_center">882 (50%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">x_cly</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center">0.006</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">1-year contract</td>
+<td class="gt_row gt_center">572 (47%)</td>
+<td class="gt_row gt_center">924 (52%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">25-year contract</td>
+<td class="gt_row gt_center">643 (53%)</td>
+<td class="gt_row gt_center">847 (48%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">x_source</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"><0.001</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">01 Qualtrics Panel</td>
+<td class="gt_row gt_center">1,117 (92%)</td>
+<td class="gt_row gt_center">1,403 (79%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">02 Community</td>
+<td class="gt_row gt_center">98 (8.1%)</td>
+<td class="gt_row gt_center">368 (21%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">x_rev</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"><0.001</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">01 Less review</td>
+<td class="gt_row gt_center">538 (44%)</td>
+<td class="gt_row gt_center">664 (37%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">02 More review</td>
+<td class="gt_row gt_center">677 (56%)</td>
+<td class="gt_row gt_center">1,107 (63%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">x_gov</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"><0.001</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">01 None, Unknown, or Other</td>
+<td class="gt_row gt_center">663 (55%)</td>
+<td class="gt_row gt_center">677 (38%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">02 At least one gov't program</td>
+<td class="gt_row gt_center">552 (45%)</td>
+<td class="gt_row gt_center">1,094 (62%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">x_race</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center">0.075</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">01 White</td>
+<td class="gt_row gt_center">511 (42%)</td>
+<td class="gt_row gt_center">693 (39%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">02 Black</td>
+<td class="gt_row gt_center">223 (18%)</td>
+<td class="gt_row gt_center">357 (20%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">03 Hispanic</td>
+<td class="gt_row gt_center">151 (12%)</td>
+<td class="gt_row gt_center">263 (15%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">04 Asian</td>
+<td class="gt_row gt_center">192 (16%)</td>
+<td class="gt_row gt_center">242 (14%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">05 Other POC</td>
+<td class="gt_row gt_center">138 (11%)</td>
+<td class="gt_row gt_center">216 (12%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">x_hs</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"><0.001</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">01 Homeowner</td>
+<td class="gt_row gt_center">652 (54%)</td>
+<td class="gt_row gt_center">1,076 (61%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">02 Renter</td>
+<td class="gt_row gt_center">563 (46%)</td>
+<td class="gt_row gt_center">685 (39%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">03 Other</td>
+<td class="gt_row gt_center">0 (0%)</td>
+<td class="gt_row gt_center">10 (0.6%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">x_inc</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"><0.001</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">01 High</td>
+<td class="gt_row gt_center">333 (27%)</td>
+<td class="gt_row gt_center">439 (25%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">02 Moderate income</td>
+<td class="gt_row gt_center">484 (40%)</td>
+<td class="gt_row gt_center">912 (51%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">03 Low income</td>
+<td class="gt_row gt_center">398 (33%)</td>
+<td class="gt_row gt_center">420 (24%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">x_fam</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"><0.001</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">01 Less familiar</td>
+<td class="gt_row gt_center">804 (66%)</td>
+<td class="gt_row gt_center">550 (31%)</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">02 More familiar</td>
+<td class="gt_row gt_center">411 (34%)</td>
+<td class="gt_row gt_center">1,221 (69%)</td>
+<td class="gt_row gt_center"></td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="4"><sup class="gt_footnote_marks">1</sup> n (%)</td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="4"><sup class="gt_footnote_marks">2</sup> Pearson's Chi-squared test; Fisher's exact test</td>
+    </tr>
+  </tfoot>
 </table>
+</div>
 </div>
 <div id="demographic-comparison" class="section level2">
 <h2>Demographic Comparison</h2>
@@ -778,9 +916,6 @@ Census_Total
 <th style="text-align:right;">
 Survey_Total
 </th>
-<th style="text-align:right;">
-Weight
-</th>
 </tr>
 </thead>
 <tbody>
@@ -794,9 +929,6 @@ White
 <td style="text-align:right;">
 602
 </td>
-<td style="text-align:right;">
-86,629.32
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -807,9 +939,6 @@ Hispanic or Latino
 </td>
 <td style="text-align:right;">
 207
-</td>
-<td style="text-align:right;">
-119,956.38
 </td>
 </tr>
 <tr>
@@ -822,9 +951,6 @@ Asian
 <td style="text-align:right;">
 217
 </td>
-<td style="text-align:right;">
-44,171.28
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -835,9 +961,6 @@ Black or African American
 </td>
 <td style="text-align:right;">
 290
-</td>
-<td style="text-align:right;">
-32,898.50
 </td>
 </tr>
 <tr>
@@ -850,9 +973,6 @@ Other - POC
 <td style="text-align:right;">
 177
 </td>
-<td style="text-align:right;">
-21,703.65
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -864,14 +984,11 @@ Total
 <td style="text-align:right;">
 1,493
 </td>
-<td style="text-align:right;">
-99,949,101.00
-</td>
 </tr>
 </tbody>
 </table>
-<div id="htmlwidget-c259d7518c8e877c4065" style="width:768px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c259d7518c8e877c4065">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,3.775,2.775,4.775],"y":[0.521774087792946,0.248436151516761,0.0959004923916224,0.095454245256293,0.0384350230423783],"text":["reorder(Race, -value): White<br />value: 0.52177409<br />variable: Census","reorder(Race, -value): Hispanic or Latino<br />value: 0.24843615<br />variable: Census","reorder(Race, -value): Asian<br />value: 0.09590049<br />variable: Census","reorder(Race, -value): Black or African American<br />value: 0.09545425<br />variable: Census","reorder(Race, -value): Other - POC<br />value: 0.03843502<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,4.225,3.225,5.225],"y":[0.403215003348962,0.138647019423979,0.145344943067649,0.194239785666443,0.118553248492967],"text":["reorder(Race, -value): White<br />value: 0.40321500<br />variable: Survey","reorder(Race, -value): Hispanic or Latino<br />value: 0.13864702<br />variable: Survey","reorder(Race, -value): Asian<br />value: 0.14534494<br />variable: Survey","reorder(Race, -value): Black or African American<br />value: 0.19423979<br />variable: Survey","reorder(Race, -value): Other - POC<br />value: 0.11855325<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.2237442922374,"r":7.30593607305936,"b":92.3470813670817,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"SETO Survey State and Census Race Totals, 8-State Region","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["White","Hispanic or Latino","Black or African American","Asian","Other - POC"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["White","Hispanic or Latino","Black or African American","Asian","Other - POC"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0260887043896473,0.547862792182593],"tickmode":"array","ticktext":["0.0","0.1","0.2","0.3","0.4","0.5"],"tickvals":[0,0.1,0.2,0.3,0.4,0.5],"categoryorder":"array","categoryarray":["0.0","0.1","0.2","0.3","0.4","0.5"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"48ef368ca24a":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"48ef368ca24a","visdat":{"48ef368ca24a":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-18ac3a81c868fd6bf86e" style="width:768px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-18ac3a81c868fd6bf86e">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,3.775,2.775,4.775],"y":[0.521774087792946,0.248436151516761,0.0959004923916224,0.095454245256293,0.0384350230423783],"text":["reorder(Race, -value): White<br />value: 0.52177409<br />variable: Census","reorder(Race, -value): Hispanic or Latino<br />value: 0.24843615<br />variable: Census","reorder(Race, -value): Asian<br />value: 0.09590049<br />variable: Census","reorder(Race, -value): Black or African American<br />value: 0.09545425<br />variable: Census","reorder(Race, -value): Other - POC<br />value: 0.03843502<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,4.225,3.225,5.225],"y":[0.403215003348962,0.138647019423979,0.145344943067649,0.194239785666443,0.118553248492967],"text":["reorder(Race, -value): White<br />value: 0.40321500<br />variable: Survey","reorder(Race, -value): Hispanic or Latino<br />value: 0.13864702<br />variable: Survey","reorder(Race, -value): Asian<br />value: 0.14534494<br />variable: Survey","reorder(Race, -value): Black or African American<br />value: 0.19423979<br />variable: Survey","reorder(Race, -value): Other - POC<br />value: 0.11855325<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.2237442922374,"r":7.30593607305936,"b":92.3470813670817,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"SETO Survey State and Census Race Totals, 8-State Region","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["White","Hispanic or Latino","Black or African American","Asian","Other - POC"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["White","Hispanic or Latino","Black or African American","Asian","Other - POC"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0260887043896473,0.547862792182593],"tickmode":"array","ticktext":["0.0","0.1","0.2","0.3","0.4","0.5"],"tickvals":[0,0.1,0.2,0.3,0.4,0.5],"categoryorder":"array","categoryarray":["0.0","0.1","0.2","0.3","0.4","0.5"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"53d163e4d9a3":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"53d163e4d9a3","visdat":{"53d163e4d9a3":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <style>
 #### Income
 
@@ -895,9 +1012,6 @@ Census_Total
 <th style="text-align:right;">
 Survey_Total
 </th>
-<th style="text-align:right;">
-Weight
-</th>
 </tr>
 </thead>
 <tbody>
@@ -911,9 +1025,6 @@ Weight
 <td style="text-align:right;">
 218
 </td>
-<td style="text-align:right;">
-46,599.40
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -924,9 +1035,6 @@ Weight
 </td>
 <td style="text-align:right;">
 191
-</td>
-<td style="text-align:right;">
-43,360.73
 </td>
 </tr>
 <tr>
@@ -939,9 +1047,6 @@ Weight
 <td style="text-align:right;">
 360
 </td>
-<td style="text-align:right;">
-30,182.11
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -952,9 +1057,6 @@ Weight
 </td>
 <td style="text-align:right;">
 338
-</td>
-<td style="text-align:right;">
-38,171.12
 </td>
 </tr>
 <tr>
@@ -967,9 +1069,6 @@ Weight
 <td style="text-align:right;">
 386
 </td>
-<td style="text-align:right;">
-76,038.71
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -981,14 +1080,11 @@ Total
 <td style="text-align:right;">
 1,493
 </td>
-<td style="text-align:right;">
-71,558,910.00
-</td>
 </tr>
 </tbody>
 </table>
-<div id="htmlwidget-c9bf7791a80850ebd966" style="width:768px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c9bf7791a80850ebd966">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775],"y":[0.14196233564765,0.115735412962551,0.151840770073217,0.180296765280522,0.41016471603606],"text":["Income: 1: Less than 30% AMI<br />value: 0.1419623<br />variable: Census","Income: 2: Between 30-50% AMI<br />value: 0.1157354<br />variable: Census","Income: 3: Between 50-80% AMI<br />value: 0.1518408<br />variable: Census","Income: 4: Between 80-120% AMI<br />value: 0.1802968<br />variable: Census","Income: 5: More than 120% AMI<br />value: 0.4101647<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225],"y":[0.146014735432016,0.127930341594106,0.241125251172137,0.226389819156062,0.25853985264568],"text":["Income: 1: Less than 30% AMI<br />value: 0.1460147<br />variable: Survey","Income: 2: Between 30-50% AMI<br />value: 0.1279303<br />variable: Survey","Income: 3: Between 50-80% AMI<br />value: 0.2411253<br />variable: Survey","Income: 4: Between 80-120% AMI<br />value: 0.2263898<br />variable: Survey","Income: 5: More than 120% AMI<br />value: 0.2585399<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.2237442922374,"r":7.30593607305936,"b":83.1692685064023,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"SETO Survey State and Census Income Totals, 8-State Region","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.020508235801803,0.430672951837863],"tickmode":"array","ticktext":["0.0","0.1","0.2","0.3","0.4"],"tickvals":[0,0.1,0.2,0.3,0.4],"categoryorder":"array","categoryarray":["0.0","0.1","0.2","0.3","0.4"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"48ef72b0f069":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"48ef72b0f069","visdat":{"48ef72b0f069":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-3d60920d943059f80318" style="width:768px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3d60920d943059f80318">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775],"y":[0.14196233564765,0.115735412962551,0.151840770073217,0.180296765280522,0.41016471603606],"text":["Income: 1: Less than 30% AMI<br />value: 0.1419623<br />variable: Census","Income: 2: Between 30-50% AMI<br />value: 0.1157354<br />variable: Census","Income: 3: Between 50-80% AMI<br />value: 0.1518408<br />variable: Census","Income: 4: Between 80-120% AMI<br />value: 0.1802968<br />variable: Census","Income: 5: More than 120% AMI<br />value: 0.4101647<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225],"y":[0.146014735432016,0.127930341594106,0.241125251172137,0.226389819156062,0.25853985264568],"text":["Income: 1: Less than 30% AMI<br />value: 0.1460147<br />variable: Survey","Income: 2: Between 30-50% AMI<br />value: 0.1279303<br />variable: Survey","Income: 3: Between 50-80% AMI<br />value: 0.2411253<br />variable: Survey","Income: 4: Between 80-120% AMI<br />value: 0.2263898<br />variable: Survey","Income: 5: More than 120% AMI<br />value: 0.2585399<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.2237442922374,"r":7.30593607305936,"b":83.1692685064023,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"SETO Survey State and Census Income Totals, 8-State Region","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.020508235801803,0.430672951837863],"tickmode":"array","ticktext":["0.0","0.1","0.2","0.3","0.4"],"tickvals":[0,0.1,0.2,0.3,0.4],"categoryorder":"array","categoryarray":["0.0","0.1","0.2","0.3","0.4"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"53d150b21c26":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"53d150b21c26","visdat":{"53d150b21c26":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <style>
 #### Homeownership
 
@@ -1062,49 +1158,69 @@ Total
 </tr>
 </tbody>
 </table>
-<div id="htmlwidget-885715cc8f754285c304" style="width:768px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-885715cc8f754285c304">{"x":{"data":[{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[0.775,1.775],"y":[0.597721194241778,0.402278805758222],"text":["reorder(x_hs, -value): 01 Homeowner<br />value: 0.5977212<br />variable: Census","reorder(x_hs, -value): 02 Renter<br />value: 0.4022788<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[1.225,2.225],"y":[0.580645161290323,0.419354838709677],"text":["reorder(x_hs, -value): 01 Homeowner<br />value: 0.5806452<br />variable: Survey","reorder(x_hs, -value): 02 Renter<br />value: 0.4193548<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.2237442922374,"r":7.30593607305936,"b":52.6951909105064,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"SETO Survey State and Census Homeownership Totals, 8-State Region","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,2.6],"tickmode":"array","ticktext":["01 Homeowner","02 Renter"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["01 Homeowner","02 Renter"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0298860597120889,0.627607253953867],"tickmode":"array","ticktext":["0.0","0.2","0.4","0.6"],"tickvals":[0,0.2,0.4,0.6],"categoryorder":"array","categoryarray":["0.0","0.2","0.4","0.6"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"48ef5ee8b033":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"48ef5ee8b033","visdat":{"48ef5ee8b033":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-e883c02ae4958bc4a190" style="width:768px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e883c02ae4958bc4a190">{"x":{"data":[{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[0.775,1.775],"y":[0.597721194241778,0.402278805758222],"text":["reorder(x_hs, -value): 01 Homeowner<br />value: 0.5977212<br />variable: Census","reorder(x_hs, -value): 02 Renter<br />value: 0.4022788<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[1.225,2.225],"y":[0.580645161290323,0.419354838709677],"text":["reorder(x_hs, -value): 01 Homeowner<br />value: 0.5806452<br />variable: Survey","reorder(x_hs, -value): 02 Renter<br />value: 0.4193548<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.2237442922374,"r":7.30593607305936,"b":52.6951909105064,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"SETO Survey State and Census Homeownership Totals, 8-State Region","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,2.6],"tickmode":"array","ticktext":["01 Homeowner","02 Renter"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["01 Homeowner","02 Renter"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0298860597120889,0.627607253953867],"tickmode":"array","ticktext":["0.0","0.2","0.4","0.6"],"tickvals":[0,0.2,0.4,0.6],"categoryorder":"array","categoryarray":["0.0","0.2","0.4","0.6"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"53d172d56c1f":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"53d172d56c1f","visdat":{"53d172d56c1f":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <p>Sources:</p>
 <p>Race: 2020 5-Year ACS, Table B03002 Homeownership: 2020 5 Year ACS,
 Table B25003 Income: CHAS</p>
-<div id="crosstab-graphics" class="section level3">
-<h3>Crosstab Graphics</h3>
-<div id="savings-rate-income" class="section level4">
-<h4>Savings Rate &amp; Income</h4>
-<div id="htmlwidget-8e4b370e071eae43d079" style="width:768px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8e4b370e071eae43d079">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45],"base":[0,0,0],"x":[0.775,1.775,2.775],"y":[112,108,113],"text":["count: 112<br />x_sr: 5% savings rate<br />y_signup: No","count: 108<br />x_sr: 10% savings rate<br />y_signup: No","count: 113<br />x_sr: 20% savings rate<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45],"base":[0,0,0],"x":[0.775,1.775,2.775],"y":[164,159,161],"text":["count: 164<br />x_sr: 5% savings rate<br />y_signup: No","count: 159<br />x_sr: 10% savings rate<br />y_signup: No","count: 161<br />x_sr: 20% savings rate<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45],"base":[0,0,0],"x":[0.775,1.775,2.775],"y":[142,137,119],"text":["count: 142<br />x_sr: 5% savings rate<br />y_signup: No","count: 137<br />x_sr: 10% savings rate<br />y_signup: No","count: 119<br />x_sr: 20% savings rate<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45],"base":[0,0,0],"x":[1.225,2.225,3.225],"y":[144,141,154],"text":["count: 144<br />x_sr: 5% savings rate<br />y_signup: Yes","count: 141<br />x_sr: 10% savings rate<br />y_signup: Yes","count: 154<br />x_sr: 20% savings rate<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45],"base":[0,0,0],"x":[1.225,2.225,3.225],"y":[307,305,300],"text":["count: 307<br />x_sr: 5% savings rate<br />y_signup: Yes","count: 305<br />x_sr: 10% savings rate<br />y_signup: Yes","count: 300<br />x_sr: 20% savings rate<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45],"base":[0,0,0],"x":[1.225,2.225,3.225],"y":[132,153,135],"text":["count: 132<br />x_sr: 5% savings rate<br />y_signup: Yes","count: 153<br />x_sr: 10% savings rate<br />y_signup: Yes","count: 135<br />x_sr: 20% savings rate<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":39.37899543379,"r":7.30593607305936,"b":64.8507765444074,"l":43.1050228310502},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,0.323820395738204],"automargin":true,"type":"linear","autorange":false,"range":[0.4,3.6],"tickmode":"array","ticktext":["5% savings rate","10% savings rate","20% savings rate"],"tickvals":[1,2,3],"categoryorder":"array","categoryarray":["5% savings rate","10% savings rate","20% savings rate"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"","hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-15.35,322.35],"tickmode":"array","ticktext":["0","100","200","300"],"tickvals":[1.77635683940025e-15,100,200,300],"categoryorder":"array","categoryarray":["0","100","200","300"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"annotations":[{"text":"count","x":0,"y":0.5,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-90,"xanchor":"right","yanchor":"center","annotationType":"axis","xshift":-27.7625570776256},{"text":"01 High","x":0.161910197869102,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"02 Moderate income","x":0.5,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"03 Low income","x":0.838089802130898,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"}],"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.323820395738204,"y0":0,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.323820395738204,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.342846270928463,"x1":0.657153729071537,"y0":0,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.342846270928463,"x1":0.657153729071537,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.676179604261796,"x1":1,"y0":0,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.676179604261796,"x1":1,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"}],"xaxis2":{"type":"linear","autorange":false,"range":[0.4,3.6],"tickmode":"array","ticktext":["5% savings rate","10% savings rate","20% savings rate"],"tickvals":[1,2,3],"categoryorder":"array","categoryarray":["5% savings rate","10% savings rate","20% savings rate"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.342846270928463,0.657153729071537],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"","hoverformat":".2f"},"xaxis3":{"type":"linear","autorange":false,"range":[0.4,3.6],"tickmode":"array","ticktext":["5% savings rate","10% savings rate","20% savings rate"],"tickvals":[1,2,3],"categoryorder":"array","categoryarray":["5% savings rate","10% savings rate","20% savings rate"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.676179604261796,1],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"","hoverformat":".2f"},"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"y_signup","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"48ef4805fa43":{"x":{},"fill":{},"type":"bar"}},"cur_data":"48ef4805fa43","visdat":{"48ef4805fa43":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
-</div>
-<div id="savings-rate-race" class="section level4">
-<h4>Savings Rate &amp; Race</h4>
-<div id="htmlwidget-f6268b70b0a321de608f" style="width:768px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f6268b70b0a321de608f">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775],"y":[184,81,55,57,41],"text":["count: 184<br />x_race: 01 White<br />y_signup: No","count:  81<br />x_race: 02 Black<br />y_signup: No","count:  55<br />x_race: 03 Hispanic<br />y_signup: No","count:  57<br />x_race: 04 Asian<br />y_signup: No","count:  41<br />x_race: 05 Other POC<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775],"y":[161,76,52,62,53],"text":["count: 161<br />x_race: 01 White<br />y_signup: No","count:  76<br />x_race: 02 Black<br />y_signup: No","count:  52<br />x_race: 03 Hispanic<br />y_signup: No","count:  62<br />x_race: 04 Asian<br />y_signup: No","count:  53<br />x_race: 05 Other POC<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775],"y":[166,66,44,73,44],"text":["count: 166<br />x_race: 01 White<br />y_signup: No","count:  66<br />x_race: 02 Black<br />y_signup: No","count:  44<br />x_race: 03 Hispanic<br />y_signup: No","count:  73<br />x_race: 04 Asian<br />y_signup: No","count:  44<br />x_race: 05 Other POC<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225],"y":[227,122,84,91,59],"text":["count: 227<br />x_race: 01 White<br />y_signup: Yes","count: 122<br />x_race: 02 Black<br />y_signup: Yes","count:  84<br />x_race: 03 Hispanic<br />y_signup: Yes","count:  91<br />x_race: 04 Asian<br />y_signup: Yes","count:  59<br />x_race: 05 Other POC<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225],"y":[232,126,94,69,78],"text":["count: 232<br />x_race: 01 White<br />y_signup: Yes","count: 126<br />x_race: 02 Black<br />y_signup: Yes","count:  94<br />x_race: 03 Hispanic<br />y_signup: Yes","count:  69<br />x_race: 04 Asian<br />y_signup: Yes","count:  78<br />x_race: 05 Other POC<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225],"y":[234,109,85,82,79],"text":["count: 234<br />x_race: 01 White<br />y_signup: Yes","count: 109<br />x_race: 02 Black<br />y_signup: Yes","count:  85<br />x_race: 03 Hispanic<br />y_signup: Yes","count:  82<br />x_race: 04 Asian<br />y_signup: Yes","count:  79<br />x_race: 05 Other POC<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":39.37899543379,"r":7.30593607305936,"b":52.6951909105064,"l":43.1050228310502},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,0.323820395738204],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["01 White","02 Black","03 Hispanic","04 Asian","05 Other POC"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["01 White","02 Black","03 Hispanic","04 Asian","05 Other POC"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"","hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-11.7,245.7],"tickmode":"array","ticktext":["0","50","100","150","200"],"tickvals":[0,50,100,150,200],"categoryorder":"array","categoryarray":["0","50","100","150","200"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"annotations":[{"text":"count","x":0,"y":0.5,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-90,"xanchor":"right","yanchor":"center","annotationType":"axis","xshift":-27.7625570776256},{"text":"5% savings rate","x":0.161910197869102,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"10% savings rate","x":0.5,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"20% savings rate","x":0.838089802130898,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"}],"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.323820395738204,"y0":0,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.323820395738204,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.342846270928463,"x1":0.657153729071537,"y0":0,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.342846270928463,"x1":0.657153729071537,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.676179604261796,"x1":1,"y0":0,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.676179604261796,"x1":1,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"}],"xaxis2":{"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["01 White","02 Black","03 Hispanic","04 Asian","05 Other POC"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["01 White","02 Black","03 Hispanic","04 Asian","05 Other POC"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.342846270928463,0.657153729071537],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"","hoverformat":".2f"},"xaxis3":{"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["01 White","02 Black","03 Hispanic","04 Asian","05 Other POC"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["01 White","02 Black","03 Hispanic","04 Asian","05 Other POC"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.676179604261796,1],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"","hoverformat":".2f"},"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"y_signup","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"48ef591dc7b0":{"x":{},"fill":{},"type":"bar"}},"cur_data":"48ef591dc7b0","visdat":{"48ef591dc7b0":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
-</div>
-<div id="race-income" class="section level4">
-<h4>Race &amp; Income</h4>
-<div id="htmlwidget-eb7b9eba2c79f655d3f8" style="width:768px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-eb7b9eba2c79f655d3f8">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775],"y":[172,39,16,77,29],"text":["count: 172<br />x_race: 01 White<br />y_signup: No","count:  39<br />x_race: 02 Black<br />y_signup: No","count:  16<br />x_race: 03 Hispanic<br />y_signup: No","count:  77<br />x_race: 04 Asian<br />y_signup: No","count:  29<br />x_race: 05 Other POC<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775],"y":[205,104,66,68,41],"text":["count: 205<br />x_race: 01 White<br />y_signup: No","count: 104<br />x_race: 02 Black<br />y_signup: No","count:  66<br />x_race: 03 Hispanic<br />y_signup: No","count:  68<br />x_race: 04 Asian<br />y_signup: No","count:  41<br />x_race: 05 Other POC<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775],"y":[134,80,69,47,68],"text":["count: 134<br />x_race: 01 White<br />y_signup: No","count:  80<br />x_race: 02 Black<br />y_signup: No","count:  69<br />x_race: 03 Hispanic<br />y_signup: No","count:  47<br />x_race: 04 Asian<br />y_signup: No","count:  68<br />x_race: 05 Other POC<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225],"y":[264,71,16,51,37],"text":["count: 264<br />x_race: 01 White<br />y_signup: Yes","count:  71<br />x_race: 02 Black<br />y_signup: Yes","count:  16<br />x_race: 03 Hispanic<br />y_signup: Yes","count:  51<br />x_race: 04 Asian<br />y_signup: Yes","count:  37<br />x_race: 05 Other POC<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225],"y":[309,192,158,148,105],"text":["count: 309<br />x_race: 01 White<br />y_signup: Yes","count: 192<br />x_race: 02 Black<br />y_signup: Yes","count: 158<br />x_race: 03 Hispanic<br />y_signup: Yes","count: 148<br />x_race: 04 Asian<br />y_signup: Yes","count: 105<br />x_race: 05 Other POC<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225],"y":[120,94,89,43,74],"text":["count: 120<br />x_race: 01 White<br />y_signup: Yes","count:  94<br />x_race: 02 Black<br />y_signup: Yes","count:  89<br />x_race: 03 Hispanic<br />y_signup: Yes","count:  43<br />x_race: 04 Asian<br />y_signup: Yes","count:  74<br />x_race: 05 Other POC<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":39.37899543379,"r":7.30593607305936,"b":52.6951909105064,"l":43.1050228310502},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,0.323820395738204],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["01 White","02 Black","03 Hispanic","04 Asian","05 Other POC"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["01 White","02 Black","03 Hispanic","04 Asian","05 Other POC"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"","hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-15.45,324.45],"tickmode":"array","ticktext":["0","100","200","300"],"tickvals":[0,100,200,300],"categoryorder":"array","categoryarray":["0","100","200","300"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"annotations":[{"text":"count","x":0,"y":0.5,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-90,"xanchor":"right","yanchor":"center","annotationType":"axis","xshift":-27.7625570776256},{"text":"01 High","x":0.161910197869102,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"02 Moderate income","x":0.5,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"03 Low income","x":0.838089802130898,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"}],"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.323820395738204,"y0":0,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.323820395738204,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.342846270928463,"x1":0.657153729071537,"y0":0,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.342846270928463,"x1":0.657153729071537,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.676179604261796,"x1":1,"y0":0,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.676179604261796,"x1":1,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"}],"xaxis2":{"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["01 White","02 Black","03 Hispanic","04 Asian","05 Other POC"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["01 White","02 Black","03 Hispanic","04 Asian","05 Other POC"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.342846270928463,0.657153729071537],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"","hoverformat":".2f"},"xaxis3":{"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["01 White","02 Black","03 Hispanic","04 Asian","05 Other POC"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["01 White","02 Black","03 Hispanic","04 Asian","05 Other POC"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.676179604261796,1],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"","hoverformat":".2f"},"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"y_signup","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"48ef3c8e8df0":{"x":{},"fill":{},"type":"bar"}},"cur_data":"48ef3c8e8df0","visdat":{"48ef3c8e8df0":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
-</div>
-<div id="cancellation-fee-income" class="section level4">
-<h4>Cancellation Fee &amp; Income</h4>
-<div id="htmlwidget-29a65f4c063430356dc6" style="width:768px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-29a65f4c063430356dc6">{"x":{"data":[{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[0.775,1.775],"y":[162,171],"text":["count: 162<br />factor(x_cf): 0<br />y_signup: No","count: 171<br />factor(x_cf): 250<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[0.775,1.775],"y":[252,232],"text":["count: 252<br />factor(x_cf): 0<br />y_signup: No","count: 232<br />factor(x_cf): 250<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[0.775,1.775],"y":[189,209],"text":["count: 189<br />factor(x_cf): 0<br />y_signup: No","count: 209<br />factor(x_cf): 250<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[1.225,2.225],"y":[216,223],"text":["count: 216<br />factor(x_cf): 0<br />y_signup: Yes","count: 223<br />factor(x_cf): 250<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[1.225,2.225],"y":[467,445],"text":["count: 467<br />factor(x_cf): 0<br />y_signup: Yes","count: 445<br />factor(x_cf): 250<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[1.225,2.225],"y":[209,211],"text":["count: 209<br />factor(x_cf): 0<br />y_signup: Yes","count: 211<br />factor(x_cf): 250<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":39.37899543379,"r":7.30593607305936,"b":27.0319634703196,"l":43.1050228310502},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,0.323820395738204],"automargin":true,"type":"linear","autorange":false,"range":[0.4,2.6],"tickmode":"array","ticktext":["0","250"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["0","250"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"","hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-23.35,490.35],"tickmode":"array","ticktext":["0","100","200","300","400"],"tickvals":[0,100,200,300,400],"categoryorder":"array","categoryarray":["0","100","200","300","400"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"annotations":[{"text":"count","x":0,"y":0.5,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-90,"xanchor":"right","yanchor":"center","annotationType":"axis","xshift":-27.7625570776256},{"text":"01 High","x":0.161910197869102,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"02 Moderate income","x":0.5,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"03 Low income","x":0.838089802130898,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"}],"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.323820395738204,"y0":0,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.323820395738204,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.342846270928463,"x1":0.657153729071537,"y0":0,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.342846270928463,"x1":0.657153729071537,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.676179604261796,"x1":1,"y0":0,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.676179604261796,"x1":1,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"}],"xaxis2":{"type":"linear","autorange":false,"range":[0.4,2.6],"tickmode":"array","ticktext":["0","250"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["0","250"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.342846270928463,0.657153729071537],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"","hoverformat":".2f"},"xaxis3":{"type":"linear","autorange":false,"range":[0.4,2.6],"tickmode":"array","ticktext":["0","250"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["0","250"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.676179604261796,1],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"","hoverformat":".2f"},"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"y_signup","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"48ef7480c906":{"x":{},"fill":{},"type":"bar"}},"cur_data":"48ef7480c906","visdat":{"48ef7480c906":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
-</div>
-<div id="cancellation-fee-race" class="section level4">
-<h4>Cancellation Fee &amp; Race</h4>
-<div id="htmlwidget-fbb9bda4570e19d7ffc7" style="width:768px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-fbb9bda4570e19d7ffc7">{"x":{"data":[{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[0.775,1.775],"y":[254,257],"text":["count: 254<br />factor(x_cf): 0<br />y_signup: No","count: 257<br />factor(x_cf): 250<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[0.775,1.775],"y":[100,123],"text":["count: 100<br />factor(x_cf): 0<br />y_signup: No","count: 123<br />factor(x_cf): 250<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[0.775,1.775],"y":[75,76],"text":["count:  75<br />factor(x_cf): 0<br />y_signup: No","count:  76<br />factor(x_cf): 250<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[0.775,1.775],"y":[100,92],"text":["count: 100<br />factor(x_cf): 0<br />y_signup: No","count:  92<br />factor(x_cf): 250<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":false,"xaxis":"x","yaxis":"y2","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[0.775,1.775],"y":[74,64],"text":["count:  74<br />factor(x_cf): 0<br />y_signup: No","count:  64<br />factor(x_cf): 250<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":false,"xaxis":"x2","yaxis":"y2","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[1.225,2.225],"y":[337,356],"text":["count: 337<br />factor(x_cf): 0<br />y_signup: Yes","count: 356<br />factor(x_cf): 250<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[1.225,2.225],"y":[190,167],"text":["count: 190<br />factor(x_cf): 0<br />y_signup: Yes","count: 167<br />factor(x_cf): 250<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[1.225,2.225],"y":[133,130],"text":["count: 133<br />factor(x_cf): 0<br />y_signup: Yes","count: 130<br />factor(x_cf): 250<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[1.225,2.225],"y":[114,128],"text":["count: 114<br />factor(x_cf): 0<br />y_signup: Yes","count: 128<br />factor(x_cf): 250<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":false,"xaxis":"x","yaxis":"y2","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[1.225,2.225],"y":[118,98],"text":["count: 118<br />factor(x_cf): 0<br />y_signup: Yes","count:  98<br />factor(x_cf): 250<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":false,"xaxis":"x2","yaxis":"y2","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":39.37899543379,"r":7.30593607305936,"b":27.0319634703196,"l":43.1050228310502},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,0.323820395738204],"automargin":true,"type":"linear","autorange":false,"range":[0.4,2.6],"tickmode":"array","ticktext":["0","250"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["0","250"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y2","title":"","hoverformat":".2f"},"yaxis":{"domain":[0.539573820395738,1],"automargin":true,"type":"linear","autorange":false,"range":[-17.8,373.8],"tickmode":"array","ticktext":["0","100","200","300"],"tickvals":[0,100,200,300],"categoryorder":"array","categoryarray":["0","100","200","300"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"annotations":[{"text":"count","x":0,"y":0.5,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-90,"xanchor":"right","yanchor":"center","annotationType":"axis","xshift":-27.7625570776256},{"text":"01 White","x":0.161910197869102,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"02 Black","x":0.5,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"03 Hispanic","x":0.838089802130898,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"04 Asian","x":0.161910197869102,"y":0.460426179604262,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"05 Other POC","x":0.5,"y":0.460426179604262,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"}],"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.323820395738204,"y0":0.539573820395738,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.323820395738204,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.342846270928463,"x1":0.657153729071537,"y0":0.539573820395738,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.342846270928463,"x1":0.657153729071537,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.676179604261796,"x1":1,"y0":0.539573820395738,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.676179604261796,"x1":1,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.323820395738204,"y0":0,"y1":0.460426179604262},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.323820395738204,"y0":0,"y1":23.37899543379,"yanchor":0.460426179604262,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.342846270928463,"x1":0.657153729071537,"y0":0,"y1":0.460426179604262},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.342846270928463,"x1":0.657153729071537,"y0":0,"y1":23.37899543379,"yanchor":0.460426179604262,"ysizemode":"pixel"}],"xaxis2":{"type":"linear","autorange":false,"range":[0.4,2.6],"tickmode":"array","ticktext":["0","250"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["0","250"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.342846270928463,0.657153729071537],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y2","title":"","hoverformat":".2f"},"xaxis3":{"type":"linear","autorange":false,"range":[0.4,2.6],"tickmode":"array","ticktext":["0","250"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["0","250"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.676179604261796,1],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"","hoverformat":".2f"},"yaxis2":{"type":"linear","autorange":false,"range":[-17.8,373.8],"tickmode":"array","ticktext":["0","100","200","300"],"tickvals":[0,100,200,300],"categoryorder":"array","categoryarray":["0","100","200","300"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0,0.460426179604262],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"y_signup","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"48ef593a6741":{"x":{},"fill":{},"type":"bar"}},"cur_data":"48ef593a6741","visdat":{"48ef593a6741":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
-</div>
-<div id="contract-years-income" class="section level4">
-<h4>Contract Years &amp; Income</h4>
-<div id="htmlwidget-c8ba0208c389717de749" style="width:768px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c8ba0208c389717de749">{"x":{"data":[{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[0.775,1.775],"y":[163,170],"text":["count: 163<br />factor(x_cly): 1-year contract<br />y_signup: No","count: 170<br />factor(x_cly): 25-year contract<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[0.775,1.775],"y":[223,261],"text":["count: 223<br />factor(x_cly): 1-year contract<br />y_signup: No","count: 261<br />factor(x_cly): 25-year contract<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[0.775,1.775],"y":[186,212],"text":["count: 186<br />factor(x_cly): 1-year contract<br />y_signup: No","count: 212<br />factor(x_cly): 25-year contract<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[1.225,2.225],"y":[226,213],"text":["count: 226<br />factor(x_cly): 1-year contract<br />y_signup: Yes","count: 213<br />factor(x_cly): 25-year contract<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[1.225,2.225],"y":[465,447],"text":["count: 465<br />factor(x_cly): 1-year contract<br />y_signup: Yes","count: 447<br />factor(x_cly): 25-year contract<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[1.225,2.225],"y":[233,187],"text":["count: 233<br />factor(x_cly): 1-year contract<br />y_signup: Yes","count: 187<br />factor(x_cly): 25-year contract<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":39.37899543379,"r":7.30593607305936,"b":64.8507765444074,"l":43.1050228310502},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,0.323820395738204],"automargin":true,"type":"linear","autorange":false,"range":[0.4,2.6],"tickmode":"array","ticktext":["1-year contract","25-year contract"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["1-year contract","25-year contract"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"","hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-23.25,488.25],"tickmode":"array","ticktext":["0","100","200","300","400"],"tickvals":[0,100,200,300,400],"categoryorder":"array","categoryarray":["0","100","200","300","400"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"annotations":[{"text":"count","x":0,"y":0.5,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-90,"xanchor":"right","yanchor":"center","annotationType":"axis","xshift":-27.7625570776256},{"text":"01 High","x":0.161910197869102,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"02 Moderate income","x":0.5,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"03 Low income","x":0.838089802130898,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"}],"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.323820395738204,"y0":0,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.323820395738204,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.342846270928463,"x1":0.657153729071537,"y0":0,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.342846270928463,"x1":0.657153729071537,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.676179604261796,"x1":1,"y0":0,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.676179604261796,"x1":1,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"}],"xaxis2":{"type":"linear","autorange":false,"range":[0.4,2.6],"tickmode":"array","ticktext":["1-year contract","25-year contract"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["1-year contract","25-year contract"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.342846270928463,0.657153729071537],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"","hoverformat":".2f"},"xaxis3":{"type":"linear","autorange":false,"range":[0.4,2.6],"tickmode":"array","ticktext":["1-year contract","25-year contract"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["1-year contract","25-year contract"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.676179604261796,1],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"","hoverformat":".2f"},"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"y_signup","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"48ef444da884":{"x":{},"fill":{},"type":"bar"}},"cur_data":"48ef444da884","visdat":{"48ef444da884":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
-</div>
-<div id="contract-years-race" class="section level4">
-<h4>Contract Years &amp; Race</h4>
-<div id="htmlwidget-9b15bfa22edec4cd2322" style="width:768px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9b15bfa22edec4cd2322">{"x":{"data":[{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[0.775,1.775],"y":[234,277],"text":["count: 234<br />factor(x_cly): 1-year contract<br />y_signup: No","count: 277<br />factor(x_cly): 25-year contract<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[0.775,1.775],"y":[111,112],"text":["count: 111<br />factor(x_cly): 1-year contract<br />y_signup: No","count: 112<br />factor(x_cly): 25-year contract<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[0.775,1.775],"y":[69,82],"text":["count:  69<br />factor(x_cly): 1-year contract<br />y_signup: No","count:  82<br />factor(x_cly): 25-year contract<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[0.775,1.775],"y":[96,96],"text":["count:  96<br />factor(x_cly): 1-year contract<br />y_signup: No","count:  96<br />factor(x_cly): 25-year contract<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":false,"xaxis":"x","yaxis":"y2","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[0.775,1.775],"y":[62,76],"text":["count:  62<br />factor(x_cly): 1-year contract<br />y_signup: No","count:  76<br />factor(x_cly): 25-year contract<br />y_signup: No"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"No","legendgroup":"No","showlegend":false,"xaxis":"x2","yaxis":"y2","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[1.225,2.225],"y":[369,324],"text":["count: 369<br />factor(x_cly): 1-year contract<br />y_signup: Yes","count: 324<br />factor(x_cly): 25-year contract<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[1.225,2.225],"y":[183,174],"text":["count: 183<br />factor(x_cly): 1-year contract<br />y_signup: Yes","count: 174<br />factor(x_cly): 25-year contract<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":false,"xaxis":"x2","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[1.225,2.225],"y":[138,125],"text":["count: 138<br />factor(x_cly): 1-year contract<br />y_signup: Yes","count: 125<br />factor(x_cly): 25-year contract<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":false,"xaxis":"x3","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[1.225,2.225],"y":[115,127],"text":["count: 115<br />factor(x_cly): 1-year contract<br />y_signup: Yes","count: 127<br />factor(x_cly): 25-year contract<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":false,"xaxis":"x","yaxis":"y2","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[1.225,2.225],"y":[119,97],"text":["count: 119<br />factor(x_cly): 1-year contract<br />y_signup: Yes","count:  97<br />factor(x_cly): 25-year contract<br />y_signup: Yes"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Yes","legendgroup":"Yes","showlegend":false,"xaxis":"x2","yaxis":"y2","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":39.37899543379,"r":7.30593607305936,"b":64.8507765444074,"l":43.1050228310502},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,0.323820395738204],"automargin":true,"type":"linear","autorange":false,"range":[0.4,2.6],"tickmode":"array","ticktext":["1-year contract","25-year contract"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["1-year contract","25-year contract"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y2","title":"","hoverformat":".2f"},"yaxis":{"domain":[0.539573820395738,1],"automargin":true,"type":"linear","autorange":false,"range":[-18.45,387.45],"tickmode":"array","ticktext":["0","100","200","300"],"tickvals":[0,100,200,300],"categoryorder":"array","categoryarray":["0","100","200","300"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"annotations":[{"text":"count","x":0,"y":0.5,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-90,"xanchor":"right","yanchor":"center","annotationType":"axis","xshift":-27.7625570776256},{"text":"01 White","x":0.161910197869102,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"02 Black","x":0.5,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"03 Hispanic","x":0.838089802130898,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"04 Asian","x":0.161910197869102,"y":0.460426179604262,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"},{"text":"05 Other POC","x":0.5,"y":0.460426179604262,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(26,26,26,1)","family":"","size":11.689497716895},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"center","yanchor":"bottom"}],"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.323820395738204,"y0":0.539573820395738,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.323820395738204,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.342846270928463,"x1":0.657153729071537,"y0":0.539573820395738,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.342846270928463,"x1":0.657153729071537,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.676179604261796,"x1":1,"y0":0.539573820395738,"y1":1},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.676179604261796,"x1":1,"y0":0,"y1":23.37899543379,"yanchor":1,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.323820395738204,"y0":0,"y1":0.460426179604262},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":0.323820395738204,"y0":0,"y1":23.37899543379,"yanchor":0.460426179604262,"ysizemode":"pixel"},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.342846270928463,"x1":0.657153729071537,"y0":0,"y1":0.460426179604262},{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0.342846270928463,"x1":0.657153729071537,"y0":0,"y1":23.37899543379,"yanchor":0.460426179604262,"ysizemode":"pixel"}],"xaxis2":{"type":"linear","autorange":false,"range":[0.4,2.6],"tickmode":"array","ticktext":["1-year contract","25-year contract"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["1-year contract","25-year contract"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.342846270928463,0.657153729071537],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y2","title":"","hoverformat":".2f"},"xaxis3":{"type":"linear","autorange":false,"range":[0.4,2.6],"tickmode":"array","ticktext":["1-year contract","25-year contract"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["1-year contract","25-year contract"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0.676179604261796,1],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":"","hoverformat":".2f"},"yaxis2":{"type":"linear","autorange":false,"range":[-18.45,387.45],"tickmode":"array","ticktext":["0","100","200","300"],"tickvals":[0,100,200,300],"categoryorder":"array","categoryarray":["0","100","200","300"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"domain":[0,0.460426179604262],"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":"","hoverformat":".2f"},"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"y_signup","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"48ef54ba252":{"x":{},"fill":{},"type":"bar"}},"cur_data":"48ef54ba252","visdat":{"48ef54ba252":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
-</div>
-</div>
+<style>
+### Crosstab Graphics
+
+
+{
+   display: none;
+ }
+</style>
+<style>
+#### Savings Rate & Income
+
+
+{
+   display: none;
+ }
+</style>
+<style>
+#### Savings Rate & Race
+
+{
+   display: none;
+ }
+</style>
+<style>
+#### Race & Income
+
+{
+   display: none;
+ }
+</style>
+<style>
+#### Cancellation Fee & Income
+
+{
+   display: none;
+ }
+</style>
+<style>
+#### Cancellation Fee & Race
+
+{
+   display: none;
+ }
+</style>
+<style>
+#### Contract Years & Income
+
+{
+   display: none;
+ }
+</style>
+<style>
+#### Contract Years & Race
+
+{
+   display: none;
+ }
+</style>
 </div>
 <div id="model" class="section level2">
 <h2>Model</h2>
@@ -1370,11 +1486,6 @@ x_govt</p>
 ## chi2                     62.852*** (df = 11) 79.180*** (df = 12) 421.368*** (df = 13) 430.983*** (df = 14)
 ## ==========================================================================================================
 ## Note:                                                                          *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
-</div>
-</div>
-<div id="discussion" class="section level2">
-<h2>Discussion</h2>
-<p><strong>Main Takeaways</strong></p>
 <ol style="list-style-type: decimal">
 <li>Table 1</li>
 </ol>
@@ -1422,6 +1533,7 @@ medium income respondents were 1.3 and 1.7 times the odds to adopt the
 contract compared to low income respondents, controlling for contract
 attributes.</p>
 </div>
+</div>
 <div id="secondary-analysis" class="section level2">
 <h2>Secondary Analysis</h2>
 <p>The secondary analysis will include an ordered logit model to
@@ -1441,7 +1553,7 @@ discrete sequences, such as a Likert scale.</p>
 <h2>Agree/Disagree</h2>
 </div>
 </div>
-<div id="discussion-1" class="section level1">
+<div id="discussion" class="section level1">
 <h1>Discussion</h1>
 </div>
 </div>

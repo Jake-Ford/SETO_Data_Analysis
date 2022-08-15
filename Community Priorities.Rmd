@@ -29,6 +29,7 @@ library(haven)
 library(rms)
 library(rmdformats)
 library(ggplot2)
+library(gtsummary)
 library(plotly)
 
 
@@ -82,7 +83,7 @@ cd_input = paste(input_folder, "3. Churn and Default/", sep="")
 
 # Introduction
 
-Solar power is the fastest [growing](https://www.c2es.org/content/renewable-energy/#:~:text=Renewables%20made%20up%20nearly%2020,the%20fastest%2Dgrowing%20electricity%20source.) renewable energy source. Community solar projects lower the barrier to entry. This is accomplished by increasing the applicant pool by allowing those without rooftop access, such as renters or those in apartment buildings, and by lowering the financial burden of entry, as the fixed costs to install and operate the solar panels are collectivised rather than focused on one rooftop. 
+Solar power is the fastest [growing](https://www.c2es.org/content/renewable-energy/#:~:text=Renewables%20made%20up%20nearly%2020,the%20fastest%2Dgrowing%20electricity%20source.) renewable energy source. Community shared solar (CSS) projects lower the barrier to entry. This is accomplished by increasing the applicant pool by allowing those without rooftop access, such as renters or those in apartment buildings, and by lowering the financial burden of entry, as the fixed costs to install and operate the solar panels are collectivised rather than focused on one rooftop. CSS programs that are third-party owned and have participants subscribe to ongoing payments. Typically, within these programs, customers are given predefined, discrete contract terms rather than being able to compare multiple offerings or select their own terms. Our research is attempting to mimic this approach by giving customers a randomly assigned contract and surveying them on their willingness to adopt this program.
 
 For potential customers, community solar contracts vary by their contract attributes. These include term length, cancellation fees, and potential savings rates relative to traditional utility bill companies. Given the importance of both the solar industry and the relatively incipient community solar industry, a dearth of research exists on how potential customer priorities are reflected in the likelihood of contract adoption. 
 
@@ -95,9 +96,7 @@ This research seeks to fill this gap by developing quantitative measurements of 
 
 # Methods
 
-
-This research focuses on community shared solar (CSS) programs that are third-party owned and have participants subscribe to ongoing payments. Typically, within these programs, customers are given predefined, discrete contract terms rather than being able to compare multiple offerings or select their own terms. Our research is attempting to mimic this approach by giving customers a randomly assigned contract and surveying them on their willingness to adopt this program.
-
+The population for this component of our research is adults (18+) in the eight states we will include within this study: Massachusetts, New York, California, Oregon, Illinois, Maryland, Colorado and Minnesota. We have chosen to oversample-populations that are considered low- to moderate-income (LMI) defined as up to 50% and between 50%-80% of an area’s median income, in accordance with the Department of Housing and Urban Development’s (HUD) definitions of each [term.](https://www.hudexchange.info/programs/acs-low-mod-summary-data/) Solstice will explore the use of dynamic surveying, in which respondents are asked whether their income falls within the LMI ranges that correspond with their zip code and household size. This is the preferred approach for this research as it allows for comparing priorities across broad income categories and avoid non- response issues attached to asking respondents to self-attest their income levels. We have also chosen to oversample minority and renter populations in this research, surpassing the proportional estimates of these demographics supplied by the 2018 American Community Survey (ACS) estimates. We have designed this sampling scheme to center familiarity with community solar as a core demographic within this research, though we will not weight on this demographic due to lack of an applicable metric. By centering familiarity with community solar as a central demographic within this research, Solstice plans to incorporate respondents that are the likely next adopters of community solar and respondents from populations that are not currently effectively reached by community solar. All demographic information will be self-attested through the community solar priorities research survey.
 
 
 
@@ -148,30 +147,24 @@ survey$x_sr <- factor(survey$x_sr, levels=c("5% savings rate", "10% savings rate
 
 
 
+
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-library(vtable)
 
-labs <- data.frame(
-    y_signup = "Sign Up",
-    x_ord = 'Contract Review Order',
-    x_sr = "Savings Rate",
-    x_cf = "Cancellation Fee",
-    x_clp = "Contract Length Pages",
-    x_cly = "Contract Length Years",
-    x_source = 'Source',
-    x_rev = "Time Spent Reviewing Contracts",
-    x_gov = "Government Assistance",
-    x_race = "Race", 
-    x_hs = "Homeownership",
-    x_inc = "Income",
-    x_fam = "Familiar with CS"
-    )
+table1_data <- survey %>% 
+  select(y_signup,x_ord, x_sr, x_cf, x_clp, x_cly, x_source, x_rev,
+          x_gov, x_race, x_hs, x_inc, x_fam) 
 
-vars <- c("y_signup","x_ord", "x_sr", "x_cf", "x_clp", "x_cly", "x_source", "x_rev",
-          "x_gov", "x_race", "x_hs", "x_inc", "x_fam" )
+# summarize the data with our package
+table1 <- tbl_summary(
+  table1_data,
+  by=y_signup,
+  missing='no',
+  ) %>% # test for a difference between groups
+  modify_header(label = "**Variable by Signup**") %>% # update the column header
+  bold_labels() %>%
+  add_p()
 
-st(survey, vars=vars, label=labs, col.breaks = 7)
-
+table1
 ```
 
 
@@ -251,7 +244,7 @@ race_total <- temp_hold %>%
 race_total$Population_Weight[race_total$Race=="Total"] <- sum(race_total$Survey_Total[1:5] * race_total$Population_Weight[1:5])
 
 race_total_table <- race_total %>%
-  select(Race, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+  select(Race, Census_Total,Survey_Total ) %>%
   kbl(caption = "Descriptive Statistics, 8-State Region",
       digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
   kable_classic(full_width = T, html_font = "Cambria") %>%
@@ -428,7 +421,7 @@ income_total <- temp_hold %>%
 income_total$Population_Weight[income_total$Income=="Total"] <- sum(income_total$Survey_Total[1:5] * income_total$Population_Weight[1:5])
 
 income_total_table <- income_total %>%
-  select(Income, Census_Total,Survey_Total, Weight = Population_Weight ) %>%
+  select(Income, Census_Total,Survey_Total ) %>%
   kbl(caption = "Descriptive Statistics, 8-State Region",
       digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
   kable_classic(full_width = T, html_font = "Cambria") %>%
@@ -578,23 +571,46 @@ Income: CHAS
 
 
 
-
-
+<style>
 ### Crosstab Graphics
 
+
+{
+   display: none;
+ }
+</style>
+
+
+<style>
 #### Savings Rate & Income
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+{
+   display: none;
+ }
+</style>
+
+
+
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 p <- ggplot(survey) +
   geom_bar(aes(x=x_sr, fill=y_signup),
            position = "dodge") +facet_wrap(~x_inc) + theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
 
 ggplotly(p)
 ```
-
+<style>
 #### Savings Rate & Race
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+{
+   display: none;
+ }
+</style>
+
+
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 p <- ggplot(survey) +
   geom_bar(aes(x=x_race, fill=y_signup),
            position = "dodge") +facet_wrap(~x_sr) + theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
@@ -602,10 +618,16 @@ p <- ggplot(survey) +
 ggplotly(p)
 ```
 
+<style>
 #### Race & Income
 
+{
+   display: none;
+ }
+</style>
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 p <- ggplot(survey) +
   geom_bar(aes(x=x_race, fill=y_signup),
            position = "dodge") +facet_wrap(~x_inc) + theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
@@ -613,13 +635,18 @@ p <- ggplot(survey) +
 ggplotly(p)
 ```
 
-
-
-
+<style>
 #### Cancellation Fee & Income
 
+{
+   display: none;
+ }
+</style>
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 p <- ggplot(survey) +
   geom_bar(aes(x=factor(x_cf), fill=y_signup),
            position = "dodge") +facet_wrap(~x_inc) + theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
@@ -627,10 +654,15 @@ p <- ggplot(survey) +
 ggplotly(p)
 ```
 
-
+<style>
 #### Cancellation Fee & Race
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+{
+   display: none;
+ }
+</style>
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 p <- ggplot(survey) +
   geom_bar(aes(x=factor(x_cf), fill=y_signup),
            position = "dodge") +facet_wrap(~x_race) + theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
@@ -640,12 +672,17 @@ ggplotly(p)
 
 
 
-
-
+<style>
 #### Contract Years & Income
 
+{
+   display: none;
+ }
+</style>
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 p <- ggplot(survey) +
   geom_bar(aes(x=factor(x_cly), fill=y_signup),
            position = "dodge") +facet_wrap(~x_inc) + theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
@@ -653,10 +690,15 @@ p <- ggplot(survey) +
 ggplotly(p)
 ```
 
-
+<style>
 #### Contract Years & Race
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+{
+   display: none;
+ }
+</style>
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 p <- ggplot(survey) +
   geom_bar(aes(x=factor(x_cly), fill=y_signup),
            position = "dodge") +facet_wrap(~x_race) + theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
@@ -881,11 +923,7 @@ stargazer(mod5, mod6, mod7, mod8, type="text", align=TRUE,
 
 
 
-## Discussion
 
-
-
-**Main Takeaways**
 
 1. Table 1
  + Contract length of 25 years compared to 1 year remained a significant deterrent to contract acceptance rates.
