@@ -89,11 +89,11 @@ For potential customers, community solar contracts vary by their contract attrib
 This research seeks to fill this gap by developing quantitative measurements of community priorities in likelihood of contract adoption. An original data set comprised of potential community solar customers surveyed was collected. Along with respondents demographic information, draft contracts with varying degrees of contract attributes were shown to each participant and their contract adoption rates. Using a weighted logit model, the likelihood of contract adoption was analyzed by including predictors for various demographic data and contract attributes. Additionally, relative importance is through a multinomial logit model, allowing contract attributes and demographic information to be interpreted in predictive strength relative to respective reference groups. 
 
 
-# Literature Review
+## Literature Review
 
 **to-do**
 
-# Data
+# Methods
 
 
 This research focuses on community shared solar (CSS) programs that are third-party owned and have participants subscribe to ongoing payments. Typically, within these programs, customers are given predefined, discrete contract terms rather than being able to compare multiple offerings or select their own terms. Our research is attempting to mimic this approach by giving customers a randomly assigned contract and surveying them on their willingness to adopt this program.
@@ -672,7 +672,7 @@ ggplotly(p)
 
 
 
-# Methods
+## Model
 
 
 A number of independent variables will be used for both contract attributes and demographic data. Interaction variables will be tested for significant, along with a initial stepwise regression to determine which variables to initially include. The below equation is a summary of the full model used in this analysis. The dependent variable is a binary variable for contract adoption, $y_{signup}$, where 1 signifies the contract was adopted and 0 signifies it was not.  
@@ -700,24 +700,9 @@ where,
 Other variables of interest to consider: government program - x_govt
 
 
+# Results
 
-
-# Primary Analysis
-
-
- *to-do* 
- 
- add intro/dialogue 
- 
- 
-<style>
-## Stepwise
-
-
-{
-   display: none;
- }
-</style>
+## Primary Analysis
 
 
 
@@ -927,7 +912,7 @@ Interestingly, lower income respondents were much less likely to adopt the contr
 
 
 
-# Secondary Analysis
+## Secondary Analysis
 
 The secondary analysis will include an ordered logit model to investigate the degree of which the same independent variables above influence the likert scale questions asked in the survey. Ordered logit models are commonly utilized with outputs of interest are categorized in discrete sequences, such as a Likert scale. 
 
@@ -952,3 +937,4 @@ Tables 1-4 in output/regressions
 
 
 
+# Discussion
