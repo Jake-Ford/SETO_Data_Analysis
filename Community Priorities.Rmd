@@ -96,7 +96,11 @@ This research seeks to fill this gap by developing quantitative measurements of 
 
 # Methods
 
+The survey was comprised of two entries...
+
 The population for this component of our research is adults (18+) in the eight states we will include within this study: Massachusetts, New York, California, Oregon, Illinois, Maryland, Colorado and Minnesota. We have chosen to oversample-populations that are considered low- to moderate-income (LMI) defined as up to 50% and between 50%-80% of an area’s median income, in accordance with the Department of Housing and Urban Development’s (HUD) definitions of each [term.](https://www.hudexchange.info/programs/acs-low-mod-summary-data/) Solstice will explore the use of dynamic surveying, in which respondents are asked whether their income falls within the LMI ranges that correspond with their zip code and household size. This is the preferred approach for this research as it allows for comparing priorities across broad income categories and avoid non- response issues attached to asking respondents to self-attest their income levels. We have also chosen to oversample minority and renter populations in this research, surpassing the proportional estimates of these demographics supplied by the 2018 American Community Survey (ACS) estimates. We have designed this sampling scheme to center familiarity with community solar as a core demographic within this research, though we will not weight on this demographic due to lack of an applicable metric. By centering familiarity with community solar as a central demographic within this research, Solstice plans to incorporate respondents that are the likely next adopters of community solar and respondents from populations that are not currently effectively reached by community solar. All demographic information will be self-attested through the community solar priorities research survey.
+
+
 
 
 
