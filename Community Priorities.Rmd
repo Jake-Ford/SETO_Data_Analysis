@@ -899,7 +899,8 @@ mod8 = robcov(mod8, cluster=model_data$id)
 stargazer(mod1, mod2, mod3, mod4, type="text", align=TRUE,
           title="Regression Table 1",
            covariate.labels = attr(model_data, "model.varnames")[3:9], 
-          dep.var.labels = attr(model_data, "model.varnames")[2])
+          dep.var.labels = attr(model_data, "model.varnames")[2],
+          out="table1.html")
 ```
 
 
@@ -917,7 +918,8 @@ stargazer(mod1, mod2, mod3, mod4, type="text", align=TRUE,
 stargazer(mod5, mod6, mod7, mod8, type="text", align=TRUE,
           title="Regression Table 2",
           covariate.labels = attr(model_data, "model.varnames")[3:16], 
-          dep.var.labels = attr(model_data, "model.varnames")[2])
+          dep.var.labels = attr(model_data, "model.varnames")[2],
+          out="table2.html")
 ```
 
 ## Odds Ratios
@@ -931,8 +933,9 @@ stargazer(mod1, mod2, mod3, mod4, type="text", align=TRUE,
         covariate.labels = attr(model_data, "model.varnames")[3:9], 
         dep.var.labels = attr(model_data, "model.varnames")[2],
         apply.coef = exp,
-        apply.se = exp,
-        title = "Odds Ratio, Table 1")
+       # apply.se = exp,
+        title = "Odds Ratio, Table 1",
+          out="table1_odds.html")
 
 
 ```
@@ -949,7 +952,8 @@ stargazer(mod5, mod6, mod7, mod8, type="text", align=TRUE,
           dep.var.labels = attr(model_data, "model.varnames")[2],
           apply.coef = exp,
           apply.se = exp,
-          title = "Odds Ratio, Table 2")
+          title = "Odds Ratio, Table 2",
+          out="table2_odds.html")
 
 
 
