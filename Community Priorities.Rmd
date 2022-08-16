@@ -446,14 +446,10 @@ ggplotly(g)
 
 
 
-<style>
-#### Homeownership
+
+### Homeownership
 
 
-{
-   display: none;
- }
-</style>
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -706,7 +702,7 @@ A number of independent variables will be used for both contract attributes and 
 
 \begin{equation}
 
-y_{signup} = \beta_{0} + \beta_{1}x_{sr} +\beta_{2}x_{cly} +\beta_{3}x_{clp}  +\beta_{4}x_{cf} + \\  \beta{5}x_{inc}+\beta_{6}x_{race} + \beta{7}x_{hs} +\beta_{8}x_{fam} + \beta_{9}x_{rev} + \beta_{10}x_{ord}+ e_{i}
+y_{signup} = \beta_{0} + \beta_{1}x_{sr} +\beta_{2}x_{cly} +\beta_{3}x_{clp}  +\beta_{4}x_{cf} + \\  \beta{5}x_{inc}+\beta_{6}x_{race} + \beta_{7}x_{hs} +\beta_{8}x_{fam} + \beta_{9}x_{rev} + \beta_{10}x_{ord}+ e_{i}
 
 \end{equation}
 
