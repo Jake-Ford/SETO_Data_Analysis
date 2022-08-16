@@ -106,7 +106,7 @@ In addition to basic descriptive analyses, the goal is to conduct two distinct a
 
 Survey respondents were drawn from two sources: (1) members of the Qualtrics panel (“the Qualtrics sample”), and (2) individuals in community groups identified by Solstice (“the Community Group sample”). To make sure that enough of the respondents are from populations of interest, both of these data sources oversampled low-income respondents and people of color. To avoid biased estimates as a result of the overweighting in the survey design, survey weights are devised using race and income using state level ACS data. Please reference the [survey weights](https://jake-ford.github.io/SETO_Data_Analysis/survey_weights.html) section for additional information. 
 
-Survey responses were collected in the Qualtrics sample from April 2021 to June 2021, and resulted in 1,261 individual responses. To expand the survey population, the Community Group sample was collected from December 2021 to June 2022, with 1,022 responses. Total responses resulted in 2,283. Response quality was measured in order to detect fraud or errant submissions. After this prophylactic step, a total of 1,493 responses remained. 
+Survey responses were collected in the Qualtrics sample from April 2021 to June 2021, and resulted in 1,261 individual responses. To expand the survey population, the Community Group sample was collected from December 2021 to June 2022, with 1,022 responses. Total responses resulted in 2,283. Response quality was measured in order to detect fraud or errant submissions. After this prophylactic step, a total of 1,493 unique individuals remained, with a total of 2,986 responses as each individual reviewed two contracts. 
 
 The population for this component of our research is adults (18+) in the eight states we will include within this study: Massachusetts, New York, California, Oregon, Illinois, Maryland, Colorado and Minnesota. We have chosen to oversample-populations that are considered low- to moderate-income (LMI) defined as up to 50% and between 50%-80% of an area’s median income, in accordance with the Department of Housing and Urban Development’s (HUD) definitions of each [term.](https://www.hudexchange.info/programs/acs-low-mod-summary-data/) Solstice will explore the use of dynamic surveying, in which respondents are asked whether their income falls within the LMI ranges that correspond with their zip code and household size. This is the preferred approach for this research as it allows for comparing priorities across broad income categories and avoid non- response issues attached to asking respondents to self-attest their income levels. We have also chosen to oversample minority and renter populations in this research, surpassing the proportional estimates of these demographics supplied by the 2018 American Community Survey (ACS) estimates. We have designed this sampling scheme to center familiarity with community solar as a core demographic within this research, though we will not weight on this demographic due to lack of an applicable metric. By centering familiarity with community solar as a central demographic within this research, Solstice plans to incorporate respondents that are the likely next adopters of community solar and respondents from populations that are not currently effectively reached by community solar. All demographic information will be self-attested through the community solar priorities research survey.
 
@@ -165,8 +165,19 @@ survey$x_sr <- factor(survey$x_sr, levels=c("5% savings rate", "10% savings rate
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 table1_data <- survey %>% 
-  select(y_signup,x_ord, x_sr, x_cf, x_clp, x_cly, x_source, x_rev,
-          x_gov, x_race, x_hs, x_inc, x_fam) 
+  select(y_signup,
+         `Contract Review Order` = x_ord, 
+         `Savings Rate` = x_sr, 
+         `Cancellation Fee` = x_cf, 
+         `Contract Length Pages` = x_clp, 
+         `Contract Length Years` = x_cly, 
+         `Survey Source ` = x_source, 
+         `Respondent Time Spent Reviewing Contract` = x_rev,
+          `Government Assistance` = x_gov, 
+         `Race`=x_race, 
+         `Homeowner Status` = x_hs, 
+         `Income` = x_inc, 
+         `Familiar with CSS` = x_fam) 
 
 # summarize the data with our package
 table1 <- tbl_summary(
