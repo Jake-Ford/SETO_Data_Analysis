@@ -200,13 +200,6 @@ table1
 
 Demographic data as reported in Table 1 reflects the oversampling of LMI, minority and renting communities. Graphs 1-3 show the proportion of each of these oversampled demographic categories in comparison totals. For race and income, comparison data is taken for the 8 state region from the 2020 5-year American Community Survey. Given the dynamic sampling used for income categories, control totals for income is taken from the Department of Housing and Urban Development's Office of Policy Development and Research (PD&R) Comprehensive Housing Affordability Strategy Data (CHAS). The most recent CHAS data is available as of [2018 5-year data](https://www.huduser.gov/portal/datasets/cp.html).  
 
-Sources: 
-
-Race: 2020 5-Year ACS, Table B03002
-Homeownership: 2020 5 Year ACS, Table B25003
-Income: CHAS
-
-
 
 
 
