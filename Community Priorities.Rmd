@@ -5,6 +5,7 @@ date: "`r Sys.Date()`"
 output: 
   rmdformats::readthedown:
     toc_depth: 5
+always_allow_html: yes
 
 knit: (function(inputFile, encoding) { 
         rmarkdown::render(inputFile, encoding = encoding, 
@@ -12,6 +13,9 @@ knit: (function(inputFile, encoding) {
 ---
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
+ 
+  # rmdformats::readthedown:
+  #    toc_depth: 5
 
 #Load packages we'll need throughout the entire document
 library(readxl)
@@ -192,7 +196,11 @@ table1 <- tbl_summary(
   bold_labels() %>%
   add_p()
 
-table1
+table1%>%
+  as_gt() %>%             # convert to gt table
+  gt::gtsave(             # save table as image
+    filename = "table1.png"
+  )
 ```
 
 
@@ -297,7 +305,7 @@ graph_temp <- reshape2::melt(survey_race_graph, id.var='Race')
 
 
 g <- ggplot(graph_temp, aes(x=reorder(Race, -value), y=value))+geom_bar(aes(fill=variable),stat='identity', position='dodge') +theme_classic()+
-  xlab('') + ylab('Proportion') + labs(color='') +   ggtitle("SETO Survey State and Census Race Totals, 8-State Region")+
+  xlab('') + ylab('Proportion') + labs(color='') +   ggtitle("Race Comparison 8 State Region")+
   theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) +  labs(caption = "Source: 2020 ACS 5-Year, Table B03002.")
 
 ggplotly(g)%>% 
@@ -473,7 +481,7 @@ graph_temp <- reshape2::melt(survey_income_graph, id.var='Income')
 
 
 g <- ggplot(graph_temp, aes(x=Income, y=value))+geom_bar(aes(fill=variable),stat='identity', position='dodge') +theme_classic()+
-  xlab('') + ylab('Proportion') + labs(color='') +   ggtitle("SETO Survey State and Census Income Totals, 8-State Region")+
+  xlab('') + ylab('Proportion') + labs(color='') +   ggtitle("Income Comparison 8 State Region")+
   theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))+  labs(caption = "Source: 2018 HUD PD&R CHAS, Table 14.")
 
 
@@ -572,7 +580,7 @@ graph_temp <- reshape2::melt(survey_race_graph, id.var='x_hs')
 
 
 g <- ggplot(graph_temp, aes(x=reorder(x_hs, -value), y=value))+geom_bar(aes(fill=variable),stat='identity', position='dodge') +theme_classic()+
-  xlab('') + ylab('Proportion') + labs(color='') +   ggtitle("SETO Survey State and Census Homeownership Totals, 8-State Region")+
+  xlab('') + ylab('Proportion') + labs(color='') +   ggtitle("Homeownership Comparison 8 State Region")+
   theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))+  labs(caption = "Source: 2020 ACS 5-Year, Table B25003.")
 
 ggplotly(g)%>% 
