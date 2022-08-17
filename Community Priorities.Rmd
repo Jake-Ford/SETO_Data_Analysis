@@ -34,6 +34,7 @@ library(rms)
 library(rmdformats)
 library(ggplot2)
 library(gtsummary)
+library(Statamarkdown)
 library(plotly)
 
 
@@ -788,204 +789,163 @@ Other variables of interest to consider: government program - x_govt
 
 Stata Version:
 
-
-
-```{r message=FALSE, warning=FALSE, include=FALSE}
-library(RStata)
-```
-
-
-```{r message=FALSE, warning=FALSE, include=FALSE}
-options("RStata.StataVersion" = 17)
-#options("chooseStataBin"= "/Users/jacobford/Applications/Stata/StataSE")
-#options(chooseStataBin('/Applications/Stata/StataSE.app/Contents/MacOS/stata-se'))
-
-options("RStata.StataPath" = "/Applications/Stata/StataSE.app/Contents/MacOS/stata-se")
-
-```
-
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-stata("/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/scripts/test.do")
-```
-
-
-
-
-
-
-```{r message=FALSE, warning=FALSE, include=FALSE}
-
-
-temp_data <- read_dta(paste(input_folder, "1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", sep=""))
-
-temp_data$x_sr <- as.factor(temp_data$x_sr)
-temp_data$x_cly <- as.factor(temp_data$x_cly)
-temp_data$x_clp <- as.factor(temp_data$x_clp)
-temp_data$x_cf <- as.factor(temp_data$x_cf)
-temp_data$x_inc <- as.factor(temp_data$x_inc)
-temp_data$x_race <- as.factor(temp_data$x_race)
-temp_data$x_hs <- as.factor(temp_data$x_hs)
-temp_data$x_fam <- as.factor(temp_data$x_fam)
-temp_data$x_gov <- as.factor(temp_data$x_gov)
-temp_data$x_source <- as.factor(temp_data$x_source)
-
-temp_data$x_rev <- as.factor(temp_data$x_rev)
-temp_data$x_ord <- as.factor(temp_data$x_ord)
-
-
-```
-
-
-```{r message=FALSE, warning=FALSE, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-library(stargazer)
-
-
-# drop third homestatus answer of other
-
-model_data <- temp_data %>%
-  mutate(x_hs_drop_other = case_when(
-    x_hs==1 ~ 1,
-    x_hs==2 ~ 2
-  )) %>%
-  dplyr::select(id, y_signup, x_sr, x_cly, x_clp, x_cf, x_inc, x_race, x_hs_drop_other, x_fam, x_rev, x_ord,x_gov, x_source, weight_income, weight_race)
-
-model_data$x_hs_drop_other <- as.factor(model_data$x_hs_drop_other)
-
-
-attr(model_data, "model.varnames") <- c("id", "Sign Up", "Savings Rate 10%", "Savings Rate 20%","Contract Length 25 Years", "Contract Length 20 Pages", "Cancellation Fee $250", "High Income", "Moderate Income", "Black", "Hispanic", "Asian", "Other", "Renter", "More Familiar", "More Reviewed", "weight income", "weight race" )
-
-# 
-model_data <- model_data %>%
-  filter(!is.na(x_ord)) %>%
-  filter(!is.na(x_hs_drop_other))
-
-names(attributes(model_data))
-attr(model_data, "model.varnames")
-
-model_data$x_inc <- relevel(model_data$x_inc, ref='3')
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-```{r message=FALSE, warning=FALSE}
-
-##load all models that we'll analyze
-
-cols <- c("x_sr", "x_cly", "x_clp", "x_cf", "x_inc", "x_race", "x_hs_drop_other", "x_fam" , "x_rev")
-
-model_data[cols] <- lapply(model_data[cols], as.factor)
-
-model_data$x_inc <- relevel(model_data$x_inc, ref='3')
-
-mod1=lrm(y_signup ~ x_sr  , x=T, y=T, weight=weight_race, data=model_data, normwt=T)
-mod1 = robcov(mod1, cluster=model_data$id)
-
-mod2=lrm(y_signup ~ x_sr + x_cly+x_clp  , x=T, y=T, weight=weight_race, data=model_data, normwt=T)
-mod2 = robcov(mod2, cluster=model_data$id)
-
-mod3=lrm(y_signup ~ x_sr + x_cly+x_clp+x_cf   , x=T, y=T, weight=weight_race, data=model_data, normwt=T)
-mod3 = robcov(mod3, cluster=model_data$id)
-
-mod4=lrm(y_signup ~ x_sr  + x_cly+x_clp+x_cf + x_inc , x=T, y=T, weight=weight_race, data=model_data, normwt=T)
-mod4 = robcov(mod4, cluster=model_data$id)
-
-mod5=lrm(y_signup ~ x_sr  + x_cly+x_clp+x_cf + x_inc + x_race   , x=TRUE, y=TRUE, weight=weight_race, data=model_data, normwt=T)
-mod5 = robcov(mod5, cluster=model_data$id)
-
-mod6=lrm(y_signup ~ x_sr  + x_cly+x_clp+x_cf + x_inc + x_race + x_hs_drop_other , x=T, y=T, weight=weight_race, data=model_data, normwt=T)
-mod6 = robcov(mod6, cluster=model_data$id)
-
-mod7=lrm(y_signup ~ x_sr  + x_cly+x_clp+x_cf + x_inc + x_race + x_hs_drop_other + x_fam , x=T, y=T, weight=weight_race, data=model_data, normwt=T)
-mod7 = robcov(mod7, cluster=model_data$id)
-
-mod8=lrm(y_signup ~ x_sr  + x_cly+x_clp+x_cf + x_inc + x_race + x_hs_drop_other + x_fam +x_rev , x=T, y=T, weight=weight_race, data=model_data, normwt=T)
-mod8 = robcov(mod8, cluster=model_data$id)
-
-
-```
-
+don't think RStata is going to be the way to do this - need to get the finished regression tables in Stata first
+- first, get the regression tables formatted correctly in Stata, have those exported to maybe just an HTML for now
+- next, copy and paste those ma-fuckers in here, we'll deal with what changes later
+- finally, copy and paste those marginsplots and odds ratio graphs in here, keep it simple stupid
 
 
 ### Table 1
+```{stata echo=FALSE}
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-## first four models
+use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
+	
+	
+quietly gen weight_race_int = int(weight_race)
+	
+eststo: quietly logit y_signup i.x_sr [pweight=weight_race_int], cluster(id)
+	
+eststo: quietly logit y_signup i.x_sr i.x_inc [pweight=weight_race_int], cluster(id)
 
-stargazer(mod1, mod2, mod3, mod4, type="text", align=TRUE,
-          title="Regression Table 1",
-           covariate.labels = attr(model_data, "model.varnames")[3:9], 
-          dep.var.labels = attr(model_data, "model.varnames")[2],
-          out="table1.html")
+eststo: quietly logit y_signup i.x_sr i.x_race i.x_hs [pweight=weight_race_int], cluster(id)
+
+eststo: quietly logit y_signup i.x_sr i.x_race  i.x_inc [pweight=weight_race_int], cluster(id)
+
+esttab, se label                               ///
+     title(Table 1: Logistic Regression on Contract Adoption)       ///
+     nonumbers mtitles("Model 1" "Model 2" "Model 3" "Model 4") 
+
+eststo clear
+
 ```
-
-
-
-
-
 
 
 
 ### Table 2
+```{stata echo=FALSE}
 
 
-```{r message=FALSE, warning=FALSE}
-
-stargazer(mod5, mod6, mod7, mod8, type="text", align=TRUE,
-          title="Regression Table 2",
-          covariate.labels = attr(model_data, "model.varnames")[3:16], 
-          dep.var.labels = attr(model_data, "model.varnames")[2],
-          out="table2.html")
-```
-
-## Odds Ratios
+use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
+	
+	
+quietly gen weight_race_int = int(weight_race)
 
 
-### Table 1
 
+eststo: quietly logit y_signup i.x_sr [pweight=weight_race_int], cluster(id)
+	
+eststo: quietly logit y_signup i.x_sr i.x_inc [pweight=weight_race_int], cluster(id)
 
-```{r message=FALSE, warning=FALSE}
-stargazer(mod1, mod2, mod3, mod4, type="text", align=TRUE,
-        covariate.labels = attr(model_data, "model.varnames")[3:9], 
-        dep.var.labels = attr(model_data, "model.varnames")[2],
-        apply.coef = exp,
-       # apply.se = exp,
-        title = "Odds Ratio, Table 1",
-          out="table1_odds.html")
+eststo: quietly logit y_signup i.x_sr i.x_race i.x_hs [pweight=weight_race_int], cluster(id)
 
+eststo: quietly logit y_signup i.x_sr i.x_race  i.x_inc [pweight=weight_race_int], cluster(id)
+
+esttab, eform se label                               ///
+     title(Table 2: Odds Ratios)       ///
+     nonumbers mtitles("Model 1" "Model 2" "Model 3" "Model 4") 
+
+eststo clear
 
 ```
 
 
 
 
-### Table 2
+```{stata echo=FALSE}
 
 
-```{r message=FALSE, warning=FALSE}
-stargazer(mod5, mod6, mod7, mod8, type="text", align=TRUE,
-          covariate.labels = attr(model_data, "model.varnames")[3:16], 
-          dep.var.labels = attr(model_data, "model.varnames")[2],
-          apply.coef = exp,
-          apply.se = exp,
-          title = "Odds Ratio, Table 2",
-          out="table2_odds.html")
+use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
+	
+	
+quietly gen weight_race_int = int(weight_race)
+
+
+
+quietly logit y_signup i.x_sr [pweight=weight_race_int], cluster(id)
+
+coefplot, drop(_cons) xline(1) eform xtitle(Odds ratio)
 
 
 
 ```
+
+
+
+
+
+
+
+### Table 3
+```{stata echo=FALSE}
+
+
+use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
+	
+	
+quietly gen weight_race_int = int(weight_race)
+	
+eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs [pweight=weight_race_int], cluster(id)
+	
+eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs i.x_clp i.x_cly i.x_cf [pweight=weight_race_int], cluster(id)
+
+eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs i.x_clp i.x_cly i.x_cf i.x_fam [pweight=weight_race_int], cluster(id)
+
+eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs i.x_clp i.x_cly i.x_cf i.x_fam  i.x_rev [pweight=weight_race_int], cluster(id)
+
+esttab, se label                               ///
+     title(Logistic Regression on Contract Adoption)       ///
+     nonumbers mtitles("Model 5" "Model 6" "Model 7" "Model 8") 
+
+eststo clear
+
+```
+
+
+
+### Table 4
+```{stata echo=FALSE}
+
+
+use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
+	
+	
+quietly gen weight_race_int = int(weight_race)
+	
+eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs [pweight=weight_race_int], cluster(id)
+	
+eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs i.x_clp i.x_cly i.x_cf [pweight=weight_race_int], cluster(id)
+
+eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs i.x_clp i.x_cly i.x_cf i.x_fam [pweight=weight_race_int], cluster(id)
+
+eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs i.x_clp i.x_cly i.x_cf i.x_fam  i.x_rev [pweight=weight_race_int], cluster(id)
+
+esttab, eform se label                               ///
+     title(Logistic Regression on Contract Adoption)       ///
+     nonumbers mtitles("Model 5" "Model 6" "Model 7" "Model 8") 
+
+eststo clear
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
