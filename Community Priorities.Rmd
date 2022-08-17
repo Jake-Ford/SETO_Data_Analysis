@@ -786,6 +786,34 @@ Other variables of interest to consider: government program - x_govt
 ## Regression Tables
 
 
+Stata Version:
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(RStata)
+```
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+options("RStata.StataVersion" = 17)
+#options("chooseStataBin"= "/Users/jacobford/Applications/Stata/StataSE")
+#options(chooseStataBin('/Applications/Stata/StataSE.app/Contents/MacOS/stata-se'))
+
+options("RStata.StataPath" = "/Applications/Stata/StataSE.app/Contents/MacOS/stata-se")
+
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+stata("/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/scripts/test.do")
+```
+
+
+
+
+
+
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
 
