@@ -128,7 +128,7 @@ survey$zip <- str_pad(survey$zip, width=5, side="left", pad="0")
 
 
 survey <- survey %>%
-  mutate( Race2 = case_when(
+  mutate( Race = case_when(
     race_eth == "White" ~ race_eth,
     race_eth == "Black or African American" ~ race_eth,
     race_eth =="Hispanic or Latino" ~ race_eth,
@@ -238,21 +238,21 @@ temp <- get_acs(
 temp_state <- temp %>%
 #  filter(NAME=="California") %>%
   select(Race=variable, Total = estimate) %>%
-  mutate( Race2 = case_when(
+  mutate( Race = case_when(
     Race == "White" ~ Race,
     Race == "Black or African American" ~ Race,
     Race =="Hispanic or Latino" ~ Race,
     Race == "Asian" ~ Race,
     TRUE ~ "Other - POC"
   )) %>%
-  group_by(Race2) %>%
+  group_by(Race) %>%
   summarise(Total = sum(Total)) %>%
-  arrange(Race2) %>%
+  arrange(Race) %>%
   mutate(Proportion = Total/sum(Total)) 
 
 
 survey_race <- survey %>%
-  group_by(Race=Race2, .drop=FALSE) %>%
+  group_by(Race=Race, .drop=FALSE) %>%
 #  filter(state=="CA") %>%
   summarise(Total = n()/2) %>%
   mutate(Proportion = Total/sum(Total)) %>%
@@ -264,7 +264,7 @@ join_with_survey <- cbind(temp_state, survey_race)
 join_with_survey <- join_with_survey[,-4]
 
 temp_hold <- join_with_survey %>%
-  select(Race=Race2, Census_Total = Total, Census_Proportion = Proportion, 
+  select(Race=Race, Census_Total = Total, Census_Proportion = Proportion, 
          Survey_Total = Total.1, Survey_Proportion = Proportion.1) 
 
 
@@ -757,7 +757,7 @@ A number of independent variables will be used for both contract attributes and 
 
 \begin{equation}
 
-y_{signup} = \beta_{0} + \beta_{1}x_{sr} +\beta_{2}x_{cly} +\beta_{3}x_{clp}  +\beta_{4}x_{cf} + \\  \beta{5}x_{inc}+\beta_{6}x_{race} + \beta_{7}x_{hs} +\beta_{8}x_{fam} + \beta_{9}x_{rev} + \beta_{10}x_{ord}+ e_{i}
+y_{signup} = \beta_{0} + \beta_{1}x_{sr} +\beta_{2}x_{cly} +\beta_{3}x_{clp}  +\beta_{4}x_{cf} + \\  \beta_{5}x_{inc}+\beta_{6}x_{race} + \beta_{7}x_{hs} +\beta_{8}x_{fam} + \beta_{9}x_{rev} + \beta_{10}x_{ord}+ e_{i}
 
 \end{equation}
 
@@ -782,11 +782,9 @@ Other variables of interest to consider: government program - x_govt
 
 ## Primary Analysis
 
+From Table 1, seven models are presented analyzing changes in probability of sign up. 
 
-
-
-
-### Table 1: Models 1-4
+### Table 1: Logistic Regression Output
 ```{stata echo=FALSE}
 
 
@@ -799,13 +797,20 @@ eststo: quietly logit y_signup i.x_sr [pweight=weight_race_int], cluster(id)
 	
 eststo: quietly logit y_signup i.x_sr i.x_inc [pweight=weight_race_int], cluster(id)
 
-eststo: quietly logit y_signup i.x_sr i.x_race i.x_hs [pweight=weight_race_int], cluster(id)
+eststo: quietly logit y_signup i.x_sr i.x_inc i.x_race  [pweight=weight_race_int], cluster(id)
 
-eststo: quietly logit y_signup i.x_sr i.x_race  i.x_inc [pweight=weight_race_int], cluster(id)
+eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs [pweight=weight_race_int], cluster(id)
 
-esttab, se label                               ///
+eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs i.x_clp i.x_cly i.x_cf  [pweight=weight_race_int], cluster(id)
+	
+eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs i.x_clp i.x_cly i.x_cf i.x_fam [pweight=weight_race_int], cluster(id)
+
+eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs i.x_clp i.x_cly i.x_cf i.x_fam i.x_rev i.x_rev [pweight=weight_race_int], cluster(id)
+
+
+esttab, se label                              ///
      title(Table 1: Logistic Regression on Contract Adoption)       ///
-     nonumbers mtitles("Model 1" "Model 2" "Model 3" "Model 4") 
+     nonumbers mtitles("Model 1" "Model 2" "Model 3" "Model 4" "Model 5" "Model 6" "Model 7") 
 
 eststo clear
 
@@ -813,81 +818,32 @@ eststo clear
 
 
 
-### Table 2: Models 1-4 Odds Ratios
+### Table 2: Odds Ratios
 ```{stata echo=FALSE}
 
 
 use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
 	
-	
 quietly gen weight_race_int = int(weight_race)
-
-
-
+	
 eststo: quietly logit y_signup i.x_sr [pweight=weight_race_int], cluster(id)
 	
 eststo: quietly logit y_signup i.x_sr i.x_inc [pweight=weight_race_int], cluster(id)
 
-eststo: quietly logit y_signup i.x_sr i.x_race i.x_hs [pweight=weight_race_int], cluster(id)
+eststo: quietly logit y_signup i.x_sr i.x_inc i.x_race  [pweight=weight_race_int], cluster(id)
 
-eststo: quietly logit y_signup i.x_sr i.x_race  i.x_inc [pweight=weight_race_int], cluster(id)
-
-esttab, eform se label                               ///
-     title(Table 2: Odds Ratios)       ///
-     nonumbers mtitles("Model 1" "Model 2" "Model 3" "Model 4") 
-
-eststo clear
-
-```
-
-
-
-
-```{stata echo=FALSE}
-
-
-use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
-	
-	
-quietly gen weight_race_int = int(weight_race)
-
-
-
-quietly logit y_signup i.x_sr [pweight=weight_race_int], cluster(id)
-
-coefplot, drop(_cons) xline(1) eform xtitle(Odds ratio)
-
-
-
-```
-
-
-
-
-
-
-
-### Table 3: Models 5-8
-
-```{stata echo=FALSE}
-
-
-use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
-	
-	
-quietly gen weight_race_int = int(weight_race)
-	
 eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs [pweight=weight_race_int], cluster(id)
-	
-eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs i.x_clp i.x_cly i.x_cf [pweight=weight_race_int], cluster(id)
 
+eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs i.x_clp i.x_cly i.x_cf  [pweight=weight_race_int], cluster(id)
+	
 eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs i.x_clp i.x_cly i.x_cf i.x_fam [pweight=weight_race_int], cluster(id)
 
-eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs i.x_clp i.x_cly i.x_cf i.x_fam  i.x_rev [pweight=weight_race_int], cluster(id)
+eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs i.x_clp i.x_cly i.x_cf i.x_fam i.x_rev i.x_rev [pweight=weight_race_int], cluster(id)
 
-esttab, se label                               ///
-     title(Logistic Regression on Contract Adoption)       ///
-     nonumbers mtitles("Model 5" "Model 6" "Model 7" "Model 8") 
+
+esttab, eform se label                              ///
+     title(Table 1: Logistic Regression on Contract Adoption)       ///
+     nonumbers mtitles("Model 1" "Model 2" "Model 3" "Model 4" "Model 5" "Model 6" "Model 7") 
 
 eststo clear
 
@@ -895,72 +851,14 @@ eststo clear
 
 
 
-### Table 4: Models 5-8 Odds Ratios
-```{stata echo=FALSE}
 
 
-use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
-	
-	
-quietly gen weight_race_int = int(weight_race)
-	
-eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs [pweight=weight_race_int], cluster(id)
-	
-eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs i.x_clp i.x_cly i.x_cf [pweight=weight_race_int], cluster(id)
-
-eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs i.x_clp i.x_cly i.x_cf i.x_fam [pweight=weight_race_int], cluster(id)
-
-eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs i.x_clp i.x_cly i.x_cf i.x_fam  i.x_rev [pweight=weight_race_int], cluster(id)
-
-esttab, eform se label                               ///
-     title(Logistic Regression on Contract Adoption)       ///
-     nonumbers mtitles("Model 5" "Model 6" "Model 7" "Model 8") 
-
-eststo clear
+Controlling for all other variables, contract length was found to have a strong negative relationship on the probability of contract adoption. For example, holding all variables constant, from model 5 we see that the odds ratio for contract length of 25 years is 0.82, meaning the group with contracts of 25 years are 0.82 times as likely as the group with contracts of 1 year of signing up.
 
 
-```
+No statistically significant difference in contract adoption were observed when respondents are shown differing savings rates, suggesting other attributes are primary motivations instead of savings rate. Relative to White respondents, ‘Other POC’ were 1.55 times more likely to adopt the contract in model 6, controlling for all other demographic and contract attributes.  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1. Table 1
- + Contract length of 25 years compared to 1 year remained a significant deterrent to contract acceptance rates.
- + Relative to low income, moderate and higher income respondents were more likely to accept the contract, holding th effect of savings rate, cancellation fee, and contract length constant. 
-2. Table 2
- + Contract lenght remained a constant deterrance 
- + Homeowner status, rent vs homeowner, was not observed as a statistically significant effect on signup rate. Likely some multicollinearity due to effect (sign) varying from model 2 to model 4. 
- + After including familiarity and reviewed dummies, savings rate becomes statistically significant effect on likelihood of contract adoption. 
- + More familiar with community solar implies significantly more likely to adopt contract (suggests importance of education) - odds ratio of >4 in model 3 and 4
- + In looking at contract adoption by race, Hispanics were the only group observed with a statistically significant effect in models 1 and 2. Relative to white, hispanic rates were higher. This effect is negated after additional IVs are introduces in models 3 and 4. 
-
-
-
-
-From Table 1, four models are presented analyzing changes in probability of sign up. Controlling for all other variables, contract length and income were found to have statistically significant effects on the rate of sign up. Contract length was found to have a strong negative impact on probability of contract adoption. For example, holding all variables constant, from model 2 we see that the odds ratio for contract length of 25 years is 0.782, meaning the group with contracts of 25 years are 0.782 times as likely as the group with contracts of 1 year of signing up, or a 21.8% decrease in odds of signing up. 
-
-Interestingly, lower income respondents were much less likely to adopt the contract, even when controlling for savings rate, contract length and number of pages, and cancellation fees. High income and medium income respondents were 1.3 and 1.7 times the odds to adopt the contract compared to low income respondents, controlling for contract attributes.  
-
+Moderate income individuals were more likely relative to high income individuals to accept the contract when controlling for race, contract length in both pages and years, and cancellation fees. However, by model 6, the difference is no longer statistically significant. Interestingly, in model 6 and 7, low income individuals,, were less likely to adopt the contract relative to high income and controlling for all variables
 
 
 
@@ -971,15 +869,13 @@ Interestingly, lower income respondents were much less likely to adopt the contr
 
 ## Secondary Analysis
 
-The secondary analysis will include an ordered logit model to investigate the degree of which the same independent variables above influence the likert scale questions asked in the survey. Ordered logit models are commonly utilized with outputs of interest are categorized in discrete sequences, such as a Likert scale. 
-
+The secondary analysis uses a multinomial logit model to investigate the degree of which the same independent variables above influence the likert scale questions asked in the survey, including likelihood of contract adoption given differing savings rates, cancellation fees and contract lengths. Multinomial logit models are commonly utilized with outputs of interest are categorized in discrete sequences, such as a Likert scale. 
 
 
 
 
 ### Table 1: Savings Rates & Likelihood of Adoption
 
-maybe only include significant variables from primary in the secondary?
 
 
 ```{stata echo=FALSE}
