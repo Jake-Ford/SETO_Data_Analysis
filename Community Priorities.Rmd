@@ -977,12 +977,7 @@ The secondary analysis will include an ordered logit model to investigate the de
 
 
 
-
-
-
-## Would/Would Not Sign Up
-
-### Savings Rate
+### Table 1: Savings Rates & Likelihood of Adoption
 
 maybe only include significant variables from primary in the secondary?
 
@@ -1019,7 +1014,7 @@ eststo: quietly	mlogit savings_11_15 i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=
 
 esttab, label                                ///
      title(Logistic Regression on Contract Adoption)       ///
-     nonumbers mtitles("Model 1" "Model 2" "Model 3" "Model 4") 
+     nonumbers mtitles("SR: None" "SR: 1-5%" "SR: 6-10%" "SR: 11-15%") 
 
 eststo clear
 
@@ -1060,7 +1055,7 @@ eststo: quietly	mlogit savings_50_plus i.x_race ib3.x_inc i.x_hs	i.x_fam [fweigh
 
 esttab, label                                ///
      title(Logistic Regression on Contract Adoption)       ///
-     nonumbers mtitles("Model 5" "Model 6" "Model 7" ) 
+     nonumbers mtitles("SR: 16-20%" "SR: 21-50%" "SR: >50%" ) 
 
 eststo clear
 
