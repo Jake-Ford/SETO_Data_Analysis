@@ -784,18 +784,9 @@ Other variables of interest to consider: government program - x_govt
 
 
 
-## Regression Tables
 
 
-Stata Version:
-
-don't think RStata is going to be the way to do this - need to get the finished regression tables in Stata first
-- first, get the regression tables formatted correctly in Stata, have those exported to maybe just an HTML for now
-- next, copy and paste those ma-fuckers in here, we'll deal with what changes later
-- finally, copy and paste those marginsplots and odds ratio graphs in here, keep it simple stupid
-
-
-### Table 1
+### Table 1: Models 1-4
 ```{stata echo=FALSE}
 
 
@@ -822,7 +813,7 @@ eststo clear
 
 
 
-### Table 2
+### Table 2: Models 1-4 Odds Ratios
 ```{stata echo=FALSE}
 
 
@@ -876,7 +867,8 @@ coefplot, drop(_cons) xline(1) eform xtitle(Odds ratio)
 
 
 
-### Table 3
+### Table 3: Models 5-8
+
 ```{stata echo=FALSE}
 
 
@@ -903,7 +895,7 @@ eststo clear
 
 
 
-### Table 4
+### Table 4: Models 5-8 Odds Ratios
 ```{stata echo=FALSE}
 
 
@@ -992,7 +984,91 @@ The secondary analysis will include an ordered logit model to investigate the de
 
 ### Savings Rate
 
-Tables 1-4 in output/regressions
+maybe only include significant variables from primary in the secondary?
+
+
+```{stata echo=FALSE}
+
+
+use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
+	
+
+label var 	x_gov			"Government Program Usage"
+
+gen weight_income_int = int(weight_income)
+gen weight_race_int = int(weight_race)
+
+drop if x_hs > 2 // drop the 'other category'
+///
+
+eststo: quietly	mlogit savings_none i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+	
+eststo: quietly	mlogit savings_1_5 i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+
+eststo: quietly	mlogit savings_6_10 i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+
+eststo: quietly	mlogit savings_11_15 i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+
+//eststo: quietly	mlogit savings_16_20 i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+
+//eststo: quietly	mlogit savings_21_50 i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+
+//eststo: quietly	mlogit savings_50_plus i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+
+
+
+esttab, label                                ///
+     title(Logistic Regression on Contract Adoption)       ///
+     nonumbers mtitles("Model 1" "Model 2" "Model 3" "Model 4") 
+
+eststo clear
+
+
+```
+
+
+
+```{stata echo=FALSE}
+
+
+use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
+	
+
+label var 	x_gov			"Government Program Usage"
+
+gen weight_income_int = int(weight_income)
+gen weight_race_int = int(weight_race)
+
+drop if x_hs > 2 // drop the 'other category'
+///
+
+//eststo: quietly	mlogit savings_none i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+	
+//eststo: quietly	mlogit savings_1_5 i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+
+//eststo: quietly	mlogit savings_6_10 i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+
+//eststo: quietly	mlogit savings_11_15 i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+
+eststo: quietly	mlogit savings_16_20 i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+
+eststo: quietly	mlogit savings_21_50 i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+
+eststo: quietly	mlogit savings_50_plus i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+
+
+
+esttab, label                                ///
+     title(Logistic Regression on Contract Adoption)       ///
+     nonumbers mtitles("Model 5" "Model 6" "Model 7" ) 
+
+eststo clear
+
+
+```
+
+
+
 
 
 
