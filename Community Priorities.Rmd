@@ -872,10 +872,7 @@ Moderate income individuals were more likely relative to high income individuals
 The secondary analysis uses a multinomial logit model to investigate the degree of which the same independent variables above influence the likert scale questions asked in the survey, including likelihood of contract adoption given differing savings rates, cancellation fees and contract lengths. Multinomial logit models are commonly utilized with outputs of interest are categorized in discrete sequences, such as a Likert scale. 
 
 
-
-
-### Table 1: Savings Rates & Likelihood of Adoption
-
+### Savings Rates 
 
 
 ```{stata echo=FALSE}
@@ -884,33 +881,168 @@ The secondary analysis uses a multinomial logit model to investigate the degree 
 use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
 	
 
-label var 	x_gov			"Government Program Usage"
+quietly gen weight_race_int = int(weight_race)
 
-gen weight_income_int = int(weight_income)
-gen weight_race_int = int(weight_race)
-
-drop if x_hs > 2 // drop the 'other category'
-///
-
-eststo: quietly	mlogit savings_none i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+quietly gen y_savings_1_5 = savings_1_5
+		label define y_savings_1_5 1 "Negative" 2 "Unlikely" 3 "Neutral" 4 "Likely" 5 "Affirmative"
+		label values y_savings_1_5 y_savings_1_5
+		
+quietly gen y_savings_6_10 = savings_6_10
+		label define y_savings_6_10 1 "Negative" 2 "Unlikely" 3 "Neutral" 4 "Likely" 5 "Affirmative"
+		label values y_savings_6_10 y_savings_6_10
 	
-eststo: quietly	mlogit savings_1_5 i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+quietly gen y_savings_11_15 = savings_11_15
+		label define y_savings_11_15 1 "Negative" 2 "Unlikely" 3 "Neutral" 4 "Likely" 5 "Affirmative"
+		label values y_savings_11_15 y_savings_11_15
 
-eststo: quietly	mlogit savings_6_10 i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+quietly gen y_savings_16_20 = savings_16_20
+		label define y_savings_16_20 1 "Negative" 2 "Unlikely" 3 "Neutral" 4 "Likely" 5 "Affirmative"
+		label values y_savings_16_20 y_savings_16_20
+		
+quietly gen y_savings_21_50 = savings_21_50
+		label define y_savings_21_50 1 "Negative" 2 "Unlikely" 3 "Neutral" 4 "Likely" 5 "Affirmative"
+		label values y_savings_21_50 y_savings_21_50
+		
+quietly gen y_savings_50_plus = savings_50_plus
+		label define y_savings_50_plus 1 "Negative" 2 "Unlikely" 3 "Neutral" 4 "Likely" 5 "Affirmative"
+		label values y_savings_50_plus y_savings_50_plus
+		
+drop if x_hs > 2
 
-eststo: quietly	mlogit savings_11_15 i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+eststo: quietly	mlogit y_savings_1_5 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
 
-//eststo: quietly	mlogit savings_16_20 i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+eststo: quietly	mlogit y_savings_6_10 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
 
-//eststo: quietly	mlogit savings_21_50 i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+eststo: quietly	mlogit y_savings_11_15 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+	
+//eststo: quietly	mlogit y_savings_16_20 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+	
+//eststo: quietly	mlogit y_savings_21_50 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+	
+//eststo: quietly	mlogit y_savings_50_plus i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+		
 
-//eststo: quietly	mlogit savings_50_plus i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+esttab, noobs unstack noomitted eform varwidth(25) replace cells(b(star fmt(3))) ///
+		drop(1.x_race 3.x_inc 1.x_hs 1.x_fam) label varlabels(_cons Constant)  ///
+		refcat(2.x_race "01 White" 2.x_inc "01 Low Income" 2.x_hs "01 Homeowner" 2.x_fam "01 Less Familiar") ///
+	  nonumbers mtitles("1-5%" "6-10%" "11-15%") legend ///
+		title("Relative risks ratios of the savings rate multinomial logistic regression model (reference group: neutral")
+
+//esttab, eform se label                              ///
+  //   title(Table 1: Logistic Regression on Contract Adoption)       ///
+    // nonumbers mtitles("Model 1" "Model 2" "Model 3" "Model 4" "Model 5" "Model 6" "Model 7") 
+
+eststo clear
+
+
+```
+
+
+```{stata echo=FALSE}
+
+
+use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
+	
+
+quietly gen weight_race_int = int(weight_race)
+
+quietly gen y_savings_1_5 = savings_1_5
+		label define y_savings_1_5 1 "Negative" 2 "Unlikely" 3 "Neutral" 4 "Likely" 5 "Affirmative"
+		label values y_savings_1_5 y_savings_1_5
+		
+quietly gen y_savings_6_10 = savings_6_10
+		label define y_savings_6_10 1 "Negative" 2 "Unlikely" 3 "Neutral" 4 "Likely" 5 "Affirmative"
+		label values y_savings_6_10 y_savings_6_10
+	
+quietly gen y_savings_11_15 = savings_11_15
+		label define y_savings_11_15 1 "Negative" 2 "Unlikely" 3 "Neutral" 4 "Likely" 5 "Affirmative"
+		label values y_savings_11_15 y_savings_11_15
+
+quietly gen y_savings_16_20 = savings_16_20
+		label define y_savings_16_20 1 "Negative" 2 "Unlikely" 3 "Neutral" 4 "Likely" 5 "Affirmative"
+		label values y_savings_16_20 y_savings_16_20
+		
+quietly gen y_savings_21_50 = savings_21_50
+		label define y_savings_21_50 1 "Negative" 2 "Unlikely" 3 "Neutral" 4 "Likely" 5 "Affirmative"
+		label values y_savings_21_50 y_savings_21_50
+		
+quietly gen y_savings_50_plus = savings_50_plus
+		label define y_savings_50_plus 1 "Negative" 2 "Unlikely" 3 "Neutral" 4 "Likely" 5 "Affirmative"
+		label values y_savings_50_plus y_savings_50_plus
+		
+drop if x_hs > 2
+
+
+eststo: quietly	mlogit y_savings_16_20 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+	
+eststo: quietly	mlogit y_savings_21_50 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+	
+eststo: quietly	mlogit y_savings_50_plus i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+		
+
+esttab, noobs unstack noomitted eform varwidth(25) replace cells(b(star fmt(3))) ///
+		drop(1.x_race 3.x_inc 1.x_hs 1.x_fam) label varlabels(_cons Constant)  ///
+		refcat(2.x_race "01 White" 2.x_inc "01 Low Income" 2.x_hs "01 Homeowner" 2.x_fam "01 Less Familiar") ///
+	  nonumbers mtitles("16-20%" "21-50%" "Over 50%") legend ///
+		title("Relative risks ratios of the savings rate multinomial logistic regression model (reference group: neutral")
+
+
+eststo clear
+
+
+```
 
 
 
-esttab, label                                ///
-     title(Logistic Regression on Contract Adoption)       ///
-     nonumbers mtitles("SR: None" "SR: 1-5%" "SR: 6-10%" "SR: 11-15%") 
+### Cancellation Fees
+
+
+```{stata echo=FALSE}
+
+
+use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
+	
+
+quietly gen weight_race_int = int(weight_race)
+
+quietly gen y_fees_1_100 = fees_1_100
+		label define y_savings_1_5 1 "Negative" 2 "Unlikely" 3 "Neutral" 4 "Likely" 5 "Affirmative"
+  	label values y_fees_1_100 y_savings_1_5
+		
+quietly gen y_fees_101_250 = fees_101_250
+		label values y_fees_101_250 y_savings_6_10
+	
+quietly gen y_fees_251_500 = fees_251_500
+		label values y_fees_251_500 y_savings_11_15
+
+quietly gen y_fees_501_1000 = fees_501_1000
+		label values y_fees_501_1000 y_savings_16_20
+		
+quietly gen y_fees_1000_plus = fees_1000_plus
+		label values y_fees_1000_plus y_savings_21_50
+		
+
+		
+drop if x_hs > 2
+
+eststo: quietly	mlogit y_fees_1_100 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+
+eststo: quietly	mlogit y_fees_101_250 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+
+eststo: quietly	mlogit y_fees_251_500 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+	
+//eststo: quietly	mlogit y_fees_501_1000 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+	
+//eststo: quietly	mlogit y_fees_1000_plus i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+	
+
+
+esttab, noobs unstack noomitted eform varwidth(25) replace cells(b(star fmt(3))) ///
+		drop(1.x_race 3.x_inc 1.x_hs 1.x_fam) label varlabels(_cons Constant)  ///
+		refcat(2.x_race "01 White" 2.x_inc "01 Low Income" 2.x_hs "01 Homeowner" 2.x_fam "01 Less Familiar") ///
+	  mtitles("Fee 1-100" "Fee 101-250" "Fee 251-500") legend ///
+		title("Relative risks ratios of the cancellation fees multinomial logistic regression model (reference group: neutral")
+
 
 eststo clear
 
@@ -925,33 +1057,103 @@ eststo clear
 use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
 	
 
-label var 	x_gov			"Government Program Usage"
+quietly gen weight_race_int = int(weight_race)
 
-gen weight_income_int = int(weight_income)
-gen weight_race_int = int(weight_race)
-
-drop if x_hs > 2 // drop the 'other category'
-///
-
-//eststo: quietly	mlogit savings_none i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+quietly gen y_fees_1_100 = fees_1_100
+		label define y_savings_1_5 1 "Negative" 2 "Unlikely" 3 "Neutral" 4 "Likely" 5 "Affirmative"
+  	label values y_fees_1_100 y_savings_1_5
+		
+quietly gen y_fees_101_250 = fees_101_250
+		label values y_fees_101_250 y_savings_6_10
 	
-//eststo: quietly	mlogit savings_1_5 i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+quietly gen y_fees_251_500 = fees_251_500
+		label values y_fees_251_500 y_savings_11_15
 
-//eststo: quietly	mlogit savings_6_10 i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+quietly gen y_fees_501_1000 = fees_501_1000
+		label values y_fees_501_1000 y_savings_16_20
+		
+quietly gen y_fees_1000_plus = fees_1000_plus
+		label values y_fees_1000_plus y_savings_21_50
+		
 
-//eststo: quietly	mlogit savings_11_15 i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+		
+drop if x_hs > 2
 
-eststo: quietly	mlogit savings_16_20 i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+//eststo: quietly	mlogit y_fees_1_100 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
 
-eststo: quietly	mlogit savings_21_50 i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+//eststo: quietly	mlogit y_fees_101_250 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
 
-eststo: quietly	mlogit savings_50_plus i.x_race ib3.x_inc i.x_hs	i.x_fam [fweight=weight_race_int],baseoutcome(3) cluster(id)
+//eststo: quietly	mlogit y_fees_251_500 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+	
+eststo: quietly	mlogit y_fees_501_1000 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+	
+eststo: quietly	mlogit y_fees_1000_plus i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+	
 
 
+esttab, noobs noomitted eform varwidth(25) replace cells(b(star fmt(3))) ///
+		drop(1.x_race 3.x_inc 1.x_hs 1.x_fam) label varlabels(_cons Constant)  ///
+		refcat(2.x_race "01 White" 2.x_inc "01 Low Income" 2.x_hs "01 Homeowner" 2.x_fam "01 Less Familiar") ///
+	  mtitles("Fee 500-1000" "Fee 1000 Plus"	 ) legend ///
+		title("Relative risks ratios of the cancellation fees multinomial logistic regression model (reference group: neutral")
 
-esttab, label                                ///
-     title(Logistic Regression on Contract Adoption)       ///
-     nonumbers mtitles("SR: 16-20%" "SR: 21-50%" "SR: >50%" ) 
+
+eststo clear
+
+
+```
+
+### Contract Length (Years)
+
+
+```{stata echo=FALSE}
+
+
+use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
+	
+
+quietly gen weight_race_int = int(weight_race)
+
+quietly gen y_years_1_3 = years_1_3
+		label define y_savings_1_5 1 "Negative" 2 "Unlikely" 3 "Neutral" 4 "Likely" 5 "Affirmative"
+		label values y_years_1_3 y_savings_1_5
+		
+quietly gen y_years_4_6 = years_4_6
+		label values y_years_4_6 y_savings_6_10
+	
+quietly gen y_years_7_10 = years_7_10
+		label values y_years_7_10 y_savings_11_15
+
+quietly gen y_years_11_15 = years_11_15
+		label values y_years_11_15 y_savings_16_20
+		
+quietly gen y_years_16_20 = years_16_20
+		label values y_years_16_20 y_savings_21_50
+		
+quietly gen y_years_21_plus = years_21_plus
+		label values y_years_21_plus y_savings_50_plus
+		
+drop if x_hs > 2
+
+eststo: quietly	mlogit y_years_1_3 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+
+eststo: quietly	mlogit y_years_4_6 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+
+eststo: quietly	mlogit y_years_7_10 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+	
+//eststo: quietly	mlogit y_years_11_15 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+	
+//eststo: quietly	mlogit y_years_16_20 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+	
+//eststo: quietly	mlogit y_years_21_plus i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+		
+
+esttab, noobs unstack noomitted eform varwidth(25) replace cells(b(star fmt(3))) ///
+		drop(1.x_race 3.x_inc 1.x_hs 1.x_fam) label varlabels(_cons Constant)  ///
+		refcat(2.x_race "01 White" 2.x_inc "01 Low Income" 2.x_hs "01 Homeowner" 2.x_fam "01 Less Familiar") ///
+	  mtitles("1-3 Years" "4-6 Years" "7-10 Years") legend ///
+		title("Relative risks ratios of the savings rate multinomial logistic regression model (reference group: neutral")
+
 
 eststo clear
 
@@ -960,12 +1162,60 @@ eststo clear
 
 
 
+```{stata echo=FALSE}
 
 
+use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
+	
+
+quietly gen weight_race_int = int(weight_race)
+
+quietly gen y_years_1_3 = years_1_3
+		label define y_savings_1_5 1 "Negative" 2 "Unlikely" 3 "Neutral" 4 "Likely" 5 "Affirmative"
+		label values y_years_1_3 y_savings_1_5
+		
+quietly gen y_years_4_6 = years_4_6
+		label values y_years_4_6 y_savings_6_10
+	
+quietly gen y_years_7_10 = years_7_10
+		label values y_years_7_10 y_savings_11_15
+
+quietly gen y_years_11_15 = years_11_15
+		label values y_years_11_15 y_savings_16_20
+		
+quietly gen y_years_16_20 = years_16_20
+		label values y_years_16_20 y_savings_21_50
+		
+quietly gen y_years_21_plus = years_21_plus
+		label values y_years_21_plus y_savings_50_plus
+		
+drop if x_hs > 2
+
+//eststo: quietly	mlogit y_years_1_3 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+
+//eststo: quietly	mlogit y_years_4_6 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+
+//eststo: quietly	mlogit y_years_7_10 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+	
+eststo: quietly	mlogit y_years_11_15 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+	
+eststo: quietly	mlogit y_years_16_20 i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+	
+eststo: quietly	mlogit y_years_21_plus i.x_race	ib3.x_inc	i.x_hs i.x_fam [fweight=weight_race_int], baseoutcome(3)cluster(id)
+		
+
+esttab, noobs noomitted eform varwidth(25) replace cells(b(star fmt(3))) ///
+		drop(1.x_race 3.x_inc 1.x_hs 1.x_fam) label varlabels(_cons Constant)  ///
+		refcat(2.x_race "01 White" 2.x_inc "01 Low Income" 2.x_hs "01 Homeowner" 2.x_fam "01 Less Familiar") ///
+	  mtitles("11-15 Years" "16-20 Years" "21+ Years") legend ///
+		title("Relative risks ratios of the savings rate multinomial logistic regression model (reference group: neutral")
 
 
+eststo clear
 
-## Agree/Disagree
+
+```
+
 
 
 
