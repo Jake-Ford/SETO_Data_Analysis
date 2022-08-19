@@ -992,7 +992,10 @@ eststo clear
 
 ```
 
+#### Predicted Probabilities (Margins)
 
+
+![Savings Rates Margin Plots.](/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Marginsplot Savings Rate.png)
 
 ### Cancellation Fees
 
@@ -1102,6 +1105,13 @@ eststo clear
 
 
 ```
+
+
+#### Predicted Probabilities (Margins)
+
+
+
+![Cancellation Fees Margin Plots.](/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Marginsplot Fees.png)
 
 ### Contract Length (Years)
 
@@ -1217,6 +1227,9 @@ eststo clear
 ```
 
 
+#### Predicted Probabilities (Margins)
 
+
+![Contract Years Margin Plots.](/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Marginsplot Years.png)
 
 # Discussion
