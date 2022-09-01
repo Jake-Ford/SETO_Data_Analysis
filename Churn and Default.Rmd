@@ -16,13 +16,21 @@ knit: (function(inputFile, encoding) {
 
 
 
-# Research Questions
 
-# Hypotheses
 
-# Descriptive Statistics
 
-# Primary Analysis
+
+
+
+# Introduction
+
+**to-do: add intro**
+
+## Literature Review
+
+**to-do: to be added/folded into the Introduction to frame the macro-scope of this study**
+
+
 
 **note**
 
@@ -32,6 +40,8 @@ knit: (function(inputFile, encoding) {
 This analysis summaries the Nautilus customer data from the Frog Hollow and Howell community solar farm participation from January 2020 to April 2022. The goal of the analysis is to first describe the characteristics of the residents, the prevalence of default and/or churn rates, the prevalence of churn rates, and any statistically significant differences between groups in their default, late payments or churn rates.  
 
 
+# Methods
+
 The data is comprised of monthly payment performance and, where available, demographic data for residents. 32,385 monthly observations over 813 homes, 812 accounts and 621 users were initially observed. To avoid data quality issues and to analyze any potential churn and default trends, for Frog Hollow households the analysis will drop values in October 2021 until April 2022. This narrowed dataset is comprised of 31,704 observations; the homes, accounts and users did not change.  
 
 
@@ -40,20 +50,20 @@ The data is comprised of monthly payment performance and, where available, demog
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
 #Load packages we'll need throughout the entire document
+
 library(readxl)
 library(sf)
 library(dplyr)
 library(janitor)
 library(dplyr)
-library(tidycensus)
 library(tidyverse)
-options(tigris_use_cache = TRUE)
 library(nngeo)
 library(plotly)
 library(kableExtra)
 library(haven)
 library(rms)
 library(rmdformats)
+library(gtsummary)
 library(ggplot2)
 library(plotly)
 
@@ -70,7 +80,6 @@ options(scipen = 100)
 input_folder <- '/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/'
 
 
-
 setwd(input_folder)
 
 
@@ -80,22 +89,21 @@ setwd(input_folder)
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
+# 'raw' contains the monthly enrollment records for the sample solar farm - contains various account specific information
+
+# There are three main ID variables to consider: user (user_id),  household (property_id) and utility account (utility_acct_number); we decided to group the analysis by accounts. The reason is simply that what we are measuring is rate of churn/default, and the account is the unit that performs these actions; not the user which may hold multiple accounts. Household ID and utility account are very similar, but for consistency, we hearafter focus on utlity account data
+
+
+
 raw <- read_excel(paste(input_folder, "3. Churn and Default/Central Hudson Preliminary Analysis/Nautilus Raw Data.xlsx", sep=""), 
     sheet = "platform billing data")
 
 
+#  'default_tag' - trigger that captures reason why an individual leaves a solar farm ; for non-churn/non-default records, it should be set to 0 (zero), not 'none' just for consitency
+
+
 raw$default_tag[raw$default_tag=="none"] <- 0
 
-
-total_obs = nrow(raw)
-
-total_users = length(unique(raw$user_id))
-
-total_accounts = length(unique(raw$utility_acct_number))
-
-total_hh = length(unique(raw$property_id))
-
-temp_hold = raw
 
 raw <- raw %>%
   #filter particular case that was entered in error
@@ -105,39 +113,31 @@ raw <- raw %>%
          solar_farm_name=="Frog Hollow (CHGE)" & year == 2021 & month > 9 ~ 1,
          TRUE ~ 0),
          
-         Churn_Tag = case_when(
+         # Create dummy variable for default, the more extreme case of churn; every default is a churn, not ever churn is a default of course
+         default_dummy = case_when(
            default_tag !=0 & default_tag !="Defaulted Payment" ~ 1,
+           TRUE ~ 0),
+         
+         churn_dummy = case_when(
+           default_tag !=0 ~ 1, 
            TRUE ~ 0
          )) %>%
   filter(FH_bill_issuetag !=1) %>%
+  # create logarithmic transformation of kwh allocation for model later
   mutate(
     log_solar = case_when(
       kwh_allocated>0 ~ log(kwh_allocated),
       TRUE ~ 0
     )
-  )
-
+  ) 
 ```
 
-
-```{r message=FALSE, warning=FALSE, include=FALSE}
-
-## total observations/i.e. monthly performance data over ALL accounts/households/users
-
-total_obs = nrow(raw)
-
-total_users = length(unique(raw$user_id))
-
-total_accounts = length(unique(raw$utility_acct_number))
-
-total_hh = length(unique(raw$property_id))
-
-```
 
 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
+#group by the utility account number to get descriptive stats
 
 flipped <- raw %>%
   group_by(utility_acct_number) %>%
@@ -147,7 +147,8 @@ flipped <- raw %>%
             HH_Income = unique(`HH Income`),
             payment_method = unique(payment_type),
             temp_solar = max(kwh_allocated/1229),
-            Churn_Tag = max(Churn_Tag)) %>%
+            Churn = max(churn_dummy),
+            solar_farm = unique(solar_farm_name)) %>%
             # Proj_Frog_Hollow_dummy = sum(solar_farm_name=="Frog Hollow (CHGE)"),
             # Proj_Howell_dummy = sum(solar_farm_name=="Howell (O&R)")) %>%
   mutate(defaulted = case_when(
@@ -165,60 +166,12 @@ dplyr::select(-default, -HH_Income)
 
 
 dupes <- flipped %>%
-  filter(count_user_id == 2)
+  filter(count_user_id == 2) %>%
+  # duplicates are removed by only chosing the ACH payment method, there were duplicate 'card' payment entries 
+  filter(payment_method == "ach")
 
 no_dupes <- flipped %>%
-  filter(count_user_id==1)
-
-```
-
-
-
-
-```{r message=FALSE, warning=FALSE, include=FALSE}
-
-
-## clean up dupes 
-
-dupes <- dupes %>%
-  group_by(utility_acct_number) %>%
-  summarise(n=n())
-
-dupes$tenure <- NA
-dupes$Income <- NA
-dupes$payment_method <- NA
-dupes$temp_solar <- NA
-dupes$solar_farm <- NA
-dupes$churn_reason <- NA
-
-
-## i think this method will just take the first? may need to through and manually check or find another system
-
-for (i in (1:length(dupes$utility_acct_number)))
-{
-  #dupes$tenure[i] <- (flipped$tenure[flipped$utility_acct_number==dupes$utility_acct_number[i]])
-  dupes$tenure[i] <- length(unique(raw$date_concat[raw$utility_acct_number==dupes$utility_acct_number[i]]))
-
-  dupes$Income[i] <- (flipped$Income[flipped$utility_acct_number==dupes$utility_acct_number[i]])
-  dupes$payment_method[i] <- (flipped$payment_method[flipped$utility_acct_number==dupes$utility_acct_number[i]])
-  dupes$temp_solar[i] <- (flipped$temp_solar[flipped$utility_acct_number==dupes$utility_acct_number[i]])
-  dupes$solar_farm[i] <- raw$solar_farm_name[raw$utility_acct_number==dupes$utility_acct_number[i]]
-  dupes$churn_reason[i] <- raw$default_tag[raw$utility_acct_number==dupes$utility_acct_number[i]]
-  
-}
-
-
-no_dupes$solar_farm <- NA
-no_dupes$churn_reason <- NA
-
-
-for (i in (1:length(no_dupes$utility_acct_number)))
-{
-  
-  no_dupes$solar_farm[i]<- raw$solar_farm_name[raw$utility_acct_number==no_dupes$utility_acct_number[i]]
-  no_dupes$churn_reason[i] <- raw$default_tag[raw$utility_acct_number==no_dupes$utility_acct_number[i]]
-  
-}
+  filter(count_user_id==1) 
 
 ```
 
@@ -229,8 +182,7 @@ for (i in (1:length(no_dupes$utility_acct_number)))
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ## join back with the main data
 
-joined <- rbind(no_dupes, dupes) %>%
-  dplyr::select(-n, -count_user_id)
+joined <- rbind(no_dupes, dupes) 
   
 ```
 
@@ -240,7 +192,7 @@ The first ten rows of the data are presented, grouped by account number. Unique 
 * Tenure: length in months each account was active 
 * Payment_Method: either card or ACH/direct debit method
 * temp_solar: annual (right?) solar allocation in kWh 
-* Churn_Tag: binary _var_iable capturing if an account left the solar farm
+* Churn: binary _var_iable capturing if an account left the solar farm
 * defauted: binary variable capturing if account holder defaulted on payment
 * Income: Low (<$50,000) or High (>$50,000)
 * Solar_Farm: Either Howell or Frog Hollow
@@ -271,7 +223,6 @@ head(temp, 10) %>%
 # Descriptive Statistics
 
 ## Total
-
 
 
 
@@ -310,10 +261,10 @@ churn <- joined %>%
   mutate(Name = "Churn") %>%
   group_by(Name) %>%
   summarise(
-    Total = sum(Churn_Tag, na.rm=T),
-    Mean = mean(Churn_Tag, na.rm=T),
-    Max = max(Churn_Tag, na.rm=T),
-    Min = min(Churn_Tag, na.rm=T)
+    Total = sum(Churn, na.rm=T),
+    Mean = mean(Churn, na.rm=T),
+    Max = max(Churn, na.rm=T),
+    Min = min(Churn, na.rm=T)
     
   )
 
@@ -428,10 +379,10 @@ churn <- temp %>%
   mutate(Name = "Churn") %>%
   group_by(Name) %>%
   summarise(
-    Total = sum(Churn_Tag, na.rm=T),
-    Mean = mean(Churn_Tag, na.rm=T),
-    Max = max(Churn_Tag, na.rm=T),
-    Min = min(Churn_Tag, na.rm=T)
+    Total = sum(Churn, na.rm=T),
+    Mean = mean(Churn, na.rm=T),
+    Max = max(Churn, na.rm=T),
+    Min = min(Churn, na.rm=T)
     
   )
 
@@ -545,10 +496,10 @@ churn <- temp %>%
   mutate(Name = "Churn") %>%
   group_by(Name) %>%
   summarise(
-    Total = sum(Churn_Tag, na.rm=T),
-    Mean = mean(Churn_Tag, na.rm=T),
-    Max = max(Churn_Tag, na.rm=T),
-    Min = min(Churn_Tag, na.rm=T)
+    Total = sum(Churn, na.rm=T),
+    Mean = mean(Churn, na.rm=T),
+    Max = max(Churn, na.rm=T),
+    Min = min(Churn, na.rm=T)
     
   )
 
@@ -635,7 +586,7 @@ any_defaults = sum(joined$defaulted, na.rm=T)/nrow(joined)
 
 any_defaults 
 
-any_churn = sum(joined$Churn_Tag>0, na.rm=T)/nrow(joined)
+any_churn = sum(joined$Churn>0, na.rm=T)/nrow(joined)
 
 
 any_churn 
@@ -663,7 +614,7 @@ tenures <- joined %>%
   )) %>%
     group_by(tenure_length) %>%
     summarise(`Number of homes` = n(),
-            `Churned` = sum(Churn_Tag, na.rm=T),
+            `Churned` = sum(Churn, na.rm=T),
             `Defaulted` = sum(defaulted, na.rm=T),
             `Average Solar Allocation` = mean(temp_solar, na.rm=T),
             `Payment by Card` = sum(payment_method=="card", na.rm=T),
@@ -703,8 +654,8 @@ For homes that churned, the tenure was reasonbly much shorter than those that di
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 temp <- joined %>%
   mutate(`Churn Status` = case_when(
-    Churn_Tag == 0 ~ "Continuous",
-    Churn_Tag ==1 ~ "Churned"
+    Churn == 0 ~ "Continuous",
+    Churn ==1 ~ "Churned"
   )) %>%
   group_by(`Churn Status`) %>%
   summarise(`Average Months` = mean(tenure, na.rm=T)) %>%
@@ -762,7 +713,7 @@ library(janitor)
 summary_table <- joined %>%
   group_by(Income) %>%
   summarise(`Number of accounts` = n(),
-            `Churned` = sum(Churn_Tag, na.rm=T),
+            `Churned` = sum(Churn, na.rm=T),
             `Defaulted` = sum(defaulted, na.rm=T),
             `Average Solar Allocation` = mean(temp_solar, na.rm=T),
             `Payment by Card` = sum(payment_method=="card", na.rm=T),
@@ -783,21 +734,21 @@ summary_table %>%
 
 When a respondent left the program, a reason was recorded, when available. The below summarises the accounts that experienced a churn, which may further be collapsed into categories. Note the total below may not match the churn totals in the above descriptive statistics due to defaulted payments and duplicates included. 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 
-churn_reasons <- joined %>%
-  group_by(`Churn Reasons`= churn_reason) %>%
-  filter(churn_reason !=0) %>%
-  summarise(Total=n(),
-            `High Income` = sum(Income=="High", na.rm=T),
-            `Low Income` = sum(Income=="Low", na.rm=T),
-            `No Income` = sum(is.na(Income))) %>%
-  arrange(-Total) %>%
-  adorn_totals('row')
-
-churn_reasons%>%
-  kbl() %>%
-  kable_classic(full_width = F, html_font = "Cambria")
+# churn_reasons <- joined %>%
+#   group_by(`Churn Reasons`= churn_reason) %>%
+#  # filter(churn_reason !=0) %>%
+#   summarise(Total=n(),
+#             `High Income` = sum(Income=="High", na.rm=T),
+#             `Low Income` = sum(Income=="Low", na.rm=T),
+#             `No Income` = sum(is.na(Income))) %>%
+#   arrange(-Total) %>%
+#   adorn_totals('row')
+# 
+# churn_reasons%>%
+#   kbl() %>%
+#   kable_classic(full_width = F, html_font = "Cambria")
 
 ```
 
@@ -863,6 +814,7 @@ temp
 
 
 
+# Results
 
 
 
@@ -872,10 +824,9 @@ temp
 
 
 
+## Churn Figures 
 
-# Churn Figures 
-
-## Solar
+### Solar
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(ggplot2)
@@ -889,17 +840,17 @@ myColors <- c("green", "red")
 # ggplotly(p)
 
 
-p <- ggplot(data=joined, aes(x=Income, y = temp_solar, color=factor(Churn_Tag))) + geom_point() +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +  labs(colour="Churn Status") + ylab("Solar kWh") +theme_classic() 
+p <- ggplot(data=joined, aes(x=Income, y = temp_solar, color=factor(Churn))) + geom_point() +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +  labs(colour="Churn Status") + ylab("Solar kWh") +theme_classic() 
 
 ggplotly(p)
 
 
-p <- ggplot(data=joined, aes(x=payment_method, y = temp_solar, color=factor(Churn_Tag))) + geom_point() +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +  labs(colour="Churn Status") + ylab("Solar kWh") +theme_classic() 
+p <- ggplot(data=joined, aes(x=payment_method, y = temp_solar, color=factor(Churn))) + geom_point() +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +  labs(colour="Churn Status") + ylab("Solar kWh") +theme_classic() 
 
 ggplotly(p)
 
-p <- ggplot(data=joined, aes(x=tenure, y = temp_solar, color=factor(Churn_Tag))) + geom_point() +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +  labs(colour="Churn Status") + ylab("Solar kWh") +theme_classic() + geom_smooth(data=subset(joined,Churn_Tag==1 | Churn_Tag==0),
-               aes(tenure,temp_solar,color=factor(Churn_Tag)),method=lm,se=FALSE)
+p <- ggplot(data=joined, aes(x=tenure, y = temp_solar, color=factor(Churn))) + geom_point() +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +  labs(colour="Churn Status") + ylab("Solar kWh") +theme_classic() + geom_smooth(data=subset(joined,Churn==1 | Churn==0),
+               aes(tenure,temp_solar,color=factor(Churn)),method=lm,se=FALSE)
 
 ggplotly(p)
 
@@ -908,27 +859,27 @@ ggplotly(p)
 
 
 
-## Tenure & Churn by Payment Method 
+### Tenure & Churn by Payment Method 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 
 
-p <- ggplot(data=joined, aes(x=Income, y = tenure, color=factor(Churn_Tag))) + geom_point(stat="identity") +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +  labs(colour="Churn Status") + ylab("Tenure") +theme_classic() 
+p <- ggplot(data=joined, aes(x=Income, y = tenure, color=factor(Churn))) + geom_point(stat="identity") +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +  labs(colour="Churn Status") + ylab("Tenure") +theme_classic() 
 
 ggplotly(p)
 
-p <- ggplot(data=joined, aes(x=Income, y = tenure, color=factor(Churn_Tag))) + geom_bar(stat="identity") +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +  labs(colour="Churn Status") + ylab("Tenure") +theme_classic() 
-
-ggplotly(p)
-
-
-p <- ggplot(data=joined, aes(x=payment_method, y = tenure, color=factor(Churn_Tag))) + geom_point(stat="identity") +  scale_color_manual(values=myColors) +  labs(colour="Churn Status") + ylab("Tenure") +theme_classic() 
+p <- ggplot(data=joined, aes(x=Income, y = tenure, color=factor(Churn))) + geom_bar(stat="identity") +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +  labs(colour="Churn Status") + ylab("Tenure") +theme_classic() 
 
 ggplotly(p)
 
 
-p <- ggplot(data=joined, aes(x=payment_method, y = tenure, color=factor(Churn_Tag))) + geom_bar(stat="identity") +  scale_color_manual(values=myColors) +  labs(colour="Churn Status") + ylab("Tenure") +theme_classic() 
+p <- ggplot(data=joined, aes(x=payment_method, y = tenure, color=factor(Churn))) + geom_point(stat="identity") +  scale_color_manual(values=myColors) +  labs(colour="Churn Status") + ylab("Tenure") +theme_classic() 
+
+ggplotly(p)
+
+
+p <- ggplot(data=joined, aes(x=payment_method, y = tenure, color=factor(Churn))) + geom_bar(stat="identity") +  scale_color_manual(values=myColors) +  labs(colour="Churn Status") + ylab("Tenure") +theme_classic() 
 
 ggplotly(p)
 ```
@@ -939,9 +890,9 @@ ggplotly(p)
 
 
 
-# Default Figures 
+## Default Figures 
 
-## Solar
+### Solar
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(ggplot2)
@@ -974,7 +925,7 @@ ggplotly(p)
 
 
 
-## Tenure & Default by Payment Method 
+### Tenure & Default by Payment Method 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -1039,7 +990,7 @@ joined$Income <- as.factor(joined$Income)
 #model_default <- glm(Default_Tag ~ Months +  Avg_DaysLate + Avg_Solar + Income + DPD_30_Tag + DPD_60_Tag + DPD_90_Tag, family=binomial(link='logit'), data=group_by_home)
 
 
-model_churn <- glm(Churn_Tag ~ tenure  + payment_method + Income + temp_solar + solar_farm, family=binomial(link='logit'), data=joined)
+model_churn <- glm(Churn ~ tenure  + payment_method + Income + temp_solar + solar_farm, family=binomial(link='logit'), data=joined)
 summary(model_churn)
 
 
@@ -1057,17 +1008,22 @@ The logit curves below show the relationship between the distribution of both te
 # Logit Curves - none significant except churn
 
 
-ggplot(joined, aes(x=tenure, y = Churn_Tag))+ geom_point(fill='red') + 
+ggplot(joined, aes(x=tenure, y = Churn))+ geom_point(fill='red') + 
   stat_smooth(method="glm", method.args=list(family=binomial(link='logit')), se=FALSE)+theme_minimal()+ scale_x_continuous(name="Months") +
   scale_y_continuous(name="Likelihood of Churn")
 
 
 
 
-ggplot(joined, aes(x=temp_solar, y = Churn_Tag))+ geom_point(fill='red') + 
+ggplot(joined, aes(x=temp_solar, y = Churn))+ geom_point(fill='red') + 
   stat_smooth(method="glm", method.args=list(family=binomial(link='logit')), se=FALSE)+theme_minimal()+ scale_x_continuous(name="Solar kWh") +
   scale_y_continuous(name="Likelihood of Churn")
 
 ```
 
+
+
+
+
+# Discussion
 
