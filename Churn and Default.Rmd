@@ -29,11 +29,8 @@ Given the incipient nature of community solar, this analysis provides an opportu
 
 
 
-
-
-
-
 # Methods
+
 
 **note**
 
@@ -201,7 +198,7 @@ The first ten rows of the data are presented, grouped by account number. Unique 
 * Solar_Farm: Either Howell or Frog Hollow
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 
 ##remove account ID and replace with dummy sequence
 joined$Account_ID <- seq(1,nrow(joined),1)
@@ -228,7 +225,11 @@ head(temp, 10) %>%
 
 
 
+Account level summary statistics by solar farm are provided in Table 1 below. 
 
+(hold for experian data to add more descriptives)
+
+The number of Churn and Default events are captured in Table 1. Note, the relative rare occurence of defaulting likely removes the possiblity of determining any statistically significant difference between customer attributes. However, of the 812 accounts, 118 or just over 14.5% of accounts, experienced churn. 
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -246,16 +247,29 @@ tbl_one
 ```
 
 
+Average tenure for the entire dataset is just under two years (22 months). Table 2 provides descriptive statistics grouped by tenure length. Longer tenured households had larger solar allocations compared to lower tenured households, 7.3 kWH for 2+ year customers compared to 3.7 for < 6 months. 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
+#joined$tenure_length <- factor(joined$tenure_length, levels=c("Less than 6", "6-12", "12-24", "Over 24"))
+
+
+#levels(joined$tenure_length) <- c("Less than 6", "6-12", "12-24", "Over 24")
+
 tbl_two <-
   joined %>%
     mutate( tenure_length = case_when(
     tenure < 6 ~ 0,
-    tenure > 5 & tenure < 11 ~ 1,
-    tenure > 10 & tenure < 15 ~ 2,
-    tenure >= 15~ 3
-  )) %>%
+    tenure > 6 & tenure < 12 ~ 1,
+    tenure > 12 & tenure < 24 ~ 2,
+    tenure >= 24~ 3
+  )) %>% 
+  
+  mutate(tenure_length = recode(tenure_length,
+         '0' = "< 6 Months",
+         '1' = "6-12 Months",
+         '2' = "12-24 Months",
+         '3' = "Over 24 Months")) %>%
+  
   arrange(desc(tenure_length)) %>%
   
   ungroup() %>%
@@ -272,11 +286,6 @@ tbl_two
 
 
 
-For homes that churned, the tenure was reasonably much shorter than those that did not churn. The below graph shows the average tenure between these two groups, showing that it is almost double for those homes that exhibit continuous subscription. 
-
-
-
-
 
 
 
@@ -286,7 +295,7 @@ For homes that churned, the tenure was reasonably much shorter than those that d
 
 ## Model 
 
-A logit model is deployed to analyze the probability of a home churning. The model in brief is described below. Without additional data collected from Experian, limited variability can be measured due to NA values in addition to limited number of coefficients to measure. 
+To determine the probability an account will experience either churn or default, a logistic regression is used to construct a model. The model in brief is described below.
 
 In the limited data available, statistically significant effects were measured for probability of churn for both tenure (Months) and days late. Due to relatively small number of observations of late payments, no statistically significant results were measured in probability of late or default payments. 
 
@@ -303,6 +312,11 @@ P_{d} = \beta_{0} + \beta_{1}*Months +\beta_{2}*(Payment Method = Card) +\beta_{
 
 # Results
 
+
+* note on 9-9-:
+
+need to include logistic models, not these stupid ggplots - think of ways to visualize these later, probably same methods that'll be used in community priorities 
+- OR tables, etc. 
 
 
 ## Churn Figures 
