@@ -114,7 +114,7 @@ raw <- raw %>%
          
          # Create dummy variable for default, the more extreme case of churn; every default is a churn, not ever churn is a default of course
          default_dummy = case_when(
-           leave_reason =="Default Payment" ~ 1,
+           leave_reason =="Defaulted Payment" ~ 1,
            TRUE ~ 0),
          
          churn_dummy = case_when(
@@ -312,173 +312,25 @@ P_{d} = \beta_{0} + \beta_{1}*Months +\beta_{2}*(Payment Method = Card) +\beta_{
 
 # Results
 
-
-* note on 9-9-:
-
-need to include logistic models, not these stupid ggplots - think of ways to visualize these later, probably same methods that'll be used in community priorities 
-- OR tables, etc. 
-
-
-## Churn Figures 
-
-### Solar
+## Churn Analysis 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-library(ggplot2)
-library(plotly)
+joined$log_tenure <- log(joined$tenure)
 
-myColors <- c("green", "red")
+mylogit <- glm(Churn ~ log_tenure + payment_method + kwh_solar  + Income + solar_farm, data = joined, family = "binomial")
 
-# p <- ggplot(data=group_by_home, aes(x=Income, y = Avg_DaysLate, color=factor(Default_Tag))) + geom_point() +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +
-#   labs(colour="Default") + theme_classic()
-# 
-# ggplotly(p)
-
-
-p <- ggplot(data=joined, aes(x=Income, y = kwh_solar, color=factor(Churn))) + geom_point() +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +  labs(colour="Churn Status") + ylab("Solar kWh") +theme_classic() 
-
-ggplotly(p)
-
-
-p <- ggplot(data=joined, aes(x=payment_method, y = kwh_solar, color=factor(Churn))) + geom_point() +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +  labs(colour="Churn Status") + ylab("Solar kWh") +theme_classic() 
-
-ggplotly(p)
-
-p <- ggplot(data=joined, aes(x=tenure, y = kwh_solar, color=factor(Churn))) + geom_point() +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +  labs(colour="Churn Status") + ylab("Solar kWh") +theme_classic() + geom_smooth(data=subset(joined,Churn==1 | Churn==0),
-               aes(tenure,kwh_solar,color=factor(Churn)),method=lm,se=FALSE)
-
-ggplotly(p)
-
+summary(mylogit)
 ```
 
 
-
-
-### Tenure & Churn by Payment Method 
+## Default Analysis
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
+mylogit <- glm(Default ~ log_tenure + payment_method + kwh_solar  + Income + solar_farm, data = joined, family = "binomial")
 
-
-p <- ggplot(data=joined, aes(x=Income, y = tenure, color=factor(Churn))) + geom_point(stat="identity") +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +  labs(colour="Churn Status") + ylab("Tenure") +theme_classic() 
-
-ggplotly(p)
-
-p <- ggplot(data=joined, aes(x=Income, y = tenure, color=factor(Churn))) + geom_bar(stat="identity") +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +  labs(colour="Churn Status") + ylab("Tenure") +theme_classic() 
-
-ggplotly(p)
-
-
-p <- ggplot(data=joined, aes(x=payment_method, y = tenure, color=factor(Churn))) + geom_point(stat="identity") +  scale_color_manual(values=myColors) +  labs(colour="Churn Status") + ylab("Tenure") +theme_classic() 
-
-ggplotly(p)
-
-
-p <- ggplot(data=joined, aes(x=payment_method, y = tenure, color=factor(Churn))) + geom_bar(stat="identity") +  scale_color_manual(values=myColors) +  labs(colour="Churn Status") + ylab("Tenure") +theme_classic() 
-
-ggplotly(p)
+summary(mylogit)
 ```
-
-
-
-
-
-
-
-## Default Figures 
-
-### Solar
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-library(ggplot2)
-library(plotly)
-
-myColors <- c("green", "red")
-
-# p <- ggplot(data=group_by_home, aes(x=Income, y = Avg_DaysLate, color=factor(Default_Tag))) + geom_point() +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +
-#   labs(colour="Default") + theme_classic()
-# 
-# ggplotly(p)
-
-
-p <- ggplot(data=joined, aes(x=Income, y = kwh_solar, color=factor(Default))) + geom_point() +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +  labs(colour="Churn Status") + ylab("Solar kWh") +theme_classic() 
-
-ggplotly(p)
-
-
-p <- ggplot(data=joined, aes(x=payment_method, y = kwh_solar, color=factor(Default))) + geom_point() +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +  labs(colour="Churn Status") + ylab("Solar kWh") +theme_classic() 
-
-ggplotly(p)
-
-p <- ggplot(data=joined, aes(x=tenure, y = kwh_solar, color=factor(Default))) + geom_point() +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +  labs(colour="Churn Status") + ylab("Solar kWh") +theme_classic() + geom_smooth(data=subset(joined,Default==1 | Default==0),
-               aes(tenure,kwh_solar,color=factor(Default)),method=lm,se=FALSE)
-
-ggplotly(p)
-
-```
-
-
-
-
-### Tenure & Default by Payment Method 
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-
-
-
-p <- ggplot(data=joined, aes(x=Income, y = tenure, color=factor(Default))) + geom_point(stat="identity") +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +  labs(colour="Default Status") + ylab("Tenure") +theme_classic() 
-
-ggplotly(p)
-
-p <- ggplot(data=joined, aes(x=Income, y = tenure, color=factor(Default))) + geom_bar(stat="identity") +  scale_color_manual(values=myColors, labels=c('No', 'Yes')) +  labs(colour="Default Status") + ylab("Tenure") +theme_classic() 
-
-ggplotly(p)
-
-
-p <- ggplot(data=joined, aes(x=payment_method, y = tenure, color=factor(Default))) + geom_point(stat="identity") +  scale_color_manual(values=myColors) +  labs(colour="Default Status") + ylab("Tenure") +theme_classic() 
-
-ggplotly(p)
-
-
-p <- ggplot(data=joined, aes(x=payment_method, y = tenure, color=factor(Default))) + geom_bar(stat="identity") +  scale_color_manual(values=myColors) +  labs(colour="Default Status") + ylab("Tenure") +theme_classic() 
-
-ggplotly(p)
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-
-# Logit Models
-
-joined$Income <- as.factor(joined$Income)
-
-
-#model_default <- glm(Default_Tag ~ Months +  Avg_DaysLate + Avg_Solar + Income + DPD_30_Tag + DPD_60_Tag + DPD_90_Tag, family=binomial(link='logit'), data=group_by_home)
-
-
-model_churn <- glm(Churn ~ tenure  + payment_method + Income + kwh_solar + solar_farm, family=binomial(link='logit'), data=joined)
-summary(model_churn)
-
-
-
-```
-
-
 
 
 
@@ -489,8 +341,8 @@ The logit curves below show the relationship between the distribution of both te
 # Logit Curves - none significant except churn
 
 
-ggplot(joined, aes(x=tenure, y = Churn))+ geom_point(fill='red') + 
-  stat_smooth(method="glm", method.args=list(family=binomial(link='logit')), se=FALSE)+theme_minimal()+ scale_x_continuous(name="Months") +
+ggplot(joined, aes(x=log_tenure, y = Churn))+ geom_point(fill='red') + 
+  stat_smooth(method="glm", method.args=list(family=binomial(link='logit')), se=FALSE)+theme_minimal()+ scale_x_continuous(name="Log Months") +
   scale_y_continuous(name="Likelihood of Churn")
 
 

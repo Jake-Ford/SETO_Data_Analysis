@@ -240,7 +240,7 @@ summary(mylogit)
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE,fig.cap = "An amazing plot"}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(scales)
 
 temp_data <- dev_sum %>%
