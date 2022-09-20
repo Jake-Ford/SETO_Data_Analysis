@@ -279,24 +279,20 @@ P_{d} = \beta_{0} + \beta_{1}*Months +\beta_{2}*(Payment Method = Card) +\beta_{
 
 # Results
 
-## Churn Analysis 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+library(stargazer)
+
 joined$log_tenure <- log(joined$tenure)
 
-mylogit <- glm(Churn ~ log_tenure + payment_method + kwh_solar  + Income + solar_farm, data = joined, family = "binomial")
-
-summary(mylogit)
-```
+churn_model <- glm(Churn ~ log_tenure + payment_method + kwh_solar  + Income + solar_farm, data = joined, family = "binomial")
+default_model <- glm(Default ~ log_tenure + payment_method + kwh_solar  + Income + solar_farm, data = joined, family = "binomial")
 
 
-## Default Analysis
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-
-mylogit <- glm(Default ~ log_tenure + payment_method + kwh_solar  + Income + solar_farm, data = joined, family = "binomial")
-
-summary(mylogit)
+stargazer(churn_model, default_model, title="Results", align=TRUE, type="html")
 ```
 
 
