@@ -1636,14 +1636,15 @@ Ford, Solstice Data Scientist</p>
 <div id="main">
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>For this portion of the research, customers in existing solar farm
-projects are evaluated for their subscription and payment status.
-Participation in community solar farms is voluntary, hence customers may
-exit the program at any point, often subject to a cancellation fee set
-out in the contract. Additionally, customers sometimes fail to pay the
-monthly solar farm subscription fee. Churn refers to the act of a
-customer exiting the solar farm, whereas default refers to the customer
-failing to pay the monthly subscription fee.</p>
+<p>The components of this research sought to identify potential customer
+preferences when considering potential community solar farm contract,
+along with determining priorities for community solar developers and
+financiers. This research provides novel analyses on both demand and
+supply forces in a rapidly expanding field of renewable energy.</p>
+<p>For the final component of the research, we shift our attention to
+how customers in current community solar farms perform over time. By
+analyzing tenure in functioning community solar farms, our research
+seeks to provide quantitative performance data.</p>
 <p>Given the incipient nature of community solar, this analysis provides
 an opportunity to quantify the likelihood of churn or default, along
 with determining any household or demographic attribute associated with
@@ -1660,34 +1661,34 @@ macro-scope of this study</strong></p>
 </div>
 <div id="methods" class="section level1">
 <h1>Methods</h1>
-<p><strong>note</strong></p>
-<p><em>Analysis is awaiting Experian appending.</em></p>
+<p>For this portion of the research, customers in existing solar farm
+projects are evaluated for their subscription and payment status.
+Participation in community solar farms is voluntary, hence customers may
+exit the program at any point, often subject to a cancellation fee set
+out in the contract. Additionally, customers sometimes fail to pay the
+monthly solar farm subscription fee. Churn refers to the act of a
+customer exiting the solar farm, whereas default refers to the customer
+failing to pay the monthly subscription fee.</p>
 <div id="data-collection" class="section level2">
 <h2>Data Collection</h2>
-<p>Customer data is collected from two solar farms, the <a href="https://communitysolar.energysage.com/projects/frog-hollow-solar-farm">Frog
-Hollow Solar Farm</a> and <a href="https://communitysolar.energysage.com/projects/howell-solar-farm">Howell
-Solar Farm</a>. Monthly account level data was collected from January
-2020 to April 2022. Account level information includes monthly payment
-performance, for which churn and default triggers may be captured.</p>
-<p>The data consists of 32,385 monthly observations over 813 homes, 812
-accounts and 621 users. To avoid data quality issues and to analyze any
-potential churn and default trends, for Frog Hollow households the
-analysis will drop values in October 2021 until April 2022. This
-narrowed dataset is comprised of 31,704 observations; the homes,
-accounts and users did not change.</p>
-<p>The first ten rows of the data are presented, grouped by account
-number. Unique identifiers were replaced with sequential IDs.</p>
-<ul>
-<li>Tenure: length in months each account was active</li>
-<li>Payment_Method: either card or ACH/direct debit method</li>
-<li>kwh_solar: annual (right?) solar allocation in kWh</li>
-<li>Churn: binary _var_iable capturing if an account left the solar
-farm</li>
-<li>defauted: binary variable capturing if account holder Default on
-payment</li>
-<li>Income: Low (&lt;$50,000) or High (&gt;$50,000)</li>
-<li>Solar_Farm: Either Howell or Frog Hollow</li>
-</ul>
+<p>Customers in existing community solar projects are evaluated for
+their subscription and payment status. Participation in community solar
+farms is voluntary, hence customers may exit the program at any point,
+often subject to a cancellation fee set out in the contract.
+Additionally, customers sometimes fail to pay the monthly solar farm
+subscription fee. Churn refers to the act of a customer exiting the
+solar farm, whereas default refers to the customer failing to pay the
+monthly subscription fee.</p>
+<p>Customer data is collected from two community solar projects in New
+York. Monthly account level data was collected from January 2020 to
+April 2022. Account level information includes monthly payment
+performance, for which churn and default triggers are captured. The data
+consists of 32,385 monthly observations over 812 utility accounts. As a
+result of a utility billing issue wherein payment performance was not
+available from October 2021 to April 2022 at one of the solar farms,
+these records are dropped. This narrowed dataset consists of 31,704
+observations; the number of utility accounts remained constant at
+812.</p>
 <div id="descriptive-statistics" class="section level3">
 <h3>Descriptive Statistics</h3>
 <p>Account level summary statistics by solar farm are provided in Table
@@ -1698,12 +1699,12 @@ the relative rare occurence of defaulting likely removes the possiblity
 of determining any statistically significant difference between customer
 attributes. However, of the 812 accounts, 118 or just over 14.5% of
 accounts, experienced churn.</p>
-<div id="ndvnvqedre" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="kokbaseykr" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ndvnvqedre .gt_table {
+#kokbaseykr .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1728,7 +1729,7 @@ accounts, experienced churn.</p>
   border-left-color: #D3D3D3;
 }
 
-#ndvnvqedre .gt_heading {
+#kokbaseykr .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1740,7 +1741,7 @@ accounts, experienced churn.</p>
   border-right-color: #D3D3D3;
 }
 
-#ndvnvqedre .gt_title {
+#kokbaseykr .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1752,7 +1753,7 @@ accounts, experienced churn.</p>
   border-bottom-width: 0;
 }
 
-#ndvnvqedre .gt_subtitle {
+#kokbaseykr .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1764,13 +1765,13 @@ accounts, experienced churn.</p>
   border-top-width: 0;
 }
 
-#ndvnvqedre .gt_bottom_border {
+#kokbaseykr .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ndvnvqedre .gt_col_headings {
+#kokbaseykr .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1785,7 +1786,7 @@ accounts, experienced churn.</p>
   border-right-color: #D3D3D3;
 }
 
-#ndvnvqedre .gt_col_heading {
+#kokbaseykr .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1805,7 +1806,7 @@ accounts, experienced churn.</p>
   overflow-x: hidden;
 }
 
-#ndvnvqedre .gt_column_spanner_outer {
+#kokbaseykr .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1817,15 +1818,15 @@ accounts, experienced churn.</p>
   padding-right: 4px;
 }
 
-#ndvnvqedre .gt_column_spanner_outer:first-child {
+#kokbaseykr .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ndvnvqedre .gt_column_spanner_outer:last-child {
+#kokbaseykr .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ndvnvqedre .gt_column_spanner {
+#kokbaseykr .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1837,7 +1838,7 @@ accounts, experienced churn.</p>
   width: 100%;
 }
 
-#ndvnvqedre .gt_group_heading {
+#kokbaseykr .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1862,7 +1863,7 @@ accounts, experienced churn.</p>
   vertical-align: middle;
 }
 
-#ndvnvqedre .gt_empty_group_heading {
+#kokbaseykr .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1877,15 +1878,15 @@ accounts, experienced churn.</p>
   vertical-align: middle;
 }
 
-#ndvnvqedre .gt_from_md > :first-child {
+#kokbaseykr .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ndvnvqedre .gt_from_md > :last-child {
+#kokbaseykr .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ndvnvqedre .gt_row {
+#kokbaseykr .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1904,7 +1905,7 @@ accounts, experienced churn.</p>
   overflow-x: hidden;
 }
 
-#ndvnvqedre .gt_stub {
+#kokbaseykr .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1917,7 +1918,7 @@ accounts, experienced churn.</p>
   padding-right: 5px;
 }
 
-#ndvnvqedre .gt_stub_row_group {
+#kokbaseykr .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1931,11 +1932,11 @@ accounts, experienced churn.</p>
   vertical-align: top;
 }
 
-#ndvnvqedre .gt_row_group_first td {
+#kokbaseykr .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ndvnvqedre .gt_summary_row {
+#kokbaseykr .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1945,16 +1946,16 @@ accounts, experienced churn.</p>
   padding-right: 5px;
 }
 
-#ndvnvqedre .gt_first_summary_row {
+#kokbaseykr .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ndvnvqedre .gt_first_summary_row.thick {
+#kokbaseykr .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ndvnvqedre .gt_last_summary_row {
+#kokbaseykr .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1964,7 +1965,7 @@ accounts, experienced churn.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#ndvnvqedre .gt_grand_summary_row {
+#kokbaseykr .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1974,7 +1975,7 @@ accounts, experienced churn.</p>
   padding-right: 5px;
 }
 
-#ndvnvqedre .gt_first_grand_summary_row {
+#kokbaseykr .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1984,11 +1985,11 @@ accounts, experienced churn.</p>
   border-top-color: #D3D3D3;
 }
 
-#ndvnvqedre .gt_striped {
+#kokbaseykr .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ndvnvqedre .gt_table_body {
+#kokbaseykr .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1997,7 +1998,7 @@ accounts, experienced churn.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#ndvnvqedre .gt_footnotes {
+#kokbaseykr .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2011,7 +2012,7 @@ accounts, experienced churn.</p>
   border-right-color: #D3D3D3;
 }
 
-#ndvnvqedre .gt_footnote {
+#kokbaseykr .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2020,7 +2021,7 @@ accounts, experienced churn.</p>
   padding-right: 5px;
 }
 
-#ndvnvqedre .gt_sourcenotes {
+#kokbaseykr .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2034,7 +2035,7 @@ accounts, experienced churn.</p>
   border-right-color: #D3D3D3;
 }
 
-#ndvnvqedre .gt_sourcenote {
+#kokbaseykr .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2042,36 +2043,36 @@ accounts, experienced churn.</p>
   padding-right: 5px;
 }
 
-#ndvnvqedre .gt_left {
+#kokbaseykr .gt_left {
   text-align: left;
 }
 
-#ndvnvqedre .gt_center {
+#kokbaseykr .gt_center {
   text-align: center;
 }
 
-#ndvnvqedre .gt_right {
+#kokbaseykr .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ndvnvqedre .gt_font_normal {
+#kokbaseykr .gt_font_normal {
   font-weight: normal;
 }
 
-#ndvnvqedre .gt_font_bold {
+#kokbaseykr .gt_font_bold {
   font-weight: bold;
 }
 
-#ndvnvqedre .gt_font_italic {
+#kokbaseykr .gt_font_italic {
   font-style: italic;
 }
 
-#ndvnvqedre .gt_super {
+#kokbaseykr .gt_super {
   font-size: 65%;
 }
 
-#ndvnvqedre .gt_two_val_uncert {
+#kokbaseykr .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -2080,31 +2081,31 @@ accounts, experienced churn.</p>
   margin-left: 0.1em;
 }
 
-#ndvnvqedre .gt_footnote_marks {
+#kokbaseykr .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#ndvnvqedre .gt_asterisk {
+#kokbaseykr .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ndvnvqedre .gt_slash_mark {
+#kokbaseykr .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#ndvnvqedre .gt_fraction_numerator {
+#kokbaseykr .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#ndvnvqedre .gt_fraction_denominator {
+#kokbaseykr .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -2183,12 +2184,12 @@ months). Table 2 provides descriptive statistics grouped by tenure
 length. Longer tenured households had larger solar allocations compared
 to lower tenured households, 7.3 kWH for 2+ year customers compared to
 3.7 for &lt; 6 months.</p>
-<div id="oltrtlowzb" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="mufdwjnekj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#oltrtlowzb .gt_table {
+#mufdwjnekj .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2213,7 +2214,7 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   border-left-color: #D3D3D3;
 }
 
-#oltrtlowzb .gt_heading {
+#mufdwjnekj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2225,7 +2226,7 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   border-right-color: #D3D3D3;
 }
 
-#oltrtlowzb .gt_title {
+#mufdwjnekj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2237,7 +2238,7 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   border-bottom-width: 0;
 }
 
-#oltrtlowzb .gt_subtitle {
+#mufdwjnekj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2249,13 +2250,13 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   border-top-width: 0;
 }
 
-#oltrtlowzb .gt_bottom_border {
+#mufdwjnekj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#oltrtlowzb .gt_col_headings {
+#mufdwjnekj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2270,7 +2271,7 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   border-right-color: #D3D3D3;
 }
 
-#oltrtlowzb .gt_col_heading {
+#mufdwjnekj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2290,7 +2291,7 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   overflow-x: hidden;
 }
 
-#oltrtlowzb .gt_column_spanner_outer {
+#mufdwjnekj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2302,15 +2303,15 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   padding-right: 4px;
 }
 
-#oltrtlowzb .gt_column_spanner_outer:first-child {
+#mufdwjnekj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#oltrtlowzb .gt_column_spanner_outer:last-child {
+#mufdwjnekj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#oltrtlowzb .gt_column_spanner {
+#mufdwjnekj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2322,7 +2323,7 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   width: 100%;
 }
 
-#oltrtlowzb .gt_group_heading {
+#mufdwjnekj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2347,7 +2348,7 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   vertical-align: middle;
 }
 
-#oltrtlowzb .gt_empty_group_heading {
+#mufdwjnekj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2362,15 +2363,15 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   vertical-align: middle;
 }
 
-#oltrtlowzb .gt_from_md > :first-child {
+#mufdwjnekj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#oltrtlowzb .gt_from_md > :last-child {
+#mufdwjnekj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#oltrtlowzb .gt_row {
+#mufdwjnekj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2389,7 +2390,7 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   overflow-x: hidden;
 }
 
-#oltrtlowzb .gt_stub {
+#mufdwjnekj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2402,7 +2403,7 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   padding-right: 5px;
 }
 
-#oltrtlowzb .gt_stub_row_group {
+#mufdwjnekj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2416,11 +2417,11 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   vertical-align: top;
 }
 
-#oltrtlowzb .gt_row_group_first td {
+#mufdwjnekj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#oltrtlowzb .gt_summary_row {
+#mufdwjnekj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2430,16 +2431,16 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   padding-right: 5px;
 }
 
-#oltrtlowzb .gt_first_summary_row {
+#mufdwjnekj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#oltrtlowzb .gt_first_summary_row.thick {
+#mufdwjnekj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#oltrtlowzb .gt_last_summary_row {
+#mufdwjnekj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2449,7 +2450,7 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   border-bottom-color: #D3D3D3;
 }
 
-#oltrtlowzb .gt_grand_summary_row {
+#mufdwjnekj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2459,7 +2460,7 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   padding-right: 5px;
 }
 
-#oltrtlowzb .gt_first_grand_summary_row {
+#mufdwjnekj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2469,11 +2470,11 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   border-top-color: #D3D3D3;
 }
 
-#oltrtlowzb .gt_striped {
+#mufdwjnekj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#oltrtlowzb .gt_table_body {
+#mufdwjnekj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2482,7 +2483,7 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   border-bottom-color: #D3D3D3;
 }
 
-#oltrtlowzb .gt_footnotes {
+#mufdwjnekj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2496,7 +2497,7 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   border-right-color: #D3D3D3;
 }
 
-#oltrtlowzb .gt_footnote {
+#mufdwjnekj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2505,7 +2506,7 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   padding-right: 5px;
 }
 
-#oltrtlowzb .gt_sourcenotes {
+#mufdwjnekj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2519,7 +2520,7 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   border-right-color: #D3D3D3;
 }
 
-#oltrtlowzb .gt_sourcenote {
+#mufdwjnekj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2527,36 +2528,36 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   padding-right: 5px;
 }
 
-#oltrtlowzb .gt_left {
+#mufdwjnekj .gt_left {
   text-align: left;
 }
 
-#oltrtlowzb .gt_center {
+#mufdwjnekj .gt_center {
   text-align: center;
 }
 
-#oltrtlowzb .gt_right {
+#mufdwjnekj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#oltrtlowzb .gt_font_normal {
+#mufdwjnekj .gt_font_normal {
   font-weight: normal;
 }
 
-#oltrtlowzb .gt_font_bold {
+#mufdwjnekj .gt_font_bold {
   font-weight: bold;
 }
 
-#oltrtlowzb .gt_font_italic {
+#mufdwjnekj .gt_font_italic {
   font-style: italic;
 }
 
-#oltrtlowzb .gt_super {
+#mufdwjnekj .gt_super {
   font-size: 65%;
 }
 
-#oltrtlowzb .gt_two_val_uncert {
+#mufdwjnekj .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -2565,31 +2566,31 @@ to lower tenured households, 7.3 kWH for 2+ year customers compared to
   margin-left: 0.1em;
 }
 
-#oltrtlowzb .gt_footnote_marks {
+#mufdwjnekj .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#oltrtlowzb .gt_asterisk {
+#mufdwjnekj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#oltrtlowzb .gt_slash_mark {
+#mufdwjnekj .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#oltrtlowzb .gt_fraction_numerator {
+#mufdwjnekj .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#oltrtlowzb .gt_fraction_denominator {
+#mufdwjnekj .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;

@@ -18,9 +18,12 @@ knit: (function(inputFile, encoding) {
 
 # Introduction
 
-For this portion of the research, customers in existing solar farm projects are evaluated for their subscription and payment status. Participation in community solar farms is voluntary, hence customers may exit the program at any point, often subject to a cancellation fee set out in the contract. Additionally, customers sometimes fail to pay the monthly solar farm subscription fee. Churn refers to the act of a customer exiting the solar farm, whereas default refers to the customer failing to pay the monthly subscription fee. 
+The components of this research sought to identify potential customer preferences when considering potential community solar farm contract, along with determining priorities for community solar developers and financiers. This research provides novel analyses on both demand and supply forces in a rapidly expanding field of renewable energy. 
+
+For the final component of the research, we shift our attention to how customers in current community solar farms perform over time. By analyzing tenure in functioning community solar farms, our research seeks to provide quantitative performance data. 
 
 Given the incipient nature of community solar, this analysis provides an opportunity to quantify the likelihood of churn or default, along with determining any household or demographic attribute associated with statistically different rates of either churn or default. The goal of the analysis is to first describe the characteristics of the residents, the prevalence of default and/or churn rates, the prevalence of churn rates, and any statistically significant differences between groups in their default, late payments or churn rates.
+
 
 ## Literature Review
 
@@ -31,18 +34,15 @@ Given the incipient nature of community solar, this analysis provides an opportu
 
 # Methods
 
+For this portion of the research, customers in existing solar farm projects are evaluated for their subscription and payment status. Participation in community solar farms is voluntary, hence customers may exit the program at any point, often subject to a cancellation fee set out in the contract. Additionally, customers sometimes fail to pay the monthly solar farm subscription fee. Churn refers to the act of a customer exiting the solar farm, whereas default refers to the customer failing to pay the monthly subscription fee. 
 
-**note**
-
-*Analysis is awaiting Experian appending.* 
 
 ## Data Collection
 
+Customers in existing community solar projects are evaluated for their subscription and payment status. Participation in community solar farms is voluntary, hence customers may exit the program at any point, often subject to a cancellation fee set out in the contract. Additionally, customers sometimes fail to pay the monthly solar farm subscription fee. Churn refers to the act of a customer exiting the solar farm, whereas default refers to the customer failing to pay the monthly subscription fee.
 
-Customer data is collected from two solar farms, the [Frog Hollow Solar Farm](https://communitysolar.energysage.com/projects/frog-hollow-solar-farm) and [Howell Solar Farm](https://communitysolar.energysage.com/projects/howell-solar-farm). Monthly account level data was collected from January 2020 to April 2022. Account level information includes monthly payment performance, for which churn and default triggers may be captured. 
-
-The data consists of 32,385 monthly observations over 813 homes, 812 accounts and 621 users. To avoid data quality issues and to analyze any potential churn and default trends, for Frog Hollow households the analysis will drop values in October 2021 until April 2022. This narrowed dataset is comprised of 31,704 observations; the homes, accounts and users did not change.  
-
+Customer data is collected from two community solar projects in New York.  Monthly account level data was collected from January 2020 to April 2022. Account level information includes monthly payment performance, for which churn and default triggers are captured.
+The data consists of 32,385 monthly observations over 812 utility accounts. As a result of a utility billing issue wherein payment performance was not available from October 2021 to April 2022 at one of the solar farms, these records are dropped. This narrowed dataset consists of 31,704 observations; the number of utility accounts remained constant at 812.
 
 
 
@@ -187,38 +187,6 @@ joined <- rbind(no_dupes, dupes) %>%
 ```
 
 
-The first ten rows of the data are presented, grouped by account number. Unique identifiers were replaced with sequential IDs. 
-
-* Tenure: length in months each account was active 
-* Payment_Method: either card or ACH/direct debit method
-* kwh_solar: annual (right?) solar allocation in kWh 
-* Churn: binary _var_iable capturing if an account left the solar farm
-* defauted: binary variable capturing if account holder Default on payment
-* Income: Low (<$50,000) or High (>$50,000)
-* Solar_Farm: Either Howell or Frog Hollow
-
-
-```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
-
-##remove account ID and replace with dummy sequence
-joined$Account_ID <- seq(1,nrow(joined),1)
-
-# drop account ID for privacy concerns 
-temp <- joined[,-1]
-
-temp <- temp %>%
-  relocate(Account_ID)
-
-
-
-head(temp, 10) %>%
-  kbl(caption = "First 10 Rows",  digits=2) %>%
-  kable_classic(full_width = T, html_font = "Cambria")
-```
-
-  
-
-
 
 
 ### Descriptive Statistics
@@ -263,8 +231,7 @@ tbl_two <-
     tenure > 12 & tenure < 24 ~ 2,
     tenure >= 24~ 3
   )) %>% 
-  
-  mutate(tenure_length = recode(tenure_length,
+  mutate(tenure_length_2 = recode(tenure_length,
          '0' = "< 6 Months",
          '1' = "6-12 Months",
          '2' = "12-24 Months",
@@ -274,8 +241,8 @@ tbl_two <-
   
   ungroup() %>%
  # filter(solar_farm == "Howell (O&R)") %>%
-  select(`Average Tenure` = tenure, tenure_length, `Average kWh` = kwh_solar, Income, `Payment Method`=payment_method,Churn, Default) %>%
-  tbl_summary(by = tenure_length) %>%
+  select(`Average Tenure` = tenure, tenure_length_2, `Average kWh` = kwh_solar, Income, `Payment Method`=payment_method,Churn, Default) %>%
+  tbl_summary(by = tenure_length_2) %>%
   modify_header(label = "**Table 2: Summary Statistics by Tenure Length**") %>% 
   bold_labels() %>%
   add_overall()
