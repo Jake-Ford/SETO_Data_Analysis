@@ -269,7 +269,7 @@ In the limited data available, statistically significant effects were measured f
 
 \begin{equation}
 
-P_{d} = \beta_{0} + \beta_{1}*Months +\beta_{2}*(Payment Method = Card) +\beta_{3}*Income=Low \\ +\beta_{4}*Solar kwH + \beta{5}*(Solar Farm=Howell)
+P_{d} = \beta_{0} + \beta_{1}*Months +\beta_{2}*(Payment Method = Card) +\beta_{3}*(Income=Low) \\ +\beta_{4}*Solar kwH + \beta{5}*(Solar Farm=Howell)
 
 \end{equation}
 
