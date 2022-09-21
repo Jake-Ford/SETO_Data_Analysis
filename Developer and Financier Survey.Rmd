@@ -1564,27 +1564,7 @@ Summary statistics for loan loan reserve, percentage of total years covered:
 summary(temp_data$loan_loss_rev, na.rm=T)
 ```
 
-## Respondent Map
 
-Coordinates have been obfuscated to protect location. 
-
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-library(leaflet)
-
-library(tidycensus)
-
-
-
-leaflet() %>%
-  addProviderTiles("CartoDB.Positron") %>%
-#  addTiles() %>%
-  addCircleMarkers(data=devd,
-             radius=8)
-
-
-
-```
 
 
 
