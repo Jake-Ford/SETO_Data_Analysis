@@ -57,29 +57,12 @@ setwd(input_folder)
 
 # Introduction
 
+Entities providing financial capital needed to site potential land plots, conduct environmental impact analyses, and fund construction are essential to community solar farms. While the Community Priorities survey reached out to potential customers, this element of the research seeks to establish qualitative measures of developer and financier preferences and perceived barriers to better serving LMI population.  
 
+# Methods
 
-Developer and Financier Research: survey responses from developers and financiers to assess price sensitivities of language used in contract agreements
+Due to the exploratory nature of this research, we intends to leave analyses associated with the developer and financier component of this research unstructured in part. As a result of the expected small sample size, described in more detail below, we do not expect to be able to test for significance between observations. Rather, this analysis will be conducted through a detailed analysis of primary data collected via survey responses. Absence of existing published data detailing limiting factors and decision points related to constructing community solar  subscriber agreements makes it difficult to establish a baseline in order to conduct hypotheses-generated analyses as outlined in previous sections. This research takes a grounded theory approach to construct theory through primary data collection and subsequent comparative analysis. 
 
-
-Due to the exploratory nature of this research, Solstice intends to leave analyses associated with the developer and financier component of this research unstructured in part. As a result of the expected small sample size, described in more detail below, we do not expect to be able to test for significance between observations. Rather, this analysis will be conducted through a detailed analysis of primary data collected via survey responses. Absence of existing published data detailing limiting factors and decision points related to constructing community solar  subscriber agreements makes it difficult to establish a baseline in order to conduct hypotheses-generated analyses as outlined in previous sections. This research takes a grounded theory approach to construct theory through primary data collection and subsequent comparative
-analysis. 
-
-
-
-
-Average program terms
-
-1. What is the average savings rate offered by developers and financiers within their community solar programs?
-2. Do savings rates offered by different community solar developers and financiers?
-3. What are average term length offered by developers and financiers within their community solar programs?
-4. Do cancellation clauses offered by developers and financiers within their community solar programs?
-5. What is the average subscriber contract page length offered by developers and financiers within their community solar programs?
-
-Further,
-
-1. Do economic/financing factors influence developers and financiers to structure community solar subscriber contracts?
-2. Under what conditions are developers willing to adjust their programmatic terms to include LMI populations in their programs?
 
 
 The primary outcome of this research will be collecting and analyzing average terms used by solar developers and financiers in existing community solar contracts. The secondary outcome of the survey responses from developers and financiers will be measured by variables suggested to influence and limit offerings for existing community solar products.
@@ -87,13 +70,15 @@ The primary outcome of this research will be collecting and analyzing average te
 
 
 
+## Data Collection
+
+*to-do* add more detail on how the developers/financiers were recruited, via qualtrics right? what was time period? how many were hit up and how many ultimately responded? 
 
 
 
 
 
 
-# Methods
 
 There were 254 unique responses. 
 
