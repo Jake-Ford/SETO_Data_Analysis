@@ -31,6 +31,7 @@ library(rms)
 library(rmdformats)
 library(ggplot2)
 library(plotly)
+library(gtsummary)
 
 
 options(scipen = 100)
@@ -67,6 +68,10 @@ Due to the exploratory nature of this research, we intends to leave analyses ass
 
 The primary outcome of this research will be collecting and analyzing average terms used by solar developers and financiers in existing community solar contracts. The secondary outcome of the survey responses from developers and financiers will be measured by variables suggested to influence and limit offerings for existing community solar products.
 
+
+The developer and financier research consists of an analysis of survey data in which each respondent was asked to provide estimated community solar contract attributes, including estimated savings rate, term length and cancellation fee. Respondents were asked if these rates differ when being offered to LMI respondents, and if the difference was positive or negative relative to the general population. Finally, information was collected regarding feedback on potential loan loss reserve characteristics, including ideal length of time and total project revenue to be covered. 
+
+Additionally, community solar access for LMI population is qualitatively coded using a Likert scale, by which respondents recorded the relative degree of importance. These factorized survey questions included three main sections. The first related to a variety of factors that may influence the respondents ability to make community solar projects accessible to LMI populations. Secondly, which internal factors were most important that lead to the inclusion of LMI populations. Finally, what factors effect the project's ability to fill out enrollment in a timely and efficient manner. 
 
 
 
@@ -169,16 +174,385 @@ dev_sum <- devd %>%
 
 ## Descriptive Statistics
 
+<style>
+### Savings Rate
+{
+   display: none;
+ }
+</style>
 
-### Savings Rates
 
 
 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+temp <- dev_sum %>% 
+  select(`Savings Rate`= savings_rate,
+         `Savings Rate Differ for LMI` = savings_rate_differ,
+         `If Differ, higher or lower` = savings_rate_lmi_differ
+         
+        #  `Term Length` = term_length,
+        #  `Term Length Differ for LMI` = term_length_differ,
+        #  
+        #  `Cancellation Fee` = cancel_fee,
+        #  `Cancellation Fee Differ for LMI` = cancel_fee_differ,
+        #  
+        # `Estimated default rate for Market`= default_market,
+        #  `Estimated default rate for LMI` = default_lmi,
+        #  
+        #  
+        #  `Highest Churn Rate by Project Phase` = Q30_1,
+        #  `Highest Default Rate by Project Phase` = Q30_2
+         ) 
+
+# summarize the data with our package
+table1 <- tbl_summary(
+  temp,
+  by=`Savings Rate Differ for LMI`,
+  missing='ifany',
+  ) %>% # test for a difference between groups
+  modify_header(label = "**Table 1: Average Savings Rate by Rates Differing for LMI Customers**") %>% # update the column header
+  bold_labels()
+
+table1
+```
+
+Average market wide savings rate are shown in Table 1. 
+
+*to-do* add takeaways for Table 1
+
+<style>
+### Term Length
+{
+   display: none;
+ }
+</style>
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+temp <- dev_sum %>% 
+  select(
+
+         `Term Length` = term_length,
+         `Differ for LMI` = term_length_differ,
+         `If Differ, higher or lower` = term_length_lmi_differ
+
+
+        #  `Cancellation Fee` = cancel_fee,
+        #  `Cancellation Fee Differ for LMI` = cancel_fee_differ,
+        # 
+        # `Estimated default rate for Market`= default_market,
+        #  `Estimated default rate for LMI` = default_lmi,
+        # 
+        # 
+        #  `Highest Churn Rate by Project Phase` = Q30_1,
+        #  `Highest Default Rate by Project Phase` = Q30_2
+         ) 
+
+# summarize the data with our package
+table2 <- tbl_summary(
+  temp,
+  by=`Differ for LMI`,
+  missing='ifany',
+  ) %>% # test for a difference between groups
+  modify_header(label = "**Table 2: Average Term Rate by Term Differing for LMI Customers**") %>% # update the column header
+  bold_labels()
+
+table2
+```
+
+Average market term lengths  are shown in Table 2. For those respondents who marked that term rates differ for LMI customers, the majority (58%) noted the term lengths are longer relative to the general population. 
+
+*to-do* add takeaways for Table 2
+
+
+
+<style>
+### Cancellation Fee
+{
+   display: none;
+ }
+</style>
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+temp <- dev_sum %>% 
+  select(
+
+         # `Cancellation Length` = term_length,
+         # `Differ for LMI` = term_length_differ,
+         # `If Differ, higher or lower` = term_length_lmi_differ
+
+
+         `Cancellation Fee` = cancel_fee,
+         `Differ for LMI` = cancel_fee_differ,
+        `If Differ, higher or lower` = cancel_fee_lmi_differ
+
+        # 
+        # `Estimated default rate for Market`= default_market,
+        #  `Estimated default rate for LMI` = default_lmi,
+        # 
+        # 
+        #  `Highest Churn Rate by Project Phase` = Q30_1,
+        #  `Highest Default Rate by Project Phase` = Q30_2
+         ) 
+
+# summarize the data with our package
+table3 <- tbl_summary(
+  temp,
+  by=`Differ for LMI`,
+  missing='ifany',
+  ) %>% # test for a difference between groups
+  modify_header(label = "**Table 3: Average Cancellation Fee by Term Differing for LMI Customers**") %>% # update the column header
+  bold_labels()
+
+table3
+```
+
+
+Average cancellation fees are shown in Table 3. Respondents were recorded that cancellation rates were lower for LMI populations relative to the market average. As shown in Table 3, 77% of developers and financiers who responded that cancellation fees differed for LMI customers offer lower cancellation fees. 
+
+*to-do* add takeaways for Table 3
+
+
+<style>
+### Churn and Default
+{
+   display: none;
+ }
+</style>
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+temp <- dev_sum %>% 
+  select(
+        #  
+        `Estimated default rate for Market`= default_market,
+         `Estimated default rate for LMI` = default_lmi,
+
+
+         `Highest Churn Rate by Project Phase` = Q30_1,
+         `Highest Default Rate by Project Phase` = Q30_2
+         ) 
+
+# summarize the data with our package
+table4 <- tbl_summary(
+  temp,
+  #by=`Savings Rate Differ for LMI`,
+  missing='ifany',
+  ) %>% 
+  modify_header(label = "**Table 4: Average Churn and Default Rates**") %>% 
+  bold_labels()
+
+table4
+```
+
+When asked to estimate the default rates for community solar customers, the difference for general market and LMI population is stark. When asked to estimate default rates for the general market, nearly 90% of respondents estimated that default rates would be below 8%. For LMI customers, the proportional total fell to 83% of respondents. 
+
+*to-do* add takeaways for Table 4
+
+
+
+<style>
+### Loan Loss Reserve
+{
+   display: none;
+ }
+</style>
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+risk_levels <- c("Moderately unlikely","Slightly unlikely" , "Neither likely nor unlikely", "Moderately likely", "Slightly likely", "Extremely likely")
+
+temp <- dev_sum %>% 
+  select(
+        #  
+        `Importance of Loan Loss Reserve`= Q33_1,
+        `Ideal Percentage of Loan Loss Reserve`= Q34_1,
+        
+        `Ideal Coverage Time` = Q35_1,
+
+         ) 
+
+temp$`Ideal Percentage of Loan Loss Reserve` <- as.integer(temp$`Ideal Percentage of Loan Loss Reserve`)
+
+#Removed values of ideal loss reserve revenue protection of 2018 anad 50000
+
+temp <- temp %>%
+  mutate(
+    `Ideal Coverage Time` = as.integer(`Ideal Coverage Time`),
+  ) %>%
+  filter(!is.na(`Ideal Coverage Time`)) %>%
+  filter(`Ideal Coverage Time` < 2000)
+
+# summarize the data with our package
+table5 <- tbl_summary(
+  temp,
+  #by=`Savings Rate Differ for LMI`,
+  missing='no',
+  statistic = list(all_continuous() ~ "{mean} ({sd})"),
+  ) %>% 
+  modify_header(label = "**Table 5: Loan Loss Reserve**") %>% 
+  bold_labels()
+
+table5
+```
+
+
+
+<style>
+### Ability to make CS Accessible to LMI
+{
+   display: none;
+ }
+</style>
 
 
 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
+
+importance_levels <- c("Not at all important", "Slightly important", "Moderately important", "Very important", "Extremely important")
+
+
+table2_data <- dev_sum %>% 
+  select(`Customer Acquisition Costs`= Q21_1,
+         `Churn`= Q21_2,
+         `Default`= Q21_3,
+         `Communication`= Q21_4,
+         `LMI Identification`= Q21_5,
+         `Financing`= Q21_6) 
+
+table2_data$`Customer Acquisition Costs` <- factor(table2_data$`Customer Acquisition Costs`, levels=importance_levels)
+table2_data$`Churn` <- factor(table2_data$`Churn`, levels=importance_levels)
+table2_data$`Default` <- factor(table2_data$`Default`, levels=importance_levels)
+table2_data$`Communication` <- factor(table2_data$`Communication`, levels=importance_levels)
+table2_data$`LMI Identification` <- factor(table2_data$`LMI Identification`, levels=importance_levels)
+table2_data$`Financing` <- factor(table2_data$`Financing`, levels=importance_levels)
+  
+
+
+# summarize the data with our package
+table2 <- tbl_summary(
+  table2_data,
+ # by=y_signup,
+  missing='no',
+  ) %>% # test for a difference between groups
+  modify_header(label = "**Table 2: Developer and Financier Priorities: Ability to make CS accessibility to LMI**") %>% # update the column header
+  bold_labels()
+
+table2
+```
+
+
+<style>
+### Factors Influence Decision to include LMI
+{
+   display: none;
+ }
+</style>
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+
+
+table3_data <- dev_sum %>% 
+  select(`Policy`= Q24_1,
+         `Community Interest`= Q24_2,
+         `Financier Interest`= Q24_3,
+         `Company Interest`= Q24_4,
+         `Equity`= Q24_5)
+
+table3_data$`Policy` <- factor(table3_data$`Policy`, levels=importance_levels)
+table3_data$`Community Interest` <- factor(table3_data$`Community Interest`, levels=importance_levels)
+table3_data$`Financier Interest` <- factor(table3_data$`Financier Interest`, levels=importance_levels)
+table3_data$`Company Interest` <- factor(table3_data$`Company Interest`, levels=importance_levels)
+table3_data$`Equity` <- factor(table3_data$`Equity`, levels=importance_levels)
+
+  
+
+
+# summarize the data with our package
+table3 <- tbl_summary(
+  table3_data,
+ # by=y_signup,
+  missing='no',
+  ) %>% # test for a difference between groups
+  modify_header(label = "**Table 3: Developer and Financier Priorities: Factors Influence Decision to include LMI**") %>% # update the column header
+  bold_labels()
+
+table3
+```
+
+<style>
+### Factors to Fill out CS Projects Quickly
+{
+   display: none;
+ }
+</style>
+
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+importance_levels <- c("Definitely not", "Probably not", "Might or might not", "Probably yes", "Definitely yes")
+
+
+
+table4_data <- dev_sum %>% 
+  select(`Savings Rate`= Q26_1,
+         `Term Length`= Q26_2,
+         `Cancellation Fee`= Q26_3,
+         `No On-Bill Credit`= Q26_4,
+         `On-Bill Credit`= Q26_5,
+         `Contract Complexity` = Q26_6,
+         `Trust` = Q26_7
+         )
+
+table4_data$`Savings Rate` <- factor(table4_data$`Savings Rate`, levels=importance_levels)
+table4_data$`Term Length` <- factor(table4_data$`Term Length`, levels=importance_levels)
+table4_data$`Cancellation Fee` <- factor(table4_data$`Cancellation Fee`, levels=importance_levels)
+table4_data$`No On-Bill Credit` <- factor(table4_data$`No On-Bill Credit`, levels=importance_levels)
+table4_data$`On-Bill Credit` <- factor(table4_data$`On-Bill Credit`, levels=importance_levels)
+table4_data$`Contract Complexity` <- factor(table4_data$`Contract Complexity`, levels=importance_levels)
+table4_data$`Trust` <- factor(table4_data$`Trust`, levels=importance_levels)
+
+  
+
+
+# summarize the data with our package
+table4 <- tbl_summary(
+  table4_data,
+ # by=y_signup,
+  missing='no',
+  ) %>% # test for a difference between groups
+  modify_header(label = "**Table 4: Developer and Financier Priorities: Factors to Fill out CS Projects Quickly**") %>% # update the column header
+  bold_labels()
+
+table4
+```
+
+
+
+
+
+<style>
+#### Savings Rate
+{
+   display: none;
+ }
+</style>
+
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+
 sr_data <- dev_sum %>%
   mutate(
     sr = case_when(
@@ -225,7 +599,7 @@ summary(mylogit)
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 library(scales)
 
 temp_data <- dev_sum %>%
@@ -264,7 +638,7 @@ p
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 
 temp_data <- dev_sum %>%
   group_by(savings_rate_differ) %>%
@@ -287,7 +661,7 @@ ggplotly(p, tooltip="text")
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 
 temp_data <- dev_sum %>%
   filter(!is.na(savings_rate_lmi_differ)) %>%
@@ -311,11 +685,19 @@ ggplotly(p, tooltip="text")
 ```
 
 
+<style>
+#### Term Length
+{
+   display: none;
+ }
+</style>
 
 
-### Term Length
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+
 
 
 temp_data <- dev_sum %>%
@@ -340,7 +722,7 @@ ggplotly(p, tooltip="text")
 ```
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 
 
 temp_data <- dev_sum %>%
@@ -365,7 +747,7 @@ ggplotly(p, tooltip="text")
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 temp_data <- dev_sum %>%
   filter(!is.na(term_length_lmi_differ)) %>%
   group_by(term_length_lmi_differ) %>%
@@ -390,12 +772,18 @@ ggplotly(p, tooltip="text")
 
 
 
-### Cancellation Fee
+<style>
+#### Cancellation Fee
+{
+   display: none;
+ }
+</style>
 
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
 
 
 temp_data <- dev_sum %>%
@@ -423,7 +811,7 @@ ggplotly(p, tooltip="text")
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 
 temp_data <- dev_sum %>%
   filter(!is.na(cancel_fee_differ)) %>%
@@ -448,7 +836,7 @@ ggplotly(p, tooltip="text")
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 temp_data <- dev_sum %>%
   filter(!is.na(cancel_fee_lmi_differ)) %>%
   group_by(cancel_fee_lmi_differ) %>%
@@ -469,6 +857,7 @@ ggplotly(p, tooltip="text")
 
 
 ```
+## Pie Charts
 
 ### Factors: Ability to make CS accessibility to LMI {.tabset}
 
@@ -691,7 +1080,7 @@ agg
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 library(reshape)
 
 stacked_data <- melt(final_data, id='Importance') %>%
@@ -728,13 +1117,32 @@ ggplotly(b, tooltip="text")
 
 
 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+long_data <- stacked_data %>%
+  mutate(
+    pct_long = (value/218)
+  )
+
+ggplot(data = long_data, aes(x = Factors , y =pct_long , fill = reorder(Importance, -order),
+                                     text=paste("Factor", Factors, "\nValue:", pct_long))) + 
+  geom_bar(stat = 'identity') + 
+  #scale_colour_discrete("Importance")+
+  coord_flip() + 
+  xlab("") + 
+  ylab("")+ 
+  theme_minimal() +
+  ggtitle("Factors to make Community Solar Accessible to LMI Customers")
+      
+
+```
+
+
 
 
 ### Factors: Influence decision to include LMI in projects {.tabset}
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
-importance_levels <- c("Not at all important", "Slightly important", "Moderately important", "Very important", "Extremely important")
 
 temp_data <- devd %>%
   st_drop_geometry() %>%
@@ -924,7 +1332,7 @@ agg
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 stacked_data <- melt(final_data, id='Importance') %>%
   filter(variable!="order") %>%
   mutate(order = case_when(
@@ -958,6 +1366,23 @@ ggplotly(b, tooltip="text")
 
 
 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+long_data <- stacked_data %>%
+  mutate(
+    pct_long = (value/218)
+  )
+
+ggplot(data = long_data, aes(x = Factors , y =pct_long , fill = reorder(Importance, -order),
+                                     text=paste("Factor", Factors, "\nValue:", pct_long))) + 
+  geom_bar(stat = 'identity') + 
+  coord_flip() + 
+  xlab("") + 
+  ylab("")+ 
+  theme_minimal() +
+  ggtitle("Factors that Influence decision to include LMI in projects")
+      
+
+```
 
 
 ### Factors: Fill out CS Projects Quickly {.tabset}
@@ -1200,7 +1625,7 @@ fig
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 stacked_data <- melt(final_data, id='Importance') %>%
   filter(variable!="order") %>%
   mutate(order = case_when(
@@ -1235,9 +1660,31 @@ ggplotly(b, tooltip="text")
 
 
 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+long_data <- stacked_data %>%
+  mutate(
+    pct_long = (value/218)
+  )
+
+ggplot(data = long_data, aes(x = Factors , y =pct_long , fill = reorder(Importance, -order),
+                                     text=paste("Factor", Factors, "\nValue:", pct_long))) + 
+  geom_bar(stat = 'identity') + 
+  coord_flip() + 
+  xlab("") + 
+  ylab("")+ 
+  theme_minimal() +
+  ggtitle("Factors to Fill out CS Projects Quickly")
+      
+
+```
+
+
+<style>
 ### Savings Rate for Market and LMI
-
-
+{
+   display: none;
+ }
+</style>
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
@@ -1284,7 +1731,7 @@ final_data$order <- c(1,2,3,4)
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 stacked_data <- melt(final_data, id='Importance') %>%
   filter(variable!="order") %>%
   mutate(order = case_when(
@@ -1307,7 +1754,13 @@ ggplotly(b, tooltip="text")
 ```
 
 
+<style>
 ### Churn Rate for Market and LMI
+{
+   display: none;
+ }
+</style>
+
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
@@ -1349,7 +1802,7 @@ final_data$order <- c(1,2,3,4)
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 stacked_data <- melt(final_data, id='Importance') %>%
   filter(variable!="order") %>%
   mutate(order = case_when(
@@ -1370,7 +1823,14 @@ b <- ggplot(data = stacked_data, aes(x = reorder(Importance, -order), y = value,
 ggplotly(b, tooltip="text")
 
 ```
+
+<style>
 ### Project stage by highest churn/default
+{
+   display: none;
+ }
+</style>
+
 
 COD = commerical operational date (?)
 
@@ -1416,7 +1876,7 @@ final_data$order <- c(1,2,3,4,5)
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 stacked_data <- melt(final_data, id='Importance') %>%
   filter(variable!="order") %>%
   mutate(order = case_when(
@@ -1440,14 +1900,22 @@ ggplotly(b, tooltip="text")
 ```
 
 
+<style>
+## Loan Loss Reserve {
+   display: none;
+ }
+</style>
 
 
-## Loan Loss Reserve 
 
-
+<style>
 ### Alleviate Risk
+{
+   display: none;
+ }
+</style>
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 
 risk_levels <- c("Moderately unlikely","Slightly unlikely" , "Neither likely nor unlikely", "Moderately likely", "Slightly likely", "Extremely likely")
 
@@ -1477,13 +1945,18 @@ ggplotly(p, tooltip="text")
 ```
 
 
+
+<style>
 ### Ideal Loan Loss Reserve
+{
+   display: none;
+ }
+</style>
 
 
 
 
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 
 
 
@@ -1508,14 +1981,9 @@ ggplotly(p)
 ```
 
 
-Summary statistics for loan loan reserve, percentage of total project revenue:
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-summary(temp_data$loan_loss_rev, na.rm=T)
-```
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 
 
 #Removed values of ideal loss reserve revenue protection of 2018 anad 50000
@@ -1542,12 +2010,6 @@ ggplotly(p)
 ```
 
 
-
-Summary statistics for loan loan reserve, percentage of total years covered:
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-summary(temp_data$loan_loss_rev, na.rm=T)
-```
 
 
 
