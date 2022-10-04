@@ -47,7 +47,7 @@ options(scipen = 100)
 
 ## Change the below to match your local drive ##
 
-input_folder <- '/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/'
+input_folder <- '/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/SETO Data Analysis/'
 
 
 
@@ -336,9 +336,9 @@ ggplotly(g)%>%
 under_thirty <- c('T11_est4','T11_est5','T11_est76','T11_est18','T11_est19',
                   'T11_est32','T11_est33','T11_est47','T11_est48','T11_est61','T11_est62','T11_est75',sep="|")
 
-chas_name <- paste(input_folder, "3. Churn and Default/Central Hudson Preliminary Analysis/040/Table11.csv", sep="")
+chas_name <- paste(input_folder, "3. Churn and Default/input/Central Hudson Preliminary Analysis/040/Table11.csv", sep="")
 
-chas_data_11 <- read.csv(paste(input_folder, "3. Churn and Default/Central Hudson Preliminary Analysis/040/Table11.csv", sep=""))%>%
+chas_data_11 <- read.csv(paste(input_folder, "3. Churn and Default/input/Central Hudson Preliminary Analysis/040/Table11.csv", sep=""))%>%
   filter(name %in% c("California", "Colorado", "Illinois", "Massachusetts", "Maryland",
                      "Minnesota", "New York", "Oregon")) %>%
   mutate( `1: Less than 30% AMI` = T11_est4 +T11_est5 + T11_est76 + T11_est18 + T11_est19 + 
@@ -785,41 +785,24 @@ Other variables of interest to consider: government program - x_govt
 From Table 1, seven models are presented analyzing changes in probability of sign up. 
 
 ### Table 1: Logistic Regression Output
-```{stata echo=FALSE}
 
 
-use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
-	
-	
-quietly gen weight_race_int = int(weight_race)
-	
-eststo: quietly logit y_signup i.x_sr [pweight=weight_race_int], cluster(id)
-	
-eststo: quietly logit y_signup i.x_sr i.x_inc [pweight=weight_race_int], cluster(id)
 
-eststo: quietly logit y_signup i.x_sr i.x_inc i.x_race  [pweight=weight_race_int], cluster(id)
-
-eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs [pweight=weight_race_int], cluster(id)
-
-eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs i.x_clp i.x_cly i.x_cf  [pweight=weight_race_int], cluster(id)
-	
-eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs i.x_clp i.x_cly i.x_cf i.x_fam [pweight=weight_race_int], cluster(id)
-
-eststo: quietly logit y_signup i.x_sr i.x_race i.x_inc i.x_hs i.x_clp i.x_cly i.x_cf i.x_fam i.x_rev i.x_rev [pweight=weight_race_int], cluster(id)
-
-
-esttab, se label                              ///
-     title(Table 1: Logistic Regression on Contract Adoption)       ///
-     nonumbers mtitles("Model 1" "Model 2" "Model 3" "Model 4" "Model 5" "Model 6" "Model 7") 
-
-eststo clear
-
+```{r showChoro1, echo=FALSE, message=FALSE, warning=FALSE}
+htmltools::includeHTML("/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Primary_Table_combined.html")
 ```
 
 
 
 ### Table 2: Odds Ratios
-```{stata echo=FALSE}
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+htmltools::includeHTML("/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Primary_Table2_combined_OR.html")
+```
+
+
+```{stata include=FALSE}
 
 
 use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
@@ -849,8 +832,8 @@ eststo clear
 
 ```
 
-
-
+### Figure 1: Odds Ratio
+![](/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/graphs/Figure 001 - Odds Ratio.png)
 
 
 Controlling for all other variables, contract length was found to have a strong negative relationship on the probability of contract adoption. For example, holding all variables constant, from model 5 we see that the odds ratio for contract length of 25 years is 0.82, meaning the group with contracts of 25 years are 0.82 times as likely as the group with contracts of 1 year of signing up.
@@ -859,9 +842,6 @@ Controlling for all other variables, contract length was found to have a strong 
 No statistically significant difference in contract adoption were observed when respondents are shown differing savings rates, suggesting other attributes are primary motivations instead of savings rate. Relative to White respondents, ‘Other POC’ were 1.55 times more likely to adopt the contract in model 6, controlling for all other demographic and contract attributes.  
 
 Moderate income individuals were more likely relative to high income individuals to accept the contract when controlling for race, contract length in both pages and years, and cancellation fees. However, by model 6, the difference is no longer statistically significant. Interestingly, in model 6 and 7, low income individuals,, were less likely to adopt the contract relative to high income and controlling for all variables
-
-
-
 
 
 
@@ -992,7 +972,7 @@ eststo clear
 
 ```
 
-#### Predicted Probabilities (Margins)
+#### Figure 2: Savings Rate Margins Plot
 
 
 ![Savings Rates Margin Plots.](/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Marginsplot Savings Rate.png)
@@ -1107,7 +1087,7 @@ eststo clear
 ```
 
 
-#### Predicted Probabilities (Margins)
+#### Figure 3: Cancellation Fee Margins Plot
 
 
 
@@ -1227,7 +1207,7 @@ eststo clear
 ```
 
 
-#### Predicted Probabilities (Margins)
+#### Figure 4: Contract Length Margins Plot
 
 
 ![Contract Years Margin Plots.](/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Marginsplot Years.png)

@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="pandoc" />
+
+        <meta name="author" content="Jacob Ford, Solstice Data Scientist" />
+    
+        <meta name="date" content="2022-10-04" />
+    
+    <title>Churn and Default</title>
+
+        <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+        <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="site_libs/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="site_libs/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+        <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+        <script src="site_libs/navigation-1.1/tabsets.js"></script>
+        <link href="site_libs/magnific-popup-1.1.0/magnific-popup.css" rel="stylesheet" />
+        <script src="site_libs/magnific-popup-1.1.0/jquery.magnific-popup.min.js"></script>
+        <link href="site_libs/readthedown-0.1/readthedown.css" rel="stylesheet" />
+        <link href="site_libs/readthedown-0.1/readthedown_fonts_embed.css" rel="stylesheet" />
+        <script src="site_libs/readthedown-0.1/readthedown.js"></script>
+    
+    
+    
+    
+    <!-- tabsets -->
+    <script>
+      $(document).ready(function () {
+	  window.buildTabsets("toc");
+      });
+      $(document).ready(function () {
+	  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+	      $(this).parent().toggleClass('nav-tabs-open')
+	  });
+      });
+    </script>
+
+    <!-- code folding -->
+    
+    <!-- code download -->
+    
+    <!-- tabsets dropdown -->
+
+    <style type="text/css">
+      .tabset-dropdown > .nav-tabs {
+	  display: inline-table;
+	  max-height: 500px;
+	  min-height: 44px;
+	  overflow-y: auto;
+	  background: white;
+	  border: 1px solid #ddd;
+	  border-radius: 4px;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li.active:before {
+	  content: "";
+	  font-family: 'Glyphicons Halflings';
+	  display: inline-block;
+	  padding: 10px;
+	  border-right: 1px solid #ddd;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+	  content: "&#xe258;";
+	  border: none;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+	  content: "";
+	  font-family: 'Glyphicons Halflings';
+	  display: inline-block;
+	  padding: 10px;
+	  border-right: 1px solid #ddd;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li.active {
+	  display: block;
+      }
+
+      .tabset-dropdown > .nav-tabs > li.active a {
+  	  padding: 0 15px !important;
+      }
+
+      .tabset-dropdown > .nav-tabs > li > a,
+      .tabset-dropdown > .nav-tabs > li > a:focus,
+      .tabset-dropdown > .nav-tabs > li > a:hover {
+	  border: none;
+	  display: inline-block;
+	  border-radius: 4px;
+	  background-color: transparent;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+	  display: block;
+	  float: none;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li {
+	  display: none;
+	  margin-left: 0 !important;
+      }
+    </style>
+    
+</head>
+
+<body class="preload">
+
+   	
+         <!-- readthedown start -->   
+   <div id="content" data-toggle="wy-nav-shift">
+     <nav id="nav-top" role="navigation" aria-label="top navigation">
+       <a role="button" href="#" data-toggle="wy-nav-top"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
+     </nav>
+         
+   
+      
+      <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">SETO Data Analysis</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+        <a href="index.html">Home</a>
+      </li>
+      <li>
+        <a href="community_priorities.html">Community Priorities</a>
+      </li>
+      <li>
+        <a href="developer_and_financier.html">Developer and Financier Survey</a>
+      </li>
+      <li>
+        <a href="churn_and_default.html">Churn and Default</a>
+      </li>
+      <li>
+        <a href="survey_weights.html">Survey Weights</a>
+      </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container -->
+      </div><!--/.navbar -->
+        
+      <h1 class="title">Churn and Default</h1>
+      
+         <!-- readthedown authors -->
+   <div id="sidebar">
+    <h2><a href="#content">Churn and Default</a></h2>
+    <div id="toc">
+      <ul>
+      <li><a href="#introduction">Introduction</a>
+      <ul>
+      <li><a href="#literature-review">Literature Review</a></li>
+      </ul></li>
+      <li><a href="#methods">Methods</a>
+      <ul>
+      <li><a href="#data-collection">Data Collection</a>
+      <ul>
+      <li><a href="#descriptive-statistics">Descriptive
+      Statistics</a></li>
+      </ul></li>
+      <li><a href="#model">Model</a></li>
+      </ul></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#discussion">Discussion</a></li>
+      </ul>
+    </div>
+    <div id="postamble" data-toggle="wy-nav-shift" class="status">
+                  <p class="author"><span class="glyphicon glyphicon-user"></span> Jacob
+Ford, Solstice Data Scientist</p>
+                        <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-10-04</p>
+          </div>
+   </div>
+     
+
+   
+      
+   
+<!-- Don't indent these lines or it will mess pre blocks indentation --> 
+<div id="main">
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>The components of this research sought to identify potential customer
+preferences when considering potential community solar farm contract,
+along with determining priorities for community solar developers and
+financiers. This research provides novel analyses on both demand and
+supply forces in a rapidly expanding field of renewable energy.</p>
+<p>For the final component of the research, we shift our attention to
+how customers in current community solar farms perform over time. By
+analyzing tenure in functioning community solar farms, our research
+seeks to provide quantitative performance data.</p>
+<p>Given the incipient nature of community solar, this analysis provides
+an opportunity to quantify the likelihood of churn or default, along
+with determining any household or demographic attribute associated with
+statistically different rates of either churn or default. The goal of
+the analysis is to first describe the characteristics of the residents,
+the prevalence of default and/or churn rates, the prevalence of churn
+rates, and any statistically significant differences between groups in
+their default, late payments or churn rates.</p>
+<div id="literature-review" class="section level2">
+<h2>Literature Review</h2>
+<p><strong>to-do: to be added/folded into the Introduction to frame the
+macro-scope of this study</strong></p>
+</div>
+</div>
+<div id="methods" class="section level1">
+<h1>Methods</h1>
+<p>For this portion of the research, customers in existing solar farm
+projects are evaluated for their subscription and payment status.
+Participation in community solar farms is voluntary, hence customers may
+exit the program at any point, often subject to a cancellation fee set
+out in the contract. Additionally, customers sometimes fail to pay the
+monthly solar farm subscription fee. Churn refers to the act of a
+customer exiting the solar farm, whereas default refers to the customer
+failing to pay the monthly subscription fee.</p>
+<div id="data-collection" class="section level2">
+<h2>Data Collection</h2>
+<p>Customers in existing community solar projects are evaluated for
+their subscription and payment status. Participation in community solar
+farms is voluntary, hence customers may exit the program at any point,
+often subject to a cancellation fee set out in the contract.
+Additionally, customers sometimes fail to pay the monthly solar farm
+subscription fee. Churn refers to the act of a customer exiting the
+solar farm, whereas default refers to the customer failing to pay the
+monthly subscription fee.</p>
+<p>Customer data is collected from two community solar projects in New
+York. Monthly account level data was collected from January 2020 to
+April 2022. Account level information includes monthly payment
+performance, for which churn and default triggers are captured. The data
+consists of 32,385 monthly observations over 812 utility accounts. As a
+result of a utility billing issue wherein payment performance was not
+available from October 2021 to April 2022 at one of the solar farms,
+these records are dropped. This narrowed dataset consists of 31,704
+observations; the number of utility accounts remained constant at
+812.</p>
+<div id="descriptive-statistics" class="section level3">
+<h3>Descriptive Statistics</h3>
+<p>Account level summary statistics by solar farm are provided in Table
+1 below.</p>
+<p>(hold for experian data to add more descriptives)</p>
+<p>The number of Churn and Default events are captured in Table 1. Note,
+the relative rare occurence of defaulting likely removes the possiblity
+of determining any statistically significant difference between customer
+attributes. However, of the 812 accounts, 118 or just over 14.5% of
+accounts, experienced churn.</p>
+<div id="nsdrclmcwg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#nsdrclmcwg .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#nsdrclmcwg .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#nsdrclmcwg .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#nsdrclmcwg .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#nsdrclmcwg .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nsdrclmcwg .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#nsdrclmcwg .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#nsdrclmcwg .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#nsdrclmcwg .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#nsdrclmcwg .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#nsdrclmcwg .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#nsdrclmcwg .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#nsdrclmcwg .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#nsdrclmcwg .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#nsdrclmcwg .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#nsdrclmcwg .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#nsdrclmcwg .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nsdrclmcwg .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#nsdrclmcwg .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#nsdrclmcwg .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nsdrclmcwg .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#nsdrclmcwg .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#nsdrclmcwg .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nsdrclmcwg .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nsdrclmcwg .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#nsdrclmcwg .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#nsdrclmcwg .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nsdrclmcwg .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#nsdrclmcwg .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nsdrclmcwg .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#nsdrclmcwg .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nsdrclmcwg .gt_left {
+  text-align: left;
+}
+
+#nsdrclmcwg .gt_center {
+  text-align: center;
+}
+
+#nsdrclmcwg .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#nsdrclmcwg .gt_font_normal {
+  font-weight: normal;
+}
+
+#nsdrclmcwg .gt_font_bold {
+  font-weight: bold;
+}
+
+#nsdrclmcwg .gt_font_italic {
+  font-style: italic;
+}
+
+#nsdrclmcwg .gt_super {
+  font-size: 65%;
+}
+
+#nsdrclmcwg .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#nsdrclmcwg .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#nsdrclmcwg .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#nsdrclmcwg .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#nsdrclmcwg .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#nsdrclmcwg .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Table 1: Summary Statistics by Solar Farm</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Overall</strong>, N = 812<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Frog Hollow (CHGE)</strong>, N = 454<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Howell (O&amp;R)</strong>, N = 358<sup class="gt_footnote_marks">1</sup></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Average Tenure</td>
+<td class="gt_row gt_center">22 (20, 23)</td>
+<td class="gt_row gt_center">22 (20, 22)</td>
+<td class="gt_row gt_center">23 (22, 24)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Average kWh</td>
+<td class="gt_row gt_center">6.1 (3.8, 9.6)</td>
+<td class="gt_row gt_center">5.9 (3.5, 9.0)</td>
+<td class="gt_row gt_center">6.3 (4.2, 10.3)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Income</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">High</td>
+<td class="gt_row gt_center">224 (91%)</td>
+<td class="gt_row gt_center">33 (79%)</td>
+<td class="gt_row gt_center">191 (94%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Low</td>
+<td class="gt_row gt_center">21 (8.6%)</td>
+<td class="gt_row gt_center">9 (21%)</td>
+<td class="gt_row gt_center">12 (5.9%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Unknown</td>
+<td class="gt_row gt_center">567</td>
+<td class="gt_row gt_center">412</td>
+<td class="gt_row gt_center">155</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Payment Method</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">ach</td>
+<td class="gt_row gt_center">239 (30%)</td>
+<td class="gt_row gt_center">125 (28%)</td>
+<td class="gt_row gt_center">114 (32%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">card</td>
+<td class="gt_row gt_center">565 (70%)</td>
+<td class="gt_row gt_center">322 (72%)</td>
+<td class="gt_row gt_center">243 (68%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Unknown</td>
+<td class="gt_row gt_center">8</td>
+<td class="gt_row gt_center">7</td>
+<td class="gt_row gt_center">1</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Churn</td>
+<td class="gt_row gt_center">118 (15%)</td>
+<td class="gt_row gt_center">59 (13%)</td>
+<td class="gt_row gt_center">59 (16%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Default</td>
+<td class="gt_row gt_center">6 (0.7%)</td>
+<td class="gt_row gt_center">1 (0.2%)</td>
+<td class="gt_row gt_center">5 (1.4%)</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="4"><sup class="gt_footnote_marks">1</sup> Median (IQR); n (%)</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<p>Average tenure for the entire dataset is just under two years (22
+months). Table 2 provides descriptive statistics grouped by tenure
+length. Longer tenured households had larger solar allocations compared
+to lower tenured households, 7.3 kWH for 2+ year customers compared to
+3.7 for &lt; 6 months.</p>
+<div id="jgmnpkvtdq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#jgmnpkvtdq .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#jgmnpkvtdq .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jgmnpkvtdq .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#jgmnpkvtdq .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#jgmnpkvtdq .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jgmnpkvtdq .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jgmnpkvtdq .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#jgmnpkvtdq .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#jgmnpkvtdq .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#jgmnpkvtdq .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#jgmnpkvtdq .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#jgmnpkvtdq .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#jgmnpkvtdq .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#jgmnpkvtdq .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#jgmnpkvtdq .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#jgmnpkvtdq .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#jgmnpkvtdq .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jgmnpkvtdq .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#jgmnpkvtdq .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#jgmnpkvtdq .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jgmnpkvtdq .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#jgmnpkvtdq .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#jgmnpkvtdq .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jgmnpkvtdq .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jgmnpkvtdq .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#jgmnpkvtdq .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#jgmnpkvtdq .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jgmnpkvtdq .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jgmnpkvtdq .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jgmnpkvtdq .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jgmnpkvtdq .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jgmnpkvtdq .gt_left {
+  text-align: left;
+}
+
+#jgmnpkvtdq .gt_center {
+  text-align: center;
+}
+
+#jgmnpkvtdq .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#jgmnpkvtdq .gt_font_normal {
+  font-weight: normal;
+}
+
+#jgmnpkvtdq .gt_font_bold {
+  font-weight: bold;
+}
+
+#jgmnpkvtdq .gt_font_italic {
+  font-style: italic;
+}
+
+#jgmnpkvtdq .gt_super {
+  font-size: 65%;
+}
+
+#jgmnpkvtdq .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#jgmnpkvtdq .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#jgmnpkvtdq .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#jgmnpkvtdq .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#jgmnpkvtdq .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#jgmnpkvtdq .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Table 2: Summary Statistics by Tenure Length</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Overall</strong>, N = 788<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>&lt; 6 Months</strong>, N = 29<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>12-24 Months</strong>, N = 611<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>6-12 Months</strong>, N = 27<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Over 24 Months</strong>, N = 121<sup class="gt_footnote_marks">1</sup></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Average Tenure</td>
+<td class="gt_row gt_center">22 (20, 23)</td>
+<td class="gt_row gt_center">4 (3, 5)</td>
+<td class="gt_row gt_center">22 (21, 22)</td>
+<td class="gt_row gt_center">10 (8, 10)</td>
+<td class="gt_row gt_center">25 (24, 25)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Average kWh</td>
+<td class="gt_row gt_center">6.2 (3.8, 9.6)</td>
+<td class="gt_row gt_center">3.7 (1.9, 5.6)</td>
+<td class="gt_row gt_center">6.1 (3.8, 9.2)</td>
+<td class="gt_row gt_center">6.4 (3.6, 12.6)</td>
+<td class="gt_row gt_center">7.3 (4.7, 10.8)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Income</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">High</td>
+<td class="gt_row gt_center">220 (91%)</td>
+<td class="gt_row gt_center">14 (88%)</td>
+<td class="gt_row gt_center">146 (92%)</td>
+<td class="gt_row gt_center">9 (82%)</td>
+<td class="gt_row gt_center">51 (91%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Low</td>
+<td class="gt_row gt_center">21 (8.7%)</td>
+<td class="gt_row gt_center">2 (12%)</td>
+<td class="gt_row gt_center">12 (7.6%)</td>
+<td class="gt_row gt_center">2 (18%)</td>
+<td class="gt_row gt_center">5 (8.9%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Unknown</td>
+<td class="gt_row gt_center">547</td>
+<td class="gt_row gt_center">13</td>
+<td class="gt_row gt_center">453</td>
+<td class="gt_row gt_center">16</td>
+<td class="gt_row gt_center">65</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Payment Method</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">ach</td>
+<td class="gt_row gt_center">239 (31%)</td>
+<td class="gt_row gt_center">3 (14%)</td>
+<td class="gt_row gt_center">199 (33%)</td>
+<td class="gt_row gt_center">8 (30%)</td>
+<td class="gt_row gt_center">29 (24%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">card</td>
+<td class="gt_row gt_center">541 (69%)</td>
+<td class="gt_row gt_center">18 (86%)</td>
+<td class="gt_row gt_center">412 (67%)</td>
+<td class="gt_row gt_center">19 (70%)</td>
+<td class="gt_row gt_center">92 (76%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Unknown</td>
+<td class="gt_row gt_center">8</td>
+<td class="gt_row gt_center">8</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">0</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Churn</td>
+<td class="gt_row gt_center">110 (14%)</td>
+<td class="gt_row gt_center">12 (41%)</td>
+<td class="gt_row gt_center">74 (12%)</td>
+<td class="gt_row gt_center">22 (81%)</td>
+<td class="gt_row gt_center">2 (1.7%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Default</td>
+<td class="gt_row gt_center">5 (0.6%)</td>
+<td class="gt_row gt_center">0 (0%)</td>
+<td class="gt_row gt_center">3 (0.5%)</td>
+<td class="gt_row gt_center">1 (3.7%)</td>
+<td class="gt_row gt_center">1 (0.8%)</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="6"><sup class="gt_footnote_marks">1</sup> Median (IQR); n (%)</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+</div>
+</div>
+<div id="model" class="section level2">
+<h2>Model</h2>
+<p>To determine the probability an account will experience either churn
+or default, a logistic regression is used to construct a model. The
+model in brief is described below.</p>
+<p>In the limited data available, statistically significant effects were
+measured for probability of churn for both tenure (Months) and days
+late. Due to relatively small number of observations of late payments,
+no statistically significant results were measured in probability of
+late or default payments.</p>
+<p><span class="math display">\[\begin{equation}
+
+P_{d} = \beta_{0} + \beta_{1}*Months +\beta_{2}*(Payment Method = Card)
++\beta_{3}*(Income=Low) \\ +\beta_{4}*Solar kwH + \beta{5}*(Solar
+Farm=Howell)
+
+\end{equation}\]</span></p>
+</div>
+</div>
+<div id="results" class="section level1">
+<h1>Results</h1>
+<table style="text-align:center">
+<caption>
+<strong>Results</strong>
+</caption>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="2">
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+Churn
+</td>
+<td>
+Default
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+log_tenure
+</td>
+<td>
+-2.327<sup>***</sup>
+</td>
+<td>
+-0.887
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.514)
+</td>
+<td>
+(0.684)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+payment_methodcard
+</td>
+<td>
+-0.108
+</td>
+<td>
+16.605
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.473)
+</td>
+<td>
+(2,682.773)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+kwh_solar
+</td>
+<td>
+-0.005
+</td>
+<td>
+0.059
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.040)
+</td>
+<td>
+(0.076)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+IncomeLow
+</td>
+<td>
+0.499
+</td>
+<td>
+1.481
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.587)
+</td>
+<td>
+(1.284)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+solar_farmHowell (O&amp;R)
+</td>
+<td>
+-1.660<sup>***</sup>
+</td>
+<td>
+0.072
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.466)
+</td>
+<td>
+(1.320)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+7.111<sup>***</sup>
+</td>
+<td>
+-18.698
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1.586)
+</td>
+<td>
+(2,682.773)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+240
+</td>
+<td>
+240
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Log Likelihood
+</td>
+<td>
+-101.121
+</td>
+<td>
+-18.261
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Akaike Inf. Crit.
+</td>
+<td>
+214.242
+</td>
+<td>
+48.522
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td colspan="2" style="text-align:right">
+<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05;
+<sup></strong></em></sup>p&lt;0.01
+</td>
+</tr>
+</table>
+<p>The logit curves below show the relationship between the distribution
+of both tenure and days late with the probability of churning. The first
+graph shows that the longer the tenure, the lower the likelihood. The
+second graph shows that the days of late payments are generally not
+associated with likelihood of churn.</p>
+<p><img src="Churn-and-Default_files/figure-html/unnamed-chunk-9-1.png" width="768" /><img src="Churn-and-Default_files/figure-html/unnamed-chunk-9-2.png" width="768" /></p>
+</div>
+<div id="discussion" class="section level1">
+<h1>Discussion</h1>
+</div>
+</div>
+
+   
+   
+            
+      
+
+  <script>
+    $(document).ready(function () {
+
+			
+ 		
+	    });
+  </script>
+
+
+
+    <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+	var script = document.createElement("script");
+	script.type = "text/javascript";
+	script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+	document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+  
+</body>
+</html>

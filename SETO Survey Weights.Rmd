@@ -41,7 +41,7 @@ options(scipen = 100)
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
-input_folder <- '/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/'
+input_folder <- '/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/SETO Data Analysis/'
 survey_name = paste(input_folder,"1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.xlsx", sep="")
 
 survey <- read_excel(survey_name)
@@ -1436,9 +1436,9 @@ Income weights are taken from the Housing and Urban Development (HUD) Office of 
 under_thirty <- c('T11_est4','T11_est5','T11_est76','T11_est18','T11_est19',
                   'T11_est32','T11_est33','T11_est47','T11_est48','T11_est61','T11_est62','T11_est75',sep="|")
 
-chas_name <- paste(input_folder, "3. Churn and Default/Central Hudson Preliminary Analysis/040/Table11.csv", sep="")
+chas_name <- paste(input_folder, "3. Churn and Default/input/Central Hudson Preliminary Analysis/040/Table11.csv", sep="")
 
-chas_data_11 <- read.csv(paste(input_folder, "3. Churn and Default/Central Hudson Preliminary Analysis/040/Table11.csv", sep=""))%>%
+chas_data_11 <- read.csv(paste(input_folder, "3. Churn and Default/input/Central Hudson Preliminary Analysis/040/Table11.csv", sep=""))%>%
   filter(name %in% c("California", "Colorado", "Illinois", "Massachusetts", "Maryland",
                      "Minnesota", "New York", "Oregon")) %>%
   mutate( `1: Less than 30% AMI` = T11_est4 +T11_est5 + T11_est76 + T11_est18 + T11_est19 + 
