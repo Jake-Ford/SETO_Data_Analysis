@@ -94,7 +94,7 @@ setwd(input_folder)
 
 
 
-raw <- read_excel(paste(input_folder, "3. Churn and Default/Central Hudson Preliminary Analysis/Nautilus Raw Data.xlsx", sep=""), 
+raw <- read_excel(paste(input_folder, "3. Churn and Default/input/Central Hudson Preliminary Analysis/Nautilus Raw Data.xlsx", sep=""), 
     sheet = "final data")
 
 

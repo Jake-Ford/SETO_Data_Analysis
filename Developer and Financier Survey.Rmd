@@ -89,7 +89,7 @@ There were 254 unique responses.
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
-devd_raw <- read.csv(paste(dev_input, "Data/Developer and Financier Survey_July 20, 2022_06.45.csv", sep=""))
+devd_raw <- read.csv(paste(dev_input, "input/Developer and Financier Survey_July 20, 2022_06.45.csv", sep=""))
 
 
 
