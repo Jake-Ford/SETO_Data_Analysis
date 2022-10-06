@@ -834,16 +834,29 @@ eststo clear
 
 ### Figure 1: Odds Ratio
 ![](/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/graphs/Figure 001 - Odds Ratio.png)
+The figure above reflects the odds ratios for Model 7. 
+
+**Main Takeaways**
+
+When considering the preferred model 7, the following variables were observed as statistically significant: 
+
+- Low Income (relative to High Income)
+- Other POC (relative to White)
+- 25 Year Contract (relative to 1 year)
+- More familiar with CS (relative to less familiar)
+- More time spent on reviewing contracts (relative to less time)
 
 
-Controlling for all other variables, contract length was found to have a strong negative relationship on the probability of contract adoption. For example, holding all variables constant, from model 5 we see that the odds ratio for contract length of 25 years is 0.82, meaning the group with contracts of 25 years are 0.82 times as likely as the group with contracts of 1 year of signing up.
+
+
+Controlling for all other variables, contract length was found to have a strong negative relationship on the probability of contract adoption. For example, holding all variables constant, from model 5 we see that the odds ratio for contract length of 25 years is 0.801, meaning the group with contracts of 25 years are 0.801 times as likely as the group with contracts of 1 year of signing up.
 
 
 No statistically significant difference in contract adoption were observed when respondents are shown differing savings rates, suggesting other attributes are primary motivations instead of savings rate. Relative to White respondents, ‘Other POC’ were 1.55 times more likely to adopt the contract in model 6, controlling for all other demographic and contract attributes.  
 
-Moderate income individuals were more likely relative to high income individuals to accept the contract when controlling for race, contract length in both pages and years, and cancellation fees. However, by model 6, the difference is no longer statistically significant. Interestingly, in model 6 and 7, low income individuals,, were less likely to adopt the contract relative to high income and controlling for all variables
+Moderate income individuals were more likely relative to high income individuals to accept the contract when controlling for race, contract length in both pages and years, and cancellation fees. However, by model 6, the difference is no longer statistically significant. Interestingly, in model 6 and 7, low income individuals, were less likely to adopt the contract relative to high income and controlling for all variables
 
-
+By far the strongest indicator of probability of sign up is familiarity with the subject of community solar. Relative to less informed participants, more informed participants were 4.4 times more likely to sign up, holding constant all other contract and demographic attributes. This suggests education outreach initiatives would be highly beneficial in promoting future community solar adoption. 
 
 
 
