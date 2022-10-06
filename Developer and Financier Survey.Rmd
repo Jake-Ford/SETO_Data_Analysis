@@ -1097,7 +1097,7 @@ stacked_data <- melt(final_data, id='Importance') %>%
     variable=="Q21_2" ~ "Risk of subscriber churn",
     variable=="Q21_3" ~ "Risk of subscriber default",
     variable=="Q21_4" ~ "Difficulty communicating CS",
-    variable=="Q21_5" ~ "difficulty qualifying LMI HHs",
+    variable=="Q21_5" ~ "Difficulty qualifying LMI HHs",
     variable=="Q21_6" ~ "Lack of project financing",
     
   )
@@ -1123,7 +1123,29 @@ long_data <- stacked_data %>%
     pct_long = (value/218)
   )
 
-ggplot(data = long_data, aes(x = Factors , y =pct_long , fill = reorder(Importance, -order),
+long_data$Importance <- factor(long_data$Importance, levels = c("Extremely important", "Very important", "Moderately important",
+                                                                "Slightly important", "Not at all important"))
+
+
+long_data <- long_data %>%
+  mutate(Importances = case_when(
+    Importance == "Extremely important" | Importance == "Very important" ~ "Very/Extremely Important",
+    Importance == "Moderately important" | Importance == "Slightly important" ~ "Slightly/Moderately Important",
+    Importance == "Not at all important" ~ "Not at all important"
+  ))
+
+ggplot(data = long_data, aes(x = Factors , y =pct_long , fill=Importance,
+                                     text=paste("Factor", Factors, "\nValue:", pct_long))) + 
+  geom_bar(stat = 'identity') + 
+  #scale_colour_discrete("Importance")+
+  coord_flip() + 
+  xlab("") + 
+  ylab("")+ 
+  theme_minimal() +
+  ggtitle("Factors to make Community Solar Accessible to LMI Customers")
+
+
+ggplot(data = long_data, aes(x = Factors , y =pct_long , fill=Importances,
                                      text=paste("Factor", Factors, "\nValue:", pct_long))) + 
   geom_bar(stat = 'identity') + 
   #scale_colour_discrete("Importance")+
@@ -1372,14 +1394,37 @@ long_data <- stacked_data %>%
     pct_long = (value/218)
   )
 
-ggplot(data = long_data, aes(x = Factors , y =pct_long , fill = reorder(Importance, -order),
+long_data$Importance <- factor(long_data$Importance, levels = c("Extremely important", "Very important", "Moderately important",
+                                                                "Slightly important", "Not at all important"))
+
+
+long_data <- long_data %>%
+  mutate(Importances = case_when(
+    Importance == "Extremely important" | Importance == "Very important" ~ "Very/Extremely Important",
+    Importance == "Moderately important" | Importance == "Slightly important" ~ "Slightly/Moderately Important",
+    Importance == "Not at all important" ~ "Not at all important"
+  ))
+
+ggplot(data = long_data, aes(x = Factors , y =pct_long , fill=Importance,
                                      text=paste("Factor", Factors, "\nValue:", pct_long))) + 
   geom_bar(stat = 'identity') + 
+  #scale_colour_discrete("Importance")+
   coord_flip() + 
   xlab("") + 
   ylab("")+ 
   theme_minimal() +
-  ggtitle("Factors that Influence decision to include LMI in projects")
+  ggtitle("Factors to make Community Solar Accessible to LMI Customers")
+
+
+ggplot(data = long_data, aes(x = Factors , y =pct_long , fill=Importances,
+                                     text=paste("Factor", Factors, "\nValue:", pct_long))) + 
+  geom_bar(stat = 'identity') + 
+  #scale_colour_discrete("Importance")+
+  coord_flip() + 
+  xlab("") + 
+  ylab("")+ 
+  theme_minimal() +
+  ggtitle("Factors to make Community Solar Accessible to LMI Customers")
       
 
 ```
@@ -1666,14 +1711,38 @@ long_data <- stacked_data %>%
     pct_long = (value/218)
   )
 
-ggplot(data = long_data, aes(x = Factors , y =pct_long , fill = reorder(Importance, -order),
+long_data$Importance <- factor(long_data$Importance, levels = c("Definitely yes", "Probably yes", "Might or might not",
+                                                                "Probably not", "Definitely not"))
+
+
+long_data <- long_data %>%
+  mutate(Importances = case_when(
+    Importance == "Definitely yes" | Importance == "Probably yes" ~ "Definite or Probable Yes",
+    Importance == "Might or might not" ~ "Might or might not",
+    Importance == "Probably not" | Importance == "Definitely not" ~ "Definite or Probalbe No"
+  ))
+
+ggplot(data = long_data, aes(x = Factors , y =pct_long , fill=Importance,
                                      text=paste("Factor", Factors, "\nValue:", pct_long))) + 
   geom_bar(stat = 'identity') + 
+  #scale_colour_discrete("Importance")+
   coord_flip() + 
   xlab("") + 
   ylab("")+ 
   theme_minimal() +
-  ggtitle("Factors to Fill out CS Projects Quickly")
+  ggtitle("Factors to make Community Solar Accessible to LMI Customers")
+
+
+ggplot(data = long_data, aes(x = Factors , y =pct_long , fill= Importances,
+                                     text=paste("Factor", Factors, "\nValue:", pct_long))) + 
+  geom_bar(stat = 'identity') + 
+  #scale_colour_discrete("Importance")+
+  coord_flip() + 
+  xlab("") + 
+  ylab("")+ 
+  theme_minimal() +
+  ggtitle("Factors to make Community Solar Accessible to LMI Customers")
+      
       
 
 ```

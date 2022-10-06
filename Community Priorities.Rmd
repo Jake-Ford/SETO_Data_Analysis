@@ -64,24 +64,6 @@ survey_name = paste(input_folder,"1. Community Solar Priorities/Qualtrics Survey
 
 survey <- read_excel(survey_name)
 
-# 2. Developer & Financier
-
-dev_input = paste(input_folder, "2. Developer and Financier/", sep="")
-
-#dev_input ='/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/Developer and Financier Survey/'
-
-
-
-
-# 3. Churn & Default
-
-cd_input = paste(input_folder, "3. Churn and Default/", sep="")
-
-
-#cd_input = '/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/Churn & Default Analysis'
-
-
-
 
 ```
 
