@@ -1134,6 +1134,9 @@ long_data <- long_data %>%
     Importance == "Not at all important" ~ "Not at all important"
   ))
 
+
+long_data$Importances <- factor(long_data$Importances, levels = c("Very/Extremely Important", "Slightly/Moderately Important", "Not at all important"))
+
 ggplot(data = long_data, aes(x = Factors , y =pct_long , fill=Importance,
                                      text=paste("Factor", Factors, "\nValue:", pct_long))) + 
   geom_bar(stat = 'identity') + 
@@ -1404,6 +1407,10 @@ long_data <- long_data %>%
     Importance == "Moderately important" | Importance == "Slightly important" ~ "Slightly/Moderately Important",
     Importance == "Not at all important" ~ "Not at all important"
   ))
+
+
+long_data$Importances <- factor(long_data$Importances, levels = c("Very/Extremely Important", "Slightly/Moderately Important", "Not at all important"))
+
 
 ggplot(data = long_data, aes(x = Factors , y =pct_long , fill=Importance,
                                      text=paste("Factor", Factors, "\nValue:", pct_long))) + 
@@ -1719,8 +1726,11 @@ long_data <- long_data %>%
   mutate(Importances = case_when(
     Importance == "Definitely yes" | Importance == "Probably yes" ~ "Definite or Probable Yes",
     Importance == "Might or might not" ~ "Might or might not",
-    Importance == "Probably not" | Importance == "Definitely not" ~ "Definite or Probalbe No"
+    Importance == "Probably not" | Importance == "Definitely not" ~ "Definite or Probable No"
   ))
+
+long_data$Importances <- factor(long_data$Importances, levels = c("Definite or Probable Yes", "Might or might not",
+                                                                "Definite or Probable No"))
 
 ggplot(data = long_data, aes(x = Factors , y =pct_long , fill=Importance,
                                      text=paste("Factor", Factors, "\nValue:", pct_long))) + 

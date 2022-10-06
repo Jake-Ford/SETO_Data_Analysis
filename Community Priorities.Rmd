@@ -970,7 +970,7 @@ eststo clear
 #### Figure 2: Savings Rate Margins Plot
 
 
-![Savings Rates Margin Plots.](/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Marginsplot Savings Rate.png)
+![Savings Rates Margin Plots.](/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Marginsplot Savings Rate by Race.png)
 
 ### Cancellation Fees
 
