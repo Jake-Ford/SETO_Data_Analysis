@@ -857,9 +857,22 @@ ggplotly(p, tooltip="text")
 
 
 ```
-## Pie Charts
 
+
+<style>
+## Pie Charts
+{
+   display: none;
+ }
+</style>
+
+<style>
 ### Factors: Ability to make CS accessibility to LMI {.tabset}
+{
+   display: none;
+ }
+</style>
+
 
 
 
@@ -940,7 +953,7 @@ final_data$order <- c(1,2,3,4,5)
 
 #### CAC
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 
 #Q21_1
 
@@ -954,7 +967,7 @@ fig
 
 
 #### Churn
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 #Q21_2
 
 fig <- plot_ly(temp_data_2, labels = ~Importance, values = ~Q21_2, type = 'pie', sort=F)
@@ -966,7 +979,7 @@ fig
 ```
 
 #### Default
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 
 
 #Q21_3
@@ -981,7 +994,7 @@ fig
 
 
 #### Communication
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 
 #Q21_4
 
@@ -995,7 +1008,7 @@ fig
 
 
 #### LMI ID
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 
 #Q21_5
 
@@ -1009,7 +1022,7 @@ fig
 
 
 #### Financing
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 
 #Q21_6
 
@@ -2089,9 +2102,26 @@ ggplotly(p)
 ```
 
 
-
+-1
 
 
 
 
 # Discussion
+
+
+
+## Respondent Map
+
+Coordinates have been obfuscated to protect location. 
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(leaflet)
+library(tidycensus)
+leaflet() %>%
+  addProviderTiles("CartoDB.Positron") %>%
+#  addTiles() %>%
+  addCircleMarkers(data=devd,
+             radius=8)
+```

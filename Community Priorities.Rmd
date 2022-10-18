@@ -970,7 +970,7 @@ eststo clear
 #### Figure 2: Savings Rate Margins Plot
 
 
-![Savings Rates Margin Plots.](/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Marginsplot Savings Rate by Race.png)
+![Savings Rates Margin Plots.](/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Marginsplot Savings Rate by Race.png)
 
 ### Cancellation Fees
 
@@ -1086,7 +1086,7 @@ eststo clear
 
 
 
-![Cancellation Fees Margin Plots.](/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Marginsplot Fees.png)
+![Cancellation Fees Margin Plots.](/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Marginsplot Fees by Income.png)
 
 ### Contract Length (Years)
 
@@ -1205,6 +1205,136 @@ eststo clear
 #### Figure 4: Contract Length Margins Plot
 
 
-![Contract Years Margin Plots.](/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Marginsplot Years.png)
+![Contract Years Margin Plots.](/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Marginsplot Years by Race.png)
 
 # Discussion
+
+
+
+
+New pie chart 
+
+
+
+
+```{r}
+pie_data <- survey %>%
+  group_by(Income = x_inc) %>%
+  summarise(n=n()) %>%
+  mutate( Pct = n/sum(n))
+
+pie_data$Pct <- paste(round(100*pie_data$Pct, 1), "%", sep="")
+#pie_data$Pct <- percent(pie_data$Pct)
+
+pie_data
+```
+
+
+```{r}
+library(ggplot2)
+library(scales)
+# Barplot
+bp<- ggplot(pie_data, aes(x="", y=Pct, fill=Income))+geom_bar(width = 1, stat = "identity")
+
+
+pie <- bp + coord_polar("y", start=0)
+pie+ scale_fill_brewer(palette="Blues")+ 
+  theme_minimal() + theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_blank(),
+        panel.grid = element_blank(),
+
+       ) +
+  geom_text(size = 5, aes(label = (Pct)),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y")  +
+#  ggtitle("Race of Community Priorities Survey")
+  ggtitle("Income Status of Community Priorities Survey")
+
+
+```
+
+
+
+
+
+```{r}
+pie_data <- survey %>%
+  group_by(Race = x_race) %>%
+  summarise(n=n()) %>%
+  mutate( Pct = n/sum(n))
+pie_data$Pct <- paste(round(100*pie_data$Pct, 1), "%", sep="")
+
+#pie_data$Pct <- percent(pie_data$Pct)
+
+pie_data
+```
+
+
+```{r}
+library(ggplot2)
+library(scales)
+# Barplot
+bp<- ggplot(pie_data, aes(x="", y=Pct, fill=Race))+geom_bar(width = 1, stat = "identity")
+
+
+pie <- bp + coord_polar("y", start=0)
+pie+
+    scale_fill_manual(values = c("#BE2A3E", "#EC754A",
+                               "#EACF65", "#3C8D53", "beige")) +
+  #scale_fill_brewer(palette="Blues")+ 
+  theme_minimal() + theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_blank(),
+        panel.grid = element_blank(),
+
+       ) +
+  geom_text(size = 5, aes(label = (Pct)),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y")  +
+  ggtitle("Race of Community Priorities Survey")
+
+
+```
+
+
+
+
+```{r}
+pie_data <- survey %>%
+  filter(x_hs != "03 Other") %>%
+  group_by(`Homeownership Status` = x_hs) %>%
+  summarise(n=n()) %>%
+  mutate( Pct = n/sum(n)) 
+pie_data$Pct <- paste(round(100*pie_data$Pct, 1), "%", sep="")
+
+#pie_data$Pct <- percent(pie_data$Pct)
+
+pie_data
+```
+
+
+```{r}
+library(ggplot2)
+library(scales)
+# Barplot
+bp<- ggplot(pie_data, aes(x="", y=Pct, fill=`Homeownership Status`))+geom_bar(width = 1, stat = "identity")
+
+
+pie <- bp + coord_polar("y", start=0)
+pie+
+    scale_fill_manual(values = c("#BE2A3E", "#EC754A")) +
+  #scale_fill_brewer(palette="Blues")+ 
+  theme_minimal() + theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_blank(),
+        panel.grid = element_blank(),
+
+       ) +
+  geom_text(size=6,aes(label = (Pct),),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y")  +
+  ggtitle("Homeownership Status of Community Priorities Survey")
+
+
+```

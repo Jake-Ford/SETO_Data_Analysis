@@ -24,25 +24,24 @@ For the final component of the research, we shift our attention to how customers
 
 Given the incipient nature of community solar, this analysis provides an opportunity to quantify the likelihood of churn or default, along with determining any household or demographic attribute associated with statistically different rates of either churn or default. The goal of the analysis is to first describe the characteristics of the residents, the prevalence of default and/or churn rates, the prevalence of churn rates, and any statistically significant differences between groups in their default, late payments or churn rates.
 
-
-## Literature Review
-
-**to-do: to be added/folded into the Introduction to frame the macro-scope of this study**
-
-
-
+Customers in existing community solar projects are evaluated for their subscription and payment status. Participation in community solar farms is voluntary, hence customers may exit the program at any point, often subject to a cancellation fee set out in the contract. Additionally, customers sometimes fail to pay the monthly solar farm subscription fee. Churn refers to the act of a customer exiting the solar farm, whereas default refers to the customer failing to pay the monthly subscription fee.
 
 # Methods
 
 For this portion of the research, customers in existing solar farm projects are evaluated for their subscription and payment status. Participation in community solar farms is voluntary, hence customers may exit the program at any point, often subject to a cancellation fee set out in the contract. Additionally, customers sometimes fail to pay the monthly solar farm subscription fee. Churn refers to the act of a customer exiting the solar farm, whereas default refers to the customer failing to pay the monthly subscription fee. 
 
+A logit model is employed to determine likelihood of churn and/or default, taking into account an account's length of tenure and various demographic and socioeconomic data available. 
+
+Additionally, a secondary analysis is performed to measure the difference in credit scores for customers, to measure if any difference of statistical importance is observed over the length of the enrollment in the farm. Credit scores for each customer are measured in December 2020 and April 2022, offering an approximate pre- and post credit score measurement. A simple difference of means test (Welch) is employed to measure the differences. 
+
+
 
 ## Data Collection
 
-Customers in existing community solar projects are evaluated for their subscription and payment status. Participation in community solar farms is voluntary, hence customers may exit the program at any point, often subject to a cancellation fee set out in the contract. Additionally, customers sometimes fail to pay the monthly solar farm subscription fee. Churn refers to the act of a customer exiting the solar farm, whereas default refers to the customer failing to pay the monthly subscription fee.
-
 Customer data is collected from two community solar projects in New York.  Monthly account level data was collected from January 2020 to April 2022. Account level information includes monthly payment performance, for which churn and default triggers are captured.
-The data consists of 32,385 monthly observations over 812 utility accounts. As a result of a utility billing issue wherein payment performance was not available from October 2021 to April 2022 at one of the solar farms, these records are dropped. This narrowed dataset consists of 31,704 observations; the number of utility accounts remained constant at 812.
+
+The data consists of 32,384 monthly observations over 812 utility accounts and 620 unique users. Multiple accounts may be tied to a single user, if multiple residences are owned or if a resident churned and subsequently returned in the observed time period. 
+
 
 
 
@@ -65,6 +64,10 @@ library(rmdformats)
 library(gtsummary)
 library(ggplot2)
 library(plotly)
+library(gridExtra)
+library(grid)
+library(lattice)
+library(stargazer)
 
 
 options(scipen = 100)
@@ -78,49 +81,38 @@ options(scipen = 100)
 
 input_folder <- '/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/SETO Data Analysis/'
 
-
 setwd(input_folder)
-
 
 ```
 
 
 
+# Data Cleaning
+
+Data cleaning mainly involves removing observations for one farm over a particular time period. As a result of a utility billing issue wherein payment performance was not available from October 2021 to April 2022 at one of the solar farms, these records are dropped. This narrowed dataset consists of 31,704 observations; the number of utility accounts remained constant at 812 and the number of unique users stays constant at 620. 
+
+
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
-# 'raw' contains the monthly enrollment records for the sample solar farm - contains various account specific information
+# 'farm_data' contains the monthly enrollment records for the sample solar farm - contains various account specific information
 
-# There are three main ID variables to consider: user (user_id),  household (property_id) and utility account (utility_acct_number); we decided to group the analysis by accounts. The reason is simply that what we are measuring is rate of churn/default, and the account is the unit that performs these actions; not the user which may hold multiple accounts. Household ID and utility account are very similar, but for consistency, we hearafter focus on utlity account data
-
-
-
-raw <- read_excel(paste(input_folder, "3. Churn and Default/input/Central Hudson Preliminary Analysis/Nautilus Raw Data.xlsx", sep=""), 
-    sheet = "final data")
+# There are three main ID variables to consider: user (user_id),  household (property_id) and utility account (utility_acct_number). Participant ID (ParticipantID), which is a mask of user ids, is used to merge the data with Experian attributes. We decided to group the analysis by utility accounts. The reason is we are measuring is rate of churn/default, and the account is the unit that performs these actions; not the user which may hold multiple accounts. Household ID and utility account are very similar, but for consistency, we hereafter focus on utility account data
 
 
-#  'leave_reason' - trigger that captures reason why an individual leaves a solar farm ; for non-churn/non-default records, it should be set to 0 (zero), not 'none' just for consitency
+farm_data <- read_excel(paste(input_folder, "3. Churn and Default/input/Central Hudson Preliminary Analysis/Nautilus Raw Data for NMR.xlsx", sep=""), 
+    sheet = "final data") %>%
+    mutate(
+      # Create logarithmic transformation of kwh allocation for model later
+        log_solar = case_when(
+            kwh_allocated>0 ~ log(kwh_allocated),
+            TRUE ~ 0 ))
 
 
-raw$leave_reason[raw$leave_reason=="none"] <- 0
-
-
-raw <- raw %>%
-  #filter particular case that was entered in error
-  filter(user_id!=8377) %>%
+farm_data <- farm_data %>%
   # make tag for frog hollow properties after 9/2021; assuming the entries for april 2022 are legit, this drops October 2021 values 
   mutate(FH_bill_issuetag = case_when(
          solar_farm_name=="Frog Hollow (CHGE)" & year == 2021 & month > 9 ~ 1,
-         TRUE ~ 0),
-         
-         # Create dummy variable for default, the more extreme case of churn; every default is a churn, not ever churn is a default of course
-         default_dummy = case_when(
-           leave_reason =="Defaulted Payment" ~ 1,
-           TRUE ~ 0),
-         
-         churn_dummy = case_when(
-           leave_reason !=0 ~ 1, 
-           TRUE ~ 0
-         )) %>%
+         TRUE ~ 0)) %>%
   filter(FH_bill_issuetag !=1) %>%
   # create logarithmic transformation of kwh allocation for model later
   mutate(
@@ -132,33 +124,82 @@ raw <- raw %>%
 ```
 
 
+## Generate Churn and Default Tags
+
+For the accounts that left the solar farm at any point, we generate Churn and Default 'triggers'. The table below shows the variety of reasons listed why a particular account left either solar farm during the observed period. Most left the solar farm as a result of moving from the service area or no longer interested in the solar farm. 
+
+Defaulted accounts are triggered when the leave reason is 'Defaulted Payment'; every other leave reason is marked as churn, capturing a wider array of 
+outcomes, from moving to health reasons. The map from leave reasons to the Churn and Default triggers are shown below in Table 1:
+
+#### Table 1: Churn and Default Triggers
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+
+#  'leave_reason' - trigger that captures reason why an individual leaves a solar farm; this variable is used to create our dependent variables, 
+# 'Churn' and 'Default'
+
+farm_data %>%
+  filter(leave_reason!=0) %>%
+  group_by(Reason = leave_reason) %>%
+  summarise(N=n()) %>%
+  mutate(Trigger = case_when(
+    grepl("Default", Reason) ~ "Default",
+    TRUE ~ "Churn"
+  )) %>%
+  arrange(desc(N)) %>%
+  select(-N) %>%
+    kbl(caption = "Table 1: Churn and Default Triggers",
+      digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+  kable_classic(full_width = T, html_font = "Cambria") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+
+
+# Create churn/default dummy variables
+
+farm_data <- farm_data %>%
+  mutate(
+# Create dummy variable for default, the more extreme case of churn; every default is a churn, not ever churn is a default of course
+         default_dummy = case_when(
+           leave_reason =="Defaulted Payment" ~ 1,
+           TRUE ~ 0),
+         churn_dummy = case_when(
+           leave_reason !=0 ~ 1, 
+           TRUE ~ 0)
+  )
+
+```
+
+
+
+## Filtering Payment Methods
+
+For some accounts, both a credit card and direct deposit (ACH) payment methods were recorded for the same month. To remove these entries, we first flip the dataframe by utility account ID, then isolate the duplicates and only take the payment method for direct deposit, however using credit card payment as the method would result in the same outcome, as the underlying performance or attribute data does not differ. 
 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
 #group by the utility account number to get descriptive stats
 
-flipped <- raw %>%
+flipped <- farm_data %>%
   group_by(utility_acct_number) %>%
   summarise(
             n= n(),
+            ParticipantID = max(ParticipantID),
             tenure = length(unique(date_concat)),
-            HH_Income = unique(`HH Income`),
             payment_method = unique(payment_type),
+            leave_reason = unique(leave_reason),
+            
             # divide kwh_allocated by 1229 to get kWh per account level
             kwh_solar = mean(kwh_allocated/1229),
             Churn = max(churn_dummy),
             Default = max(default_dummy),
-            solar_farm = unique(solar_farm_name)) %>%
-            # Proj_Frog_Hollow_dummy = sum(solar_farm_name=="Frog Hollow (CHGE)"),
-            # Proj_Howell_dummy = sum(solar_farm_name=="Howell (O&R)")) %>%
+            solar_farm = unique(solar_farm_name)
+            ) %>%
   mutate(
-    count_user_id = n(),
-    Income = case_when(
-      HH_Income==">=$50,000" ~ "High",
-      HH_Income=="$0-$49,999" ~ "Low"
-  )) %>%
-dplyr::select(-HH_Income)
+    count_user_id = n()) 
 
 
 ## filter out the duplicates
@@ -189,33 +230,247 @@ joined <- rbind(no_dupes, dupes) %>%
 
 
 
-### Descriptive Statistics
+
+## Append Experian Data
+
+The data has been grouped by utility account IDs. As seen in Table 2, the information available as collected by Solstice includes:
+
+- utility account number
+- Participant ID
+- Tenure (in months) of account
+- payment method
+- leave_reason, as described above
+- kWh allotted to each utility account
+- Churn and Default dummy variables
+- solar farm identification
+- Income as reported via Data Finder, collected by Solstice. 
+
+#### Table 2: Sample of Data Collected by Solstice
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+head(joined) %>%
+    kbl(caption = "Table 2: Sample of Data Collected by Solstice",
+      digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+  kable_classic(full_width = T, html_font = "Cambria") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+```
+
+To add additional data to the analysis, we contracted with Experian to provide additional demographic and socioeconomic data. This data was provided on the *Participant* level. Recall that multiple utility accounts may be held by a single participant. The data provided by Experian has a matching 'ParticipantID' tag, that corresponds to the Solstice data set. 
 
 
 
-Account level summary statistics by solar farm are provided in Table 1 below. 
+Data from Experian was provided for two different time periods, capturing financial snapshots at December 2020 and April 2022. The utility of having differing time periods is to allow for the secondary analysis, wherein change in credit scores is calculated and a difference of means test is conducted to determine if tenure in the solar farms is associated with any measurable change in credit score. For the primary analysis, Experian data is appended to the Solstice data set at the December 2020 time frame. The December 2020 data is chosen for two reasons: firstly, little change is observed or expected to be observed in demographic data such as homeownership status, education, marriage, and gender; hence there is little difference in terms of model construction between using one or the other source. Secondly, and more importantly, the data provided as of December 2020 is slightly more complete, meaning fewer data are missing for fewer participants.  
 
-(hold for experian data to add more descriptives)
+Finally, Solstice included additional non-SETO data to be scored by Experian to satisfy minimum requirements. It is essential to remove this data from the analysis. Participant IDs from 1-621 refer to SETO related entries; values > 621 are filtered out of the analysis. 
 
-The number of Churn and Default events are captured in Table 1. Note, the relative rare occurence of defaulting likely removes the possiblity of determining any statistically significant difference between customer attributes. However, of the 812 accounts, 118 or just over 14.5% of accounts, experienced churn. 
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-tbl_one <-
-  joined %>%
+
+
+## Merge with Experian Data, start with demographic
+
+score_april_22 <- read.csv(paste(input_folder, '3. Churn and Default/From Experian/202223148A_043022_SCORE_DEMO.csv', sep=""))
+score_april_22$period <- "April 2022"
+
+score_dec_20 <- read.csv(paste(input_folder, '3. Churn and Default/From Experian/202223148A_123020_SCORE_DEMO.csv', sep=""))
+score_dec_20$period <- "December 2020"
+
+
+total_score <- merge(score_april_22,score_dec_20, by="PARTICIPANT_ID") %>%
+  filter(PARTICIPANT_ID <= 621) %>% #filter non-SETO Pariticpants Out
+  group_by(ParticipantID=PARTICIPANT_ID) %>%
+  summarise(
+            Vantage_Diff = VANTAGE_V4_SCORE.x - VANTAGE_V4_SCORE.y, # This measures the change in Vantage Score from Dec'20 -> Apr '22, 
+                                                                    # positive number refers to positive change
+                                                                    # observed over this time period; whereas a negative                                                                                               # number refers to a decline in Vantage Score.
+            VANTAGE_V4_SCORE.x = VANTAGE_V4_SCORE.x,
+            VANTAGE_V4_SCORE.y = VANTAGE_V4_SCORE.y,
+            INCOME_INSIGHT_SCORE = INCOME_INSIGHT_SCORE.y,
+            GENDER_CODE.y,
+            MARRIAGE_IN.y,
+            OCCUPATION_CD.y,
+            HOMEOWNER_IN.y, 
+            RENTER_IN.y,
+            INDV_EDUCATION_CD.y
+            ) %>%
+  mutate(
+      Vantage_Avg = (VANTAGE_V4_SCORE.x + VANTAGE_V4_SCORE.y)/2,
+      GENDER = case_when(
+        GENDER_CODE.y == "F" ~ "Female", 
+        GENDER_CODE.y == "M" ~ "Male"),
+     
+       MARRIAGE = case_when(
+        MARRIAGE_IN.y == "S" ~ "Single", 
+        MARRIAGE_IN.y == "M" ~ "Married",
+        MARRIAGE_IN.y == "U" ~ "Unknown"),
+      
+       HOMEOWNER = case_when(
+        HOMEOWNER_IN.y == "Y" ~ "Yes", 
+        HOMEOWNER_IN.y == "U" ~ "Unknown"),
+      
+      RENTER = case_when(
+        RENTER_IN.y == "Y" ~ "Yes", 
+        RENTER_IN.y == "U" ~ "Unknown"),
+      
+      EDUCATION = case_when(
+        INDV_EDUCATION_CD.y <= 14 ~ "High School or some College",
+        INDV_EDUCATION_CD.y <= 52 ~ "College Degree",
+        INDV_EDUCATION_CD.y >52 ~ "Advanced Degree"),
+      
+      OCCUPATION = case_when(
+        OCCUPATION_CD.y %in% c("06", "10", "23", "53","30", "32", "33", "34", "54",
+                               "05", "18", "22", "31", "37") ~ "Services",
+        OCCUPATION_CD.y %in% c("17", "21", "39", "40", "41", "42",
+                               "43", "44", "45", "46", "47", "48",
+                               "49", "50", "52") ~ "Healthcare/Education Services",
+        OCCUPATION_CD.y %in% c("02", "03", "04", "13", "14",
+                               "36", "38", "51") ~ "Management/Technical",
+        OCCUPATION_CD.y %in% c("U", "00", "08", "11", "16") ~ "Self Employed/Other",
+        OCCUPATION_CD.y %in% c("07", "12", "15", "35") ~ "Trade/Agriculture",
+      )
+      
+      ) %>%
+  select(-GENDER_CODE.y, -MARRIAGE_IN.y, -HOMEOWNER_IN.y, -RENTER_IN.y, -OCCUPATION_CD.y)
+
+# Replace INCOME_INSIGHT_SCORE = 9001, which refers to an income 'decrease' - see codebook for more information. 
+
+total_score$INCOME_INSIGHT_SCORE[total_score$INCOME_INSIGHT_SCORE==9001] <- NA
+
+final_joined <- merge(joined, total_score , by="ParticipantID", all.x = TRUE)
+
+
+## --- Occupation Job Codes Collapse --- ## 
+
+# Categories	New_Categories
+# 00=Unknown	Self Employed/Other
+# 02=Professional/Technical	Management/Technical
+# 03=Upper Management/Executive	Management/Technical
+# 04=Middle Management	Management/Technical
+# 05=Sales/Marketing	Services
+# 06=Clerical/Office	Services
+# 07=SkilledTrade/Machine/Laborer	Trade/Agriculture
+# 08=Retired	Self Employed/Other
+# 10=Executive/Administrator	Services
+# 11=Self Employed	Self Employed/Other
+# 12=Professional Driver	Trade/Agriculture
+# 13=Military	Management/Technical
+# 14=Civil Servant	Management/Technical
+# 15=Farming/Agriculture	Trade/Agriculture
+# 16=Work From Home	Self Employed/Other
+# 17=Health Services	Healthcare/Education Services
+# 18=Financial Services	Services
+# 21=Teacher/Educator	Healthcare/Education Services
+# 22=Retail Sales	Services
+# 23=Computer Professional	Services
+# 30=Beauty	Services
+# 31=Real Estate	Services
+# 32=Architects	Services
+# 33=Interior Designers	Services
+# 34=Landscape Architects	Services
+# 35=Electricians	Trade/Agriculture
+# 36=Engineers	Management/Technical
+# 37=Accountants/CPA	Services
+# 38=Attorneys	Management/Technical
+# 39=Social Worker	Healthcare/Education Services
+# 40=Counselors	Healthcare/Education Services
+# 41=Occupational Ther/ Physical Ther	Healthcare/Education Services
+# 42=Speech Path./Audiologist	Healthcare/Education Services
+# 43=Psychologist	Healthcare/Education Services
+# 44=Pharmacist	Healthcare/Education Services
+# 45=Opticians/Optometrist	Healthcare/Education Services
+# 46=Veterinarian	Healthcare/Education Services
+# 47=Dentist/Dental Hygienist	Healthcare/Education Services
+# 48=Nurse	Healthcare/Education Services
+# 49=Doctors/Physicians/Surgeons	Healthcare/Education Services
+# 50=Chiropractors	Healthcare/Education Services
+# 51=Surveyors	Management/Technical
+# 52=Clergy	Healthcare/Education Services
+# 53=Insurance/Underwriters	Services
+# 54=Services/Creative	Services
+
+
+
+
+
+# Convert Experian Demographic Data into factors
+
+final_joined$EDUCATION <- as.factor(final_joined$EDUCATION)
+
+
+```
+
+
+
+
+#### Table 3: Sample of Appended Data
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+head(final_joined) %>%
+    kbl(caption = "Table 3: Sample of Appended Data",
+      digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
+  kable_classic(full_width = T, html_font = "Cambria") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+```
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+# The following code creates a dataframe "all_data" that adds the additional financial trade data provided by Experian. The 'premiers glossary' excel sheet has definitions for each of the premier variables. This data is not used in the analysis, just provided here for record. 
+
+# Full Merge with Premiere Attributes
+
+prem_attr_1 <- read.csv(paste(input_folder, '3. Churn and Default/From Experian/202223148A_123020_PREMAB.csv', sep=""))
+prem_attr_2 <- read.csv(paste(input_folder, '3. Churn and Default/From Experian/202223148A_123020_PREMCD.csv', sep=""))
+
+prem_attr<- merge(prem_attr_1, prem_attr_2 , by="PARTICIPANT_ID", all.y = TRUE) %>%
+  mutate(ParticipantID=PARTICIPANT_ID) %>%
+  select(-CTK.x, -CTK.y, -RECORD_NB.x,-RECORD_NB.y, -PARTICIPANT_ID)
+
+
+all_data <- merge(final_joined, prem_attr , by="ParticipantID", all.x = TRUE) %>%
+  select(-utility_acct_number)
+
+
+```
+
+
+
+# Descriptive Statistics
+
+Account level summary statistics by solar farm are provided in Table 4 below. 
+
+The number of Churn and Default events are captured in Table 4. Note, the relative rare occurence of defaulting likely removes the possiblity of determining any statistically significant difference between customer attributes. However, of the 812 accounts, 118 or just over 14.5% of accounts, experienced churn. 
+
+#### Table 4: Summary Statistics by Solar Farm
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+temp <-
+  all_data %>%
   ungroup() %>%
  # filter(solar_farm == "Howell (O&R)") %>%
-  select(`Average Tenure` = tenure,  solar_farm, `Average kWh` = kwh_solar, Income, `Payment Method`=payment_method,Churn, Default) %>%
-  tbl_summary(by = solar_farm) %>%
-  modify_header(label = "**Table 1: Summary Statistics by Solar Farm**") %>% 
+  select(Churn, Default,
+         `Average Tenure` = tenure,  solar_farm, `Average kWh` = kwh_solar, `Payment Method`=payment_method,
+         Gender = GENDER, `Marital Status` = MARRIAGE, Occupation = OCCUPATION, Education = EDUCATION, 
+         Renter = RENTER, Homeowner = HOMEOWNER, INCOME_INSIGHT_SCORE,
+         `Average Vantage Score` = Vantage_Avg,
+         `Vantage Score April 2022` =VANTAGE_V4_SCORE.x, 
+         `Vantage Score December 2020` =VANTAGE_V4_SCORE.y,`Vantage Score Change` = Vantage_Diff ) %>%
+  tbl_summary(by = solar_farm,
+              missing = "no") %>%
+  modify_header(label = "**Table 4: Summary Statistics by Solar Farm**") %>% 
   bold_labels() %>%
   add_overall()
 
-tbl_one
+temp
 ```
 
 
 Average tenure for the entire dataset is just under two years (22 months). Table 2 provides descriptive statistics grouped by tenure length. Longer tenured households had larger solar allocations compared to lower tenured households, 7.3 kWH for 2+ year customers compared to 3.7 for < 6 months. 
+
+#### Table 5: Summary Statistics by Tenure Length
+
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 #joined$tenure_length <- factor(joined$tenure_length, levels=c("Less than 6", "6-12", "12-24", "Over 24"))
@@ -223,8 +478,8 @@ Average tenure for the entire dataset is just under two years (22 months). Table
 
 #levels(joined$tenure_length) <- c("Less than 6", "6-12", "12-24", "Over 24")
 
-tbl_two <-
-  joined %>%
+temp <-
+  all_data %>%
     mutate( tenure_length = case_when(
     tenure < 6 ~ 0,
     tenure > 6 & tenure < 12 ~ 1,
@@ -238,16 +493,20 @@ tbl_two <-
          '3' = "Over 24 Months")) %>%
   
   arrange(desc(tenure_length)) %>%
-  
   ungroup() %>%
- # filter(solar_farm == "Howell (O&R)") %>%
-  select(`Average Tenure` = tenure, tenure_length_2, `Average kWh` = kwh_solar, Income, `Payment Method`=payment_method,Churn, Default) %>%
-  tbl_summary(by = tenure_length_2) %>%
-  modify_header(label = "**Table 2: Summary Statistics by Tenure Length**") %>% 
+  select(Churn, Default,
+         `Average Tenure` = tenure, tenure_length_2, `Average kWh` = kwh_solar, `Payment Method`=payment_method,
+         Gender = GENDER, `Marital Status` = MARRIAGE, Occupation = OCCUPATION, Education = EDUCATION, 
+         Renter = RENTER, Homeowner = HOMEOWNER, INCOME_INSIGHT_SCORE,
+         `Average Vantage Score` = Vantage_Avg,
+         `Vantage Score April 2022` =VANTAGE_V4_SCORE.x, 
+         `Vantage Score December 2020` =VANTAGE_V4_SCORE.y,`Vantage Score Change` = Vantage_Diff ) %>%
+  tbl_summary(by = tenure_length_2, missing="no") %>%
+  modify_header(label = "**Table 5: Summary Statistics by Tenure Length**") %>% 
   bold_labels() %>%
   add_overall()
 
-tbl_two
+temp
 ```
 
 
@@ -257,42 +516,85 @@ tbl_two
 
 
 
-
+# Primary Analysis
 
 
 ## Model 
 
-To determine the probability an account will experience either churn or default, a logistic regression is used to construct a model. The model in brief is described below.
+To determine the probability an account will experience either churn or default, a logistic regression is used to construct a model. The model is described below. A churna
 
 In the limited data available, statistically significant effects were measured for probability of churn for both tenure (Months) and days late. Due to relatively small number of observations of late payments, no statistically significant results were measured in probability of late or default payments. 
 
 
+
 \begin{equation}
 
-P_{d} = \beta_{0} + \beta_{1}*Months +\beta_{2}*(Payment Method = Card) +\beta_{3}*(Income=Low) \\ +\beta_{4}*Solar kwH + \beta{5}*(Solar Farm=Howell)
+Churn_{Prob} = \beta_{0} + \beta_{1}Tenure + \beta_{2}kWh +\beta_{3}Gender \\ \beta{4}VantageScore + \beta{5}Education + \beta{6}Married + \beta{7}IncomeInsight
 
 \end{equation}
 
 
+\begin{equation}
+
+Default_{Prob} = \beta_{0} + \beta_{1}Tenure + \beta_{2}kWh +\beta_{3}Gender \\ \beta{4}VantageScore + \beta{5}Education + \beta{6}Married + \beta{7}IncomeInsight
+
+\end{equation}
+
+Logarithmic transformations for continuous variables are employed. These include for tenure, VANTAGE Score, and Income Insight Score. 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+all_data$log_tenure <- log(all_data$tenure)
+all_data$log_vantage <- log(all_data$Vantage_Avg)
+all_data$log_income <- log(all_data$INCOME_INSIGHT_SCORE)
+#Reference Categorys#
+
+# Ref Cat for Gender = Male
+all_data$GENDER <- as.factor(all_data$GENDER)
+all_data$GENDER <- relevel(all_data$GENDER, ref="Male")
+
+# Ref Cat for Marriage = "Single"
+
+all_data$MARRIAGE <- as.factor(all_data$MARRIAGE)
+all_data$MARRIAGE <- relevel(all_data$MARRIAGE, ref="Single")
 
 
 
-# Results
+mod1 <- glm(Churn ~ log_tenure + kwh_solar + GENDER + log_vantage, data = all_data, family = "binomial")
+mod2 <- glm(Churn ~ log_tenure + kwh_solar + GENDER + log_vantage + EDUCATION, data = all_data, family = "binomial")
+mod3 <- glm(Churn ~ log_tenure + kwh_solar + GENDER + log_vantage + MARRIAGE+ log_income, data = all_data, family = "binomial")
+mod4 <- glm(Churn ~ log_tenure + kwh_solar + GENDER + log_vantage + EDUCATION + MARRIAGE+ log_income , data = all_data, family = "binomial")
 
-
+# summary(mod1)
+# summary(mod2)
+# summary(mod3)
+# summary(mod4)
+```
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-library(stargazer)
-
-joined$log_tenure <- log(joined$tenure)
-
-churn_model <- glm(Churn ~ log_tenure + payment_method + kwh_solar  + Income + solar_farm, data = joined, family = "binomial")
-default_model <- glm(Default ~ log_tenure + payment_method + kwh_solar  + Income + solar_farm, data = joined, family = "binomial")
+stargazer(mod1,mod2,mod3, mod4, type = "html",  #we use html output to match our planned R Markdown output
+     title = "Churn Models")
+```
 
 
-stargazer(churn_model, default_model, title="Results", align=TRUE, type="html")
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+mod1 <- glm(Default ~ log_tenure + kwh_solar + GENDER + log_vantage, data = all_data, family = "binomial")
+mod2 <- glm(Default ~ log_tenure + kwh_solar + GENDER + log_vantage + EDUCATION, data = all_data, family = "binomial")
+mod3 <- glm(Default ~ log_tenure + kwh_solar + GENDER + log_vantage + MARRIAGE+ log_income, data = all_data, family = "binomial")
+mod4 <- glm(Default ~ log_tenure + kwh_solar + GENDER + log_vantage + EDUCATION + MARRIAGE+ log_income , data = all_data, family = "binomial")
+
+
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+
+stargazer(mod1,mod2,mod3, mod4, type = "html",  #we use html output to match our planned R Markdown output
+     title = "Default Models")
 ```
 
 
@@ -304,22 +606,107 @@ The logit curves below show the relationship between the distribution of both te
 # Logit Curves - none significant except churn
 
 
-ggplot(joined, aes(x=log_tenure, y = Churn))+ geom_point(fill='red') + 
-  stat_smooth(method="glm", method.args=list(family=binomial(link='logit')), se=FALSE)+theme_minimal()+ scale_x_continuous(name="Log Months") +
+ggplot(all_data, aes(x=log_tenure, y = Churn))+ geom_point(fill='red') + 
+  stat_smooth(method="glm", method.args=list(family=binomial(link='logit')), se=FALSE)+theme_minimal()+ 
+  scale_x_continuous(name="Log Months") 
+  scale_y_continuous(name="Likelihood of Churn")
+  
+ggplot(all_data, aes(x=log_vantage, y = Churn))+ geom_point(fill='red') + 
+  stat_smooth(method="glm", method.args=list(family=binomial(link='logit')), se=FALSE)+theme_minimal()+ 
+  scale_x_continuous(name="Log VANTAGE Score") 
   scale_y_continuous(name="Likelihood of Churn")
 
 
-
-
-ggplot(joined, aes(x=kwh_solar, y = Churn))+ geom_point(fill='red') + 
-  stat_smooth(method="glm", method.args=list(family=binomial(link='logit')), se=FALSE)+theme_minimal()+ scale_x_continuous(name="Solar kWh") +
+ggplot(all_data, aes(x=log_income, y = Churn))+ geom_point(fill='red') + 
+  stat_smooth(method="glm", method.args=list(family=binomial(link='logit')), se=FALSE)+theme_minimal()+ scale_x_continuous(name="Log Income Insight Score") +
   scale_y_continuous(name="Likelihood of Churn")
+
+```
+
+
+# Secondary Analysis
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+df <- final_joined %>%
+  select(ParticipantID,`April 2022` = VANTAGE_V4_SCORE.x, `December 2020` = VANTAGE_V4_SCORE.y )
+
+graph_temp <- reshape2::melt(df, id.var='ParticipantID') 
+
+
+ggplot(graph_temp, aes(variable, value)) +
+        geom_boxplot() +
+        xlab("VANTAGE Score")
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+
+
+p1 <- ggplot(graph_temp, aes(value)) +
+        geom_histogram(fill = "white", color = "grey30") +
+        facet_wrap(~ variable) + ggtitle("Historgram of VANTAGE Score")
+
+p2 <- ggplot(graph_temp, aes(value)) +
+        geom_histogram(fill = "white", color = "grey30") +
+        facet_wrap(~ variable) +
+        scale_x_log10() + ggtitle("Historgram of VANTAGE Score, logged")
+
+grid.arrange(p1, p2, nrow = 2)
+```
+
+```{r}
+t.test(value ~ variable, data = graph_temp)
+
+```
+
+```{r}
+t.test(final_joined$VANTAGE_V4_SCORE.x, final_joined$VANTAGE_V4_SCORE.y)
 
 ```
 
 
 
 
-
 # Discussion
+
+
+
+
+1. Primary:
+
+Tenure
+
+Vantage
+- higher vantage scores associated with higher rates of churn
+- for a 1% increase (model 3) in vantage score, decrease of -0.0392099 in probability of churn
+
+2. Secondary:
+- No statistically significant effect was observed on credit score change after enrollment in solar farm. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
