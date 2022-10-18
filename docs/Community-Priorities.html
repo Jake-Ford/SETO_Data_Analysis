@@ -7,7 +7,7 @@
 
         <meta name="author" content="Jacob Ford, Solstice Data Scientist" />
     
-        <meta name="date" content="2022-10-06" />
+        <meta name="date" content="2022-10-18" />
     
     <title>Community Priorities</title>
 
@@ -34,6 +34,75 @@
         <script src="site_libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
     
     
+        <style type="text/css">code{white-space: pre;}</style>
+    <style type="text/css">
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
+      .sourceCode { overflow: visible; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
+      div.sourceCode { margin: 1em 0; }
+      pre.sourceCode { margin: 0; }
+      @media screen {
+      div.sourceCode { overflow: auto; }
+      }
+      @media print {
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+      }
+      pre.numberSource code
+        { counter-reset: source-line 0; }
+      pre.numberSource code > span
+        { position: relative; left: -4em; counter-increment: source-line; }
+      pre.numberSource code > span > a:first-child::before
+        { content: counter(source-line);
+          position: relative; left: -1em; text-align: right; vertical-align: baseline;
+          border: none; display: inline-block;
+          -webkit-touch-callout: none; -webkit-user-select: none;
+          -khtml-user-select: none; -moz-user-select: none;
+          -ms-user-select: none; user-select: none;
+          padding: 0 4px; width: 4em;
+          background-color: #ffffff;
+          color: #a0a0a0;
+        }
+      pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+      div.sourceCode
+        { color: #1f1c1b; background-color: #ffffff; }
+      @media screen {
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      }
+      code span { color: #1f1c1b; } /* Normal */
+      code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+      code span.an { color: #ca60ca; } /* Annotation */
+      code span.at { color: #0057ae; } /* Attribute */
+      code span.bn { color: #b08000; } /* BaseN */
+      code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+      code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+      code span.ch { color: #924c9d; } /* Char */
+      code span.cn { color: #aa5500; } /* Constant */
+      code span.co { color: #898887; } /* Comment */
+      code span.cv { color: #0095ff; } /* CommentVar */
+      code span.do { color: #607880; } /* Documentation */
+      code span.dt { color: #0057ae; } /* DataType */
+      code span.dv { color: #b08000; } /* DecVal */
+      code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+      code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+      code span.fl { color: #b08000; } /* Float */
+      code span.fu { color: #644a9b; } /* Function */
+      code span.im { color: #ff5500; } /* Import */
+      code span.in { color: #b08000; } /* Information */
+      code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+      code span.op { color: #1f1c1b; } /* Operator */
+      code span.ot { color: #006e28; } /* Other */
+      code span.pp { color: #006e28; } /* Preprocessor */
+      code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+      code span.sc { color: #3daee9; } /* SpecialChar */
+      code span.ss { color: #ff5500; } /* SpecialString */
+      code span.st { color: #bf0303; } /* String */
+      code span.va { color: #0057ae; } /* Variable */
+      code span.vs { color: #bf0303; } /* VerbatimString */
+      code span.wa { color: #bf0303; } /* Warning */
+    </style>
     
     
     <!-- tabsets -->
@@ -222,7 +291,7 @@
     <div id="postamble" data-toggle="wy-nav-shift" class="status">
                   <p class="author"><span class="glyphicon glyphicon-user"></span> Jacob
 Ford, Solstice Data Scientist</p>
-                        <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-10-06</p>
+                        <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-10-18</p>
           </div>
    </div>
      
@@ -372,17 +441,17 @@ data</a>.</p>
 <div id="race" class="section level3">
 <h3>Race</h3>
 <div id="htmlwidget-02bd02fcb726660706eb" style="width:768px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-02bd02fcb726660706eb">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,3.775,2.775,4.775],"y":[0.521774087792946,0.248436151516761,0.0959004923916224,0.095454245256293,0.0384350230423783],"text":["reorder(Race, -value): White<br />value: 0.52177409<br />variable: Census","reorder(Race, -value): Hispanic or Latino<br />value: 0.24843615<br />variable: Census","reorder(Race, -value): Asian<br />value: 0.09590049<br />variable: Census","reorder(Race, -value): Black or African American<br />value: 0.09545425<br />variable: Census","reorder(Race, -value): Other - POC<br />value: 0.03843502<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,4.225,3.225,5.225],"y":[0.403215003348962,0.138647019423979,0.145344943067649,0.194239785666443,0.118553248492967],"text":["reorder(Race, -value): White<br />value: 0.40321500<br />variable: Survey","reorder(Race, -value): Hispanic or Latino<br />value: 0.13864702<br />variable: Survey","reorder(Race, -value): Asian<br />value: 0.14534494<br />variable: Survey","reorder(Race, -value): Black or African American<br />value: 0.19423979<br />variable: Survey","reorder(Race, -value): Other - POC<br />value: 0.11855325<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.2237442922374,"r":7.30593607305936,"b":92.3470813670817,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Race Comparison 8 State Region","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["White","Hispanic or Latino","Black or African American","Asian","Other - POC"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["White","Hispanic or Latino","Black or African American","Asian","Other - POC"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0260887043896473,0.547862792182593],"tickmode":"array","ticktext":["0.0","0.1","0.2","0.3","0.4","0.5"],"tickvals":[0,0.1,0.2,0.3,0.4,0.5],"categoryorder":"array","categoryarray":["0.0","0.1","0.2","0.3","0.4","0.5"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative","annotations":[{"x":1,"y":-0.4,"text":"Source: 2020 ACS 5-Year, Table B03002","showarrow":false,"xref":"paper","yref":"paper","xanchor":"right","yanchor":"auto","xshift":0,"yshift":0,"font":{"size":11,"color":"Black"}},{"x":1,"y":-0.4,"text":"Source: 2020 ACS 5-Year, Table B03002","showarrow":false,"xref":"paper","yref":"paper","xanchor":"right","yanchor":"auto","xshift":0,"yshift":0,"font":{"size":11,"color":"Black"}}]},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"1027056eed0e8":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"1027056eed0e8","visdat":{"1027056eed0e8":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-02bd02fcb726660706eb">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,3.775,2.775,4.775],"y":[0.521774087792946,0.248436151516761,0.0959004923916224,0.095454245256293,0.0384350230423783],"text":["reorder(Race, -value): White<br />value: 0.52177409<br />variable: Census","reorder(Race, -value): Hispanic or Latino<br />value: 0.24843615<br />variable: Census","reorder(Race, -value): Asian<br />value: 0.09590049<br />variable: Census","reorder(Race, -value): Black or African American<br />value: 0.09545425<br />variable: Census","reorder(Race, -value): Other - POC<br />value: 0.03843502<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,4.225,3.225,5.225],"y":[0.403215003348962,0.138647019423979,0.145344943067649,0.194239785666443,0.118553248492967],"text":["reorder(Race, -value): White<br />value: 0.40321500<br />variable: Survey","reorder(Race, -value): Hispanic or Latino<br />value: 0.13864702<br />variable: Survey","reorder(Race, -value): Asian<br />value: 0.14534494<br />variable: Survey","reorder(Race, -value): Black or African American<br />value: 0.19423979<br />variable: Survey","reorder(Race, -value): Other - POC<br />value: 0.11855325<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.2237442922374,"r":7.30593607305936,"b":92.3470813670817,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Race Comparison 8 State Region","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["White","Hispanic or Latino","Black or African American","Asian","Other - POC"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["White","Hispanic or Latino","Black or African American","Asian","Other - POC"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0260887043896473,0.547862792182593],"tickmode":"array","ticktext":["0.0","0.1","0.2","0.3","0.4","0.5"],"tickvals":[0,0.1,0.2,0.3,0.4,0.5],"categoryorder":"array","categoryarray":["0.0","0.1","0.2","0.3","0.4","0.5"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative","annotations":[{"x":1,"y":-0.4,"text":"Source: 2020 ACS 5-Year, Table B03002","showarrow":false,"xref":"paper","yref":"paper","xanchor":"right","yanchor":"auto","xshift":0,"yshift":0,"font":{"size":11,"color":"Black"}},{"x":1,"y":-0.4,"text":"Source: 2020 ACS 5-Year, Table B03002","showarrow":false,"xref":"paper","yref":"paper","xanchor":"right","yanchor":"auto","xshift":0,"yshift":0,"font":{"size":11,"color":"Black"}}]},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"11d8140adde54":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"11d8140adde54","visdat":{"11d8140adde54":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="income" class="section level3">
 <h3>Income</h3>
 <div id="htmlwidget-1f268cf8d6bbb4e71797" style="width:768px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1f268cf8d6bbb4e71797">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775],"y":[0.14196233564765,0.115735412962551,0.151840770073217,0.180296765280522,0.41016471603606],"text":["Income: 1: Less than 30% AMI<br />value: 0.1419623<br />variable: Census","Income: 2: Between 30-50% AMI<br />value: 0.1157354<br />variable: Census","Income: 3: Between 50-80% AMI<br />value: 0.1518408<br />variable: Census","Income: 4: Between 80-120% AMI<br />value: 0.1802968<br />variable: Census","Income: 5: More than 120% AMI<br />value: 0.4101647<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225],"y":[0.146014735432016,0.127930341594106,0.241125251172137,0.226389819156062,0.25853985264568],"text":["Income: 1: Less than 30% AMI<br />value: 0.1460147<br />variable: Survey","Income: 2: Between 30-50% AMI<br />value: 0.1279303<br />variable: Survey","Income: 3: Between 50-80% AMI<br />value: 0.2411253<br />variable: Survey","Income: 4: Between 80-120% AMI<br />value: 0.2263898<br />variable: Survey","Income: 5: More than 120% AMI<br />value: 0.2585399<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.2237442922374,"r":7.30593607305936,"b":83.1692685064023,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Income Comparison 8 State Region","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.020508235801803,0.430672951837863],"tickmode":"array","ticktext":["0.0","0.1","0.2","0.3","0.4"],"tickvals":[0,0.1,0.2,0.3,0.4],"categoryorder":"array","categoryarray":["0.0","0.1","0.2","0.3","0.4"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative","annotations":[{"x":1,"y":-0.5,"text":"Source: 2018 HUD PD&R CHAS, Table 14.","showarrow":false,"xref":"paper","yref":"paper","xanchor":"right","yanchor":"auto","xshift":0,"yshift":0,"font":{"size":11,"color":"Black"}},{"x":1,"y":-0.5,"text":"Source: 2018 HUD PD&R CHAS, Table 14.","showarrow":false,"xref":"paper","yref":"paper","xanchor":"right","yanchor":"auto","xshift":0,"yshift":0,"font":{"size":11,"color":"Black"}}]},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"1027059ffebe2":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"1027059ffebe2","visdat":{"1027059ffebe2":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-1f268cf8d6bbb4e71797">{"x":{"data":[{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[0.775,1.775,2.775,3.775,4.775],"y":[0.14196233564765,0.115735412962551,0.151840770073217,0.180296765280522,0.41016471603606],"text":["Income: 1: Less than 30% AMI<br />value: 0.1419623<br />variable: Census","Income: 2: Between 30-50% AMI<br />value: 0.1157354<br />variable: Census","Income: 3: Between 50-80% AMI<br />value: 0.1518408<br />variable: Census","Income: 4: Between 80-120% AMI<br />value: 0.1802968<br />variable: Census","Income: 5: More than 120% AMI<br />value: 0.4101647<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45,0.45,0.45,0.449999999999999],"base":[0,0,0,0,0],"x":[1.225,2.225,3.225,4.225,5.225],"y":[0.146014735432016,0.127930341594106,0.241125251172137,0.226389819156062,0.25853985264568],"text":["Income: 1: Less than 30% AMI<br />value: 0.1460147<br />variable: Survey","Income: 2: Between 30-50% AMI<br />value: 0.1279303<br />variable: Survey","Income: 3: Between 50-80% AMI<br />value: 0.2411253<br />variable: Survey","Income: 4: Between 80-120% AMI<br />value: 0.2263898<br />variable: Survey","Income: 5: More than 120% AMI<br />value: 0.2585399<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.2237442922374,"r":7.30593607305936,"b":83.1692685064023,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Income Comparison 8 State Region","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,5.6],"tickmode":"array","ticktext":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["1: Less than 30% AMI","2: Between 30-50% AMI","3: Between 50-80% AMI","4: Between 80-120% AMI","5: More than 120% AMI"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.020508235801803,0.430672951837863],"tickmode":"array","ticktext":["0.0","0.1","0.2","0.3","0.4"],"tickvals":[0,0.1,0.2,0.3,0.4],"categoryorder":"array","categoryarray":["0.0","0.1","0.2","0.3","0.4"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative","annotations":[{"x":1,"y":-0.5,"text":"Source: 2018 HUD PD&R CHAS, Table 14.","showarrow":false,"xref":"paper","yref":"paper","xanchor":"right","yanchor":"auto","xshift":0,"yshift":0,"font":{"size":11,"color":"Black"}},{"x":1,"y":-0.5,"text":"Source: 2018 HUD PD&R CHAS, Table 14.","showarrow":false,"xref":"paper","yref":"paper","xanchor":"right","yanchor":"auto","xshift":0,"yshift":0,"font":{"size":11,"color":"Black"}}]},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"11d8156b52444":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"11d8156b52444","visdat":{"11d8156b52444":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="homeownership" class="section level3">
 <h3>Homeownership</h3>
 <div id="htmlwidget-d5784491ac0c6e8a4c53" style="width:768px;height:480px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d5784491ac0c6e8a4c53">{"x":{"data":[{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[0.775,1.775],"y":[0.597721194241778,0.402278805758222],"text":["reorder(x_hs, -value): 01 Homeowner<br />value: 0.5977212<br />variable: Census","reorder(x_hs, -value): 02 Renter<br />value: 0.4022788<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[1.225,2.225],"y":[0.580645161290323,0.419354838709677],"text":["reorder(x_hs, -value): 01 Homeowner<br />value: 0.5806452<br />variable: Survey","reorder(x_hs, -value): 02 Renter<br />value: 0.4193548<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.2237442922374,"r":7.30593607305936,"b":52.6951909105064,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Homeownership Comparison 8 State Region","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,2.6],"tickmode":"array","ticktext":["01 Homeowner","02 Renter"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["01 Homeowner","02 Renter"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0298860597120889,0.627607253953867],"tickmode":"array","ticktext":["0.0","0.2","0.4","0.6"],"tickvals":[0,0.2,0.4,0.6],"categoryorder":"array","categoryarray":["0.0","0.2","0.4","0.6"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative","annotations":[{"x":1,"y":-0.25,"text":"Source: 2020 ACS 5-Year, B25003.","showarrow":false,"xref":"paper","yref":"paper","xanchor":"right","yanchor":"auto","xshift":0,"yshift":0,"font":{"size":11,"color":"Black"}},{"x":1,"y":-0.25,"text":"Source: 2020 ACS 5-Year, B25003.","showarrow":false,"xref":"paper","yref":"paper","xanchor":"right","yanchor":"auto","xshift":0,"yshift":0,"font":{"size":11,"color":"Black"}}]},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"102703c94114":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"102703c94114","visdat":{"102703c94114":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-d5784491ac0c6e8a4c53">{"x":{"data":[{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[0.775,1.775],"y":[0.597721194241778,0.402278805758222],"text":["reorder(x_hs, -value): 01 Homeowner<br />value: 0.5977212<br />variable: Census","reorder(x_hs, -value): 02 Renter<br />value: 0.4022788<br />variable: Census"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Census","legendgroup":"Census","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.45,0.45],"base":[0,0],"x":[1.225,2.225],"y":[0.580645161290323,0.419354838709677],"text":["reorder(x_hs, -value): 01 Homeowner<br />value: 0.5806452<br />variable: Survey","reorder(x_hs, -value): 02 Renter<br />value: 0.4193548<br />variable: Survey"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Survey","legendgroup":"Survey","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.2237442922374,"r":7.30593607305936,"b":52.6951909105064,"l":43.1050228310502},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Homeownership Comparison 8 State Region","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,2.6],"tickmode":"array","ticktext":["01 Homeowner","02 Renter"],"tickvals":[1,2],"categoryorder":"array","categoryarray":["01 Homeowner","02 Renter"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-45,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.0298860597120889,0.627607253953867],"tickmode":"array","ticktext":["0.0","0.2","0.4","0.6"],"tickvals":[0,0.2,0.4,0.6],"categoryorder":"array","categoryarray":["0.0","0.2","0.4","0.6"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":true,"linecolor":"rgba(0,0,0,1)","linewidth":0.66417600664176,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Proportion","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"variable","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative","annotations":[{"x":1,"y":-0.25,"text":"Source: 2020 ACS 5-Year, B25003.","showarrow":false,"xref":"paper","yref":"paper","xanchor":"right","yanchor":"auto","xshift":0,"yshift":0,"font":{"size":11,"color":"Black"}},{"x":1,"y":-0.25,"text":"Source: 2020 ACS 5-Year, B25003.","showarrow":false,"xref":"paper","yref":"paper","xanchor":"right","yanchor":"auto","xshift":0,"yshift":0,"font":{"size":11,"color":"Black"}}]},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"11d81341eef73":{"x":{},"y":{},"fill":{},"type":"bar"}},"cur_data":"11d81341eef73","visdat":{"11d81341eef73":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 <style>
 ### Crosstab Graphics
 
@@ -502,19 +571,18 @@ probability of sign up.</p>
 <tr><td colspan=8><hr></td></tr>
 <tr><td>y_signup            </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td></tr>
 <tr><td>5% savings rate     </td><td>       0.000              </td><td>       0.000              </td><td>       0.000              </td><td>       0.000              </td><td>       0.000              </td><td>       0.000              </td><td>       0.000              </td></tr>
-<tr><td>10% savings rate    </td><td>       0.123              </td><td>       0.068              </td><td>       0.060              </td><td>       0.117              </td><td>       0.118              </td><td>       0.157              </td><td>       0.157              </td></tr>
-<tr><td>20% savings rate    </td><td>       0.093              </td><td>       0.068              </td><td>       0.069              </td><td>       0.077              </td><td>       0.078              </td><td>       0.117              </td><td>       0.120              </td></tr>
+<tr><td>10% savings rate    </td><td>       0.123              </td><td>       0.070              </td><td>       0.062              </td><td>       0.117              </td><td>       0.118              </td><td>       0.157              </td><td>       0.157              </td></tr>
+<tr><td>20% savings rate    </td><td>       0.089              </td><td>       0.066              </td><td>       0.067              </td><td>       0.077              </td><td>       0.078              </td><td>       0.117              </td><td>       0.120              </td></tr>
 <tr><td>01 High             </td><td>                          </td><td>       0.000              </td><td>       0.000              </td><td>       0.000              </td><td>       0.000              </td><td>       0.000              </td><td>       0.000              </td></tr>
-<tr><td>02 Moderate income  </td><td>                          </td><td>       0.360<sup>**</sup> </td><td>       0.313<sup>*</sup>  </td><td>       0.303<sup>*</sup>  </td><td>       0.308<sup>*</sup>  </td><td>       0.178              </td><td>       0.177              </td></tr>
-<tr><td>03 Low income       </td><td>                          </td><td>      -0.222              </td><td>      -0.299<sup>*</sup>  </td><td>      -0.231              </td><td>      -0.231              </td><td>      -0.356<sup>*</sup>  </td><td>      -0.348<sup>*</sup>  </td></tr>
+<tr><td>02 Moderate income  </td><td>                          </td><td>       0.356<sup>**</sup> </td><td>       0.311<sup>*</sup>  </td><td>       0.303<sup>*</sup>  </td><td>       0.308<sup>*</sup>  </td><td>       0.178              </td><td>       0.177              </td></tr>
+<tr><td>03 Low income       </td><td>                          </td><td>      -0.218              </td><td>      -0.292<sup>*</sup>  </td><td>      -0.231              </td><td>      -0.231              </td><td>      -0.356<sup>*</sup>  </td><td>      -0.348<sup>*</sup>  </td></tr>
 <tr><td>01 White            </td><td>                          </td><td>                          </td><td>       0.000              </td><td>       0.000              </td><td>       0.000              </td><td>       0.000              </td><td>       0.000              </td></tr>
-<tr><td>02 Black            </td><td>                          </td><td>                          </td><td>       0.169              </td><td>       0.168              </td><td>       0.164              </td><td>       0.091              </td><td>       0.075              </td></tr>
-<tr><td>03 Hispanic         </td><td>                          </td><td>                          </td><td>       0.270              </td><td>       0.313              </td><td>       0.321              </td><td>       0.170              </td><td>       0.161              </td></tr>
-<tr><td>04 Asian            </td><td>                          </td><td>                          </td><td>      -0.100              </td><td>      -0.072              </td><td>      -0.070              </td><td>      -0.016              </td><td>       0.005              </td></tr>
-<tr><td>05 Other POC        </td><td>                          </td><td>                          </td><td>       0.203              </td><td>       0.379              </td><td>       0.377              </td><td>       0.442<sup>*</sup>  </td><td>       0.444<sup>*</sup>  </td></tr>
+<tr><td>02 Black            </td><td>                          </td><td>                          </td><td>       0.166              </td><td>       0.168              </td><td>       0.164              </td><td>       0.091              </td><td>       0.075              </td></tr>
+<tr><td>03 Hispanic         </td><td>                          </td><td>                          </td><td>       0.259              </td><td>       0.313              </td><td>       0.321              </td><td>       0.170              </td><td>       0.161              </td></tr>
+<tr><td>04 Asian            </td><td>                          </td><td>                          </td><td>      -0.097              </td><td>      -0.072              </td><td>      -0.070              </td><td>      -0.016              </td><td>       0.005              </td></tr>
+<tr><td>05 Other POC        </td><td>                          </td><td>                          </td><td>       0.197              </td><td>       0.379              </td><td>       0.377              </td><td>       0.442<sup>*</sup>  </td><td>       0.444<sup>*</sup>  </td></tr>
 <tr><td>01 Homeowner        </td><td>                          </td><td>                          </td><td>                          </td><td>       0.000              </td><td>       0.000              </td><td>       0.000              </td><td>       0.000              </td></tr>
 <tr><td>02 Renter           </td><td>                          </td><td>                          </td><td>                          </td><td>      -0.315<sup>*</sup>  </td><td>      -0.326<sup>**</sup> </td><td>      -0.091              </td><td>      -0.069              </td></tr>
-<tr><td>03 Other            </td><td>                          </td><td>                          </td><td>                          </td><td>       0.000              </td><td>       0.000              </td><td>       0.000              </td><td>       0.000              </td></tr>
 <tr><td>10-page contract    </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>       0.000              </td><td>       0.000              </td><td>       0.000              </td></tr>
 <tr><td>20-page contract    </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>      -0.064              </td><td>      -0.066              </td><td>      -0.056              </td></tr>
 <tr><td>1-year contract     </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>       0.000              </td><td>       0.000              </td><td>       0.000              </td></tr>
@@ -525,9 +593,9 @@ probability of sign up.</p>
 <tr><td>02 More familiar    </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>       1.471<sup>***</sup></td><td>       1.479<sup>***</sup></td></tr>
 <tr><td>01 Less review      </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>       0.000              </td></tr>
 <tr><td>02 More review      </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>       0.255<sup>*</sup>  </td></tr>
-<tr><td>Constant            </td><td>       0.314<sup>***</sup></td><td>       0.231<sup>*</sup>  </td><td>       0.198              </td><td>       0.259              </td><td>       0.395<sup>*</sup>  </td><td>      -0.385<sup>*</sup>  </td><td>      -0.560<sup>**</sup> </td></tr>
+<tr><td>Constant            </td><td>       0.304<sup>***</sup></td><td>       0.226<sup>*</sup>  </td><td>       0.194              </td><td>       0.259              </td><td>       0.395<sup>*</sup>  </td><td>      -0.385<sup>*</sup>  </td><td>      -0.560<sup>**</sup> </td></tr>
 <tr><td colspan=8><hr></td></tr>
-<tr><td>Observations        </td><td>        2986              </td><td>        2988              </td><td>        2988              </td><td>        2976              </td><td>        2976              </td><td>        2976              </td><td>        2976              </td></tr>
+<tr><td>Observations        </td><td>        2976              </td><td>        2978              </td><td>        2978              </td><td>        2976              </td><td>        2976              </td><td>        2976              </td><td>        2976              </td></tr>
 <tr><td colspan=8><hr></td></tr>
 <tr><td colspan=8>
 <sup>*</sup> <i>p</i> < 0.05, <sup>**</sup> <i>p</i> < 0.01, <sup>***</sup> <i>p</i> < 0.001
@@ -545,19 +613,18 @@ probability of sign up.</p>
 <tr><td colspan=8><hr></td></tr>
 <tr><td>y_signup            </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td></tr>
 <tr><td>5% savings rate     </td><td>       1.000              </td><td>       1.000              </td><td>       1.000              </td><td>       1.000              </td><td>       1.000              </td><td>       1.000              </td><td>       1.000              </td></tr>
-<tr><td>10% savings rate    </td><td>       1.131              </td><td>       1.071              </td><td>       1.062              </td><td>       1.124              </td><td>       1.125              </td><td>       1.170              </td><td>       1.170              </td></tr>
-<tr><td>20% savings rate    </td><td>       1.098              </td><td>       1.071              </td><td>       1.072              </td><td>       1.080              </td><td>       1.081              </td><td>       1.124              </td><td>       1.127              </td></tr>
+<tr><td>10% savings rate    </td><td>       1.131              </td><td>       1.072              </td><td>       1.064              </td><td>       1.124              </td><td>       1.125              </td><td>       1.170              </td><td>       1.170              </td></tr>
+<tr><td>20% savings rate    </td><td>       1.093              </td><td>       1.068              </td><td>       1.070              </td><td>       1.080              </td><td>       1.081              </td><td>       1.124              </td><td>       1.127              </td></tr>
 <tr><td>01 High             </td><td>                          </td><td>       1.000              </td><td>       1.000              </td><td>       1.000              </td><td>       1.000              </td><td>       1.000              </td><td>       1.000              </td></tr>
-<tr><td>02 Moderate income  </td><td>                          </td><td>       1.433<sup>**</sup> </td><td>       1.367<sup>*</sup>  </td><td>       1.354<sup>*</sup>  </td><td>       1.360<sup>*</sup>  </td><td>       1.195              </td><td>       1.193              </td></tr>
-<tr><td>03 Low income       </td><td>                          </td><td>       0.801              </td><td>       0.742<sup>*</sup>  </td><td>       0.794              </td><td>       0.793              </td><td>       0.700<sup>*</sup>  </td><td>       0.706<sup>*</sup>  </td></tr>
+<tr><td>02 Moderate income  </td><td>                          </td><td>       1.427<sup>**</sup> </td><td>       1.365<sup>*</sup>  </td><td>       1.354<sup>*</sup>  </td><td>       1.360<sup>*</sup>  </td><td>       1.195              </td><td>       1.193              </td></tr>
+<tr><td>03 Low income       </td><td>                          </td><td>       0.804              </td><td>       0.747<sup>*</sup>  </td><td>       0.794              </td><td>       0.793              </td><td>       0.700<sup>*</sup>  </td><td>       0.706<sup>*</sup>  </td></tr>
 <tr><td>01 White            </td><td>                          </td><td>                          </td><td>       1.000              </td><td>       1.000              </td><td>       1.000              </td><td>       1.000              </td><td>       1.000              </td></tr>
-<tr><td>02 Black            </td><td>                          </td><td>                          </td><td>       1.184              </td><td>       1.183              </td><td>       1.178              </td><td>       1.095              </td><td>       1.078              </td></tr>
-<tr><td>03 Hispanic         </td><td>                          </td><td>                          </td><td>       1.310              </td><td>       1.367              </td><td>       1.378              </td><td>       1.185              </td><td>       1.175              </td></tr>
-<tr><td>04 Asian            </td><td>                          </td><td>                          </td><td>       0.904              </td><td>       0.930              </td><td>       0.932              </td><td>       0.985              </td><td>       1.005              </td></tr>
-<tr><td>05 Other POC        </td><td>                          </td><td>                          </td><td>       1.225              </td><td>       1.461              </td><td>       1.458              </td><td>       1.555<sup>*</sup>  </td><td>       1.558<sup>*</sup>  </td></tr>
+<tr><td>02 Black            </td><td>                          </td><td>                          </td><td>       1.181              </td><td>       1.183              </td><td>       1.178              </td><td>       1.095              </td><td>       1.078              </td></tr>
+<tr><td>03 Hispanic         </td><td>                          </td><td>                          </td><td>       1.295              </td><td>       1.367              </td><td>       1.378              </td><td>       1.185              </td><td>       1.175              </td></tr>
+<tr><td>04 Asian            </td><td>                          </td><td>                          </td><td>       0.907              </td><td>       0.930              </td><td>       0.932              </td><td>       0.985              </td><td>       1.005              </td></tr>
+<tr><td>05 Other POC        </td><td>                          </td><td>                          </td><td>       1.218              </td><td>       1.461              </td><td>       1.458              </td><td>       1.555<sup>*</sup>  </td><td>       1.558<sup>*</sup>  </td></tr>
 <tr><td>01 Homeowner        </td><td>                          </td><td>                          </td><td>                          </td><td>       1.000              </td><td>       1.000              </td><td>       1.000              </td><td>       1.000              </td></tr>
 <tr><td>02 Renter           </td><td>                          </td><td>                          </td><td>                          </td><td>       0.730<sup>*</sup>  </td><td>       0.722<sup>**</sup> </td><td>       0.913              </td><td>       0.933              </td></tr>
-<tr><td>03 Other            </td><td>                          </td><td>                          </td><td>                          </td><td>       1.000              </td><td>       1.000              </td><td>       1.000              </td><td>       1.000              </td></tr>
 <tr><td>10-page contract    </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>       1.000              </td><td>       1.000              </td><td>       1.000              </td></tr>
 <tr><td>20-page contract    </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>       0.938              </td><td>       0.936              </td><td>       0.945              </td></tr>
 <tr><td>1-year contract     </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>       1.000              </td><td>       1.000              </td><td>       1.000              </td></tr>
@@ -569,7 +636,7 @@ probability of sign up.</p>
 <tr><td>01 Less review      </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>       1.000              </td></tr>
 <tr><td>02 More review      </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>                          </td><td>       1.291<sup>*</sup>  </td></tr>
 <tr><td colspan=8><hr></td></tr>
-<tr><td>Observations        </td><td>        2986              </td><td>        2988              </td><td>        2988              </td><td>        2976              </td><td>        2976              </td><td>        2976              </td><td>        2976              </td></tr>
+<tr><td>Observations        </td><td>        2976              </td><td>        2978              </td><td>        2978              </td><td>        2976              </td><td>        2976              </td><td>        2976              </td><td>        2976              </td></tr>
 <tr><td colspan=8><hr></td></tr>
 <tr><td colspan=8>
 Exponentiated coefficients
@@ -639,44 +706,44 @@ Likert scale.</p>
 
 
 Relative risks ratios of the savings rate multinomial logistic regression model (reference group: neutral
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-&gt; ------------------------------------------------------
-                                  1-5%                                                           6-10%                                                          11-
-&gt; 15%                                                   
-                              Negative        Unlikely          Likely     Affirmative        Negative        Unlikely          Likely     Affirmative        Negat
-&gt; ive        Unlikely          Likely     Affirmative   
-                                     b               b               b               b               b               b               b               b             
-&gt;   b               b               b               b   
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-&gt; ------------------------------------------------------
-01 White                          ref.            ref.            ref.            ref.            ref.            ref.            ref.            ref.            r
-&gt; ef.            ref.            ref.            ref.   
-02 Black                         0.638           1.031           0.668           1.324           1.046           0.839           0.957           1.496           1.
-&gt; 170           1.334           0.937           1.175   
-03 Hispanic                      1.401           0.915           0.686           0.666           1.622           1.657           0.886           0.822           1.
-&gt; 344           0.781           0.607*          0.685   
-04 Asian                         0.888           1.023           0.888           0.328*          0.628           0.468**         0.514**         0.552           0.
-&gt; 651           0.953           1.031           0.899   
-05 Other POC                     1.052           1.113           1.030           1.247           0.941           0.979           1.014           1.420           0.
-&gt; 819           1.030           0.742           1.075   
-01 High                          0.906           0.962           0.990           1.159           0.992           0.701           1.581*          1.674           0.
-&gt; 759           0.507*          1.248           1.720*  
-01 Low Income                     ref.            ref.            ref.            ref.            ref.            ref.            ref.            ref.            r
-&gt; ef.            ref.            ref.            ref.   
-02 Moderate income               0.883           1.104           1.044           0.991           0.780           0.898           1.404           1.349           0.
-&gt; 509*          0.862           1.146           1.438   
-01 Homeowner                      ref.            ref.            ref.            ref.            ref.            ref.            ref.            ref.            r
-&gt; ef.            ref.            ref.            ref.   
-02 Renter                        0.893           1.062           0.793           0.867           0.861           0.864           0.800           0.780           0.
-&gt; 765           0.865           0.850           0.842   
-01 Less Familiar                  ref.            ref.            ref.            ref.            ref.            ref.            ref.            ref.            r
-&gt; ef.            ref.            ref.            ref.   
-02 More familiar                 0.675*          0.775           1.562*          7.163***        0.756           0.788           1.721***        2.972***        0.
-&gt; 650           0.824           1.218           1.773** 
-Constant                         0.920           0.849           0.626           0.067***        0.528*          0.730           0.575*          0.160***        0.
-&gt; 629           0.465**         0.949           0.363***
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-&gt; ------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------
+&gt; ------------------------------------------------------------------------------------------------------
+                                  1-5%                                                           6-10%             
+&gt;                                              11-15%                                                   
+                              Negative        Unlikely          Likely     Affirmative        Negative        Unlik
+&gt; ely          Likely     Affirmative        Negative        Unlikely          Likely     Affirmative   
+                                     b               b               b               b               b             
+&gt;   b               b               b               b               b               b               b   
+-------------------------------------------------------------------------------------------------------------------
+&gt; ------------------------------------------------------------------------------------------------------
+01 White                          ref.            ref.            ref.            ref.            ref.            r
+&gt; ef.            ref.            ref.            ref.            ref.            ref.            ref.   
+02 Black                         0.638           1.031           0.668           1.324           1.046           0.
+&gt; 839           0.957           1.496           1.170           1.334           0.937           1.175   
+03 Hispanic                      1.401           0.915           0.686           0.666           1.622           1.
+&gt; 657           0.886           0.822           1.344           0.781           0.607*          0.685   
+04 Asian                         0.888           1.023           0.888           0.328*          0.628           0.
+&gt; 468**         0.514**         0.552           0.651           0.953           1.031           0.899   
+05 Other POC                     1.052           1.113           1.030           1.247           0.941           0.
+&gt; 979           1.014           1.420           0.819           1.030           0.742           1.075   
+01 High                          0.906           0.962           0.990           1.159           0.992           0.
+&gt; 701           1.581*          1.674           0.759           0.507*          1.248           1.720*  
+01 Low Income                     ref.            ref.            ref.            ref.            ref.            r
+&gt; ef.            ref.            ref.            ref.            ref.            ref.            ref.   
+02 Moderate income               0.883           1.104           1.044           0.991           0.780           0.
+&gt; 898           1.404           1.349           0.509*          0.862           1.146           1.438   
+01 Homeowner                      ref.            ref.            ref.            ref.            ref.            r
+&gt; ef.            ref.            ref.            ref.            ref.            ref.            ref.   
+02 Renter                        0.893           1.062           0.793           0.867           0.861           0.
+&gt; 864           0.800           0.780           0.765           0.865           0.850           0.842   
+01 Less Familiar                  ref.            ref.            ref.            ref.            ref.            r
+&gt; ef.            ref.            ref.            ref.            ref.            ref.            ref.   
+02 More familiar                 0.675*          0.775           1.562*          7.163***        0.756           0.
+&gt; 788           1.721***        2.972***        0.650           0.824           1.218           1.773** 
+Constant                         0.920           0.849           0.626           0.067***        0.528*          0.
+&gt; 730           0.575*          0.160***        0.629           0.465**         0.949           0.363***
+-------------------------------------------------------------------------------------------------------------------
+&gt; ------------------------------------------------------------------------------------------------------
 Exponentiated coefficients
 * p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001
 </code></pre>
@@ -690,44 +757,44 @@ Exponentiated coefficients
 
 
 Relative risks ratios of the savings rate multinomial logistic regression model (reference group: neutral
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-&gt; ------------------------------------------------------
-                                16-20%                                                          21-50%                                                        Over 
-&gt; 50%                                                   
-                              Negative        Unlikely          Likely     Affirmative        Negative        Unlikely          Likely     Affirmative        Negat
-&gt; ive        Unlikely          Likely     Affirmative   
-                                     b               b               b               b               b               b               b               b             
-&gt;   b               b               b               b   
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-&gt; ------------------------------------------------------
-01 White                          ref.            ref.            ref.            ref.            ref.            ref.            ref.            ref.            r
-&gt; ef.            ref.            ref.            ref.   
-02 Black                         1.048           1.698           0.735           0.923           1.438           1.458           0.776           0.863           0.
-&gt; 835           0.919           0.529*          0.640   
-03 Hispanic                      1.555           0.985           1.099           0.848           2.646*          1.584           1.414           1.429           1.
-&gt; 432           0.467           0.610           0.907   
-04 Asian                         0.618           0.903           0.936           0.853           1.259           1.631           1.447           1.565           0.
-&gt; 646           0.690           0.925           1.312   
-05 Other POC                     0.980           0.506           0.880           0.826           1.477           1.388           1.617           1.408           1.
-&gt; 255           1.140           0.788           1.267   
-01 High                          0.927           0.719           2.022**         2.874***        0.802           0.860           2.246**         3.499***        0.
-&gt; 416           0.403           1.297           2.293** 
-01 Low Income                     ref.            ref.            ref.            ref.            ref.            ref.            ref.            ref.            r
-&gt; ef.            ref.            ref.            ref.   
-02 Moderate income               0.479*          1.171           1.331           1.574*          0.396**         1.003           1.504           1.646*          0.
-&gt; 430*          0.492           1.154           1.489   
-01 Homeowner                      ref.            ref.            ref.            ref.            ref.            ref.            ref.            ref.            r
-&gt; ef.            ref.            ref.            ref.   
-02 Renter                        0.887           1.467           0.908           1.148           1.002           1.207           1.072           1.202           0.
-&gt; 690           0.608           0.590*          0.729   
-01 Less Familiar                  ref.            ref.            ref.            ref.            ref.            ref.            ref.            ref.            r
-&gt; ef.            ref.            ref.            ref.   
-02 More familiar                 1.048           0.923           1.171           1.451*          0.933           2.300*          0.841           1.002           0.
-&gt; 930           2.587*          0.814           0.823   
-Constant                         0.497*          0.236***        1.108           0.612*          0.347*          0.119***        1.244           1.100           0.
-&gt; 681           0.457           2.870***        4.475***
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-&gt; ------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------
+&gt; ------------------------------------------------------------------------------------------------------
+                                16-20%                                                          21-50%             
+&gt;                                            Over 50%                                                   
+                              Negative        Unlikely          Likely     Affirmative        Negative        Unlik
+&gt; ely          Likely     Affirmative        Negative        Unlikely          Likely     Affirmative   
+                                     b               b               b               b               b             
+&gt;   b               b               b               b               b               b               b   
+-------------------------------------------------------------------------------------------------------------------
+&gt; ------------------------------------------------------------------------------------------------------
+01 White                          ref.            ref.            ref.            ref.            ref.            r
+&gt; ef.            ref.            ref.            ref.            ref.            ref.            ref.   
+02 Black                         1.048           1.698           0.735           0.923           1.438           1.
+&gt; 458           0.776           0.863           0.835           0.919           0.529*          0.640   
+03 Hispanic                      1.555           0.985           1.099           0.848           2.646*          1.
+&gt; 584           1.414           1.429           1.432           0.467           0.610           0.907   
+04 Asian                         0.618           0.903           0.936           0.853           1.259           1.
+&gt; 631           1.447           1.565           0.646           0.690           0.925           1.312   
+05 Other POC                     0.980           0.506           0.880           0.826           1.477           1.
+&gt; 388           1.617           1.408           1.255           1.140           0.788           1.267   
+01 High                          0.927           0.719           2.022**         2.874***        0.802           0.
+&gt; 860           2.246**         3.499***        0.416           0.403           1.297           2.293** 
+01 Low Income                     ref.            ref.            ref.            ref.            ref.            r
+&gt; ef.            ref.            ref.            ref.            ref.            ref.            ref.   
+02 Moderate income               0.479*          1.171           1.331           1.574*          0.396**         1.
+&gt; 003           1.504           1.646*          0.430*          0.492           1.154           1.489   
+01 Homeowner                      ref.            ref.            ref.            ref.            ref.            r
+&gt; ef.            ref.            ref.            ref.            ref.            ref.            ref.   
+02 Renter                        0.887           1.467           0.908           1.148           1.002           1.
+&gt; 207           1.072           1.202           0.690           0.608           0.590*          0.729   
+01 Less Familiar                  ref.            ref.            ref.            ref.            ref.            r
+&gt; ef.            ref.            ref.            ref.            ref.            ref.            ref.   
+02 More familiar                 1.048           0.923           1.171           1.451*          0.933           2.
+&gt; 300*          0.841           1.002           0.930           2.587*          0.814           0.823   
+Constant                         0.497*          0.236***        1.108           0.612*          0.347*          0.
+&gt; 119***        1.244           1.100           0.681           0.457           2.870***        4.475***
+-------------------------------------------------------------------------------------------------------------------
+&gt; ------------------------------------------------------------------------------------------------------
 Exponentiated coefficients
 * p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001
 </code></pre>
@@ -735,7 +802,7 @@ Exponentiated coefficients
 <h4>Figure 2: Savings Rate Margins Plot</h4>
 <div class="figure">
 <img
-src="/Volumes/GoogleDrive/Shared%20drives/*Solstice%20%7C%20Low%20Income%20Inclusion/Projects/2019-2022%20DOE%20SETO%20Contract%20Innovations/DOE%20SETO%20Project%20Implementation/Project%20Management/SETO%20Data%20Analysis/1.%20Community%20Solar%20Priorities/Qualtrics%20Survey/seto_survey/output/regressions/Marginsplot%20Savings%20Rate%20by%20Race.png"
+src="/Volumes/GoogleDrive-111165283491444964488/Shared%20drives/Solstice%20%7C%20Low%20Income%20Inclusion/05_Research/05.01_SETO/DOE%20SETO%20Project%20Implementation/Project%20Management/SETO%20Data%20Analysis/1.%20Community%20Solar%20Priorities/Qualtrics%20Survey/seto_survey/output/regressions/Marginsplot%20Savings%20Rate%20by%20Race.png"
 alt="" />
 <p class="caption">Savings Rates Margin Plots.</p>
 </div>
@@ -753,46 +820,46 @@ alt="" />
 
 
 Relative risks ratios of the cancellation fees multinomial logistic regression model (reference group: neutral
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-&gt; ------------------------------------------------------
-                                   (1)                                                             (2)                                                             
-&gt; (3)                                                   
-                             Fee 1-100                                                     Fee 101-250                                                     Fee 251-
-&gt; 500                                                   
-                              Negative        Unlikely          Likely     Affirmative               1               2               4               5             
-&gt;   1               2               4               5   
-                                     b               b               b               b               b               b               b               b             
-&gt;   b               b               b               b   
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-&gt; ------------------------------------------------------
-01 White                          ref.            ref.            ref.            ref.            ref.            ref.            ref.            ref.            r
-&gt; ef.            ref.            ref.            ref.   
-02 Black                         1.096           1.041           0.896           0.949           0.892           0.539*          0.941           1.007           0.
-&gt; 596*          0.592           1.230           0.696   
-03 Hispanic                      1.301           1.095           0.728           0.827           0.725           0.521*          0.557           0.411*          0.
-&gt; 593*          0.467*          0.698           0.382*  
-04 Asian                         1.280           0.880           1.137           0.571           1.130           0.708           0.596           0.412*          1.
-&gt; 320           1.123           0.855           0.495   
-05 Other POC                     1.140           1.273           1.196           1.623           0.821           0.676           0.838           1.037           1.
-&gt; 180           1.531           1.355           1.826   
-01 High                          0.646           1.197           1.917**         1.593           0.680           1.385           1.513           1.521           1.
-&gt; 041           1.393           1.216           1.562   
-01 Low Income                     ref.            ref.            ref.            ref.            ref.            ref.            ref.            ref.            r
-&gt; ef.            ref.            ref.            ref.   
-02 Moderate income               0.826           1.198           1.308           1.695*          0.729           0.883           1.334           1.540           0.
-&gt; 677           0.718           1.150           1.341   
-01 Homeowner                      ref.            ref.            ref.            ref.            ref.            ref.            ref.            ref.            r
-&gt; ef.            ref.            ref.            ref.   
-02 Renter                        1.127           1.007           0.893           0.839           1.196           1.162           0.570*          0.733           1.
-&gt; 223           1.093           0.485**         0.531*  
-01 Less Familiar                  ref.            ref.            ref.            ref.            ref.            ref.            ref.            ref.            r
-&gt; ef.            ref.            ref.            ref.   
-02 More familiar                 0.561**         0.837           1.346           2.020**         0.245***        0.340***        1.593*          2.305**         0.
-&gt; 240***        0.539**         2.264**         3.648***
-Constant                         1.037           0.620           0.619           0.251***        3.190***        1.596           0.486*          0.201***        4.
-&gt; 809***        1.576           0.371**         0.174** 
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-&gt; ------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------
+&gt; ------------------------------------------------------------------------------------------------------
+                                   (1)                                                             (2)             
+&gt;                                                 (3)                                                   
+                             Fee 1-100                                                     Fee 101-250             
+&gt;                                         Fee 251-500                                                   
+                              Negative        Unlikely          Likely     Affirmative               1             
+&gt;   2               4               5               1               2               4               5   
+                                     b               b               b               b               b             
+&gt;   b               b               b               b               b               b               b   
+-------------------------------------------------------------------------------------------------------------------
+&gt; ------------------------------------------------------------------------------------------------------
+01 White                          ref.            ref.            ref.            ref.            ref.            r
+&gt; ef.            ref.            ref.            ref.            ref.            ref.            ref.   
+02 Black                         1.096           1.041           0.896           0.949           0.892           0.
+&gt; 539*          0.941           1.007           0.596*          0.592           1.230           0.696   
+03 Hispanic                      1.301           1.095           0.728           0.827           0.725           0.
+&gt; 521*          0.557           0.411*          0.593*          0.467*          0.698           0.382*  
+04 Asian                         1.280           0.880           1.137           0.571           1.130           0.
+&gt; 708           0.596           0.412*          1.320           1.123           0.855           0.495   
+05 Other POC                     1.140           1.273           1.196           1.623           0.821           0.
+&gt; 676           0.838           1.037           1.180           1.531           1.355           1.826   
+01 High                          0.646           1.197           1.917**         1.593           0.680           1.
+&gt; 385           1.513           1.521           1.041           1.393           1.216           1.562   
+01 Low Income                     ref.            ref.            ref.            ref.            ref.            r
+&gt; ef.            ref.            ref.            ref.            ref.            ref.            ref.   
+02 Moderate income               0.826           1.198           1.308           1.695*          0.729           0.
+&gt; 883           1.334           1.540           0.677           0.718           1.150           1.341   
+01 Homeowner                      ref.            ref.            ref.            ref.            ref.            r
+&gt; ef.            ref.            ref.            ref.            ref.            ref.            ref.   
+02 Renter                        1.127           1.007           0.893           0.839           1.196           1.
+&gt; 162           0.570*          0.733           1.223           1.093           0.485**         0.531*  
+01 Less Familiar                  ref.            ref.            ref.            ref.            ref.            r
+&gt; ef.            ref.            ref.            ref.            ref.            ref.            ref.   
+02 More familiar                 0.561**         0.837           1.346           2.020**         0.245***        0.
+&gt; 340***        1.593*          2.305**         0.240***        0.539**         2.264**         3.648***
+Constant                         1.037           0.620           0.619           0.251***        3.190***        1.
+&gt; 596           0.486*          0.201***        4.809***        1.576           0.371**         0.174** 
+-------------------------------------------------------------------------------------------------------------------
+&gt; ------------------------------------------------------------------------------------------------------
 Exponentiated coefficients
 * p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001
 </code></pre>
@@ -876,7 +943,7 @@ Exponentiated coefficients
 <h4>Figure 3: Cancellation Fee Margins Plot</h4>
 <div class="figure">
 <img
-src="/Volumes/GoogleDrive/Shared%20drives/*Solstice%20%7C%20Low%20Income%20Inclusion/Projects/2019-2022%20DOE%20SETO%20Contract%20Innovations/DOE%20SETO%20Project%20Implementation/Project%20Management/SETO%20Data%20Analysis/1.%20Community%20Solar%20Priorities/Qualtrics%20Survey/seto_survey/output/regressions/Marginsplot%20Fees.png"
+src="/Volumes/GoogleDrive-111165283491444964488/Shared%20drives/Solstice%20%7C%20Low%20Income%20Inclusion/05_Research/05.01_SETO/DOE%20SETO%20Project%20Implementation/Project%20Management/SETO%20Data%20Analysis/1.%20Community%20Solar%20Priorities/Qualtrics%20Survey/seto_survey/output/regressions/Marginsplot%20Fees%20by%20Income.png"
 alt="" />
 <p class="caption">Cancellation Fees Margin Plots.</p>
 </div>
@@ -894,46 +961,46 @@ alt="" />
 
 
 Relative risks ratios of the savings rate multinomial logistic regression model (reference group: neutral
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-&gt; ------------------------------------------------------
-                                   (1)                                                             (2)                                                             
-&gt; (3)                                                   
-                             1-3 Years                                                       4-6 Years                                                      7-10 Ye
-&gt; ars                                                   
-                              Negative        Unlikely          Likely     Affirmative               1               2               4               5             
-&gt;   1               2               4               5   
-                                     b               b               b               b               b               b               b               b             
-&gt;   b               b               b               b   
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-&gt; ------------------------------------------------------
-01 White                          ref.            ref.            ref.            ref.            ref.            ref.            ref.            ref.            r
-&gt; ef.            ref.            ref.            ref.   
-02 Black                         1.133           1.453           0.890           1.441           1.453           1.072           0.763           1.267           1.
-&gt; 241           1.557           1.188           1.362   
-03 Hispanic                      1.103           1.367           0.608           0.536           0.652           1.082           0.630           0.385*          0.
-&gt; 610           0.875           0.834           0.359** 
-04 Asian                         0.683           0.563           0.658           0.706           0.703           0.947           0.589*          0.759           0.
-&gt; 763           1.026           0.965           0.402** 
-05 Other POC                     0.546           1.575           1.227           0.919           0.714           1.226           1.070           1.079           1.
-&gt; 215           1.520           1.082           1.347   
-01 High                          0.554           1.203           1.359           1.594           0.907           1.422           1.482           1.463           1.
-&gt; 164           1.570           2.092**         1.146   
-01 Low Income                     ref.            ref.            ref.            ref.            ref.            ref.            ref.            ref.            r
-&gt; ef.            ref.            ref.            ref.   
-02 Moderate income               0.827           1.247           1.149           1.260           0.978           1.419           1.449           1.307           0.
-&gt; 872           0.878           1.399           1.166   
-01 Homeowner                      ref.            ref.            ref.            ref.            ref.            ref.            ref.            ref.            r
-&gt; ef.            ref.            ref.            ref.   
-02 Renter                        0.995           0.897           0.800           0.661*          1.318           1.023           0.788           0.698           1.
-&gt; 153           1.226           0.606**         0.799   
-01 Less Familiar                  ref.            ref.            ref.            ref.            ref.            ref.            ref.            ref.            r
-&gt; ef.            ref.            ref.            ref.   
-02 More familiar                 1.179           1.553*          1.281           1.448           0.576**         0.866           1.929***        2.476***        0.
-&gt; 391***        0.613*          2.371***        2.167***
-Constant                         0.470*          0.302***        0.887           0.430**         0.555*          0.423***        0.517**         0.239***        0.
-&gt; 990           0.535*          0.344***        0.335***
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-&gt; ------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------
+&gt; ------------------------------------------------------------------------------------------------------
+                                   (1)                                                             (2)             
+&gt;                                                 (3)                                                   
+                             1-3 Years                                                       4-6 Years             
+&gt;                                          7-10 Years                                                   
+                              Negative        Unlikely          Likely     Affirmative               1             
+&gt;   2               4               5               1               2               4               5   
+                                     b               b               b               b               b             
+&gt;   b               b               b               b               b               b               b   
+-------------------------------------------------------------------------------------------------------------------
+&gt; ------------------------------------------------------------------------------------------------------
+01 White                          ref.            ref.            ref.            ref.            ref.            r
+&gt; ef.            ref.            ref.            ref.            ref.            ref.            ref.   
+02 Black                         1.133           1.453           0.890           1.441           1.453           1.
+&gt; 072           0.763           1.267           1.241           1.557           1.188           1.362   
+03 Hispanic                      1.103           1.367           0.608           0.536           0.652           1.
+&gt; 082           0.630           0.385*          0.610           0.875           0.834           0.359** 
+04 Asian                         0.683           0.563           0.658           0.706           0.703           0.
+&gt; 947           0.589*          0.759           0.763           1.026           0.965           0.402** 
+05 Other POC                     0.546           1.575           1.227           0.919           0.714           1.
+&gt; 226           1.070           1.079           1.215           1.520           1.082           1.347   
+01 High                          0.554           1.203           1.359           1.594           0.907           1.
+&gt; 422           1.482           1.463           1.164           1.570           2.092**         1.146   
+01 Low Income                     ref.            ref.            ref.            ref.            ref.            r
+&gt; ef.            ref.            ref.            ref.            ref.            ref.            ref.   
+02 Moderate income               0.827           1.247           1.149           1.260           0.978           1.
+&gt; 419           1.449           1.307           0.872           0.878           1.399           1.166   
+01 Homeowner                      ref.            ref.            ref.            ref.            ref.            r
+&gt; ef.            ref.            ref.            ref.            ref.            ref.            ref.   
+02 Renter                        0.995           0.897           0.800           0.661*          1.318           1.
+&gt; 023           0.788           0.698           1.153           1.226           0.606**         0.799   
+01 Less Familiar                  ref.            ref.            ref.            ref.            ref.            r
+&gt; ef.            ref.            ref.            ref.            ref.            ref.            ref.   
+02 More familiar                 1.179           1.553*          1.281           1.448           0.576**         0.
+&gt; 866           1.929***        2.476***        0.391***        0.613*          2.371***        2.167***
+Constant                         0.470*          0.302***        0.887           0.430**         0.555*          0.
+&gt; 423***        0.517**         0.239***        0.990           0.535*          0.344***        0.335***
+-------------------------------------------------------------------------------------------------------------------
+&gt; ------------------------------------------------------------------------------------------------------
 Exponentiated coefficients
 * p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001
 </code></pre>
@@ -1019,7 +1086,7 @@ Exponentiated coefficients
 <h4>Figure 4: Contract Length Margins Plot</h4>
 <div class="figure">
 <img
-src="/Volumes/GoogleDrive/Shared%20drives/*Solstice%20%7C%20Low%20Income%20Inclusion/Projects/2019-2022%20DOE%20SETO%20Contract%20Innovations/DOE%20SETO%20Project%20Implementation/Project%20Management/SETO%20Data%20Analysis/1.%20Community%20Solar%20Priorities/Qualtrics%20Survey/seto_survey/output/regressions/Marginsplot%20Years.png"
+src="/Volumes/GoogleDrive-111165283491444964488/Shared%20drives/Solstice%20%7C%20Low%20Income%20Inclusion/05_Research/05.01_SETO/DOE%20SETO%20Project%20Implementation/Project%20Management/SETO%20Data%20Analysis/1.%20Community%20Solar%20Priorities/Qualtrics%20Survey/seto_survey/output/regressions/Marginsplot%20Years%20by%20Race.png"
 alt="" />
 <p class="caption">Contract Years Margin Plots.</p>
 </div>
@@ -1029,6 +1096,128 @@ alt="" />
 </div>
 <div id="discussion" class="section level1">
 <h1>Discussion</h1>
+<p>New pie chart</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pie_data <span class="ot">&lt;-</span> survey <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="at">Income =</span> x_inc) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>( <span class="at">Pct =</span> n<span class="sc">/</span><span class="fu">sum</span>(n))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>pie_data<span class="sc">$</span>Pct <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span>pie_data<span class="sc">$</span>Pct, <span class="dv">1</span>), <span class="st">&quot;%&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#pie_data$Pct &lt;- percent(pie_data$Pct)</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>pie_data</span></code></pre></div>
+<pre><code># A tibble: 3 × 3
+  Income          n Pct  
+  &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;
+1 01 High       772 25.9%
+2 02 Moderate  1396 46.8%
+3 03 Low        818 27.4%</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span></code></pre></div>
+<pre><code>
+Attaching package: &#39;scales&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:purrr&#39;:
+
+    discard</code></pre>
+<pre><code>The following object is masked from &#39;package:readr&#39;:
+
+    col_factor</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Barplot</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>bp<span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pie_data, <span class="fu">aes</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>, <span class="at">y=</span>Pct, <span class="at">fill=</span>Income))<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">width =</span> <span class="dv">1</span>, <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>pie <span class="ot">&lt;-</span> bp <span class="sc">+</span> <span class="fu">coord_polar</span>(<span class="st">&quot;y&quot;</span>, <span class="at">start=</span><span class="dv">0</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>pie<span class="sc">+</span> <span class="fu">scale_fill_brewer</span>(<span class="at">palette=</span><span class="st">&quot;Blues&quot;</span>)<span class="sc">+</span> </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">size =</span> <span class="dv">5</span>, <span class="fu">aes</span>(<span class="at">label =</span> (Pct)),</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_polar</span>(<span class="at">theta =</span> <span class="st">&quot;y&quot;</span>)  <span class="sc">+</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">#  ggtitle(&quot;Race of Community Priorities Survey&quot;)</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Income Status of Community Priorities Survey&quot;</span>)</span></code></pre></div>
+<pre><code>Coordinate system already present. Adding new coordinate system, which will replace the existing one.</code></pre>
+<p><img src="Community-Priorities_files/figure-html/unnamed-chunk-30-1.png" width="768" /></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pie_data <span class="ot">&lt;-</span> survey <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="at">Race =</span> x_race) <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>( <span class="at">Pct =</span> n<span class="sc">/</span><span class="fu">sum</span>(n))</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>pie_data<span class="sc">$</span>Pct <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span>pie_data<span class="sc">$</span>Pct, <span class="dv">1</span>), <span class="st">&quot;%&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">#pie_data$Pct &lt;- percent(pie_data$Pct)</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>pie_data</span></code></pre></div>
+<pre><code># A tibble: 5 × 3
+  Race             n Pct  
+  &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;
+1 01 White      1204 40.3%
+2 02 Black       580 19.4%
+3 03 Hispanic    414 13.9%
+4 04 Asian       434 14.5%
+5 05 Other POC   354 11.9%</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Barplot</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>bp<span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pie_data, <span class="fu">aes</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>, <span class="at">y=</span>Pct, <span class="at">fill=</span>Race))<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">width =</span> <span class="dv">1</span>, <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>pie <span class="ot">&lt;-</span> bp <span class="sc">+</span> <span class="fu">coord_polar</span>(<span class="st">&quot;y&quot;</span>, <span class="at">start=</span><span class="dv">0</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>pie<span class="sc">+</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#BE2A3E&quot;</span>, <span class="st">&quot;#EC754A&quot;</span>,</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>                               <span class="st">&quot;#EACF65&quot;</span>, <span class="st">&quot;#3C8D53&quot;</span>, <span class="st">&quot;beige&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">#scale_fill_brewer(palette=&quot;Blues&quot;)+ </span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">size =</span> <span class="dv">5</span>, <span class="fu">aes</span>(<span class="at">label =</span> (Pct)),</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>            <span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_polar</span>(<span class="at">theta =</span> <span class="st">&quot;y&quot;</span>)  <span class="sc">+</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Race of Community Priorities Survey&quot;</span>)</span></code></pre></div>
+<pre><code>Coordinate system already present. Adding new coordinate system, which will replace the existing one.</code></pre>
+<p><img src="Community-Priorities_files/figure-html/unnamed-chunk-32-1.png" width="768" /></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pie_data <span class="ot">&lt;-</span> survey <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(x_hs <span class="sc">!=</span> <span class="st">&quot;03 Other&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="st">`</span><span class="at">Homeownership Status</span><span class="st">`</span> <span class="ot">=</span> x_hs) <span class="sc">%&gt;%</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n=</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>( <span class="at">Pct =</span> n<span class="sc">/</span><span class="fu">sum</span>(n)) </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>pie_data<span class="sc">$</span>Pct <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span>pie_data<span class="sc">$</span>Pct, <span class="dv">1</span>), <span class="st">&quot;%&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co">#pie_data$Pct &lt;- percent(pie_data$Pct)</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>pie_data</span></code></pre></div>
+<pre><code># A tibble: 2 × 3
+  `Homeownership Status`     n Pct  
+  &lt;chr&gt;                  &lt;int&gt; &lt;chr&gt;
+1 01 Homeowner            1728 58.1%
+2 02 Renter               1248 41.9%</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Barplot</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>bp<span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pie_data, <span class="fu">aes</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>, <span class="at">y=</span>Pct, <span class="at">fill=</span><span class="st">`</span><span class="at">Homeownership Status</span><span class="st">`</span>))<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">width =</span> <span class="dv">1</span>, <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>pie <span class="ot">&lt;-</span> bp <span class="sc">+</span> <span class="fu">coord_polar</span>(<span class="st">&quot;y&quot;</span>, <span class="at">start=</span><span class="dv">0</span>)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>pie<span class="sc">+</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#BE2A3E&quot;</span>, <span class="st">&quot;#EC754A&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">#scale_fill_brewer(palette=&quot;Blues&quot;)+ </span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">size=</span><span class="dv">6</span>,<span class="fu">aes</span>(<span class="at">label =</span> (Pct),),</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_polar</span>(<span class="at">theta =</span> <span class="st">&quot;y&quot;</span>)  <span class="sc">+</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Homeownership Status of Community Priorities Survey&quot;</span>)</span></code></pre></div>
+<pre><code>Coordinate system already present. Adding new coordinate system, which will replace the existing one.</code></pre>
+<p><img src="Community-Priorities_files/figure-html/unnamed-chunk-34-1.png" width="768" /></p>
 </div>
 </div>
 
