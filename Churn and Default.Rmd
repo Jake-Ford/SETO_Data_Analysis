@@ -83,7 +83,7 @@ setwd(input_folder)
 
 
 
-Data cleaning mainly involves removing observations for one farm over a particular time period. As a result of a utility billing issue wherein payment performance was not available starting in October 2021 and not recommencing until April 2022 at one of the solar farms. Hence, the values for October, November and December 2021 are removed. This narrowed dataset consists of 31,704 observations; the number of utility accounts remained constant at 812 and the number of unique users stays constant at 620. 
+Data cleaning mainly involves removing observations for one farm over a particular time period. Data was collected from two sites, referred to as Farm A and Farm B for privacy. As a result of a utility billing issue wherein payment performance was not available starting in October 2021 and not recommencing until April 2022 at Farm A. Hence, the values for October, November and December 2021 are removed. This narrowed dataset consists of 31,704 observations; the number of utility accounts remained constant at 812 and the number of unique users stays constant at 620. 
 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
@@ -95,9 +95,9 @@ Data cleaning mainly involves removing observations for one farm over a particul
 
 farm_data <- read_excel(paste(input_folder, "Nautilus Raw Data for NMR.xlsx", sep=""), 
     sheet = "final data")  %>%
-  # make tag for frog hollow properties after 9/2021 ; this results in just dropping October 2021 values for Frog Hollow solar farm 
+  # make tag for Farm A properties after 9/2021 ; this results in just dropping October 2021 values for Farm A
   mutate(FH_bill_issuetag = case_when(
-         solar_farm_name=="Frog Hollow (CHGE)" & year == 2021 & month > 9 ~ 1,
+         solar_farm_name=="Farm A" & year == 2021 & month > 9 ~ 1,
          TRUE ~ 0)) %>%
   filter(FH_bill_issuetag !=1)  %>%
   mutate(utility_acct_number = as.factor(utility_acct_number))
@@ -477,7 +477,6 @@ Account level summary statistics by solar farm are provided in .  Note, only 6 i
 temp <-
   all_data %>%
   ungroup() %>%
- # filter(solar_farm == "Howell (O&R)") %>%
   select(Churn, Default,
          `Average Tenure` = tenure,  solar_farm, `Average kWh` = kwh_solar, `Payment Method`=payment_method,
          Gender = GENDER, `Marital Status` = MARRIAGE, Occupation = OCCUPATION, Education = EDUCATION, 
