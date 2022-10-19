@@ -199,7 +199,10 @@
       </ul></li>
       </ul></li>
       <li><a href="#secondary-analysis">Secondary Analysis</a></li>
-      <li><a href="#discussion">Discussion</a></li>
+      <li><a href="#discussion">Discussion</a>
+      <ul>
+      <li><a href="#logit-curves">Logit Curves</a></li>
+      </ul></li>
       </ul>
     </div>
     <div id="postamble" data-toggle="wy-nav-shift" class="status">
@@ -226,11 +229,11 @@ to add depth to the previously collected survey data.</p>
 an opportunity to quantify the rates of churn or default while
 controlling for household or demographic attributes. The primary goal of
 the analysis is to first describe the characteristics of the residents,
-the prevalence of default and/or churn rates, the prevalence of churn
-rates, and any statistically significant differences between groups in
-their default, late payments or churn rates. Secondarily, the analysis
-will seek to determine if enrollment in the community solar farm is
-associated with any measurable change in credit scores.</p>
+the prevalence of default and/or churn rates, and any statistically
+significant differences between groups in default or churn rates.
+Secondarily, the analysis will seek to determine if enrollment in the
+community solar farm is associated with any measurable change in credit
+scores.</p>
 <p>Customers in existing community solar projects are evaluated for
 their subscription and payment status on a monthly basis. Participation
 in community solar farms is voluntary, hence customers may exit the
@@ -242,14 +245,17 @@ to pay the monthly subscription fee.</p>
 </div>
 <div id="methods" class="section level1">
 <h1>Methods</h1>
-<p>Customer data is collected from two community solar projects in New
-York. Monthly account level data was collected from January 2020 to
-April 2022. Account level information includes monthly payment
-performance, for which churn and default triggers are captured. Monthly,
-account level performance data is appended using Experian data including
-Experian’s Income Insight Score and Vantage Score, along with
-demographic data such as gender, education, occupation, and
-homeownership status.</p>
+<p>Monthly account level data was collected from two community solar
+projects from January 2020 to April 2022. Account level information
+includes monthly payment performance, for which churn and default
+triggers are captured, along with kWh solar attribute to each account, a
+tag for which farm an account belongs to, and a tag for if payment
+method was credit card or direct deposit (ACH).</p>
+<p>Monthly, account level performance data is appended using Experian
+data including Experian’s Income Insight Score and VantageScore, a proxy
+for FICO scores with the same range of 0,850, along with demographic
+data such as gender, education, occupation, and homeownership
+status.</p>
 <p>For the primary analysis, a logit model is used to determine
 likelihood of churn and/or default, taking into account an account’s
 length of tenure and various demographic and socioeconomic data
@@ -259,14 +265,13 @@ credit scores for customers, to measure if any difference of statistical
 importance is observed over the length of the enrollment in the farm.
 Credit scores for each customer are measured in December 2020 and April
 2022, offering an approximate pre- and post credit score measurement. A
-simple difference of means test (Welch) is employed to measure the
+difference of means test (Welch’s t-test) is employed to measure the
 differences.</p>
 <div id="data-cleaning" class="section level2">
 <h2>Data Cleaning</h2>
 <p>Data from the solar farms consists of 32,384 monthly observations
 over 812 utility accounts and 620 unique users. Multiple accounts may be
-tied to a single user, if multiple residences are owned or if a resident
-churned and subsequently returned in the observed time period.</p>
+tied to a single user.</p>
 <p>Data cleaning mainly involves removing observations for one farm over
 a particular time period. Data was collected from two sites, referred to
 as Farm A and Farm B for privacy. As a result of a utility billing issue
@@ -294,12 +299,15 @@ well for simplicity, however not every churn event is a default.</p>
 <h4>Table 1: Churn and Default Triggers</h4>
 <table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
 <caption>
-Table 1: Churn and Default Triggers
+Table 1: Churn and Default Triggers, Grouped by Utility Accounts
 </caption>
 <thead>
 <tr>
 <th style="text-align:left;">
 Reason
+</th>
+<th style="text-align:right;">
+Observed
 </th>
 <th style="text-align:left;">
 Trigger
@@ -311,6 +319,9 @@ Trigger
 <td style="text-align:left;">
 Moving out of service territory
 </td>
+<td style="text-align:right;">
+39
+</td>
 <td style="text-align:left;">
 Churn
 </td>
@@ -318,6 +329,9 @@ Churn
 <tr>
 <td style="text-align:left;">
 No Longer Interested
+</td>
+<td style="text-align:right;">
+35
 </td>
 <td style="text-align:left;">
 Churn
@@ -327,37 +341,8 @@ Churn
 <td style="text-align:left;">
 Billing Complaint
 </td>
-<td style="text-align:left;">
-Churn
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Defaulted Payment
-</td>
-<td style="text-align:left;">
-Default
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Churn
-</td>
-<td style="text-align:left;">
-Churn
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Duplicate
-</td>
-<td style="text-align:left;">
-Churn
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Got Rooftop
+<td style="text-align:right;">
+12
 </td>
 <td style="text-align:left;">
 Churn
@@ -367,6 +352,53 @@ Churn
 <td style="text-align:left;">
 Ineligible Meter
 </td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:left;">
+Churn
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Defaulted Payment
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+Default
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Duplicate
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+Churn
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Churn
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+Churn
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Got Rooftop
+</td>
+<td style="text-align:right;">
+5
+</td>
 <td style="text-align:left;">
 Churn
 </td>
@@ -374,6 +406,9 @@ Churn
 <tr>
 <td style="text-align:left;">
 Health Issues
+</td>
+<td style="text-align:right;">
+3
 </td>
 <td style="text-align:left;">
 Churn
@@ -386,12 +421,13 @@ Churn
 <div id="filtering-payment-methods" class="section level2">
 <h2>Filtering Payment Methods</h2>
 <p>For some accounts, both a credit card and direct deposit (ACH)
-payment methods were recorded for the same month. To remove these
-entries, we first flip the dataframe by utility account ID, then isolate
-the duplicates and only take the payment method for direct deposit,
-however using credit card payment as the method would result in the same
-outcome, as the underlying performance or attribute data does not
-differ.</p>
+payment methods were recorded for the same month. The duplicate values
+are identical, hence we are able to filter out these duplicate rows. To
+remove these entries, we first flip the dataframe by utility account ID,
+then isolate the duplicates and only take the payment method for direct
+deposit, however using credit card payment as the method would result in
+the same outcome, as the underlying performance or attribute data does
+not differ.</p>
 </div>
 <div id="append-experian-data" class="section level2">
 <h2>Append Experian Data</h2>
@@ -799,8 +835,8 @@ the other source. Secondly, and more importantly, the data provided as
 of December 2020 is slightly more complete, meaning fewer data are
 missing for fewer participants.</p>
 <p>Table 3 below shows a sample of the appended data. Note that
-VANTAGE_V4_SCORE.x refers to the Vantage Score as of April 2022, and
-VANTAGE_V4_SCORE.y refers to Vantage Scores as of December 2020.</p>
+VANTAGE_V4_SCORE.x refers to the VantageScore as of April 2022, and
+VANTAGE_V4_SCORE.y refers to VantageScore as of December 2020.</p>
 </div>
 <div id="table-3-sample-of-appended-data" class="section level4">
 <h4>Table 3: Sample of Appended Data</h4>
@@ -1252,8 +1288,8 @@ Healthcare/Education Services
 </div>
 <div id="descriptive-statistics" class="section level1">
 <h1>Descriptive Statistics</h1>
-<p>Account level summary statistics by solar farm are provided in .
-Note, only 6 instances of default were observed. However, of the 812
+<p>Account level summary statistics by solar farm are provided in Table
+4. Note, only 6 instances of default were observed. However, of the 812
 accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
 <div id="table-4-summary-statistics-by-solar-farm"
 class="section level4">
@@ -1805,19 +1841,19 @@ class="section level4">
 <td class="gt_row gt_center">122 (96, 206)</td>
 <td class="gt_row gt_center">114 (92, 184)</td>
 <td class="gt_row gt_center">167 (102, 233)</td></tr>
-    <tr><td class="gt_row gt_left" style="font-weight: bold;">Average Vantage Score</td>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Average VantageScore</td>
 <td class="gt_row gt_center">804 (778, 819)</td>
 <td class="gt_row gt_center">803 (774, 818)</td>
 <td class="gt_row gt_center">806 (788, 820)</td></tr>
-    <tr><td class="gt_row gt_left" style="font-weight: bold;">Vantage Score April 2022</td>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">VantageScore April 2022</td>
 <td class="gt_row gt_center">805 (778, 820)</td>
 <td class="gt_row gt_center">804 (774, 819)</td>
 <td class="gt_row gt_center">807 (789, 820)</td></tr>
-    <tr><td class="gt_row gt_left" style="font-weight: bold;">Vantage Score December 2020</td>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">VantageScore December 2020</td>
 <td class="gt_row gt_center">806 (778, 823)</td>
 <td class="gt_row gt_center">805 (777, 822)</td>
 <td class="gt_row gt_center">806 (785, 823)</td></tr>
-    <tr><td class="gt_row gt_left" style="font-weight: bold;">Vantage Score Change</td>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">VantageScore Change</td>
 <td class="gt_row gt_center">0 (-11, 13)</td>
 <td class="gt_row gt_center">0 (-14, 12)</td>
 <td class="gt_row gt_center">0 (-8, 14)</td></tr>
@@ -1830,10 +1866,10 @@ class="section level4">
   </tfoot>
 </table>
 </div>
-<p>Average tenure for the entire dataset is just under two years (22
-months). Table 5 provides descriptive statistics grouped by tenure
-length. Most observations of Churn occurred within the 6-12 month range,
-81% of all observed churn.</p>
+<p>Table 5 provides descriptive statistics grouped by tenure length.
+Average tenure for the entire dataset is just under two years (22
+months). Most observations of Churn occurred within the 6-12 month
+range, 81% of all observed churn.</p>
 </div>
 <div id="table-5-summary-statistics-by-tenure-length"
 class="section level4">
@@ -2449,25 +2485,25 @@ class="section level4">
 <td class="gt_row gt_center">110 (90, 232)</td>
 <td class="gt_row gt_center">123 (97, 203)</td>
 <td class="gt_row gt_center">146 (98, 235)</td></tr>
-    <tr><td class="gt_row gt_left" style="font-weight: bold;">Average Vantage Score</td>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Average VantageScore</td>
 <td class="gt_row gt_center">804 (780, 819)</td>
 <td class="gt_row gt_center">784 (740, 798)</td>
 <td class="gt_row gt_center">788 (751, 809)</td>
 <td class="gt_row gt_center">805 (781, 820)</td>
 <td class="gt_row gt_center">809 (790, 819)</td></tr>
-    <tr><td class="gt_row gt_left" style="font-weight: bold;">Vantage Score April 2022</td>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">VantageScore April 2022</td>
 <td class="gt_row gt_center">806 (779, 821)</td>
 <td class="gt_row gt_center">793 (758, 808)</td>
 <td class="gt_row gt_center">788 (704, 800)</td>
 <td class="gt_row gt_center">807 (779, 821)</td>
 <td class="gt_row gt_center">808 (794, 821)</td></tr>
-    <tr><td class="gt_row gt_left" style="font-weight: bold;">Vantage Score December 2020</td>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">VantageScore December 2020</td>
 <td class="gt_row gt_center">806 (779, 823)</td>
 <td class="gt_row gt_center">781 (739, 800)</td>
 <td class="gt_row gt_center">795 (778, 815)</td>
 <td class="gt_row gt_center">806 (784, 824)</td>
 <td class="gt_row gt_center">810 (785, 826)</td></tr>
-    <tr><td class="gt_row gt_left" style="font-weight: bold;">Vantage Score Change</td>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">VantageScore Change</td>
 <td class="gt_row gt_center">0 (-11, 13)</td>
 <td class="gt_row gt_center">-3 (-9, 20)</td>
 <td class="gt_row gt_center">-4 (-29, 7)</td>
@@ -2496,21 +2532,21 @@ below:</p>
 <p><span class="math display">\[\begin{equation}
 
 Churn_{Prob} = \beta_{0} + \beta_{1}Tenure + \beta_{2}kWh
-+\beta_{3}Gender \\ \beta_{4}VantageScore + \beta_{5}Education +
-\beta_{6}Married + \beta_{7}IncomeInsight
++\beta_{3}Gender + \beta_{4}log(VantageScore) \\ + \beta_{5}Occupation +
+\beta_{6}Homeowner + \beta_{7}log(IncomeInsight)+ \beta_{8}Marriage +
+\beta_{9}Education
 
 \end{equation}\]</span></p>
 <p><span class="math display">\[\begin{equation}
 
 Default_{Prob} = \beta_{0} + \beta_{1}Tenure + \beta_{2}kWh
-+\beta_{3}Gender \\ \beta_{4}VantageScore + \beta_{5}Education +
-\beta_{6}Married + \beta_{7}IncomeInsight
-
++\beta_{3}Gender + \beta_{4}log(VantageScore) \\ + \beta_{5}Occupation +
+\beta_{6}Homeowner + \beta_{7}log(IncomeInsight)+ \beta_{8}Marriage +
+\beta_{9}Education
 \end{equation}\]</span></p>
-<p>Logarithmic transformations for continuous variables are employed.
-These include for Vantage Score and Income Insight Score. A number of
-models are considered, each taking different combinations of input data.
-The results are shown below in Table 6.</p>
+<p>Logarithmic transformations for VantageScore and Income Insight Score
+are used. A number of models are considered, each taking different
+combinations of input data. The results are shown below in Table 6.</p>
 <div id="table-6-churn-models" class="section level4">
 <h4>Table 6: Churn Models</h4>
 <table style="text-align:center">
@@ -2715,7 +2751,7 @@ GENDERFemale
 </tr>
 <tr>
 <td style="text-align:left">
-log_vantage
+log_Vantage_Avg
 </td>
 <td>
 0.164
@@ -2948,7 +2984,7 @@ HOMEOWNERYes
 </tr>
 <tr>
 <td style="text-align:left">
-log_income
+log_INCOME_INSIGHT_SCORE
 </td>
 <td>
 </td>
@@ -3355,21 +3391,21 @@ Akaike Inf. Crit.
 </td>
 </tr>
 </table>
-<p>From Table 6, it is noticeable how tenure length, here measured
-logarithmically transformed, is consistently measured as statistically
-significant. This effect is measured even when controlling for a
-combination of demographic and socioeconomic variables. Increased tenure
-lengths are associated with decreased probability of churn. For example,
-in Model 4, taking the odds ratio of the monthly tenure variable, a one
-month increase in tenure, controlling for solar kWh, Education, income
-and marital status, is associated with a 14% decrease in the odds of
-churning. This is supported by the logit curve in the Discussion
-section.</p>
+<p>From Table 6, it is noticeable how tenure length is consistently
+measured as statistically significant. This effect is measured even when
+including combinations of demographic and socioeconomic variables.
+Increased tenure lengths are associated with decreased probability of
+churn. For example, in Model 4, a one month increase in tenure is
+associated with a 0.15 decrease in log odds of churn. Taking the odds
+ratio of the monthly tenure variable, a one month increase in tenure is
+associated with a 14% decrease in the odds of churning. This change in
+probability of churn is visualized by the Logit Curve A in the
+Discussion section.</p>
 <p>This is one of the few statistically significant results observed in
 the analysis. The only other statistically significant variable was
-Gender. In model 2, Female account holders are associated 43% decrease
-in odds of churn, controlling for tenure, Vantage score, occupation and
-owning one’s home.</p>
+Gender. In model 2, Female compared to Male account holders are
+associated 43% decrease in odds of churn, controlling for tenure,
+VantageScore, occupation and owning one’s home.</p>
 <p>No other variables were associated with statistically significant
 effects on probability of churn.</p>
 </div>
@@ -3577,7 +3613,7 @@ GENDERFemale
 </tr>
 <tr>
 <td style="text-align:left">
-log_vantage
+log_Vantage_Avg
 </td>
 <td>
 -0.133
@@ -3810,7 +3846,7 @@ HOMEOWNERYes
 </tr>
 <tr>
 <td style="text-align:left">
-log_income
+log_INCOME_INSIGHT_SCORE
 </td>
 <td>
 </td>
@@ -4217,14 +4253,15 @@ Akaike Inf. Crit.
 </td>
 </tr>
 </table>
+<p>From Table 7, we see no significant effects on rates of Default.</p>
 </div>
 </div>
 </div>
 <div id="secondary-analysis" class="section level1">
 <h1>Secondary Analysis</h1>
 <p>The secondary analysis sought to determine if a measurable change can
-be determined in participant credit scores (Vantage Score).</p>
-<p>The graph below shows boxplots of each Vantage Score collected, at
+be determined in participant credit scores (VantageScore).</p>
+<p>The graph below shows boxplots of each VantageScore collected, at
 December 2020 and April 2022.</p>
 <p><img src="Churn-and-Default_files/figure-html/unnamed-chunk-18-1.png" width="768" /></p>
 <p>The histogram below plots the distribution of the scores by time
@@ -4248,35 +4285,39 @@ for individuals in the solar farms were observed to have changed.</p>
 </div>
 <div id="discussion" class="section level1">
 <h1>Discussion</h1>
-<p>Primary: - Higher Tenure -&gt; lower likelihood - Females less likely
-to churn than males - no other observable effects, including rates by
-income, credit score, occupation, homeownership; meaning we didn’t see
-any significnatly higher rates for populations who may have unfair
-biases and/or stereotypes in CS as being more likely to churn (LMI,
-Low-FICO, unscored/thin credit, etc) - Default: not enough data, nothing
-more to really right here.</p>
-<p>Secondary: - Credit Scores didn’t change</p>
+<p>From the primary analysis, we saw that tenure was consistently
+associated with lower rates of probability of churning. This held
+constant throughout all five models, suggesting that higher tenure,
+controlling for demographic and socioeconomic variables such as
+education and income, corresponds to higher rates of retention in solar
+farms. This relationship is visualized in Graph A below.</p>
+<p>Secondly, female account holders were less likely to churn compared
+to male account holders as seen in model 2. This effect is observed when
+controlling for homeownership status and VantageScore</p>
+<p>Finally, no other variables were observed to have statistically
+significant effect on likelihood of churn. Interestingly, this was
+observed for income and VantageScore Different levels of income or
+credit scores were not observed with statistically different rates of
+churn. Further research should be done in the area of LMI retention in
+solar farm, but from our research we did not see a significant
+difference in probability of churn between either income or credit
+data.</p>
+<p>In the Default model, as expected, such a low number of observations
+does not allow for any significant effects to be observed.</p>
 <p>The logit curves below show the relationship between the distribution
 of both tenure and days late with the probability of churning. The first
 graph shows that the longer the tenure, the lower the likelihood. The
 second graph shows that the days of late payments are generally not
 associated with likelihood of churn.</p>
-<p><img src="Churn-and-Default_files/figure-html/unnamed-chunk-22-1.png" width="768" /></p>
-<pre><code>## &lt;ScaleContinuousPosition&gt;
-##  Range:  
-##  Limits:    0 --    1</code></pre>
-<p><img src="Churn-and-Default_files/figure-html/unnamed-chunk-22-2.png" width="768" /></p>
-<pre><code>## &lt;ScaleContinuousPosition&gt;
-##  Range:  
-##  Limits:    0 --    1</code></pre>
-<p><img src="Churn-and-Default_files/figure-html/unnamed-chunk-22-3.png" width="768" /></p>
-<ol start="2" style="list-style-type: decimal">
-<li>Secondary:</li>
-</ol>
-<ul>
-<li>No statistically significant effect was observed on credit score
-change after enrollment in solar farm.</li>
-</ul>
+<div id="logit-curves" class="section level4">
+<h4>Logit Curves</h4>
+<p><img src="Churn-and-Default_files/figure-html/unnamed-chunk-23-1.png" width="768" /><img src="Churn-and-Default_files/figure-html/unnamed-chunk-23-2.png" width="768" /><img src="Churn-and-Default_files/figure-html/unnamed-chunk-23-3.png" width="768" /></p>
+<p>The goal of the secdonary analysis was to determine if any
+statistically significant difference is measured in VantageScore from
+the December 2020 to April 2022 timeframe for enrolled customers. No
+statistically significant effect was observed on credit score change
+after enrollment in solar farm.</p>
+</div>
 </div>
 </div>
 
