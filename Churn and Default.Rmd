@@ -16,31 +16,27 @@ knit: (function(inputFile, encoding) {
 
 
 
-# Introduction
+# Introductiona
 
-The components of this research sought to identify potential customer preferences when considering potential community solar farm contract, along with determining priorities for community solar developers and financiers. This research provides novel analyses on both demand and supply forces in a rapidly expanding field of renewable energy. 
+For the final component of the research, we shift our attention to customer enrollment in current community solar farms. By analyzing tenure length and the presence of an individual departing community solar farms, our research seeks to provide quantitative performance data to add depth to the previously collected survey data. 
 
-For the final component of the research, we shift our attention to how customers in current community solar farms perform over time. By analyzing tenure in functioning community solar farms, our research seeks to provide quantitative performance data. 
+Given the incipient nature of community solar, this analysis provides an opportunity to quantify the rates of churn or default while controlling for household or demographic attributes. The primary goal of the analysis is to first describe the characteristics of the residents, the prevalence of default and/or churn rates, the prevalence of churn rates, and any statistically significant differences between groups in their default, late payments or churn rates. Secondarily, the analysis will seek to determine if enrollment in the community solar farm is associated with any measurable change in credit scores. 
 
-Given the incipient nature of community solar, this analysis provides an opportunity to quantify the likelihood of churn or default, along with determining any household or demographic attribute associated with statistically different rates of either churn or default. The goal of the analysis is to first describe the characteristics of the residents, the prevalence of default and/or churn rates, the prevalence of churn rates, and any statistically significant differences between groups in their default, late payments or churn rates.
-
-Customers in existing community solar projects are evaluated for their subscription and payment status. Participation in community solar farms is voluntary, hence customers may exit the program at any point, often subject to a cancellation fee set out in the contract. Additionally, customers sometimes fail to pay the monthly solar farm subscription fee. Churn refers to the act of a customer exiting the solar farm, whereas default refers to the customer failing to pay the monthly subscription fee.
+Customers in existing community solar projects are evaluated for their subscription and payment status on a monthly basis. Participation in community solar farms is voluntary, hence customers may exit the program at any point, often subject to a cancellation fee set out in the contract. Additionally, customers sometimes fail to pay the monthly solar farm subscription fee. Churn refers to the act of a customer exiting the solar farm, whereas default refers to the customer failing to pay the monthly subscription fee.
 
 # Methods
 
-For this portion of the research, customers in existing solar farm projects are evaluated for their subscription and payment status. Participation in community solar farms is voluntary, hence customers may exit the program at any point, often subject to a cancellation fee set out in the contract. Additionally, customers sometimes fail to pay the monthly solar farm subscription fee. Churn refers to the act of a customer exiting the solar farm, whereas default refers to the customer failing to pay the monthly subscription fee. 
+Customer data is collected from two community solar projects in New York.  Monthly account level data was collected from January 2020 to April 2022. Account level information includes monthly payment performance, for which churn and default triggers are captured. Monthly, account level performance data is appended using Experian data including Experian's Income Insight Score and Vantage Score, along with demographic data such as gender, education, occupation, and homeownership status. 
 
-A logit model is employed to determine likelihood of churn and/or default, taking into account an account's length of tenure and various demographic and socioeconomic data available. 
+For the primary analysis, a logit model is used to determine likelihood of churn and/or default, taking into account an account's length of tenure and various demographic and socioeconomic data available. 
 
-Additionally, a secondary analysis is performed to measure the difference in credit scores for customers, to measure if any difference of statistical importance is observed over the length of the enrollment in the farm. Credit scores for each customer are measured in December 2020 and April 2022, offering an approximate pre- and post credit score measurement. A simple difference of means test (Welch) is employed to measure the differences. 
+The secondary analysis is performed to measure the difference in credit scores for customers, to measure if any difference of statistical importance is observed over the length of the enrollment in the farm. Credit scores for each customer are measured in December 2020 and April 2022, offering an approximate pre- and post credit score measurement. A simple difference of means test (Welch) is employed to measure the differences. 
 
 
 
-## Data Collection
+## Data Cleaning
 
-Customer data is collected from two community solar projects in New York.  Monthly account level data was collected from January 2020 to April 2022. Account level information includes monthly payment performance, for which churn and default triggers are captured.
-
-The data consists of 32,384 monthly observations over 812 utility accounts and 620 unique users. Multiple accounts may be tied to a single user, if multiple residences are owned or if a resident churned and subsequently returned in the observed time period. 
+Data from the solar farms consists of 32,384 monthly observations over 812 utility accounts and 620 unique users. Multiple accounts may be tied to a single user, if multiple residences are owned or if a resident churned and subsequently returned in the observed time period. 
 
 
 
@@ -87,7 +83,6 @@ setwd(input_folder)
 
 
 
-# Data Cleaning
 
 Data cleaning mainly involves removing observations for one farm over a particular time period. As a result of a utility billing issue wherein payment performance was not available from October 2021 to April 2022 at one of the solar farms, these records are dropped. This narrowed dataset consists of 31,704 observations; the number of utility accounts remained constant at 812 and the number of unique users stays constant at 620. 
 
@@ -128,8 +123,7 @@ farm_data <- farm_data %>%
 
 For the accounts that left the solar farm at any point, we generate Churn and Default 'triggers'. The table below shows the variety of reasons listed why a particular account left either solar farm during the observed period. Most left the solar farm as a result of moving from the service area or no longer interested in the solar farm. 
 
-Defaulted accounts are triggered when the leave reason is 'Defaulted Payment'; every other leave reason is marked as churn, capturing a wider array of 
-outcomes, from moving to health reasons. The map from leave reasons to the Churn and Default triggers are shown below in Table 1:
+Defaulted accounts are triggered when the leave reason is 'Defaulted Payment'; every other leave reason is marked as churn, capturing a wider array of outcomes, from moving to health reasons. Table 1 shows how reasons listed for an account leaving a farm were mapped to Churn and Default triggers. 
 
 #### Table 1: Churn and Default Triggers
 
@@ -243,7 +237,6 @@ The data has been grouped by utility account IDs. As seen in Table 2, the inform
 - kWh allotted to each utility account
 - Churn and Default dummy variables
 - solar farm identification
-- Income as reported via Data Finder, collected by Solstice. 
 
 #### Table 2: Sample of Data Collected by Solstice
 
@@ -257,12 +250,15 @@ head(joined) %>%
 
 To add additional data to the analysis, we contracted with Experian to provide additional demographic and socioeconomic data. This data was provided on the *Participant* level. Recall that multiple utility accounts may be held by a single participant. The data provided by Experian has a matching 'ParticipantID' tag, that corresponds to the Solstice data set. 
 
+Note: Not all Participants and Utility accounts are able to be appended, due to limited data availability from Experian. The 'pin rate' refers to the rate at which data is successfully collected for a record. This pin rate results in different variables receiving differing degrees of completeness; for example, . These differences are observed in Tables 4 and 5. 
 
+Data from Experian was provided for two different time periods, capturing financial snapshots at December 2020 and April 2022. The utility of having differing time periods is to allow for the secondary analysis, wherein change in credit scores is calculated and a difference of means test is conducted to determine if tenure in the solar farms is associated with any measurable change in credit score. 
 
-Data from Experian was provided for two different time periods, capturing financial snapshots at December 2020 and April 2022. The utility of having differing time periods is to allow for the secondary analysis, wherein change in credit scores is calculated and a difference of means test is conducted to determine if tenure in the solar farms is associated with any measurable change in credit score. For the primary analysis, Experian data is appended to the Solstice data set at the December 2020 time frame. The December 2020 data is chosen for two reasons: firstly, little change is observed or expected to be observed in demographic data such as homeownership status, education, marriage, and gender; hence there is little difference in terms of model construction between using one or the other source. Secondly, and more importantly, the data provided as of December 2020 is slightly more complete, meaning fewer data are missing for fewer participants.  
+For the primary analysis, Experian data is appended to the Solstice data set at the December 2020 time frame. The December 2020 data is chosen for two reasons: firstly, little change is observed or expected to be observed in demographic data such as homeownership status, education, marriage, and gender; hence there is little difference in terms of model construction between using one or the other source. Secondly, and more importantly, the data provided as of December 2020 is slightly more complete, meaning fewer data are missing for fewer participants.  
 
-Finally, Solstice included additional non-SETO data to be scored by Experian to satisfy minimum requirements. It is essential to remove this data from the analysis. Participant IDs from 1-621 refer to SETO related entries; values > 621 are filtered out of the analysis. 
+Finally, Solstice included additional non-SETO data to be scored by Experian to satisfy Experian minimum requirement requirements. It is essential to remove this data from the analysis. Participant IDs from 1-621 refer to SETO related entries; values > 621 are filtered out of the analysis. 
 
+Table 3 below shows a sample of the appended data. Note that VANTAGE_V4_SCORE.x refers to the Vantage Score as of April 2022, and VANTAGE_V4_SCORE.y refers to Vantage Scores as of December 2020. 
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -278,7 +274,7 @@ score_dec_20$period <- "December 2020"
 
 
 total_score <- merge(score_april_22,score_dec_20, by="PARTICIPANT_ID") %>%
-  filter(PARTICIPANT_ID <= 621) %>% #filter non-SETO Pariticpants Out
+  filter(PARTICIPANT_ID <= 621) %>% #filter non-SETO Participants Out
   group_by(ParticipantID=PARTICIPANT_ID) %>%
   summarise(
             Vantage_Diff = VANTAGE_V4_SCORE.x - VANTAGE_V4_SCORE.y, # This measures the change in Vantage Score from Dec'20 -> Apr '22, 
@@ -314,9 +310,10 @@ total_score <- merge(score_april_22,score_dec_20, by="PARTICIPANT_ID") %>%
         RENTER_IN.y == "U" ~ "Unknown"),
       
       EDUCATION = case_when(
-        INDV_EDUCATION_CD.y <= 14 ~ "High School or some College",
-        INDV_EDUCATION_CD.y <= 52 ~ "College Degree",
-        INDV_EDUCATION_CD.y >52 ~ "Advanced Degree"),
+        INDV_EDUCATION_CD.y %in% c(11,51,12,52)  ~ "High School or Some College",
+        INDV_EDUCATION_CD.y %in% c(13,53)  ~ "Completed College",
+        INDV_EDUCATION_CD.y %in% c(14,54)  ~ "Graduate Degree",
+        INDV_EDUCATION_CD.y %in% c(15, 55, 0)  ~ "Other"),
       
       OCCUPATION = case_when(
         OCCUPATION_CD.y %in% c("06", "10", "23", "53","30", "32", "33", "34", "54",
@@ -327,11 +324,8 @@ total_score <- merge(score_april_22,score_dec_20, by="PARTICIPANT_ID") %>%
         OCCUPATION_CD.y %in% c("02", "03", "04", "13", "14",
                                "36", "38", "51") ~ "Management/Technical",
         OCCUPATION_CD.y %in% c("U", "00", "08", "11", "16") ~ "Self Employed/Other",
-        OCCUPATION_CD.y %in% c("07", "12", "15", "35") ~ "Trade/Agriculture",
-      )
-      
-      ) %>%
-  select(-GENDER_CODE.y, -MARRIAGE_IN.y, -HOMEOWNER_IN.y, -RENTER_IN.y, -OCCUPATION_CD.y)
+        OCCUPATION_CD.y %in% c("07", "12", "15", "35") ~ "Trade/Agriculture")) %>%
+  select(-GENDER_CODE.y, -MARRIAGE_IN.y, -HOMEOWNER_IN.y, -RENTER_IN.y, -OCCUPATION_CD.y, -INDV_EDUCATION_CD.y)
 
 # Replace INCOME_INSIGHT_SCORE = 9001, which refers to an income 'decrease' - see codebook for more information. 
 
@@ -391,6 +385,54 @@ final_joined <- merge(joined, total_score , by="ParticipantID", all.x = TRUE)
 
 
 
+## --- Income Insight Score--- ## 
+
+# INCOME_INSIGHT_SCORE
+# 
+# 0015 - 0990
+# Score represents income in thousands of dollars, e.g.. 0100 = $100,000
+# 
+# Model Exclusions:
+# 9001 = deceased
+# 9002 - no update in 6 months
+# 9003 = lack of credit history
+
+
+
+## --- Education INDV_EDUCATION_CD--- ##
+
+# First byte = model confidence: 1 = Extremely likely; 5 = Likely.
+# We combine the 1 and 5 values, Extremely likely + Likely 
+# 
+# Second Byte = education value: 
+# 0=Unknown
+# 1=High School Diploma,
+# 2=Some College
+# 3=Completed College
+# 4=Graduate Degree
+# 5=Retired
+# blank=Blank
+
+
+## --- Marriage MARRIAGE_IN--- ##
+
+# M = Married
+# S = Single
+# U = Unknown
+
+ 
+## --- Homeownership HOMEOWNER_IN--- ##
+
+# Y = YES
+# U = Unknown	
+
+
+## --- Renter RENTER_IN--- ##
+
+# Y = YES
+# U = Unknown	
+
+
 
 
 # Convert Experian Demographic Data into factors
@@ -399,8 +441,6 @@ final_joined$EDUCATION <- as.factor(final_joined$EDUCATION)
 
 
 ```
-
-
 
 
 #### Table 3: Sample of Appended Data
@@ -438,9 +478,7 @@ all_data <- merge(final_joined, prem_attr , by="ParticipantID", all.x = TRUE) %>
 
 # Descriptive Statistics
 
-Account level summary statistics by solar farm are provided in Table 4 below. 
-
-The number of Churn and Default events are captured in Table 4. Note, the relative rare occurence of defaulting likely removes the possiblity of determining any statistically significant difference between customer attributes. However, of the 812 accounts, 118 or just over 14.5% of accounts, experienced churn. 
+Account level summary statistics by solar farm are provided in .  Note, only 6 instances of default were observed. However, of the 812 accounts, 118 or just over 14.5% of accounts, experienced churn. 
 
 #### Table 4: Summary Statistics by Solar Farm
 
@@ -467,7 +505,7 @@ temp
 ```
 
 
-Average tenure for the entire dataset is just under two years (22 months). Table 2 provides descriptive statistics grouped by tenure length. Longer tenured households had larger solar allocations compared to lower tenured households, 7.3 kWH for 2+ year customers compared to 3.7 for < 6 months. 
+Average tenure for the entire dataset is just under two years (22 months). Table 5 provides descriptive statistics grouped by tenure length. Most observations of Churn occurred within the 6-12 month range, 81% of all observed churn. 
 
 #### Table 5: Summary Statistics by Tenure Length
 
@@ -521,26 +559,22 @@ temp
 
 ## Model 
 
-To determine the probability an account will experience either churn or default, a logistic regression is used to construct a model. The model is described below. A churna
-
-In the limited data available, statistically significant effects were measured for probability of churn for both tenure (Months) and days late. Due to relatively small number of observations of late payments, no statistically significant results were measured in probability of late or default payments. 
-
-
+To determine the probability an account will experience either churn or default, logistic regression is used to analyze likelihood of either churn or default, using the demographic and socieconomic data available from primary data collected. The model employed is described in below: 
 
 \begin{equation}
 
-Churn_{Prob} = \beta_{0} + \beta_{1}Tenure + \beta_{2}kWh +\beta_{3}Gender \\ \beta{4}VantageScore + \beta{5}Education + \beta{6}Married + \beta{7}IncomeInsight
+Churn_{Prob} = \beta_{0} + \beta_{1}Tenure + \beta_{2}kWh +\beta_{3}Gender \\ \beta_{4}VantageScore + \beta_{5}Education + \beta_{6}Married + \beta_{7}IncomeInsight
 
 \end{equation}
 
 
 \begin{equation}
 
-Default_{Prob} = \beta_{0} + \beta_{1}Tenure + \beta_{2}kWh +\beta_{3}Gender \\ \beta{4}VantageScore + \beta{5}Education + \beta{6}Married + \beta{7}IncomeInsight
+Default_{Prob} = \beta_{0} + \beta_{1}Tenure + \beta_{2}kWh +\beta_{3}Gender \\ \beta_{4}VantageScore + \beta_{5}Education + \beta_{6}Married + \beta_{7}IncomeInsight
 
 \end{equation}
 
-Logarithmic transformations for continuous variables are employed. These include for tenure, VANTAGE Score, and Income Insight Score. 
+Logarithmic transformations for continuous variables are employed. These include for Vantage Score and Income Insight Score. A number of models are considered, each taking different combinations of input data. The results are shown below in Table 6.  
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 all_data$log_tenure <- log(all_data$tenure)
@@ -558,23 +592,62 @@ all_data$MARRIAGE <- as.factor(all_data$MARRIAGE)
 all_data$MARRIAGE <- relevel(all_data$MARRIAGE, ref="Single")
 
 
-
-mod1 <- glm(Churn ~ log_tenure + kwh_solar + GENDER + log_vantage, data = all_data, family = "binomial")
-mod2 <- glm(Churn ~ log_tenure + kwh_solar + GENDER + log_vantage + EDUCATION, data = all_data, family = "binomial")
-mod3 <- glm(Churn ~ log_tenure + kwh_solar + GENDER + log_vantage + MARRIAGE+ log_income, data = all_data, family = "binomial")
-mod4 <- glm(Churn ~ log_tenure + kwh_solar + GENDER + log_vantage + EDUCATION + MARRIAGE+ log_income , data = all_data, family = "binomial")
-
+mod1 <- glm(Churn ~ tenure + kwh_solar + log_vantage, data = all_data, family = "binomial")
+mod2 <- glm(Churn ~ tenure + kwh_solar + GENDER + EDUCATION + log_vantage + HOMEOWNER, data = all_data, family = "binomial")
+mod3 <- glm(Churn ~ tenure + HOMEOWNER + log_income + EDUCATION, data = all_data, family = "binomial")
+mod4 <- glm(Churn ~ tenure + kwh_solar + EDUCATION + log_income + MARRIAGE, data = all_data, family = "binomial")
+mod5 <- glm(Churn ~ tenure  + GENDER + log_vantage  + OCCUPATION + HOMEOWNER, data = all_data, family = "binomial")
+  
 # summary(mod1)
 # summary(mod2)
 # summary(mod3)
 # summary(mod4)
+# summary(mod5)
+
 ```
 
+#### Table 6: Churn Models
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-stargazer(mod1,mod2,mod3, mod4, type = "html",  #we use html output to match our planned R Markdown output
-     title = "Churn Models")
+stargazer(mod1,mod2,mod3, mod4, mod5, type = "html",  #we use html output to match our planned R Markdown output
+     title = "Table 6: Churn Models")
+```
+
+
+
+
+
+
+From Table 6, it is noticeable how tenure length, here measured logarithmically transformed, is consistently measured as statistically significant. This effect is measured even when controlling for a combination of demographic and socioeconomic variables. Increased tenure lengths are associated with decreased probability of churn. For example, in Model 4, taking the odds ratio of the monthly tenure variable, a one month increase in tenure, controlling for solar kWh, Education, income and marital status, is associated with a 14% decrease in the odds of churning. This is supported by the logit curve in the Discussion section. 
+
+This is one of the few statistically significant results observed in the analysis. The only other statistically significant variable was Gender. In model 5, Female account holders are associated 45% decrease in odds of churn, controlling for tenure, Vantage score, occupation and owning one's home. 
+
+No other variables were associated with statistically significant effects on probability of churn.
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+
+# Odds Ratio Calculation used in above paragraph
+
+## Tenure, Model 4
+
+a = mod4$coefficients[2]
+
+or_tenure_mod4 = exp(a[[1]])
+
+change_one_month_tenure = (or_tenure_mod4 - 1)*100
+change_one_month_tenure
+
+## Gender, Model 5
+
+
+a = mod5$coefficients[3]
+
+or_tenure_mod5 = exp(a[[1]])
+
+female_change = (or_tenure_mod5-1)
+female_change
+
 ```
 
 
@@ -582,49 +655,29 @@ stargazer(mod1,mod2,mod3, mod4, type = "html",  #we use html output to match our
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-mod1 <- glm(Default ~ log_tenure + kwh_solar + GENDER + log_vantage, data = all_data, family = "binomial")
-mod2 <- glm(Default ~ log_tenure + kwh_solar + GENDER + log_vantage + EDUCATION, data = all_data, family = "binomial")
-mod3 <- glm(Default ~ log_tenure + kwh_solar + GENDER + log_vantage + MARRIAGE+ log_income, data = all_data, family = "binomial")
-mod4 <- glm(Default ~ log_tenure + kwh_solar + GENDER + log_vantage + EDUCATION + MARRIAGE+ log_income , data = all_data, family = "binomial")
-
-
+mod1 <- glm(Default ~ tenure + kwh_solar + log_vantage, data = all_data, family = "binomial")
+mod2 <- glm(Default ~ tenure + kwh_solar + GENDER + EDUCATION + log_vantage + HOMEOWNER, data = all_data, family = "binomial")
+mod3 <- glm(Default ~ tenure + HOMEOWNER + log_income + EDUCATION, data = all_data, family = "binomial")
+mod4 <- glm(Default ~ tenure + kwh_solar + EDUCATION + log_income + MARRIAGE, data = all_data, family = "binomial")
+mod5 <- glm(Default ~ tenure  + GENDER + log_vantage  + OCCUPATION + HOMEOWNER, data = all_data, family = "binomial")
 ```
 
 
+#### Table 7: Default Models
 ```{r echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 
-stargazer(mod1,mod2,mod3, mod4, type = "html",  #we use html output to match our planned R Markdown output
-     title = "Default Models")
+stargazer(mod1,mod2,mod3, mod4, mod5, type = "html",  #we use html output to match our planned R Markdown output
+     title = "Table 7: Default Models")
 ```
 
 
-
-The logit curves below show the relationship between the distribution of both tenure and days late with the probability of churning. The first graph shows that the longer the tenure, the lower the likelihood. The second graph shows that the days of late payments are generally not associated with likelihood of churn. 
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-
-# Logit Curves - none significant except churn
-
-
-ggplot(all_data, aes(x=log_tenure, y = Churn))+ geom_point(fill='red') + 
-  stat_smooth(method="glm", method.args=list(family=binomial(link='logit')), se=FALSE)+theme_minimal()+ 
-  scale_x_continuous(name="Log Months") 
-  scale_y_continuous(name="Likelihood of Churn")
-  
-ggplot(all_data, aes(x=log_vantage, y = Churn))+ geom_point(fill='red') + 
-  stat_smooth(method="glm", method.args=list(family=binomial(link='logit')), se=FALSE)+theme_minimal()+ 
-  scale_x_continuous(name="Log VANTAGE Score") 
-  scale_y_continuous(name="Likelihood of Churn")
-
-
-ggplot(all_data, aes(x=log_income, y = Churn))+ geom_point(fill='red') + 
-  stat_smooth(method="glm", method.args=list(family=binomial(link='logit')), se=FALSE)+theme_minimal()+ scale_x_continuous(name="Log Income Insight Score") +
-  scale_y_continuous(name="Likelihood of Churn")
-
-```
 
 
 # Secondary Analysis
+
+The secondary analysis sought to determine if a measurable change can be determined in participant credit scores (Vantage Score). 
+
+The graph below shows boxplots of each Vantage Score collected, at December 2020 and April 2022. 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 df <- final_joined %>%
@@ -638,6 +691,7 @@ ggplot(graph_temp, aes(variable, value)) +
         xlab("VANTAGE Score")
 ```
 
+The histogram below plots the distribution of the scores by time period, and includes the standard scale and a logged comparison. 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -655,6 +709,7 @@ p2 <- ggplot(graph_temp, aes(value)) +
 
 grid.arrange(p1, p2, nrow = 2)
 ```
+Using a Welch t-test, we measure the difference in means between the two groups. From the below, the means of the two groups are not statistically signifcant; therefore we cannot claim that credit scores for individuals in the solar farms were observed to have changed. 
 
 ```{r}
 t.test(value ~ variable, data = graph_temp)
@@ -672,15 +727,41 @@ t.test(final_joined$VANTAGE_V4_SCORE.x, final_joined$VANTAGE_V4_SCORE.y)
 # Discussion
 
 
+Primary:
+- Higher Tenure -> lower likelihood
+- Females less likely to churn than males
+- no other observable effects, including rates by income, credit score, occupation, homeownership; meaning we didn't see any significnatly higher rates for populations who may have unfair biases and/or stereotypes in CS as being more likely to churn (LMI, Low-FICO, unscored/thin credit, etc)
+- Default: not enough data, nothing more to really right here. 
+
+Secondary:
+- Credit Scores didn't change
 
 
-1. Primary:
+The logit curves below show the relationship between the distribution of both tenure and days late with the probability of churning. The first graph shows that the longer the tenure, the lower the likelihood. The second graph shows that the days of late payments are generally not associated with likelihood of churn. 
 
-Tenure
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-Vantage
-- higher vantage scores associated with higher rates of churn
-- for a 1% increase (model 3) in vantage score, decrease of -0.0392099 in probability of churn
+# Logit Curves - none significant except churn
+
+
+ggplot(all_data, aes(x=tenure, y = Churn))+ geom_point(fill='red') + 
+  stat_smooth(method="glm", method.args=list(family=binomial(link='logit')), se=FALSE)+theme_minimal()+ 
+  scale_x_continuous(name="Months") 
+  scale_y_continuous(name="Likelihood of Churn")
+  
+ggplot(all_data, aes(x=log_vantage, y = Churn))+ geom_point(fill='red') + 
+  stat_smooth(method="glm", method.args=list(family=binomial(link='logit')), se=FALSE)+theme_minimal()+ 
+  scale_x_continuous(name="Log VANTAGE Score") 
+  scale_y_continuous(name="Likelihood of Churn")
+
+
+ggplot(all_data, aes(x=log_income, y = Churn))+ geom_point(fill='red') + 
+  stat_smooth(method="glm", method.args=list(family=binomial(link='logit')), se=FALSE)+theme_minimal()+ scale_x_continuous(name="Log Income Insight Score") +
+  scale_y_continuous(name="Likelihood of Churn")
+
+```
+
+
 
 2. Secondary:
 - No statistically significant effect was observed on credit score change after enrollment in solar farm. 
