@@ -16,7 +16,7 @@ knit: (function(inputFile, encoding) {
 
 
 
-# Introductiona
+# Introduction
 
 For the final component of the research, we shift our attention to customer enrollment in current community solar farms. By analyzing tenure length and the presence of an individual departing community solar farms, our research seeks to provide quantitative performance data to add depth to the previously collected survey data. 
 
@@ -75,7 +75,7 @@ options(scipen = 100)
 
 ## Change the below to match your local drive ##
 
-input_folder <- '/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/SETO Data Analysis/'
+input_folder <- '/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/SETO Data Analysis/3. Churn and Default/Files for NMR Review/'
 
 setwd(input_folder)
 
@@ -83,39 +83,24 @@ setwd(input_folder)
 
 
 
-
-Data cleaning mainly involves removing observations for one farm over a particular time period. As a result of a utility billing issue wherein payment performance was not available from October 2021 to April 2022 at one of the solar farms, these records are dropped. This narrowed dataset consists of 31,704 observations; the number of utility accounts remained constant at 812 and the number of unique users stays constant at 620. 
+Data cleaning mainly involves removing observations for one farm over a particular time period. As a result of a utility billing issue wherein payment performance was not available starting in October 2021 and not recommencing until April 2022 at one of the solar farms. Hence, the values for October, November and December 2021 are removed. This narrowed dataset consists of 31,704 observations; the number of utility accounts remained constant at 812 and the number of unique users stays constant at 620. 
 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
-# 'farm_data' contains the monthly enrollment records for the sample solar farm - contains various account specific information
+# 'Nautilus Raw Data for NMR.xlsx' contains the monthly enrollment records for the two sample solar farms - contains various account specific information. We rename this 'farm_data'. For the analysis, we do not differentiate between the two farm locations, however for descriptive statistics we break out the differences for additional clarity. 
 
-# There are three main ID variables to consider: user (user_id),  household (property_id) and utility account (utility_acct_number). Participant ID (ParticipantID), which is a mask of user ids, is used to merge the data with Experian attributes. We decided to group the analysis by utility accounts. The reason is we are measuring is rate of churn/default, and the account is the unit that performs these actions; not the user which may hold multiple accounts. Household ID and utility account are very similar, but for consistency, we hereafter focus on utility account data
-
-
-farm_data <- read_excel(paste(input_folder, "3. Churn and Default/input/Central Hudson Preliminary Analysis/Nautilus Raw Data for NMR.xlsx", sep=""), 
-    sheet = "final data") %>%
-    mutate(
-      # Create logarithmic transformation of kwh allocation for model later
-        log_solar = case_when(
-            kwh_allocated>0 ~ log(kwh_allocated),
-            TRUE ~ 0 ))
+# There are four main ID variables in the 'farm_data' data frame: user (user_id),  household (property_id), utility account (utility_acct_number), and Participant ID (ParticipantID). ParticipantID is a mask of user_id and is used to merge the data with Experian attributes. We decided to group the analysis by utility accounts. The reason is we are measuring is rate of churn/default, and the account is the unit that performs these actions; not the user which may hold multiple accounts. Household ID and utility account are very similar, but for consistency, we hereafter focus on utility account data
 
 
-farm_data <- farm_data %>%
-  # make tag for frog hollow properties after 9/2021; assuming the entries for april 2022 are legit, this drops October 2021 values 
+farm_data <- read_excel(paste(input_folder, "Nautilus Raw Data for NMR.xlsx", sep=""), 
+    sheet = "final data")  %>%
+  # make tag for frog hollow properties after 9/2021 ; this results in just dropping October 2021 values for Frog Hollow solar farm 
   mutate(FH_bill_issuetag = case_when(
          solar_farm_name=="Frog Hollow (CHGE)" & year == 2021 & month > 9 ~ 1,
          TRUE ~ 0)) %>%
-  filter(FH_bill_issuetag !=1) %>%
-  # create logarithmic transformation of kwh allocation for model later
-  mutate(
-    log_solar = case_when(
-      kwh_allocated>0 ~ log(kwh_allocated),
-      TRUE ~ 0
-    )
-  ) 
+  filter(FH_bill_issuetag !=1)  %>%
+  mutate(utility_acct_number = as.factor(utility_acct_number))
 ```
 
 
@@ -123,7 +108,7 @@ farm_data <- farm_data %>%
 
 For the accounts that left the solar farm at any point, we generate Churn and Default 'triggers'. The table below shows the variety of reasons listed why a particular account left either solar farm during the observed period. Most left the solar farm as a result of moving from the service area or no longer interested in the solar farm. 
 
-Defaulted accounts are triggered when the leave reason is 'Defaulted Payment'; every other leave reason is marked as churn, capturing a wider array of outcomes, from moving to health reasons. Table 1 shows how reasons listed for an account leaving a farm were mapped to Churn and Default triggers. 
+Defaulted accounts are triggered when the leave reason is 'Defaulted Payment'; every other leave reason is marked as churn, capturing a wider array of outcomes, from moving to health reasons. Table 1 shows how reasons listed for an account leaving a farm were mapped to Churn and Default triggers. Note, we categorize every default as a churn event as well for simplicity, however not every churn event is a default. 
 
 #### Table 1: Churn and Default Triggers
 
@@ -177,16 +162,18 @@ For some accounts, both a credit card and direct deposit (ACH) payment methods w
 
 #group by the utility account number to get descriptive stats
 
+# note we use "unique" here for string variables and "max" for continuous variables. This is done for convenience, as these variables (besides payment_method described below) do not vary, hence we are just tagging the utility accounts it's corresponding leave reason, churn and default tag, etc. 
+
 flipped <- farm_data %>%
   group_by(utility_acct_number) %>%
   summarise(
             n= n(),
             ParticipantID = max(ParticipantID),
-            tenure = length(unique(date_concat)),
+            tenure = length(unique(date_concat)), #measures number of months each utility account is observed in the 'farm_data' df
             payment_method = unique(payment_type),
             leave_reason = unique(leave_reason),
             
-            # divide kwh_allocated by 1229 to get kWh per account level
+            # divide kwh_allocated by 1229 to get kWh per account level, This number was generated internally by Solstice and is specific to the projects managed
             kwh_solar = mean(kwh_allocated/1229),
             Churn = max(churn_dummy),
             Default = max(default_dummy),
@@ -194,7 +181,6 @@ flipped <- farm_data %>%
             ) %>%
   mutate(
     count_user_id = n()) 
-
 
 ## filter out the duplicates
 
@@ -217,8 +203,9 @@ no_dupes <- flipped %>%
 ## join back with the main data
 
 joined <- rbind(no_dupes, dupes) %>%
-  select(-n,-count_user_id)
-  
+  select(-n,-count_user_id) 
+
+
 ```
 
 
@@ -234,14 +221,14 @@ The data has been grouped by utility account IDs. As seen in Table 2, the inform
 - Tenure (in months) of account
 - payment method
 - leave_reason, as described above
-- kWh allotted to each utility account
+- kWh allotted to each utility account (note this figure is arrived at by dividing the raw kWh reported by 1,229: this is a project specific conversion rate)
 - Churn and Default dummy variables
 - solar farm identification
 
 #### Table 2: Sample of Data Collected by Solstice
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-head(joined) %>%
+joined[200:210, ] %>%
     kbl(caption = "Table 2: Sample of Data Collected by Solstice",
       digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
   kable_classic(full_width = T, html_font = "Cambria") %>%
@@ -250,15 +237,16 @@ head(joined) %>%
 
 To add additional data to the analysis, we contracted with Experian to provide additional demographic and socioeconomic data. This data was provided on the *Participant* level. Recall that multiple utility accounts may be held by a single participant. The data provided by Experian has a matching 'ParticipantID' tag, that corresponds to the Solstice data set. 
 
-Note: Not all Participants and Utility accounts are able to be appended, due to limited data availability from Experian. The 'pin rate' refers to the rate at which data is successfully collected for a record. This pin rate results in different variables receiving differing degrees of completeness; for example, . These differences are observed in Tables 4 and 5. 
+Note: Not all Participants and Utility accounts are able to be appended, due to limited data availability from Experian. The 'pin rate' refers to the rate at which data is successfully collected for a record. For the 620 Participant_Ids, 506 received data, a pin rate of 81.6%. However, even succesfully pinned records did not receive full data, or possibly received an 'unknown' response. These differences are observed in Tables 4 and 5. 
 
-Data from Experian was provided for two different time periods, capturing financial snapshots at December 2020 and April 2022. The utility of having differing time periods is to allow for the secondary analysis, wherein change in credit scores is calculated and a difference of means test is conducted to determine if tenure in the solar farms is associated with any measurable change in credit score. 
+Data from Experian was provided for two different time periods, December 2020 and April 2022. The utility of having differing time periods is to allow for the secondary analysis, wherein change in credit scores is calculated and a difference of means test is conducted to determine if tenure in the solar farms is associated with any measurable change in credit score. An average credit score variable is created and used in the primary analysis as well. 
 
-For the primary analysis, Experian data is appended to the Solstice data set at the December 2020 time frame. The December 2020 data is chosen for two reasons: firstly, little change is observed or expected to be observed in demographic data such as homeownership status, education, marriage, and gender; hence there is little difference in terms of model construction between using one or the other source. Secondly, and more importantly, the data provided as of December 2020 is slightly more complete, meaning fewer data are missing for fewer participants.  
+For the primary analysis, all other non-credit score Experian data is appended to the Solstice data set at the December 2020 time frame. The December 2020 data is chosen for two reasons: firstly, little change is observed or expected to be observed in demographic data such as homeownership status, education, marriage, and gender; hence there is little difference in terms of model construction between using one or the other source. Secondly, and more importantly, the data provided as of December 2020 is slightly more complete, meaning fewer data are missing for fewer participants.  
 
 Finally, Solstice included additional non-SETO data to be scored by Experian to satisfy Experian minimum requirement requirements. It is essential to remove this data from the analysis. Participant IDs from 1-621 refer to SETO related entries; values > 621 are filtered out of the analysis. 
 
 Table 3 below shows a sample of the appended data. Note that VANTAGE_V4_SCORE.x refers to the Vantage Score as of April 2022, and VANTAGE_V4_SCORE.y refers to Vantage Scores as of December 2020. 
+
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -266,10 +254,10 @@ Table 3 below shows a sample of the appended data. Note that VANTAGE_V4_SCORE.x 
 
 ## Merge with Experian Data, start with demographic
 
-score_april_22 <- read.csv(paste(input_folder, '3. Churn and Default/From Experian/202223148A_043022_SCORE_DEMO.csv', sep=""))
+score_april_22 <- read.csv(paste(input_folder, 'From Experian/Data/202223148A_043022_SCORE_DEMO.csv', sep=""))
 score_april_22$period <- "April 2022"
 
-score_dec_20 <- read.csv(paste(input_folder, '3. Churn and Default/From Experian/202223148A_123020_SCORE_DEMO.csv', sep=""))
+score_dec_20 <- read.csv(paste(input_folder, 'From Experian/Data/202223148A_123020_SCORE_DEMO.csv', sep=""))
 score_dec_20$period <- "December 2020"
 
 
@@ -277,11 +265,14 @@ total_score <- merge(score_april_22,score_dec_20, by="PARTICIPANT_ID") %>%
   filter(PARTICIPANT_ID <= 621) %>% #filter non-SETO Participants Out
   group_by(ParticipantID=PARTICIPANT_ID) %>%
   summarise(
+            VANTAGE_V4_SCORE.x = VANTAGE_V4_SCORE.x, # .x refers to April 2022
+            VANTAGE_V4_SCORE.y = VANTAGE_V4_SCORE.y, # .y refers to December 2020
+            
             Vantage_Diff = VANTAGE_V4_SCORE.x - VANTAGE_V4_SCORE.y, # This measures the change in Vantage Score from Dec'20 -> Apr '22, 
                                                                     # positive number refers to positive change
                                                                     # observed over this time period; whereas a negative                                                                                               # number refers to a decline in Vantage Score.
-            VANTAGE_V4_SCORE.x = VANTAGE_V4_SCORE.x,
-            VANTAGE_V4_SCORE.y = VANTAGE_V4_SCORE.y,
+            
+            #Experian Demographic Variables, definitions for each are given at bottom of this chunk
             INCOME_INSIGHT_SCORE = INCOME_INSIGHT_SCORE.y,
             GENDER_CODE.y,
             MARRIAGE_IN.y,
@@ -327,7 +318,7 @@ total_score <- merge(score_april_22,score_dec_20, by="PARTICIPANT_ID") %>%
         OCCUPATION_CD.y %in% c("07", "12", "15", "35") ~ "Trade/Agriculture")) %>%
   select(-GENDER_CODE.y, -MARRIAGE_IN.y, -HOMEOWNER_IN.y, -RENTER_IN.y, -OCCUPATION_CD.y, -INDV_EDUCATION_CD.y)
 
-# Replace INCOME_INSIGHT_SCORE = 9001, which refers to an income 'decrease' - see codebook for more information. 
+# Replace INCOME_INSIGHT_SCORE = 9001, which refers to an income 'decrease' - see definition below in this chunk for more information. 
 
 total_score$INCOME_INSIGHT_SCORE[total_score$INCOME_INSIGHT_SCORE==9001] <- NA
 
@@ -402,7 +393,7 @@ final_joined <- merge(joined, total_score , by="ParticipantID", all.x = TRUE)
 ## --- Education INDV_EDUCATION_CD--- ##
 
 # First byte = model confidence: 1 = Extremely likely; 5 = Likely.
-# We combine the 1 and 5 values, Extremely likely + Likely 
+# We combine the first byte 1 and 5 values, Extremely likely + Likely 
 # 
 # Second Byte = education value: 
 # 0=Unknown
@@ -460,16 +451,15 @@ head(final_joined) %>%
 
 # Full Merge with Premiere Attributes
 
-prem_attr_1 <- read.csv(paste(input_folder, '3. Churn and Default/From Experian/202223148A_123020_PREMAB.csv', sep=""))
-prem_attr_2 <- read.csv(paste(input_folder, '3. Churn and Default/From Experian/202223148A_123020_PREMCD.csv', sep=""))
+prem_attr_1 <- read.csv(paste(input_folder, 'From Experian/Data/202223148A_123020_PREMAB.csv', sep=""))
+prem_attr_2 <- read.csv(paste(input_folder, 'From Experian/Data/202223148A_123020_PREMCD.csv', sep=""))
 
 prem_attr<- merge(prem_attr_1, prem_attr_2 , by="PARTICIPANT_ID", all.y = TRUE) %>%
   mutate(ParticipantID=PARTICIPANT_ID) %>%
   select(-CTK.x, -CTK.y, -RECORD_NB.x,-RECORD_NB.y, -PARTICIPANT_ID)
 
 
-all_data <- merge(final_joined, prem_attr , by="ParticipantID", all.x = TRUE) %>%
-  select(-utility_acct_number)
+all_data <- merge(final_joined, prem_attr , by="ParticipantID", all.x = TRUE) 
 
 
 ```
@@ -580,7 +570,9 @@ Logarithmic transformations for continuous variables are employed. These include
 all_data$log_tenure <- log(all_data$tenure)
 all_data$log_vantage <- log(all_data$Vantage_Avg)
 all_data$log_income <- log(all_data$INCOME_INSIGHT_SCORE)
-#Reference Categorys#
+
+
+#Reference Categorys Changes#
 
 # Ref Cat for Gender = Male
 all_data$GENDER <- as.factor(all_data$GENDER)
@@ -717,12 +709,13 @@ grid.arrange(p1, p2, nrow = 2)
 ```
 Using a Welch t-test, we measure the difference in means between the two groups. From the below, the means of the two groups are not statistically signifcant; therefore we cannot claim that credit scores for individuals in the solar farms were observed to have changed. 
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 t.test(value ~ variable, data = graph_temp)
 
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE, include=FALSE}
+# Same result as above, just avoiding the 'melt' function
 t.test(final_joined$VANTAGE_V4_SCORE.x, final_joined$VANTAGE_V4_SCORE.y)
 
 ```

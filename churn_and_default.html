@@ -7,7 +7,7 @@
 
         <meta name="author" content="Jacob Ford, Solstice Data Scientist" />
     
-        <meta name="date" content="2022-10-18" />
+        <meta name="date" content="2022-10-19" />
     
     <title>Churn and Default</title>
 
@@ -1689,75 +1689,6 @@ border: 0;
 </style>
     
     
-        <style type="text/css">code{white-space: pre;}</style>
-    <style type="text/css">
-      pre > code.sourceCode { white-space: pre; position: relative; }
-      pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-      pre > code.sourceCode > span:empty { height: 1.2em; }
-      .sourceCode { overflow: visible; }
-      code.sourceCode > span { color: inherit; text-decoration: inherit; }
-      div.sourceCode { margin: 1em 0; }
-      pre.sourceCode { margin: 0; }
-      @media screen {
-      div.sourceCode { overflow: auto; }
-      }
-      @media print {
-      pre > code.sourceCode { white-space: pre-wrap; }
-      pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-      }
-      pre.numberSource code
-        { counter-reset: source-line 0; }
-      pre.numberSource code > span
-        { position: relative; left: -4em; counter-increment: source-line; }
-      pre.numberSource code > span > a:first-child::before
-        { content: counter(source-line);
-          position: relative; left: -1em; text-align: right; vertical-align: baseline;
-          border: none; display: inline-block;
-          -webkit-touch-callout: none; -webkit-user-select: none;
-          -khtml-user-select: none; -moz-user-select: none;
-          -ms-user-select: none; user-select: none;
-          padding: 0 4px; width: 4em;
-          background-color: #ffffff;
-          color: #a0a0a0;
-        }
-      pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
-      div.sourceCode
-        { color: #1f1c1b; background-color: #ffffff; }
-      @media screen {
-      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-      }
-      code span { color: #1f1c1b; } /* Normal */
-      code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
-      code span.an { color: #ca60ca; } /* Annotation */
-      code span.at { color: #0057ae; } /* Attribute */
-      code span.bn { color: #b08000; } /* BaseN */
-      code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
-      code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
-      code span.ch { color: #924c9d; } /* Char */
-      code span.cn { color: #aa5500; } /* Constant */
-      code span.co { color: #898887; } /* Comment */
-      code span.cv { color: #0095ff; } /* CommentVar */
-      code span.do { color: #607880; } /* Documentation */
-      code span.dt { color: #0057ae; } /* DataType */
-      code span.dv { color: #b08000; } /* DecVal */
-      code span.er { color: #bf0303; text-decoration: underline; } /* Error */
-      code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
-      code span.fl { color: #b08000; } /* Float */
-      code span.fu { color: #644a9b; } /* Function */
-      code span.im { color: #ff5500; } /* Import */
-      code span.in { color: #b08000; } /* Information */
-      code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
-      code span.op { color: #1f1c1b; } /* Operator */
-      code span.ot { color: #006e28; } /* Other */
-      code span.pp { color: #006e28; } /* Preprocessor */
-      code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
-      code span.sc { color: #3daee9; } /* SpecialChar */
-      code span.ss { color: #ff5500; } /* SpecialString */
-      code span.st { color: #bf0303; } /* String */
-      code span.va { color: #0057ae; } /* Variable */
-      code span.vs { color: #bf0303; } /* VerbatimString */
-      code span.wa { color: #bf0303; } /* Warning */
-    </style>
     
     
     <!-- tabsets -->
@@ -1893,7 +1824,7 @@ border: 0;
     <h2><a href="#content">Churn and Default</a></h2>
     <div id="toc">
       <ul>
-      <li><a href="#introductiona">Introductiona</a></li>
+      <li><a href="#introduction">Introduction</a></li>
       <li><a href="#methods">Methods</a>
       <ul>
       <li><a href="#data-cleaning">Data Cleaning</a></li>
@@ -1936,7 +1867,7 @@ border: 0;
     <div id="postamble" data-toggle="wy-nav-shift" class="status">
                   <p class="author"><span class="glyphicon glyphicon-user"></span> Jacob
 Ford, Solstice Data Scientist</p>
-                        <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-10-18</p>
+                        <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-10-19</p>
           </div>
    </div>
      
@@ -1946,8 +1877,8 @@ Ford, Solstice Data Scientist</p>
    
 <!-- Don't indent these lines or it will mess pre blocks indentation --> 
 <div id="main">
-<div id="introductiona" class="section level1">
-<h1>Introductiona</h1>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
 <p>For the final component of the research, we shift our attention to
 customer enrollment in current community solar farms. By analyzing
 tenure length and the presence of an individual departing community
@@ -2000,11 +1931,12 @@ tied to a single user, if multiple residences are owned or if a resident
 churned and subsequently returned in the observed time period.</p>
 <p>Data cleaning mainly involves removing observations for one farm over
 a particular time period. As a result of a utility billing issue wherein
-payment performance was not available from October 2021 to April 2022 at
-one of the solar farms, these records are dropped. This narrowed dataset
-consists of 31,704 observations; the number of utility accounts remained
-constant at 812 and the number of unique users stays constant at
-620.</p>
+payment performance was not available starting in October 2021 and not
+recommencing until April 2022 at one of the solar farms. Hence, the
+values for October, November and December 2021 are removed. This
+narrowed dataset consists of 31,704 observations; the number of utility
+accounts remained constant at 812 and the number of unique users stays
+constant at 620.</p>
 </div>
 <div id="generate-churn-and-default-tags" class="section level2">
 <h2>Generate Churn and Default Tags</h2>
@@ -2017,7 +1949,8 @@ the service area or no longer interested in the solar farm.</p>
 Payment’; every other leave reason is marked as churn, capturing a wider
 array of outcomes, from moving to health reasons. Table 1 shows how
 reasons listed for an account leaving a farm were mapped to Churn and
-Default triggers.</p>
+Default triggers. Note, we categorize every default as a churn event as
+well for simplicity, however not every churn event is a default.</p>
 <div id="table-1-churn-and-default-triggers" class="section level4">
 <h4>Table 1: Churn and Default Triggers</h4>
 <table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
@@ -2131,7 +2064,9 @@ the information available as collected by Solstice includes:</p>
 <li>Tenure (in months) of account</li>
 <li>payment method</li>
 <li>leave_reason, as described above</li>
-<li>kWh allotted to each utility account</li>
+<li>kWh allotted to each utility account (note this figure is arrived at
+by dividing the raw kWh reported by 1,229: this is a project specific
+conversion rate)</li>
 <li>Churn and Default dummy variables</li>
 <li>solar farm identification</li>
 </ul>
@@ -2175,13 +2110,13 @@ solar_farm
 <tbody>
 <tr>
 <td style="text-align:left;">
-0036027022
+1226
 </td>
 <td style="text-align:right;">
-517
+347
 </td>
 <td style="text-align:right;">
-17
+20
 </td>
 <td style="text-align:left;">
 card
@@ -2190,7 +2125,7 @@ card
 0
 </td>
 <td style="text-align:right;">
-25.681
+7.858
 </td>
 <td style="text-align:right;">
 0
@@ -2204,22 +2139,80 @@ Howell (O&amp;R)
 </tr>
 <tr>
 <td style="text-align:left;">
-1020398011
+1227
 </td>
 <td style="text-align:right;">
-281
+152
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:left;">
+card
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:right;">
+4.426
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Howell (O&amp;R)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1228
+</td>
+<td style="text-align:right;">
+424
 </td>
 <td style="text-align:right;">
 22
 </td>
 <td style="text-align:left;">
+ach
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:right;">
+4.832
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Frog Hollow (CHGE)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1229
+</td>
+<td style="text-align:right;">
+357
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:left;">
 card
 </td>
 <td style="text-align:left;">
 0
 </td>
 <td style="text-align:right;">
-6.654
+10.267
 </td>
 <td style="text-align:right;">
 0
@@ -2233,22 +2226,51 @@ Howell (O&amp;R)
 </tr>
 <tr>
 <td style="text-align:left;">
-1022487137
+1230
 </td>
 <td style="text-align:right;">
-197
+288
 </td>
 <td style="text-align:right;">
-18
+21
 </td>
 <td style="text-align:left;">
 card
 </td>
 <td style="text-align:left;">
-Billing Complaint
+0
 </td>
 <td style="text-align:right;">
-0.963
+14.773
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Frog Hollow (CHGE)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1231
+</td>
+<td style="text-align:right;">
+321
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:left;">
+card
+</td>
+<td style="text-align:left;">
+Health Issues
+</td>
+<td style="text-align:right;">
+2.263
 </td>
 <td style="text-align:right;">
 1
@@ -2257,73 +2279,131 @@ Billing Complaint
 0
 </td>
 <td style="text-align:left;">
-Howell (O&amp;R)
+Frog Hollow (CHGE)
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-1027740022
+1232
 </td>
 <td style="text-align:right;">
-309
+435
 </td>
 <td style="text-align:right;">
-24
+22
+</td>
+<td style="text-align:left;">
+ach
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:right;">
+3.884
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Frog Hollow (CHGE)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1233
+</td>
+<td style="text-align:right;">
+561
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+ach
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:right;">
+8.105
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Frog Hollow (CHGE)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1234
+</td>
+<td style="text-align:right;">
+165
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:left;">
+ach
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:right;">
+7.402
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Frog Hollow (CHGE)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1236
+</td>
+<td style="text-align:right;">
+42
+</td>
+<td style="text-align:right;">
+12
 </td>
 <td style="text-align:left;">
 card
 </td>
 <td style="text-align:left;">
-0
+Moving out of service territory
 </td>
 <td style="text-align:right;">
-83.397
+4.863
 </td>
 <td style="text-align:right;">
-0
+1
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:left;">
-Howell (O&amp;R)
+Frog Hollow (CHGE)
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-1072876031
+1237
 </td>
 <td style="text-align:right;">
-576
-</td>
-<td style="text-align:right;">
-25
-</td>
-<td style="text-align:left;">
-card
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:right;">
-6.052
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-Howell (O&amp;R)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-1076051049
-</td>
-<td style="text-align:right;">
-596
+598
 </td>
 <td style="text-align:right;">
 23
@@ -2335,7 +2415,7 @@ ach
 0
 </td>
 <td style="text-align:right;">
-14.542
+31.432
 </td>
 <td style="text-align:right;">
 0
@@ -2358,24 +2438,26 @@ Solstice data set.</p>
 <p>Note: Not all Participants and Utility accounts are able to be
 appended, due to limited data availability from Experian. The ‘pin rate’
 refers to the rate at which data is successfully collected for a record.
-This pin rate results in different variables receiving differing degrees
-of completeness; for example, . These differences are observed in Tables
-4 and 5.</p>
+For the 620 Participant_Ids, 506 received data, a pin rate of 81.6%.
+However, even succesfully pinned records did not receive full data, or
+possibly received an ‘unknown’ response. These differences are observed
+in Tables 4 and 5.</p>
 <p>Data from Experian was provided for two different time periods,
-capturing financial snapshots at December 2020 and April 2022. The
-utility of having differing time periods is to allow for the secondary
-analysis, wherein change in credit scores is calculated and a difference
-of means test is conducted to determine if tenure in the solar farms is
-associated with any measurable change in credit score.</p>
-<p>For the primary analysis, Experian data is appended to the Solstice
-data set at the December 2020 time frame. The December 2020 data is
-chosen for two reasons: firstly, little change is observed or expected
-to be observed in demographic data such as homeownership status,
-education, marriage, and gender; hence there is little difference in
-terms of model construction between using one or the other source.
-Secondly, and more importantly, the data provided as of December 2020 is
-slightly more complete, meaning fewer data are missing for fewer
-participants.</p>
+December 2020 and April 2022. The utility of having differing time
+periods is to allow for the secondary analysis, wherein change in credit
+scores is calculated and a difference of means test is conducted to
+determine if tenure in the solar farms is associated with any measurable
+change in credit score. An average credit score variable is created and
+used in the primary analysis as well.</p>
+<p>For the primary analysis, all other non-credit score Experian data is
+appended to the Solstice data set at the December 2020 time frame. The
+December 2020 data is chosen for two reasons: firstly, little change is
+observed or expected to be observed in demographic data such as
+homeownership status, education, marriage, and gender; hence there is
+little difference in terms of model construction between using one or
+the other source. Secondly, and more importantly, the data provided as
+of December 2020 is slightly more complete, meaning fewer data are
+missing for fewer participants.</p>
 <p>Finally, Solstice included additional non-SETO data to be scored by
 Experian to satisfy Experian minimum requirement requirements. It is
 essential to remove this data from the analysis. Participant IDs from
@@ -2421,13 +2503,13 @@ Default
 solar_farm
 </th>
 <th style="text-align:right;">
-Vantage_Diff
-</th>
-<th style="text-align:right;">
 VANTAGE_V4_SCORE.x
 </th>
 <th style="text-align:right;">
 VANTAGE_V4_SCORE.y
+</th>
+<th style="text-align:right;">
+Vantage_Diff
 </th>
 <th style="text-align:right;">
 INCOME_INSIGHT_SCORE
@@ -2461,7 +2543,7 @@ OCCUPATION
 1
 </td>
 <td style="text-align:left;">
-1769073011
+1193
 </td>
 <td style="text-align:right;">
 23
@@ -2485,13 +2567,13 @@ ach
 Howell (O&amp;R)
 </td>
 <td style="text-align:right;">
-18
-</td>
-<td style="text-align:right;">
 817
 </td>
 <td style="text-align:right;">
 799
+</td>
+<td style="text-align:right;">
+18
 </td>
 <td style="text-align:right;">
 186
@@ -2523,7 +2605,7 @@ Self Employed/Other
 2
 </td>
 <td style="text-align:left;">
-7989248005
+1791
 </td>
 <td style="text-align:right;">
 3
@@ -2547,13 +2629,13 @@ No Longer Interested
 Howell (O&amp;R)
 </td>
 <td style="text-align:right;">
-23
-</td>
-<td style="text-align:right;">
 805
 </td>
 <td style="text-align:right;">
 782
+</td>
+<td style="text-align:right;">
+23
 </td>
 <td style="text-align:right;">
 117
@@ -2585,7 +2667,7 @@ Self Employed/Other
 3
 </td>
 <td style="text-align:left;">
-689005016
+1010
 </td>
 <td style="text-align:right;">
 21
@@ -2647,7 +2729,7 @@ NA
 4
 </td>
 <td style="text-align:left;">
-21002383038
+1312
 </td>
 <td style="text-align:right;">
 22
@@ -2671,13 +2753,13 @@ card
 Frog Hollow (CHGE)
 </td>
 <td style="text-align:right;">
--17
-</td>
-<td style="text-align:right;">
 794
 </td>
 <td style="text-align:right;">
 811
+</td>
+<td style="text-align:right;">
+-17
 </td>
 <td style="text-align:right;">
 217
@@ -2709,7 +2791,7 @@ Self Employed/Other
 5
 </td>
 <td style="text-align:left;">
-2155441000
+1773
 </td>
 <td style="text-align:right;">
 15
@@ -2733,13 +2815,13 @@ Moving out of service territory
 Howell (O&amp;R)
 </td>
 <td style="text-align:right;">
+805
+</td>
+<td style="text-align:right;">
+805
+</td>
+<td style="text-align:right;">
 0
-</td>
-<td style="text-align:right;">
-805
-</td>
-<td style="text-align:right;">
-805
 </td>
 <td style="text-align:right;">
 111
@@ -2771,7 +2853,7 @@ Healthcare/Education Services
 5
 </td>
 <td style="text-align:left;">
-2536130080
+1761
 </td>
 <td style="text-align:right;">
 17
@@ -2795,13 +2877,13 @@ Moving out of service territory
 Howell (O&amp;R)
 </td>
 <td style="text-align:right;">
+805
+</td>
+<td style="text-align:right;">
+805
+</td>
+<td style="text-align:right;">
 0
-</td>
-<td style="text-align:right;">
-805
-</td>
-<td style="text-align:right;">
-805
 </td>
 <td style="text-align:right;">
 111
@@ -2840,12 +2922,12 @@ Note, only 6 instances of default were observed. However, of the 812
 accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
 <div id="table-4-summary-statistics-by-solar-farm" class="section level4">
 <h4>Table 4: Summary Statistics by Solar Farm</h4>
-<div id="jbzlovpcgb" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="uoinvkpnpn" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#jbzlovpcgb .gt_table {
+#uoinvkpnpn .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2870,7 +2952,7 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   border-left-color: #D3D3D3;
 }
 
-#jbzlovpcgb .gt_heading {
+#uoinvkpnpn .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2882,7 +2964,7 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   border-right-color: #D3D3D3;
 }
 
-#jbzlovpcgb .gt_title {
+#uoinvkpnpn .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2894,7 +2976,7 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   border-bottom-width: 0;
 }
 
-#jbzlovpcgb .gt_subtitle {
+#uoinvkpnpn .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2906,13 +2988,13 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   border-top-width: 0;
 }
 
-#jbzlovpcgb .gt_bottom_border {
+#uoinvkpnpn .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jbzlovpcgb .gt_col_headings {
+#uoinvkpnpn .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2927,7 +3009,7 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   border-right-color: #D3D3D3;
 }
 
-#jbzlovpcgb .gt_col_heading {
+#uoinvkpnpn .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2947,7 +3029,7 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   overflow-x: hidden;
 }
 
-#jbzlovpcgb .gt_column_spanner_outer {
+#uoinvkpnpn .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2959,15 +3041,15 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   padding-right: 4px;
 }
 
-#jbzlovpcgb .gt_column_spanner_outer:first-child {
+#uoinvkpnpn .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jbzlovpcgb .gt_column_spanner_outer:last-child {
+#uoinvkpnpn .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jbzlovpcgb .gt_column_spanner {
+#uoinvkpnpn .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2979,7 +3061,7 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   width: 100%;
 }
 
-#jbzlovpcgb .gt_group_heading {
+#uoinvkpnpn .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3004,7 +3086,7 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   vertical-align: middle;
 }
 
-#jbzlovpcgb .gt_empty_group_heading {
+#uoinvkpnpn .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3019,15 +3101,15 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   vertical-align: middle;
 }
 
-#jbzlovpcgb .gt_from_md > :first-child {
+#uoinvkpnpn .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jbzlovpcgb .gt_from_md > :last-child {
+#uoinvkpnpn .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jbzlovpcgb .gt_row {
+#uoinvkpnpn .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3046,7 +3128,7 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   overflow-x: hidden;
 }
 
-#jbzlovpcgb .gt_stub {
+#uoinvkpnpn .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3059,7 +3141,7 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   padding-right: 5px;
 }
 
-#jbzlovpcgb .gt_stub_row_group {
+#uoinvkpnpn .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3073,11 +3155,11 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   vertical-align: top;
 }
 
-#jbzlovpcgb .gt_row_group_first td {
+#uoinvkpnpn .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jbzlovpcgb .gt_summary_row {
+#uoinvkpnpn .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3087,16 +3169,16 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   padding-right: 5px;
 }
 
-#jbzlovpcgb .gt_first_summary_row {
+#uoinvkpnpn .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jbzlovpcgb .gt_first_summary_row.thick {
+#uoinvkpnpn .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jbzlovpcgb .gt_last_summary_row {
+#uoinvkpnpn .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3106,7 +3188,7 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#jbzlovpcgb .gt_grand_summary_row {
+#uoinvkpnpn .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3116,7 +3198,7 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   padding-right: 5px;
 }
 
-#jbzlovpcgb .gt_first_grand_summary_row {
+#uoinvkpnpn .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3126,11 +3208,11 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   border-top-color: #D3D3D3;
 }
 
-#jbzlovpcgb .gt_striped {
+#uoinvkpnpn .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jbzlovpcgb .gt_table_body {
+#uoinvkpnpn .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3139,7 +3221,7 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#jbzlovpcgb .gt_footnotes {
+#uoinvkpnpn .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3153,7 +3235,7 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   border-right-color: #D3D3D3;
 }
 
-#jbzlovpcgb .gt_footnote {
+#uoinvkpnpn .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -3162,7 +3244,7 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   padding-right: 5px;
 }
 
-#jbzlovpcgb .gt_sourcenotes {
+#uoinvkpnpn .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3176,7 +3258,7 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   border-right-color: #D3D3D3;
 }
 
-#jbzlovpcgb .gt_sourcenote {
+#uoinvkpnpn .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3184,36 +3266,36 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   padding-right: 5px;
 }
 
-#jbzlovpcgb .gt_left {
+#uoinvkpnpn .gt_left {
   text-align: left;
 }
 
-#jbzlovpcgb .gt_center {
+#uoinvkpnpn .gt_center {
   text-align: center;
 }
 
-#jbzlovpcgb .gt_right {
+#uoinvkpnpn .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jbzlovpcgb .gt_font_normal {
+#uoinvkpnpn .gt_font_normal {
   font-weight: normal;
 }
 
-#jbzlovpcgb .gt_font_bold {
+#uoinvkpnpn .gt_font_bold {
   font-weight: bold;
 }
 
-#jbzlovpcgb .gt_font_italic {
+#uoinvkpnpn .gt_font_italic {
   font-style: italic;
 }
 
-#jbzlovpcgb .gt_super {
+#uoinvkpnpn .gt_super {
   font-size: 65%;
 }
 
-#jbzlovpcgb .gt_two_val_uncert {
+#uoinvkpnpn .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -3222,31 +3304,31 @@ accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
   margin-left: 0.1em;
 }
 
-#jbzlovpcgb .gt_footnote_marks {
+#uoinvkpnpn .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#jbzlovpcgb .gt_asterisk {
+#uoinvkpnpn .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jbzlovpcgb .gt_slash_mark {
+#uoinvkpnpn .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#jbzlovpcgb .gt_fraction_numerator {
+#uoinvkpnpn .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#jbzlovpcgb .gt_fraction_denominator {
+#uoinvkpnpn .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -3423,12 +3505,12 @@ length. Most observations of Churn occurred within the 6-12 month range,
 </div>
 <div id="table-5-summary-statistics-by-tenure-length" class="section level4">
 <h4>Table 5: Summary Statistics by Tenure Length</h4>
-<div id="nxwmbhvxgi" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="zizddfqooq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#nxwmbhvxgi .gt_table {
+#zizddfqooq .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3453,7 +3535,7 @@ length. Most observations of Churn occurred within the 6-12 month range,
   border-left-color: #D3D3D3;
 }
 
-#nxwmbhvxgi .gt_heading {
+#zizddfqooq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3465,7 +3547,7 @@ length. Most observations of Churn occurred within the 6-12 month range,
   border-right-color: #D3D3D3;
 }
 
-#nxwmbhvxgi .gt_title {
+#zizddfqooq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3477,7 +3559,7 @@ length. Most observations of Churn occurred within the 6-12 month range,
   border-bottom-width: 0;
 }
 
-#nxwmbhvxgi .gt_subtitle {
+#zizddfqooq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3489,13 +3571,13 @@ length. Most observations of Churn occurred within the 6-12 month range,
   border-top-width: 0;
 }
 
-#nxwmbhvxgi .gt_bottom_border {
+#zizddfqooq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#nxwmbhvxgi .gt_col_headings {
+#zizddfqooq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3510,7 +3592,7 @@ length. Most observations of Churn occurred within the 6-12 month range,
   border-right-color: #D3D3D3;
 }
 
-#nxwmbhvxgi .gt_col_heading {
+#zizddfqooq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3530,7 +3612,7 @@ length. Most observations of Churn occurred within the 6-12 month range,
   overflow-x: hidden;
 }
 
-#nxwmbhvxgi .gt_column_spanner_outer {
+#zizddfqooq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3542,15 +3624,15 @@ length. Most observations of Churn occurred within the 6-12 month range,
   padding-right: 4px;
 }
 
-#nxwmbhvxgi .gt_column_spanner_outer:first-child {
+#zizddfqooq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#nxwmbhvxgi .gt_column_spanner_outer:last-child {
+#zizddfqooq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#nxwmbhvxgi .gt_column_spanner {
+#zizddfqooq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3562,7 +3644,7 @@ length. Most observations of Churn occurred within the 6-12 month range,
   width: 100%;
 }
 
-#nxwmbhvxgi .gt_group_heading {
+#zizddfqooq .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3587,7 +3669,7 @@ length. Most observations of Churn occurred within the 6-12 month range,
   vertical-align: middle;
 }
 
-#nxwmbhvxgi .gt_empty_group_heading {
+#zizddfqooq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3602,15 +3684,15 @@ length. Most observations of Churn occurred within the 6-12 month range,
   vertical-align: middle;
 }
 
-#nxwmbhvxgi .gt_from_md > :first-child {
+#zizddfqooq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#nxwmbhvxgi .gt_from_md > :last-child {
+#zizddfqooq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#nxwmbhvxgi .gt_row {
+#zizddfqooq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3629,7 +3711,7 @@ length. Most observations of Churn occurred within the 6-12 month range,
   overflow-x: hidden;
 }
 
-#nxwmbhvxgi .gt_stub {
+#zizddfqooq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3642,7 +3724,7 @@ length. Most observations of Churn occurred within the 6-12 month range,
   padding-right: 5px;
 }
 
-#nxwmbhvxgi .gt_stub_row_group {
+#zizddfqooq .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3656,11 +3738,11 @@ length. Most observations of Churn occurred within the 6-12 month range,
   vertical-align: top;
 }
 
-#nxwmbhvxgi .gt_row_group_first td {
+#zizddfqooq .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#nxwmbhvxgi .gt_summary_row {
+#zizddfqooq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3670,16 +3752,16 @@ length. Most observations of Churn occurred within the 6-12 month range,
   padding-right: 5px;
 }
 
-#nxwmbhvxgi .gt_first_summary_row {
+#zizddfqooq .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#nxwmbhvxgi .gt_first_summary_row.thick {
+#zizddfqooq .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#nxwmbhvxgi .gt_last_summary_row {
+#zizddfqooq .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3689,7 +3771,7 @@ length. Most observations of Churn occurred within the 6-12 month range,
   border-bottom-color: #D3D3D3;
 }
 
-#nxwmbhvxgi .gt_grand_summary_row {
+#zizddfqooq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3699,7 +3781,7 @@ length. Most observations of Churn occurred within the 6-12 month range,
   padding-right: 5px;
 }
 
-#nxwmbhvxgi .gt_first_grand_summary_row {
+#zizddfqooq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3709,11 +3791,11 @@ length. Most observations of Churn occurred within the 6-12 month range,
   border-top-color: #D3D3D3;
 }
 
-#nxwmbhvxgi .gt_striped {
+#zizddfqooq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#nxwmbhvxgi .gt_table_body {
+#zizddfqooq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3722,7 +3804,7 @@ length. Most observations of Churn occurred within the 6-12 month range,
   border-bottom-color: #D3D3D3;
 }
 
-#nxwmbhvxgi .gt_footnotes {
+#zizddfqooq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3736,7 +3818,7 @@ length. Most observations of Churn occurred within the 6-12 month range,
   border-right-color: #D3D3D3;
 }
 
-#nxwmbhvxgi .gt_footnote {
+#zizddfqooq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -3745,7 +3827,7 @@ length. Most observations of Churn occurred within the 6-12 month range,
   padding-right: 5px;
 }
 
-#nxwmbhvxgi .gt_sourcenotes {
+#zizddfqooq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3759,7 +3841,7 @@ length. Most observations of Churn occurred within the 6-12 month range,
   border-right-color: #D3D3D3;
 }
 
-#nxwmbhvxgi .gt_sourcenote {
+#zizddfqooq .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3767,36 +3849,36 @@ length. Most observations of Churn occurred within the 6-12 month range,
   padding-right: 5px;
 }
 
-#nxwmbhvxgi .gt_left {
+#zizddfqooq .gt_left {
   text-align: left;
 }
 
-#nxwmbhvxgi .gt_center {
+#zizddfqooq .gt_center {
   text-align: center;
 }
 
-#nxwmbhvxgi .gt_right {
+#zizddfqooq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#nxwmbhvxgi .gt_font_normal {
+#zizddfqooq .gt_font_normal {
   font-weight: normal;
 }
 
-#nxwmbhvxgi .gt_font_bold {
+#zizddfqooq .gt_font_bold {
   font-weight: bold;
 }
 
-#nxwmbhvxgi .gt_font_italic {
+#zizddfqooq .gt_font_italic {
   font-style: italic;
 }
 
-#nxwmbhvxgi .gt_super {
+#zizddfqooq .gt_super {
   font-size: 65%;
 }
 
-#nxwmbhvxgi .gt_two_val_uncert {
+#zizddfqooq .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -3805,31 +3887,31 @@ length. Most observations of Churn occurred within the 6-12 month range,
   margin-left: 0.1em;
 }
 
-#nxwmbhvxgi .gt_footnote_marks {
+#zizddfqooq .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#nxwmbhvxgi .gt_asterisk {
+#zizddfqooq .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#nxwmbhvxgi .gt_slash_mark {
+#zizddfqooq .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#nxwmbhvxgi .gt_fraction_numerator {
+#zizddfqooq .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#nxwmbhvxgi .gt_fraction_denominator {
+#zizddfqooq .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -5915,7 +5997,6 @@ Using a Welch t-test, we measure the difference in means between the two
 groups. From the below, the means of the two groups are not
 statistically signifcant; therefore we cannot claim that credit scores
 for individuals in the solar farms were observed to have changed.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(value <span class="sc">~</span> variable, <span class="at">data =</span> graph_temp)</span></code></pre></div>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
@@ -5927,18 +6008,6 @@ for individuals in the solar farms were observed to have changed.</p>
 ## sample estimates:
 ##    mean in group April 2022 mean in group December 2020 
 ##                    781.0366                    786.2523</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(final_joined<span class="sc">$</span>VANTAGE_V4_SCORE.x, final_joined<span class="sc">$</span>VANTAGE_V4_SCORE.y)</span></code></pre></div>
-<pre><code>## 
-##  Welch Two Sample t-test
-## 
-## data:  final_joined$VANTAGE_V4_SCORE.x and final_joined$VANTAGE_V4_SCORE.y
-## t = -0.92527, df = 1051.9, p-value = 0.355
-## alternative hypothesis: true difference in means is not equal to 0
-## 95 percent confidence interval:
-##  -16.276750   5.845305
-## sample estimates:
-## mean of x mean of y 
-##  781.0366  786.2523</code></pre>
 </div>
 <div id="discussion" class="section level1">
 <h1>Discussion</h1>
