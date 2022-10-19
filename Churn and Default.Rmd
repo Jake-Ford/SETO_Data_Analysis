@@ -593,7 +593,7 @@ all_data$MARRIAGE <- relevel(all_data$MARRIAGE, ref="Single")
 
 
 mod1 <- glm(Churn ~ tenure + kwh_solar + log_vantage, data = all_data, family = "binomial")
-mod2 <- glm(Churn ~ tenure + kwh_solar + GENDER + EDUCATION + log_vantage + HOMEOWNER, data = all_data, family = "binomial")
+mod2 <- glm(Churn ~ tenure + kwh_solar + GENDER +  log_vantage + HOMEOWNER, data = all_data, family = "binomial")
 mod3 <- glm(Churn ~ tenure + HOMEOWNER + log_income + EDUCATION, data = all_data, family = "binomial")
 mod4 <- glm(Churn ~ tenure + kwh_solar + EDUCATION + log_income + MARRIAGE, data = all_data, family = "binomial")
 mod5 <- glm(Churn ~ tenure  + GENDER + log_vantage  + OCCUPATION + HOMEOWNER, data = all_data, family = "binomial")
@@ -656,10 +656,16 @@ female_change
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 mod1 <- glm(Default ~ tenure + kwh_solar + log_vantage, data = all_data, family = "binomial")
-mod2 <- glm(Default ~ tenure + kwh_solar + GENDER + EDUCATION + log_vantage + HOMEOWNER, data = all_data, family = "binomial")
+mod2 <- glm(Default ~ tenure + kwh_solar + GENDER +  log_vantage + HOMEOWNER, data = all_data, family = "binomial")
 mod3 <- glm(Default ~ tenure + HOMEOWNER + log_income + EDUCATION, data = all_data, family = "binomial")
 mod4 <- glm(Default ~ tenure + kwh_solar + EDUCATION + log_income + MARRIAGE, data = all_data, family = "binomial")
 mod5 <- glm(Default ~ tenure  + GENDER + log_vantage  + OCCUPATION + HOMEOWNER, data = all_data, family = "binomial")
+
+# summary(mod1)
+# summary(mod2)
+# summary(mod3)
+# summary(mod4)
+# summary(mod5)
 ```
 
 
