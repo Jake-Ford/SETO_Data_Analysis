@@ -83,7 +83,7 @@ setwd(input_folder)
 
 
 
-Data cleaning mainly involves removing observations for one farm over a particular time period. Data was collected from two sites, referred to as Farm A and Farm B for privacy. As a result of a utility billing issue wherein payment performance was not available starting in October 2021 and not recommencing until April 2022 at Farm A. Hence, the values for October, November and December 2021 are removed. This narrowed dataset consists of 31,704 observations; the number of utility accounts remained constant at 812 and the number of unique users stays constant at 620. 
+Data cleaning mainly involves removing observations for one farm over a particular time period. Data was collected from two sites, referred to as Farm A and Farm B for privacy. As a result of a utility billing issue wherein payment performance was not available starting in October 2021 and not recommencing until April 2022 at Farm A. Hence, the values for October, November and December 2021 are removed. This narrowed dataset consists of 31,703 observations; the number of utility accounts remained constant at 812 and the number of unique users stays constant at 620. 
 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
@@ -151,8 +151,6 @@ farm_data <- farm_data %>%
 
 ```
 
-
-
 ## Filtering Payment Methods
 
 For some accounts, both a credit card and direct deposit (ACH) payment methods were recorded for the same month. To remove these entries, we first flip the dataframe by utility account ID, then isolate the duplicates and only take the payment method for direct deposit, however using credit card payment as the method would result in the same outcome, as the underlying performance or attribute data does not differ. 
@@ -167,7 +165,7 @@ For some accounts, both a credit card and direct deposit (ACH) payment methods w
 flipped <- farm_data %>%
   group_by(utility_acct_number) %>%
   summarise(
-            n= n(),
+            n=n(),
             ParticipantID = max(ParticipantID),
             tenure = length(unique(date_concat)), #measures number of months each utility account is observed in the 'farm_data' df
             payment_method = unique(payment_type),
@@ -179,36 +177,30 @@ flipped <- farm_data %>%
             Default = max(default_dummy),
             solar_farm = unique(solar_farm_name)
             ) %>%
-  mutate(
+    mutate(
     count_user_id = n()) 
 
+
 ## filter out the duplicates
-
-
 dupes <- flipped %>%
   filter(count_user_id == 2) %>%
   # duplicates are removed by only chosing the ACH payment method, there were duplicate 'card' payment entries 
   filter(payment_method == "ach")
 
+
 no_dupes <- flipped %>%
   filter(count_user_id==1) 
 
+
+
+
 ```
-
-
-
-
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ## join back with the main data
-
 joined <- rbind(no_dupes, dupes) %>%
   select(-n,-count_user_id) 
-
-
 ```
-
-
 
 
 
@@ -228,7 +220,7 @@ The data has been grouped by utility account IDs. As seen in Table 2, the inform
 #### Table 2: Sample of Data Collected by Solstice
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-joined[200:210, ] %>%
+joined[231:241, ] %>%
     kbl(caption = "Table 2: Sample of Data Collected by Solstice",
       digits = 3, format.args = list(big.mark = ",",scientific = FALSE)) %>%
   kable_classic(full_width = T, html_font = "Cambria") %>%
@@ -237,13 +229,11 @@ joined[200:210, ] %>%
 
 To add additional data to the analysis, we contracted with Experian to provide additional demographic and socioeconomic data. This data was provided on the *Participant* level. Recall that multiple utility accounts may be held by a single participant. The data provided by Experian has a matching 'ParticipantID' tag, that corresponds to the Solstice data set. 
 
-Note: Not all Participants and Utility accounts are able to be appended, due to limited data availability from Experian. The 'pin rate' refers to the rate at which data is successfully collected for a record. For the 620 Participant_Ids, 506 received data, a pin rate of 81.6%. However, even succesfully pinned records did not receive full data, or possibly received an 'unknown' response. These differences are observed in Tables 4 and 5. 
+Note: Not all Participants and Utility accounts are able to be appended, due to limited data availability from Experian. The 'pin rate' refers to the rate at which data is successfully collected for a record. For the 620 Participant_Ids, 506 received data, a pin rate of 81.6%. However, even successfully pinned records did not receive full data, or possibly received an 'unknown' response. These differences are observed in Tables 4 and 5. 
 
 Data from Experian was provided for two different time periods, December 2020 and April 2022. The utility of having differing time periods is to allow for the secondary analysis, wherein change in credit scores is calculated and a difference of means test is conducted to determine if tenure in the solar farms is associated with any measurable change in credit score. An average credit score variable is created and used in the primary analysis as well. 
 
 For the primary analysis, all other non-credit score Experian data is appended to the Solstice data set at the December 2020 time frame. The December 2020 data is chosen for two reasons: firstly, little change is observed or expected to be observed in demographic data such as homeownership status, education, marriage, and gender; hence there is little difference in terms of model construction between using one or the other source. Secondly, and more importantly, the data provided as of December 2020 is slightly more complete, meaning fewer data are missing for fewer participants.  
-
-Finally, Solstice included additional non-SETO data to be scored by Experian to satisfy Experian minimum requirement requirements. It is essential to remove this data from the analysis. Participant IDs from 1-621 refer to SETO related entries; values > 621 are filtered out of the analysis. 
 
 Table 3 below shows a sample of the appended data. Note that VANTAGE_V4_SCORE.x refers to the Vantage Score as of April 2022, and VANTAGE_V4_SCORE.y refers to Vantage Scores as of December 2020. 
 
@@ -262,7 +252,6 @@ score_dec_20$period <- "December 2020"
 
 
 total_score <- merge(score_april_22,score_dec_20, by="PARTICIPANT_ID") %>%
-  filter(PARTICIPANT_ID <= 621) %>% #filter non-SETO Participants Out
   group_by(ParticipantID=PARTICIPANT_ID) %>%
   summarise(
             VANTAGE_V4_SCORE.x = VANTAGE_V4_SCORE.x, # .x refers to April 2022
@@ -447,7 +436,7 @@ head(final_joined) %>%
 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
-# The following code creates a dataframe "all_data" that adds the additional financial trade data provided by Experian. The 'premiers glossary' excel sheet has definitions for each of the premier variables. This data is not used in the analysis, just provided here for record. 
+# The following code creates a dataframe "all_data" that adds the additional 'premier attributes' data provided by Experian. The 'premiers glossary' excel sheet has definitions for each of the premier variables. This data is not used in the analysis, just provided here for record. 
 
 # Full Merge with Premiere Attributes
 
@@ -500,10 +489,7 @@ Average tenure for the entire dataset is just under two years (22 months). Table
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-#joined$tenure_length <- factor(joined$tenure_length, levels=c("Less than 6", "6-12", "12-24", "Over 24"))
 
-
-#levels(joined$tenure_length) <- c("Less than 6", "6-12", "12-24", "Over 24")
 
 temp <-
   all_data %>%
@@ -527,13 +513,16 @@ temp <-
          Renter = RENTER, Homeowner = HOMEOWNER, INCOME_INSIGHT_SCORE,
          `Average Vantage Score` = Vantage_Avg,
          `Vantage Score April 2022` =VANTAGE_V4_SCORE.x, 
-         `Vantage Score December 2020` =VANTAGE_V4_SCORE.y,`Vantage Score Change` = Vantage_Diff ) %>%
+         `Vantage Score December 2020` =VANTAGE_V4_SCORE.y,`Vantage Score Change` = Vantage_Diff )
+  
+temp$tenure_length_2 <- factor((temp$tenure_length_2),levels=c("< 6 Months", "6-12 Months", "12-24 Months", "Over 24 Months") )
+
+temp %>%
   tbl_summary(by = tenure_length_2, missing="no") %>%
   modify_header(label = "**Table 5: Summary Statistics by Tenure Length**") %>% 
   bold_labels() %>%
   add_overall()
 
-temp
 ```
 
 
@@ -612,7 +601,7 @@ stargazer(mod1,mod2,mod3, mod4, mod5, type = "html",  #we use html output to mat
 
 From Table 6, it is noticeable how tenure length, here measured logarithmically transformed, is consistently measured as statistically significant. This effect is measured even when controlling for a combination of demographic and socioeconomic variables. Increased tenure lengths are associated with decreased probability of churn. For example, in Model 4, taking the odds ratio of the monthly tenure variable, a one month increase in tenure, controlling for solar kWh, Education, income and marital status, is associated with a 14% decrease in the odds of churning. This is supported by the logit curve in the Discussion section. 
 
-This is one of the few statistically significant results observed in the analysis. The only other statistically significant variable was Gender. In model 5, Female account holders are associated 45% decrease in odds of churn, controlling for tenure, Vantage score, occupation and owning one's home. 
+This is one of the few statistically significant results observed in the analysis. The only other statistically significant variable was Gender. In model 2, Female account holders are associated 43% decrease in odds of churn, controlling for tenure, Vantage score, occupation and owning one's home. 
 
 No other variables were associated with statistically significant effects on probability of churn.
 
@@ -620,24 +609,25 @@ No other variables were associated with statistically significant effects on pro
 
 # Odds Ratio Calculation used in above paragraph
 
-## Tenure, Model 4
 
+## Tenure, Model 4
 a = mod4$coefficients[2]
 
 or_tenure_mod4 = exp(a[[1]])
 
 change_one_month_tenure = (or_tenure_mod4 - 1)*100
+
 change_one_month_tenure
 
-## Gender, Model 5
-
-
-a = mod5$coefficients[3]
+## Gender, Model 2
+a = mod2$coefficients[4]
 
 or_tenure_mod5 = exp(a[[1]])
 
 female_change = (or_tenure_mod5-1)
+
 female_change
+
 
 ```
 
