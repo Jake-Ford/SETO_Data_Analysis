@@ -1243,9 +1243,10 @@ pie+ scale_fill_brewer(palette="Blues")+
         axis.ticks = element_blank(),
         axis.title = element_blank(),
         panel.grid = element_blank(),
-
+        legend.text=element_text(size=15),
+        plot.title = element_text(size = 20, face = "bold")
        ) +
-  geom_text(size = 5, aes(label = (Pct)),
+  geom_text(size = 6, aes(label = (Pct)),
             position = position_stack(vjust = 0.5)) +
   coord_polar(theta = "y")  +
 #  ggtitle("Race of Community Priorities Survey")
@@ -1260,7 +1261,15 @@ pie+ scale_fill_brewer(palette="Blues")+
 
 ```{r}
 pie_data <- survey %>%
-  group_by(Race = x_race) %>%
+  mutate(Race_2 = case_when(
+    x_race == "01 White" ~ "White", 
+    x_race == "02 Black" ~ "Black", 
+    x_race == "03 Hispanic" ~ "Hispanic", 
+    x_race == "04 Asian" ~ "Asian", 
+    x_race == "05 Other POC" ~ "Other POC", 
+
+  )) %>%
+  group_by(Race = Race_2) %>%
   summarise(n=n()) %>%
   mutate( Pct = n/sum(n))
 pie_data$Pct <- paste(round(100*pie_data$Pct, 1), "%", sep="")
@@ -1287,6 +1296,8 @@ pie+
         axis.ticks = element_blank(),
         axis.title = element_blank(),
         panel.grid = element_blank(),
+        legend.text=element_text(size=15),
+        plot.title = element_text(size = 20, face = "bold")
 
        ) +
   geom_text(size = 5, aes(label = (Pct)),
@@ -1303,7 +1314,10 @@ pie+
 ```{r}
 pie_data <- survey %>%
   filter(x_hs != "03 Other") %>%
-  group_by(`Homeownership Status` = x_hs) %>%
+  mutate(temp_hs = case_when(
+         x_hs == "01 Homeowner" ~ "Homeowner", 
+         x_hs == "02 Renter" ~ "Renter")) %>%
+  group_by(`Homeownership Status` = temp_hs) %>%
   summarise(n=n()) %>%
   mutate( Pct = n/sum(n)) 
 pie_data$Pct <- paste(round(100*pie_data$Pct, 1), "%", sep="")
@@ -1329,12 +1343,83 @@ pie+
         axis.ticks = element_blank(),
         axis.title = element_blank(),
         panel.grid = element_blank(),
+        legend.text=element_text(size=15),
+        plot.title = element_text(size = 20, face = "bold")
 
        ) +
   geom_text(size=6,aes(label = (Pct),),
             position = position_stack(vjust = 0.5)) +
   coord_polar(theta = "y")  +
-  ggtitle("Homeownership Status of Community Priorities Survey")
+  ggtitle("Homeownership Status")
 
 
 ```
+
+
+Familiarity with CS by Income
+
+
+```{r}
+pie_data <- survey %>%
+  group_by(Income = x_inc) %>%
+  summarise(n=n(),
+          Pct_low_fam = sum(x_fam=="01 Less familiar"),
+          Pct_Hi_Fam = sum(x_fam == "02 More familiar")) %>%
+  mutate( Pct_Low = Pct_low_fam/sum(Pct_low_fam),
+          Pct_Hi = Pct_Hi_Fam/sum(Pct_Hi_Fam))
+
+#pie_data$Pct <- paste(round(100*pie_data$Pct, 1), "%", sep="")
+#pie_data$Pct <- percent(pie_data$Pct)
+
+pie_data
+
+pie_data_bars <- reshape::melt(pie_data, id.var="Income")
+
+chas_df <-reshape::melt(chas_data_11,id.var="state" )
+
+```
+
+```{r}
+
+pie_data_df <- data.frame(Income = c("High", "Moderate","Low","High", "Moderate","Low"),
+                          Order=c(1,2,3,1,2,3),
+                          Familiarity = c("Low", "Low", "Low", "High", "High", "High"),
+                          Percent = c(pie_data$Pct_Low, pie_data$Pct_Hi))
+
+#pie_data_df$Percent <- percent(pie_data_df$Percent)
+
+pie_data_df
+```
+
+
+```{r}
+ggplot(data = pie_data_df, aes(x = reorder(Income, -Order), y = Percent, fill = Familiarity )) + 
+       geom_bar(stat = 'identity', position = 'dodge')  + ylab("") + xlab("Income")+ theme_minimal() +
+      scale_y_continuous(labels = scales::percent) +
+      theme(
+         legend.text=element_text(size=15),
+         axis.text =  element_text(size=15),
+        plot.title = element_text(size = 20, face = "bold")
+
+       ) +
+      ggtitle("Familiarity with Community Solar by Income")
+
+
+```
+
+
+
+
+ theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_blank(),
+        panel.grid = element_blank(),
+        legend.text=element_text(size=15),
+        plot.title = element_text(size = 20, face = "bold")
+
+       ) +
+  geom_text(size=6,aes(label = (Pct),),
+            position = position_stack(vjust = 0.5))
+
+
+
