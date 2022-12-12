@@ -304,6 +304,9 @@ ggplotly(g)%>%
 
 ```
 
+```{r}
+getwd()
+```
 
 
 
@@ -318,9 +321,9 @@ ggplotly(g)%>%
 under_thirty <- c('T11_est4','T11_est5','T11_est76','T11_est18','T11_est19',
                   'T11_est32','T11_est33','T11_est47','T11_est48','T11_est61','T11_est62','T11_est75',sep="|")
 
-chas_name <- paste(input_folder, "3. Churn and Default/input/Central Hudson Preliminary Analysis/040/Table11.csv", sep="")
+chas_name <- paste(input_folder, "3. Churn and Default/Table11.csv", sep="")
 
-chas_data_11 <- read.csv(paste(input_folder, "3. Churn and Default/input/Central Hudson Preliminary Analysis/040/Table11.csv", sep=""))%>%
+chas_data_11 <- read.csv((chas_name))%>%
   filter(name %in% c("California", "Colorado", "Illinois", "Massachusetts", "Maryland",
                      "Minnesota", "New York", "Oregon")) %>%
   mutate( `1: Less than 30% AMI` = T11_est4 +T11_est5 + T11_est76 + T11_est18 + T11_est19 + 
@@ -1212,12 +1215,14 @@ eststo clear
 
 
 
-New pie chart 
 
 
 
 
-```{r}
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+
+#New pie chart 
 pie_data <- survey %>%
   group_by(Income = x_inc) %>%
   summarise(n=n()) %>%
@@ -1230,7 +1235,7 @@ pie_data
 ```
 
 
-```{r}
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 library(ggplot2)
 library(scales)
 # Barplot
@@ -1259,7 +1264,7 @@ pie+ scale_fill_brewer(palette="Blues")+
 
 
 
-```{r}
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 pie_data <- survey %>%
   mutate(Race_2 = case_when(
     x_race == "01 White" ~ "White", 
@@ -1280,7 +1285,7 @@ pie_data
 ```
 
 
-```{r}
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 library(ggplot2)
 library(scales)
 # Barplot
@@ -1311,7 +1316,7 @@ pie+
 
 
 
-```{r}
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 pie_data <- survey %>%
   filter(x_hs != "03 Other") %>%
   mutate(temp_hs = case_when(
@@ -1328,7 +1333,7 @@ pie_data
 ```
 
 
-```{r}
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 library(ggplot2)
 library(scales)
 # Barplot
@@ -1356,10 +1361,12 @@ pie+
 ```
 
 
-Familiarity with CS by Income
 
 
-```{r}
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+
+#Familiarity with CS by Income
+
 pie_data <- survey %>%
   group_by(Income = x_inc) %>%
   summarise(n=n(),

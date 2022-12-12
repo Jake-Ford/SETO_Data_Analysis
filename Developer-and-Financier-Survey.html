@@ -1,0 +1,3008 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="pandoc" />
+
+        <meta name="author" content="Jacob Ford, Solstice Data Scientist" />
+    
+        <meta name="date" content="2022-12-12" />
+    
+    <title>Developer and Financier Survey</title>
+
+        <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+        <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="site_libs/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="site_libs/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+        <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+        <script src="site_libs/navigation-1.1/tabsets.js"></script>
+        <link href="site_libs/magnific-popup-1.1.0/magnific-popup.css" rel="stylesheet" />
+        <script src="site_libs/magnific-popup-1.1.0/jquery.magnific-popup.min.js"></script>
+        <link href="site_libs/readthedown-0.1/readthedown.css" rel="stylesheet" />
+        <link href="site_libs/readthedown-0.1/readthedown_fonts_embed.css" rel="stylesheet" />
+        <script src="site_libs/readthedown-0.1/readthedown.js"></script>
+        <script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+        <script src="site_libs/plotly-binding-4.10.0/plotly.js"></script>
+        <script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+        <link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+        <script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+        <link href="site_libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+        <script src="site_libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+        <link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+        <script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
+        <link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+        <script src="site_libs/proj4-2.6.2/proj4.min.js"></script>
+        <script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+        <link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+        <script src="site_libs/leaflet-binding-2.1.1/leaflet.js"></script>
+        <script src="site_libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+        <script src="site_libs/leaflet-providers-plugin-2.1.1/leaflet-providers-plugin.js"></script>
+    
+    
+    
+    
+    <!-- tabsets -->
+    <script>
+      $(document).ready(function () {
+	  window.buildTabsets("toc");
+      });
+      $(document).ready(function () {
+	  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+	      $(this).parent().toggleClass('nav-tabs-open')
+	  });
+      });
+    </script>
+
+    <!-- code folding -->
+    
+    <!-- code download -->
+    
+    <!-- tabsets dropdown -->
+
+    <style type="text/css">
+      .tabset-dropdown > .nav-tabs {
+	  display: inline-table;
+	  max-height: 500px;
+	  min-height: 44px;
+	  overflow-y: auto;
+	  background: white;
+	  border: 1px solid #ddd;
+	  border-radius: 4px;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li.active:before {
+	  content: "";
+	  font-family: 'Glyphicons Halflings';
+	  display: inline-block;
+	  padding: 10px;
+	  border-right: 1px solid #ddd;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+	  content: "&#xe258;";
+	  border: none;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+	  content: "";
+	  font-family: 'Glyphicons Halflings';
+	  display: inline-block;
+	  padding: 10px;
+	  border-right: 1px solid #ddd;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li.active {
+	  display: block;
+      }
+
+      .tabset-dropdown > .nav-tabs > li.active a {
+  	  padding: 0 15px !important;
+      }
+
+      .tabset-dropdown > .nav-tabs > li > a,
+      .tabset-dropdown > .nav-tabs > li > a:focus,
+      .tabset-dropdown > .nav-tabs > li > a:hover {
+	  border: none;
+	  display: inline-block;
+	  border-radius: 4px;
+	  background-color: transparent;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+	  display: block;
+	  float: none;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li {
+	  display: none;
+	  margin-left: 0 !important;
+      }
+    </style>
+    
+</head>
+
+<body class="preload">
+
+   	
+         <!-- readthedown start -->   
+   <div id="content" data-toggle="wy-nav-shift">
+     <nav id="nav-top" role="navigation" aria-label="top navigation">
+       <a role="button" href="#" data-toggle="wy-nav-top"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
+     </nav>
+         
+   
+      
+      <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">SETO Data Analysis</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+        <a href="index.html">Home</a>
+      </li>
+      <li>
+        <a href="community_priorities.html">Community Priorities</a>
+      </li>
+      <li>
+        <a href="developer_and_financier.html">Developer and Financier Survey</a>
+      </li>
+      <li>
+        <a href="churn_and_default.html">Churn and Default</a>
+      </li>
+      <li>
+        <a href="survey_weights.html">Survey Weights</a>
+      </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container -->
+      </div><!--/.navbar -->
+        
+      <h1 class="title">Developer and Financier Survey</h1>
+      
+         <!-- readthedown authors -->
+   <div id="sidebar">
+    <h2><a href="#content">Developer and Financier Survey</a></h2>
+    <div id="toc">
+      <ul>
+      <li><a href="#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="#methods" id="toc-methods">Methods</a>
+      <ul>
+      <li><a href="#data-collection" id="toc-data-collection">Data
+      Collection</a></li>
+      </ul></li>
+      <li><a href="#results" id="toc-results">Results</a>
+      <ul>
+      <li><a href="#descriptive-statistics"
+      id="toc-descriptive-statistics">Descriptive Statistics</a>
+      <ul>
+      <li><a href="#cac" id="toc-cac">CAC</a></li>
+      <li><a href="#churn" id="toc-churn">Churn</a></li>
+      <li><a href="#default" id="toc-default">Default</a></li>
+      <li><a href="#communication"
+      id="toc-communication">Communication</a></li>
+      <li><a href="#lmi-id" id="toc-lmi-id">LMI ID</a></li>
+      <li><a href="#financing" id="toc-financing">Financing</a></li>
+      <li><a href="#section" id="toc-section"></a>
+      <ul>
+      <li><a href="#takeaways" id="toc-takeaways">Takeaways</a></li>
+      <li><a href="#bar-charts" id="toc-bar-charts">Bar Charts</a></li>
+      </ul></li>
+      <li><a
+      href="#factors-influence-decision-to-include-lmi-in-projects"
+      id="toc-factors-influence-decision-to-include-lmi-in-projects">Factors:
+      Influence decision to include LMI in projects</a>
+      <ul>
+      <li><a href="#policy" id="toc-policy">Policy</a></li>
+      <li><a href="#community-interest"
+      id="toc-community-interest">Community Interest</a></li>
+      <li><a href="#financier-interest"
+      id="toc-financier-interest">Financier Interest</a></li>
+      <li><a href="#company-interest" id="toc-company-interest">Company
+      Interest</a></li>
+      <li><a href="#equity" id="toc-equity">Equity</a></li>
+      </ul></li>
+      <li><a href="#section-1" id="toc-section-1"></a>
+      <ul>
+      <li><a href="#takeaways-1" id="toc-takeaways-1">Takeaways</a></li>
+      <li><a href="#bar-charts-1" id="toc-bar-charts-1">Bar
+      Charts</a></li>
+      </ul></li>
+      <li><a href="#factors-fill-out-cs-projects-quickly"
+      id="toc-factors-fill-out-cs-projects-quickly">Factors: Fill out CS
+      Projects Quickly</a>
+      <ul>
+      <li><a href="#savings-rate" id="toc-savings-rate">Savings
+      rate</a></li>
+      <li><a href="#term-length" id="toc-term-length">Term
+      length</a></li>
+      <li><a href="#cancel-fee" id="toc-cancel-fee">Cancel fee</a></li>
+      <li><a href="#no-on-bill-credit" id="toc-no-on-bill-credit">No
+      On-bill credit</a></li>
+      <li><a href="#on-bill-credit" id="toc-on-bill-credit">On-bill
+      credit</a></li>
+      <li><a href="#contract-complex" id="toc-contract-complex">Contract
+      complex</a></li>
+      <li><a href="#trust" id="toc-trust">Trust</a></li>
+      </ul></li>
+      <li><a href="#section-2" id="toc-section-2"></a>
+      <ul>
+      <li><a href="#takeaways-2" id="toc-takeaways-2">Takeaways</a></li>
+      <li><a href="#bar-charts-2" id="toc-bar-charts-2">Bar
+      Charts</a></li>
+      </ul></li>
+      </ul></li>
+      </ul></li>
+      <li><a href="#discussion" id="toc-discussion">Discussion</a>
+      <ul>
+      <li><a href="#respondent-map" id="toc-respondent-map">Respondent
+      Map</a></li>
+      </ul></li>
+      </ul>
+    </div>
+    <div id="postamble" data-toggle="wy-nav-shift" class="status">
+                  <p class="author"><span class="glyphicon glyphicon-user"></span> Jacob
+Ford, Solstice Data Scientist</p>
+                        <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-12-12</p>
+          </div>
+   </div>
+     
+
+   
+      
+   
+<!-- Don't indent these lines or it will mess pre blocks indentation --> 
+<div id="main">
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Entities providing financial capital needed to site potential land
+plots, conduct environmental impact analyses, and fund construction are
+essential to community solar farms. While the Community Priorities
+survey reached out to potential customers, this element of the research
+seeks to establish qualitative measures of developer and financier
+preferences and perceived barriers to better serving LMI population.</p>
+</div>
+<div id="methods" class="section level1">
+<h1>Methods</h1>
+<p>Due to the exploratory nature of this research, we intends to leave
+analyses associated with the developer and financier component of this
+research unstructured in part. As a result of the expected small sample
+size, described in more detail below, we do not expect to be able to
+test for significance between observations. Rather, this analysis will
+be conducted through a detailed analysis of primary data collected via
+survey responses. Absence of existing published data detailing limiting
+factors and decision points related to constructing community solar
+subscriber agreements makes it difficult to establish a baseline in
+order to conduct hypotheses-generated analyses as outlined in previous
+sections. This research takes a grounded theory approach to construct
+theory through primary data collection and subsequent comparative
+analysis.</p>
+<p>The primary outcome of this research will be collecting and analyzing
+average terms used by solar developers and financiers in existing
+community solar contracts. The secondary outcome of the survey responses
+from developers and financiers will be measured by variables suggested
+to influence and limit offerings for existing community solar
+products.</p>
+<p>The developer and financier research consists of an analysis of
+survey data in which each respondent was asked to provide estimated
+community solar contract attributes, including estimated savings rate,
+term length and cancellation fee. Respondents were asked if these rates
+differ when being offered to LMI respondents, and if the difference was
+positive or negative relative to the general population. Finally,
+information was collected regarding feedback on potential loan loss
+reserve characteristics, including ideal length of time and total
+project revenue to be covered.</p>
+<p>Additionally, community solar access for LMI population is
+qualitatively coded using a Likert scale, by which respondents recorded
+the relative degree of importance. These factorized survey questions
+included three main sections. The first related to a variety of factors
+that may influence the respondents ability to make community solar
+projects accessible to LMI populations. Secondly, which internal factors
+were most important that lead to the inclusion of LMI populations.
+Finally, what factors effect the project’s ability to fill out
+enrollment in a timely and efficient manner.</p>
+<div id="data-collection" class="section level2">
+<h2>Data Collection</h2>
+<p>There were 254 unique responses.</p>
+</div>
+</div>
+<div id="results" class="section level1">
+<h1>Results</h1>
+<div id="descriptive-statistics" class="section level2">
+<h2>Descriptive Statistics</h2>
+<style>
+### Savings Rate
+{
+   display: none;
+ }
+</style>
+<div id="ccxgghglgm" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#ccxgghglgm .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ccxgghglgm .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ccxgghglgm .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ccxgghglgm .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ccxgghglgm .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ccxgghglgm .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ccxgghglgm .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ccxgghglgm .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ccxgghglgm .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ccxgghglgm .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ccxgghglgm .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ccxgghglgm .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ccxgghglgm .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ccxgghglgm .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ccxgghglgm .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ccxgghglgm .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ccxgghglgm .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ccxgghglgm .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#ccxgghglgm .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#ccxgghglgm .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ccxgghglgm .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#ccxgghglgm .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#ccxgghglgm .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ccxgghglgm .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ccxgghglgm .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ccxgghglgm .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ccxgghglgm .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ccxgghglgm .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ccxgghglgm .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ccxgghglgm .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ccxgghglgm .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ccxgghglgm .gt_left {
+  text-align: left;
+}
+
+#ccxgghglgm .gt_center {
+  text-align: center;
+}
+
+#ccxgghglgm .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ccxgghglgm .gt_font_normal {
+  font-weight: normal;
+}
+
+#ccxgghglgm .gt_font_bold {
+  font-weight: bold;
+}
+
+#ccxgghglgm .gt_font_italic {
+  font-style: italic;
+}
+
+#ccxgghglgm .gt_super {
+  font-size: 65%;
+}
+
+#ccxgghglgm .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#ccxgghglgm .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#ccxgghglgm .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#ccxgghglgm .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#ccxgghglgm .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#ccxgghglgm .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Table 1: Average Savings Rate by Rates Differing for LMI Customers</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Yes</strong>, N = 92<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>No</strong>, N = 108<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Unsure</strong>, N = 9<sup class="gt_footnote_marks">1</sup></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Savings Rate</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">0-5% savings per month</td>
+<td class="gt_row gt_center">4 (4.3%)</td>
+<td class="gt_row gt_center">2 (1.9%)</td>
+<td class="gt_row gt_center">0 (0%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">6-10% savings per month</td>
+<td class="gt_row gt_center">28 (30%)</td>
+<td class="gt_row gt_center">34 (31%)</td>
+<td class="gt_row gt_center">4 (44%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">11-15% savings per month</td>
+<td class="gt_row gt_center">25 (27%)</td>
+<td class="gt_row gt_center">41 (38%)</td>
+<td class="gt_row gt_center">3 (33%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">16-20% savings per month</td>
+<td class="gt_row gt_center">23 (25%)</td>
+<td class="gt_row gt_center">26 (24%)</td>
+<td class="gt_row gt_center">2 (22%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">21-50% savings per month</td>
+<td class="gt_row gt_center">12 (13%)</td>
+<td class="gt_row gt_center">5 (4.6%)</td>
+<td class="gt_row gt_center">0 (0%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">If Differ, higher or lower</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Higher savings</td>
+<td class="gt_row gt_center">43 (47%)</td>
+<td class="gt_row gt_center">0 (NA%)</td>
+<td class="gt_row gt_center">0 (NA%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Lower savings</td>
+<td class="gt_row gt_center">49 (53%)</td>
+<td class="gt_row gt_center">0 (NA%)</td>
+<td class="gt_row gt_center">0 (NA%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Unknown</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">108</td>
+<td class="gt_row gt_center">9</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="4"><sup class="gt_footnote_marks">1</sup> n (%)</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<p>Average market wide savings rate are shown in Table 1.</p>
+<p><em>to-do</em> add takeaways for Table 1</p>
+<style>
+### Term Length
+{
+   display: none;
+ }
+</style>
+<div id="ywuhxxvyer" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#ywuhxxvyer .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ywuhxxvyer .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ywuhxxvyer .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ywuhxxvyer .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ywuhxxvyer .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ywuhxxvyer .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ywuhxxvyer .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ywuhxxvyer .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ywuhxxvyer .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ywuhxxvyer .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ywuhxxvyer .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ywuhxxvyer .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ywuhxxvyer .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ywuhxxvyer .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ywuhxxvyer .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ywuhxxvyer .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ywuhxxvyer .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ywuhxxvyer .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#ywuhxxvyer .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#ywuhxxvyer .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ywuhxxvyer .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#ywuhxxvyer .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#ywuhxxvyer .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ywuhxxvyer .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ywuhxxvyer .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ywuhxxvyer .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ywuhxxvyer .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ywuhxxvyer .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ywuhxxvyer .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ywuhxxvyer .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ywuhxxvyer .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ywuhxxvyer .gt_left {
+  text-align: left;
+}
+
+#ywuhxxvyer .gt_center {
+  text-align: center;
+}
+
+#ywuhxxvyer .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ywuhxxvyer .gt_font_normal {
+  font-weight: normal;
+}
+
+#ywuhxxvyer .gt_font_bold {
+  font-weight: bold;
+}
+
+#ywuhxxvyer .gt_font_italic {
+  font-style: italic;
+}
+
+#ywuhxxvyer .gt_super {
+  font-size: 65%;
+}
+
+#ywuhxxvyer .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#ywuhxxvyer .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#ywuhxxvyer .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#ywuhxxvyer .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#ywuhxxvyer .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#ywuhxxvyer .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Table 2: Average Term Rate by Term Differing for LMI Customers</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Yes</strong>, N = 95<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>No</strong>, N = 111<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Unsure</strong>, N = 2<sup class="gt_footnote_marks">1</sup></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Term Length</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">No minimum length</td>
+<td class="gt_row gt_center">1 (1.1%)</td>
+<td class="gt_row gt_center">9 (8.1%)</td>
+<td class="gt_row gt_center">0 (0%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">1-3 years</td>
+<td class="gt_row gt_center">10 (11%)</td>
+<td class="gt_row gt_center">9 (8.1%)</td>
+<td class="gt_row gt_center">0 (0%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">4-6 years</td>
+<td class="gt_row gt_center">38 (40%)</td>
+<td class="gt_row gt_center">35 (32%)</td>
+<td class="gt_row gt_center">1 (50%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">7-10 years</td>
+<td class="gt_row gt_center">23 (24%)</td>
+<td class="gt_row gt_center">37 (33%)</td>
+<td class="gt_row gt_center">0 (0%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">11-15 years</td>
+<td class="gt_row gt_center">15 (16%)</td>
+<td class="gt_row gt_center">16 (14%)</td>
+<td class="gt_row gt_center">0 (0%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">16-20 years</td>
+<td class="gt_row gt_center">4 (4.2%)</td>
+<td class="gt_row gt_center">3 (2.7%)</td>
+<td class="gt_row gt_center">0 (0%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">20 or more years</td>
+<td class="gt_row gt_center">4 (4.2%)</td>
+<td class="gt_row gt_center">2 (1.8%)</td>
+<td class="gt_row gt_center">1 (50%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">If Differ, higher or lower</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Longer terms</td>
+<td class="gt_row gt_center">55 (58%)</td>
+<td class="gt_row gt_center">0 (NA%)</td>
+<td class="gt_row gt_center">0 (NA%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Shorter terms</td>
+<td class="gt_row gt_center">40 (42%)</td>
+<td class="gt_row gt_center">0 (NA%)</td>
+<td class="gt_row gt_center">0 (NA%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Unknown</td>
+<td class="gt_row gt_center">0</td>
+<td class="gt_row gt_center">111</td>
+<td class="gt_row gt_center">2</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="4"><sup class="gt_footnote_marks">1</sup> n (%)</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<p>Average market term lengths are shown in Table 2. For those
+respondents who marked that term rates differ for LMI customers, the
+majority (58%) noted the term lengths are longer relative to the general
+population.</p>
+<p><em>to-do</em> add takeaways for Table 2</p>
+<style>
+### Cancellation Fee
+{
+   display: none;
+ }
+</style>
+<div id="mmokmtohhh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#mmokmtohhh .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#mmokmtohhh .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#mmokmtohhh .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#mmokmtohhh .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#mmokmtohhh .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mmokmtohhh .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#mmokmtohhh .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#mmokmtohhh .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#mmokmtohhh .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#mmokmtohhh .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#mmokmtohhh .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#mmokmtohhh .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#mmokmtohhh .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#mmokmtohhh .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#mmokmtohhh .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#mmokmtohhh .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#mmokmtohhh .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mmokmtohhh .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#mmokmtohhh .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#mmokmtohhh .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mmokmtohhh .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#mmokmtohhh .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#mmokmtohhh .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mmokmtohhh .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mmokmtohhh .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#mmokmtohhh .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#mmokmtohhh .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mmokmtohhh .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#mmokmtohhh .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mmokmtohhh .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#mmokmtohhh .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mmokmtohhh .gt_left {
+  text-align: left;
+}
+
+#mmokmtohhh .gt_center {
+  text-align: center;
+}
+
+#mmokmtohhh .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#mmokmtohhh .gt_font_normal {
+  font-weight: normal;
+}
+
+#mmokmtohhh .gt_font_bold {
+  font-weight: bold;
+}
+
+#mmokmtohhh .gt_font_italic {
+  font-style: italic;
+}
+
+#mmokmtohhh .gt_super {
+  font-size: 65%;
+}
+
+#mmokmtohhh .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#mmokmtohhh .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#mmokmtohhh .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#mmokmtohhh .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#mmokmtohhh .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#mmokmtohhh .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Table 3: Average Cancellation Fee by Term Differing for LMI Customers</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Yes</strong>, N = 104<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>No</strong>, N = 100<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Unsure</strong>, N = 5<sup class="gt_footnote_marks">1</sup></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Cancellation Fee</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">No cancellation fee</td>
+<td class="gt_row gt_center">8 (7.7%)</td>
+<td class="gt_row gt_center">7 (7.0%)</td>
+<td class="gt_row gt_center">2 (40%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">$1-$100</td>
+<td class="gt_row gt_center">19 (18%)</td>
+<td class="gt_row gt_center">12 (12%)</td>
+<td class="gt_row gt_center">2 (40%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">$101-$250</td>
+<td class="gt_row gt_center">56 (54%)</td>
+<td class="gt_row gt_center">54 (54%)</td>
+<td class="gt_row gt_center">1 (20%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">$251-$500</td>
+<td class="gt_row gt_center">18 (17%)</td>
+<td class="gt_row gt_center">26 (26%)</td>
+<td class="gt_row gt_center">0 (0%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">$501-$1,000</td>
+<td class="gt_row gt_center">2 (1.9%)</td>
+<td class="gt_row gt_center">1 (1.0%)</td>
+<td class="gt_row gt_center">0 (0%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">More than $1,000</td>
+<td class="gt_row gt_center">1 (1.0%)</td>
+<td class="gt_row gt_center">0 (0%)</td>
+<td class="gt_row gt_center">0 (0%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">If Differ, higher or lower</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Higher cancellation fees</td>
+<td class="gt_row gt_center">24 (23%)</td>
+<td class="gt_row gt_center">0 (NA%)</td>
+<td class="gt_row gt_center">0 (NA%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Lower cancellation fees</td>
+<td class="gt_row gt_center">79 (77%)</td>
+<td class="gt_row gt_center">0 (NA%)</td>
+<td class="gt_row gt_center">0 (NA%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Unknown</td>
+<td class="gt_row gt_center">1</td>
+<td class="gt_row gt_center">100</td>
+<td class="gt_row gt_center">5</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="4"><sup class="gt_footnote_marks">1</sup> n (%)</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<p>Average cancellation fees are shown in Table 3. Respondents were
+recorded that cancellation rates were lower for LMI populations relative
+to the market average. As shown in Table 3, 77% of developers and
+financiers who responded that cancellation fees differed for LMI
+customers offer lower cancellation fees.</p>
+<p><em>to-do</em> add takeaways for Table 3</p>
+<style>
+### Churn and Default
+{
+   display: none;
+ }
+</style>
+<div id="kfxdjjszjl" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#kfxdjjszjl .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#kfxdjjszjl .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#kfxdjjszjl .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#kfxdjjszjl .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#kfxdjjszjl .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kfxdjjszjl .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#kfxdjjszjl .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#kfxdjjszjl .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#kfxdjjszjl .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#kfxdjjszjl .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#kfxdjjszjl .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#kfxdjjszjl .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#kfxdjjszjl .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#kfxdjjszjl .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#kfxdjjszjl .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#kfxdjjszjl .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#kfxdjjszjl .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kfxdjjszjl .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#kfxdjjszjl .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#kfxdjjszjl .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kfxdjjszjl .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#kfxdjjszjl .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#kfxdjjszjl .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kfxdjjszjl .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kfxdjjszjl .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#kfxdjjszjl .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#kfxdjjszjl .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kfxdjjszjl .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#kfxdjjszjl .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kfxdjjszjl .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#kfxdjjszjl .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kfxdjjszjl .gt_left {
+  text-align: left;
+}
+
+#kfxdjjszjl .gt_center {
+  text-align: center;
+}
+
+#kfxdjjszjl .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#kfxdjjszjl .gt_font_normal {
+  font-weight: normal;
+}
+
+#kfxdjjszjl .gt_font_bold {
+  font-weight: bold;
+}
+
+#kfxdjjszjl .gt_font_italic {
+  font-style: italic;
+}
+
+#kfxdjjszjl .gt_super {
+  font-size: 65%;
+}
+
+#kfxdjjszjl .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#kfxdjjszjl .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#kfxdjjszjl .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#kfxdjjszjl .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#kfxdjjszjl .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#kfxdjjszjl .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Table 4: Average Churn and Default Rates</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>N = 209</strong><sup class="gt_footnote_marks">1</sup></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Estimated default rate for Market</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">0-2%</td>
+<td class="gt_row gt_center">6 (2.9%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">3-5%</td>
+<td class="gt_row gt_center">84 (40%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">6-8%</td>
+<td class="gt_row gt_center">98 (47%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">9-11%</td>
+<td class="gt_row gt_center">16 (7.7%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Unsure</td>
+<td class="gt_row gt_center">5 (2.4%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Estimated default rate for LMI</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;"></td>
+<td class="gt_row gt_center">4 (1.9%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">0-2%</td>
+<td class="gt_row gt_center">4 (1.9%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">3-5%</td>
+<td class="gt_row gt_center">63 (30%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">6-8%</td>
+<td class="gt_row gt_center">106 (51%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">9-11%</td>
+<td class="gt_row gt_center">24 (11%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Unsure</td>
+<td class="gt_row gt_center">8 (3.8%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Highest Churn Rate by Project Phase</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;"></td>
+<td class="gt_row gt_center">2 (1.0%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">After 5 years</td>
+<td class="gt_row gt_center">4 (1.9%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Prior to COD</td>
+<td class="gt_row gt_center">7 (3.3%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Within 1-3 years</td>
+<td class="gt_row gt_center">93 (44%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Within 3-5 years</td>
+<td class="gt_row gt_center">36 (17%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Within first year of operation</td>
+<td class="gt_row gt_center">67 (32%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Highest Default Rate by Project Phase</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;"></td>
+<td class="gt_row gt_center">5 (2.4%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">After 5 years</td>
+<td class="gt_row gt_center">6 (2.9%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Prior to COD</td>
+<td class="gt_row gt_center">3 (1.4%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Within 1-3 years</td>
+<td class="gt_row gt_center">103 (49%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Within 3-5 years</td>
+<td class="gt_row gt_center">39 (19%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Within first year of operation</td>
+<td class="gt_row gt_center">53 (25%)</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="2"><sup class="gt_footnote_marks">1</sup> n (%)</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<p>When asked to estimate the default rates for community solar
+customers, the difference for general market and LMI population is
+stark. When asked to estimate default rates for the general market,
+nearly 90% of respondents estimated that default rates would be below
+8%. For LMI customers, the proportional total fell to 83% of
+respondents.</p>
+<p><em>to-do</em> add takeaways for Table 4</p>
+<style>
+### Loan Loss Reserve
+{
+   display: none;
+ }
+</style>
+<div id="oodwfgjfbn" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#oodwfgjfbn .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#oodwfgjfbn .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#oodwfgjfbn .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#oodwfgjfbn .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#oodwfgjfbn .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#oodwfgjfbn .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#oodwfgjfbn .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#oodwfgjfbn .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#oodwfgjfbn .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#oodwfgjfbn .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#oodwfgjfbn .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#oodwfgjfbn .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#oodwfgjfbn .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#oodwfgjfbn .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#oodwfgjfbn .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#oodwfgjfbn .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#oodwfgjfbn .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#oodwfgjfbn .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#oodwfgjfbn .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#oodwfgjfbn .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#oodwfgjfbn .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#oodwfgjfbn .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#oodwfgjfbn .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#oodwfgjfbn .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#oodwfgjfbn .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#oodwfgjfbn .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#oodwfgjfbn .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#oodwfgjfbn .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#oodwfgjfbn .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#oodwfgjfbn .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#oodwfgjfbn .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#oodwfgjfbn .gt_left {
+  text-align: left;
+}
+
+#oodwfgjfbn .gt_center {
+  text-align: center;
+}
+
+#oodwfgjfbn .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#oodwfgjfbn .gt_font_normal {
+  font-weight: normal;
+}
+
+#oodwfgjfbn .gt_font_bold {
+  font-weight: bold;
+}
+
+#oodwfgjfbn .gt_font_italic {
+  font-style: italic;
+}
+
+#oodwfgjfbn .gt_super {
+  font-size: 65%;
+}
+
+#oodwfgjfbn .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#oodwfgjfbn .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#oodwfgjfbn .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#oodwfgjfbn .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#oodwfgjfbn .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#oodwfgjfbn .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Table 5: Loan Loss Reserve</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>N = 190</strong><sup class="gt_footnote_marks">1</sup></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Importance of Loan Loss Reserve</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Extremely likely</td>
+<td class="gt_row gt_center">16 (8.4%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Moderately likely</td>
+<td class="gt_row gt_center">60 (32%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Moderately unlikely</td>
+<td class="gt_row gt_center">4 (2.1%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Neither likely nor unlikely</td>
+<td class="gt_row gt_center">26 (14%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Slightly likely</td>
+<td class="gt_row gt_center">57 (30%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Slightly unlikely</td>
+<td class="gt_row gt_center">27 (14%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Ideal Percentage of Loan Loss Reserve</td>
+<td class="gt_row gt_center">37 (22)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Ideal Coverage Time</td>
+<td class="gt_row gt_center">9 (14)</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="2"><sup class="gt_footnote_marks">1</sup> n (%); Mean (SD)</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<style>
+### Ability to make CS Accessible to LMI
+{
+   display: none;
+ }
+</style>
+<style>
+### Factors Influence Decision to include LMI
+{
+   display: none;
+ }
+</style>
+<style>
+### Factors to Fill out CS Projects Quickly
+{
+   display: none;
+ }
+</style>
+<style>
+#### Savings Rate
+{
+   display: none;
+ }
+</style>
+<p>34.4% of respondents marked savings rate from 0-10%; 33% recorded
+11-15%, and 32.5% answered 16-50%. Hence, nearly two-thirds of
+respondents recorded over 10% for savings rate for community solar.</p>
+<style>
+#### Term Length
+{
+   display: none;
+ }
+</style>
+<style>
+#### Cancellation Fee
+{
+   display: none;
+ }
+</style>
+<style>
+## Pie Charts
+{
+   display: none;
+ }
+</style>
+<style>
+### Factors: Ability to make CS accessibility to LMI {.tabset}
+{
+   display: none;
+ }
+</style>
+<div id="cac" class="section level4">
+<h4>CAC</h4>
+</div>
+<div id="churn" class="section level4">
+<h4>Churn</h4>
+</div>
+<div id="default" class="section level4">
+<h4>Default</h4>
+</div>
+<div id="communication" class="section level4">
+<h4>Communication</h4>
+</div>
+<div id="lmi-id" class="section level4">
+<h4>LMI ID</h4>
+</div>
+<div id="financing" class="section level4">
+<h4>Financing</h4>
+</div>
+<div id="section" class="section level3 unnumbered">
+<h3 class="unnumbered"></h3>
+<div id="takeaways" class="section level4">
+<h4>Takeaways</h4>
+<ol style="list-style-type: decimal">
+<li><p>Customer aqcuisition costs (CAC) was the strongest factor, with
+55.5% responding as either very or extremely important.</p></li>
+<li><p>Defaults were relatively less important, nearly a quarter (23.6%)
+responding that it was either not at all or slightly important. When
+compared to threat of churn, respondents shifted from slightly to
+moderately important, implying that churn is more of a concern compared
+to default.</p></li>
+</ol>
+</div>
+<div id="bar-charts" class="section level4">
+<h4>Bar Charts</h4>
+<p><img src="Developer-and-Financier-Survey_files/figure-html/unnamed-chunk-31-1.png" width="768" /><img src="Developer-and-Financier-Survey_files/figure-html/unnamed-chunk-31-2.png" width="768" /></p>
+</div>
+</div>
+<div id="factors-influence-decision-to-include-lmi-in-projects"
+class="section level3 tabset">
+<h3 class="tabset">Factors: Influence decision to include LMI in
+projects</h3>
+<div id="policy" class="section level4">
+<h4>Policy</h4>
+<div id="htmlwidget-ca45091f984d4cc21c22" style="width:768px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ca45091f984d4cc21c22">{"x":{"visdat":{"17771f5b4f1c":["function () ","plotlyVisDat"]},"cur_data":"17771f5b4f1c","attrs":{"17771f5b4f1c":{"labels":{},"values":{},"sort":false,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Policy/Program Requirements","xaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"yaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["Not at all important","Slightly important","Moderately important","Very important","Extremely important"],"values":[2,20,58,93,44],"sort":false,"type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="community-interest" class="section level4">
+<h4>Community Interest</h4>
+<div id="htmlwidget-e89f68f35ba0bfafccb0" style="width:768px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e89f68f35ba0bfafccb0">{"x":{"visdat":{"17771a69b658":["function () ","plotlyVisDat"]},"cur_data":"17771a69b658","attrs":{"17771a69b658":{"labels":{},"values":{},"sort":false,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Community Interest","xaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"yaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["Not at all important","Slightly important","Moderately important","Very important","Extremely important"],"values":[5,21,97,61,33],"sort":false,"type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="financier-interest" class="section level4">
+<h4>Financier Interest</h4>
+<div id="htmlwidget-67d3b4bb71ec23c3a2ae" style="width:768px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-67d3b4bb71ec23c3a2ae">{"x":{"visdat":{"177741de0489":["function () ","plotlyVisDat"]},"cur_data":"177741de0489","attrs":{"177741de0489":{"labels":{},"values":{},"sort":false,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Financier/Investor Interest","xaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"yaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["Not at all important","Slightly important","Moderately important","Very important","Extremely important"],"values":[5,33,65,79,34],"sort":false,"type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="company-interest" class="section level4">
+<h4>Company Interest</h4>
+<div id="htmlwidget-faa20ed5304c1876fab2" style="width:768px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-faa20ed5304c1876fab2">{"x":{"visdat":{"177732394d0e":["function () ","plotlyVisDat"]},"cur_data":"177732394d0e","attrs":{"177732394d0e":{"labels":{},"values":{},"sort":false,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Company Interest","xaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"yaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["Not at all important","Slightly important","Moderately important","Very important","Extremely important"],"values":[4,33,71,67,42],"sort":false,"type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="equity" class="section level4">
+<h4>Equity</h4>
+<div id="htmlwidget-fa84387a63863dc44f05" style="width:768px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-fa84387a63863dc44f05">{"x":{"visdat":{"177713b5eebd":["function () ","plotlyVisDat"]},"cur_data":"177713b5eebd","attrs":{"177713b5eebd":{"labels":{},"values":{},"sort":false,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Equity and Inclusion","xaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"yaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["Not at all important","Slightly important","Moderately important","Very important","Extremely important"],"values":[7,30,54,85,42],"sort":false,"type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="section-1" class="section level3 unnumbered">
+<h3 class="unnumbered"></h3>
+<div id="takeaways-1" class="section level4">
+<h4>Takeaways</h4>
+<ol style="list-style-type: decimal">
+<li><p>For factors influencing the decision to include LMI households in
+CS projects, the most common answer was policy requirements and
+equity/inclusion efforts, with 63% and 58% or respondents marking these
+as very or extremely important, respectively.</p></li>
+<li><p>Community interest exhibited a large degree of moderate
+importance, with 44.7% of respondents, whereas only 43% respondents
+marked it as either very or extremely important, the smallest proportion
+exhibited in each of the five questions.</p></li>
+</ol>
+</div>
+<div id="bar-charts-1" class="section level4">
+<h4>Bar Charts</h4>
+<p><img src="Developer-and-Financier-Survey_files/figure-html/unnamed-chunk-40-1.png" width="768" /><img src="Developer-and-Financier-Survey_files/figure-html/unnamed-chunk-40-2.png" width="768" /></p>
+</div>
+</div>
+<div id="factors-fill-out-cs-projects-quickly"
+class="section level3 tabset">
+<h3 class="tabset">Factors: Fill out CS Projects Quickly</h3>
+<div id="savings-rate" class="section level4">
+<h4>Savings rate</h4>
+<div id="htmlwidget-36287a0da8dd50ae7980" style="width:768px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-36287a0da8dd50ae7980">{"x":{"visdat":{"177723f42890":["function () ","plotlyVisDat"]},"cur_data":"177723f42890","attrs":{"177723f42890":{"labels":{},"values":{},"sort":false,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Savings rate","xaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"yaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["Definitely not","Probably not","Might or might not","Probably yes","Definitely yes"],"values":[4,25,70,79,39],"sort":false,"type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="term-length" class="section level4">
+<h4>Term length</h4>
+<div id="htmlwidget-08a1ec8c880ed3fd32c9" style="width:768px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-08a1ec8c880ed3fd32c9">{"x":{"visdat":{"177717258164":["function () ","plotlyVisDat"]},"cur_data":"177717258164","attrs":{"177717258164":{"labels":{},"values":{},"sort":false,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Contract term length","xaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"yaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["Definitely not","Probably not","Might or might not","Probably yes","Definitely yes"],"values":[0,24,72,73,47],"sort":false,"type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="cancel-fee" class="section level4">
+<h4>Cancel fee</h4>
+<div id="htmlwidget-afdf4fe607d2a6f6a89b" style="width:768px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-afdf4fe607d2a6f6a89b">{"x":{"visdat":{"17773642e4ad":["function () ","plotlyVisDat"]},"cur_data":"17773642e4ad","attrs":{"17773642e4ad":{"labels":{},"values":{},"sort":false,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Cancellation fees","xaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"yaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["Definitely not","Probably not","Might or might not","Probably yes","Definitely yes"],"values":[6,29,61,79,40],"sort":false,"type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="no-on-bill-credit" class="section level4">
+<h4>No On-bill credit</h4>
+<div id="htmlwidget-8969f10fa22bf88c7298" style="width:768px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8969f10fa22bf88c7298">{"x":{"visdat":{"17773c89a645":["function () ","plotlyVisDat"]},"cur_data":"17773c89a645","attrs":{"17773c89a645":{"labels":{},"values":{},"sort":false,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Lack of on-bill crediting","xaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"yaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["Definitely not","Probably not","Might or might not","Probably yes","Definitely yes"],"values":[9,17,69,91,28],"sort":false,"type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="on-bill-credit" class="section level4">
+<h4>On-bill credit</h4>
+<div id="htmlwidget-3bfb54b21c6e60490994" style="width:768px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3bfb54b21c6e60490994">{"x":{"visdat":{"17772e5afc0":["function () ","plotlyVisDat"]},"cur_data":"17772e5afc0","attrs":{"17772e5afc0":{"labels":{},"values":{},"sort":false,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Presence of on-bill crediting","xaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"yaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["Definitely not","Probably not","Might or might not","Probably yes","Definitely yes"],"values":[4,20,67,86,40],"sort":false,"type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="contract-complex" class="section level4">
+<h4>Contract complex</h4>
+<div id="htmlwidget-a3713faddc47e41a65cd" style="width:768px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a3713faddc47e41a65cd">{"x":{"visdat":{"17772eed830f":["function () ","plotlyVisDat"]},"cur_data":"17772eed830f","attrs":{"17772eed830f":{"labels":{},"values":{},"sort":false,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Contract complexity/length","xaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"yaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["Definitely not","Probably not","Might or might not","Probably yes","Definitely yes"],"values":[4,34,61,81,36],"sort":false,"type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="trust" class="section level4">
+<h4>Trust</h4>
+<div id="htmlwidget-43dbe3a4df6ca24c8f97" style="width:768px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-43dbe3a4df6ca24c8f97">{"x":{"visdat":{"17772000234":["function () ","plotlyVisDat"]},"cur_data":"17772000234","attrs":{"17772000234":{"labels":{},"values":{},"sort":false,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Trust of developers or project owners","xaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"yaxis":{"showgrid":false,"zeroline":false,"showticklabels":false},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["Definitely not","Probably not","Might or might not","Probably yes","Definitely yes"],"values":[9,32,64,73,38],"sort":false,"type":"pie","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(255,255,255,1)"}},"frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="section-2" class="section level3 unnumbered">
+<h3 class="unnumbered"></h3>
+<div id="takeaways-2" class="section level4">
+<h4>Takeaways</h4>
+<ol style="list-style-type: decimal">
+<li>presence of on-bill credit for community solar projects exhibited
+the strongest positive response, with 58% of respondents recording it as
+probably or definitely impacted speed of CS projects being
+completed.</li>
+<li>Conversely, though marginally different, contract complexity and
+trust were the least powerful, with 17.6% and 19% of respondents,
+respectively, stating it either probably not or definitely did not have
+an effect on projects being quickly filled out.</li>
+</ol>
+</div>
+<div id="bar-charts-2" class="section level4">
+<h4>Bar Charts</h4>
+<p><img src="Developer-and-Financier-Survey_files/figure-html/unnamed-chunk-51-1.png" width="768" /><img src="Developer-and-Financier-Survey_files/figure-html/unnamed-chunk-51-2.png" width="768" /></p>
+<style>
+### Savings Rate for Market and LMI
+{
+   display: none;
+ }
+</style>
+<style>
+### Churn Rate for Market and LMI
+{
+   display: none;
+ }
+</style>
+<style>
+### Project stage by highest churn/default
+{
+   display: none;
+ }
+</style>
+<p>COD = commerical operational date (?)</p>
+<style>
+## Loan Loss Reserve {
+   display: none;
+ }
+</style>
+<style>
+### Alleviate Risk
+{
+   display: none;
+ }
+</style>
+<style>
+### Ideal Loan Loss Reserve
+{
+   display: none;
+ }
+</style>
+<p>-1</p>
+</div>
+</div>
+</div>
+</div>
+<div id="discussion" class="section level1">
+<h1>Discussion</h1>
+<div id="respondent-map" class="section level2">
+<h2>Respondent Map</h2>
+<p>Coordinates have been obfuscated to protect location.</p>
+<div id="htmlwidget-7184ba952f9976c40991" style="width:768px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7184ba952f9976c40991">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[40.78,42.74,40.79,38.81,32.63,37.89,37.55,38.96,34.04,42.45,43.06,45.01,40.73,36.17,39.76,40.54,39.7,39.45,37.75,39.92,33.74,32.55,39.6,39.69,38.47,38.79,40.7,34.74,38.41,37.74,37.3,39.69,42.34,38.57,30.43,42.49,39.74,40.51,45.29,37.39,37.39,42.24,34.11,39.05,39.69,37.37,40.86,39.08,42.93,39.37,37.62,45.48,42.47,45.48,45.52,37.26,37.84,37.68,41.84,39.84,38.53,40.87,34.05,38.89,47.62,34.01,34.01,33.29,32.83,34.1,48.24,40.68,40.65,40.62,40.6,43.54,33.7,30.59,30.52,40.63,40.74,41.41,48.31,33.69,41.44,39.49,29.94,29.74,34.2,44.3,33.94,40.09,30.05,36.7,40.82,44.78,39.37,29.75,45.52,40.66,38.63,44.9,45.6,30.46,40.66,38.96,44.9,45.48,45.48,40.97,47.02,33.93,30.35,33.72,47.6,34.71,34.11,30.35,35.44,38.77,39.17,32.91,46.6,37.37,34.01,40.58,37.49,38.74,38.81,38.63,39.3,30.65,34.71,33.32,34.74,47.38,38.86,30.21,33.93,33.58,44.59,47.63,39.68,30.31,34.03,32.76,38.55,42.01,41.51,41.19,32.55,34.74,33.11,41.92,41.8,33.75,33.93,33.86,42.52,38.99,49.22,35.07,29.9,49.14,49.26,54.52,49.27,42.26,50.08,49.23,43.68,44.83,39.28,48.31,39.49,33.69,29.46,30.39,37.39,34.2,32.93,44.3,33.94,30.05,34.1,33.88,36.22,40.36,29.55,33.51,42.98,45.48,40.64,43.58,30.52,33.75,34.12,29.41,33,34.29,47.14,47.66,40.05,34.74,32.59,32.61,44.9,42.64,37.75,37.78,37.68,41.87,37.78,39.84,44.69,33.93,47.53,32.97,42.01,38.37],[-96.65,-84.57,-74.06,-77.05,-116.94,-122.53,-122.27,-76.97,-84.02,-76.49,-73.74,-93.34,-73.51,-115.12,-105.03,-105.11,-104.84,-105.47,-97.82,-105.06,-87.06,-85.47,-105.97,-104.79,-107.88,-104.82,-73.62,-86.67,-121.43,-122.46,-122,-105.16,-122.85,-121.47,-97.83,-71.07,-104.99,-88.98,-122.77,-121.96,-121.96,-71.17,-118.09,-76.93,-104.91,-121.82,-73.89,-76.56,-76.56,-76.8,-122.48,-122.42,-70.98,-122.64,-122.42,-121.92,-122.24,-120.95,-88.08,-88.94,-90,-73.41,-118.27,-76.89,-122.14,-118.26,-117.44,-86.77,-97.1,-86.58,-101.3,-73.82,-73.72,-73.93,-74,-96.68,-84.37,-97.85,-86.48,-74.09,-73.99,-73.59,-122.63,-112,-73.68,-104.84,-95.26,-95.4,-118.54,-120.84,-84.08,-108.8,-95.37,-97.08,-72.99,-93.52,-76.8,-95.73,-122.64,-73.76,-76.88,-93.1,-121.19,-91.06,-73.76,-76.97,-93.1,-122.56,-122.56,-73.84,-122.78,-86.47,-81.51,-84,-122.34,-117.88,-84.5,-81.51,-89.78,-77.45,-108.72,-96.73,-96.07,-121.86,-118.34,-111.75,-120.86,-121.19,-121.26,-76.99,-76.64,-88.23,-86.74,-86.97,-86.67,-122.29,-77.06,-95.53,-86.47,-85.83,-123.27,-122.64,-104.96,-90.94,-84.15,-97.1,-90.33,-87.69,-90.43,-111.95,-85.47,-86.67,-86.76,-88.08,-87.71,-117.86,-86.47,-118.39,-92.45,-76.55,-122.62,-106.51,-95.65,-122.85,-122.93,-128.6,-122.87,-83.03,-118.94,-122.99,-79.35,-93.04,-76.74,-122.63,-104.84,-112,-95.03,-85.68,-94.72,-118.54,-97.25,-120.84,-84.08,-95.37,-86.58,-117.54,-85.54,-74.07,-95.73,-101.93,-87.89,-122.56,-74,-116.3,-97.67,-117.99,-117.9,-95.25,-96.83,-118.43,-119.29,-122.3,-122.1,-86.67,-86.22,-87.84,-93.37,-71.3,-122.44,-122.42,-122.48,-87.63,-122.47,-105,-73.46,-117.89,-92.53,-117.12,-87.84,-81.74],8,null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2},null,null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[29.41,54.52],"lng":[-128.6,-70.98]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+
+   
+   
+            
+      
+
+  <script>
+    $(document).ready(function () {
+
+			
+ 		
+	    });
+  </script>
+
+
+
+    <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+	var script = document.createElement("script");
+	script.type = "text/javascript";
+	script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+	document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+  
+</body>
+</html>
