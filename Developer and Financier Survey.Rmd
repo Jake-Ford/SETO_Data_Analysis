@@ -78,7 +78,7 @@ Additionally, community solar access for LMI population is qualitatively coded u
 ## Data Collection
 
 
- q
+
 There were 254 unique responses. 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}

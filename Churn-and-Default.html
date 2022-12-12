@@ -1,0 +1,4365 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="pandoc" />
+
+        <meta name="author" content="Jacob Ford, Solstice Data Scientist" />
+    
+        <meta name="date" content="2022-12-12" />
+    
+    <title>Churn and Default</title>
+
+        <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+        <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="site_libs/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="site_libs/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+        <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+        <script src="site_libs/navigation-1.1/tabsets.js"></script>
+        <link href="site_libs/magnific-popup-1.1.0/magnific-popup.css" rel="stylesheet" />
+        <script src="site_libs/magnific-popup-1.1.0/jquery.magnific-popup.min.js"></script>
+        <link href="site_libs/readthedown-0.1/readthedown.css" rel="stylesheet" />
+        <link href="site_libs/readthedown-0.1/readthedown_fonts_embed.css" rel="stylesheet" />
+        <script src="site_libs/readthedown-0.1/readthedown.js"></script>
+        <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+        <link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+    
+    
+    
+    
+    <!-- tabsets -->
+    <script>
+      $(document).ready(function () {
+	  window.buildTabsets("toc");
+      });
+      $(document).ready(function () {
+	  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+	      $(this).parent().toggleClass('nav-tabs-open')
+	  });
+      });
+    </script>
+
+    <!-- code folding -->
+    
+    <!-- code download -->
+    
+    <!-- tabsets dropdown -->
+
+    <style type="text/css">
+      .tabset-dropdown > .nav-tabs {
+	  display: inline-table;
+	  max-height: 500px;
+	  min-height: 44px;
+	  overflow-y: auto;
+	  background: white;
+	  border: 1px solid #ddd;
+	  border-radius: 4px;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li.active:before {
+	  content: "";
+	  font-family: 'Glyphicons Halflings';
+	  display: inline-block;
+	  padding: 10px;
+	  border-right: 1px solid #ddd;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+	  content: "&#xe258;";
+	  border: none;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+	  content: "";
+	  font-family: 'Glyphicons Halflings';
+	  display: inline-block;
+	  padding: 10px;
+	  border-right: 1px solid #ddd;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li.active {
+	  display: block;
+      }
+
+      .tabset-dropdown > .nav-tabs > li.active a {
+  	  padding: 0 15px !important;
+      }
+
+      .tabset-dropdown > .nav-tabs > li > a,
+      .tabset-dropdown > .nav-tabs > li > a:focus,
+      .tabset-dropdown > .nav-tabs > li > a:hover {
+	  border: none;
+	  display: inline-block;
+	  border-radius: 4px;
+	  background-color: transparent;
+      }
+      
+      .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+	  display: block;
+	  float: none;
+      }
+      
+      .tabset-dropdown > .nav-tabs > li {
+	  display: none;
+	  margin-left: 0 !important;
+      }
+    </style>
+    
+</head>
+
+<body class="preload">
+
+   	
+         <!-- readthedown start -->   
+   <div id="content" data-toggle="wy-nav-shift">
+     <nav id="nav-top" role="navigation" aria-label="top navigation">
+       <a role="button" href="#" data-toggle="wy-nav-top"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
+     </nav>
+         
+   
+      
+      <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">SETO Data Analysis</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+        <a href="index.html">Home</a>
+      </li>
+      <li>
+        <a href="community_priorities.html">Community Priorities</a>
+      </li>
+      <li>
+        <a href="developer_and_financier.html">Developer and Financier Survey</a>
+      </li>
+      <li>
+        <a href="churn_and_default.html">Churn and Default</a>
+      </li>
+      <li>
+        <a href="survey_weights.html">Survey Weights</a>
+      </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container -->
+      </div><!--/.navbar -->
+        
+      <h1 class="title">Churn and Default</h1>
+      
+         <!-- readthedown authors -->
+   <div id="sidebar">
+    <h2><a href="#content">Churn and Default</a></h2>
+    <div id="toc">
+      <ul>
+      <li><a href="#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="#methods" id="toc-methods">Methods</a>
+      <ul>
+      <li><a href="#data-cleaning" id="toc-data-cleaning">Data
+      Cleaning</a></li>
+      <li><a href="#generate-churn-and-default-tags"
+      id="toc-generate-churn-and-default-tags">Generate Churn and
+      Default Tags</a>
+      <ul>
+      <li><a href="#table-1-churn-and-default-triggers"
+      id="toc-table-1-churn-and-default-triggers">Table 1: Churn and
+      Default Triggers</a></li>
+      </ul></li>
+      <li><a href="#filtering-payment-methods"
+      id="toc-filtering-payment-methods">Filtering Payment
+      Methods</a></li>
+      <li><a href="#append-experian-data"
+      id="toc-append-experian-data">Append Experian Data</a>
+      <ul>
+      <li><a href="#table-2-sample-of-data-collected-by-solstice"
+      id="toc-table-2-sample-of-data-collected-by-solstice">Table 2:
+      Sample of Data Collected by Solstice</a></li>
+      <li><a href="#table-3-sample-of-appended-data"
+      id="toc-table-3-sample-of-appended-data">Table 3: Sample of
+      Appended Data</a></li>
+      </ul></li>
+      </ul></li>
+      <li><a href="#descriptive-statistics"
+      id="toc-descriptive-statistics">Descriptive Statistics</a>
+      <ul>
+      <li><a href="#table-4-summary-statistics-by-solar-farm"
+      id="toc-table-4-summary-statistics-by-solar-farm">Table 4: Summary
+      Statistics by Solar Farm</a></li>
+      <li><a href="#table-5-summary-statistics-by-tenure-length"
+      id="toc-table-5-summary-statistics-by-tenure-length">Table 5:
+      Summary Statistics by Tenure Length</a></li>
+      </ul></li>
+      <li><a href="#primary-analysis" id="toc-primary-analysis">Primary
+      Analysis</a>
+      <ul>
+      <li><a href="#model" id="toc-model">Model</a>
+      <ul>
+      <li><a href="#table-6-churn-models"
+      id="toc-table-6-churn-models">Table 6: Churn Models</a></li>
+      <li><a href="#table-7-default-models"
+      id="toc-table-7-default-models">Table 7: Default Models</a></li>
+      </ul></li>
+      </ul></li>
+      <li><a href="#secondary-analysis"
+      id="toc-secondary-analysis">Secondary Analysis</a></li>
+      <li><a href="#discussion" id="toc-discussion">Discussion</a>
+      <ul>
+      <li><a href="#logit-curves" id="toc-logit-curves">Logit
+      Curves</a></li>
+      </ul></li>
+      </ul>
+    </div>
+    <div id="postamble" data-toggle="wy-nav-shift" class="status">
+                  <p class="author"><span class="glyphicon glyphicon-user"></span> Jacob
+Ford, Solstice Data Scientist</p>
+                        <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2022-12-12</p>
+          </div>
+   </div>
+     
+
+   
+      
+   
+<!-- Don't indent these lines or it will mess pre blocks indentation --> 
+<div id="main">
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>For the final component of the research, we shift our attention to
+customer enrollment in current community solar farms. By analyzing
+tenure length and the presence of an individual departing community
+solar farms, our research seeks to provide quantitative performance data
+to add depth to the previously collected survey data.</p>
+<p>Given the incipient nature of community solar, this analysis provides
+an opportunity to quantify the rates of churn or default while
+controlling for household or demographic attributes. The primary goal of
+the analysis is to first describe the characteristics of the residents,
+the prevalence of default and/or churn rates, and any statistically
+significant differences between groups in default or churn rates.
+Secondarily, the analysis will seek to determine if enrollment in the
+community solar farm is associated with any measurable change in credit
+scores.</p>
+<p>Customers in existing community solar projects are evaluated for
+their subscription and payment status on a monthly basis. Participation
+in community solar farms is voluntary, hence customers may exit the
+program at any point, often subject to a cancellation fee set out in the
+contract. Additionally, customers sometimes fail to pay the monthly
+solar farm subscription fee. Churn refers to the act of a customer
+exiting the solar farm, whereas default refers to the customer failing
+to pay the monthly subscription fee.</p>
+</div>
+<div id="methods" class="section level1">
+<h1>Methods</h1>
+<p>Monthly account level data was collected from two community solar
+projects from January 2020 to April 2022. Account level information
+includes monthly payment performance, for which churn and default
+triggers are captured, along with kWh solar attribute to each account, a
+tag for which farm an account belongs to, and a tag for if payment
+method was credit card or direct deposit (ACH).</p>
+<p>Monthly, account level performance data is appended using Experian
+data including Experian’s Income Insight Score and VantageScore, a proxy
+for FICO scores with the same range of 0,850, along with demographic
+data such as gender, education, occupation, and homeownership
+status.</p>
+<p>For the primary analysis, a logit model is used to determine
+likelihood of churn and/or default, taking into account an account’s
+length of tenure and various demographic and socioeconomic data
+available.</p>
+<p>The secondary analysis is performed to measure the difference in
+credit scores for customers, to measure if any difference of statistical
+importance is observed over the length of the enrollment in the farm.
+Credit scores for each customer are measured in December 2020 and April
+2022, offering an approximate pre- and post credit score measurement. A
+difference of means test (Welch’s t-test) is employed to measure the
+differences.</p>
+<div id="data-cleaning" class="section level2">
+<h2>Data Cleaning</h2>
+<p>Data from the solar farms consists of 32,384 monthly observations
+over 812 utility accounts and 620 unique users. Multiple accounts may be
+tied to a single user.</p>
+<p>Data cleaning mainly involves removing observations for one farm over
+a particular time period. Data was collected from two sites, referred to
+as Farm A and Farm B for privacy. As a result of a utility billing issue
+wherein payment performance was not available starting in October 2021
+and not recommencing until April 2022 at Farm A. Hence, the values for
+October, November and December 2021 are removed. This narrowed dataset
+consists of 31,703 observations; the number of utility accounts remained
+constant at 812 and the number of unique users stays constant at
+620.</p>
+</div>
+<div id="generate-churn-and-default-tags" class="section level2">
+<h2>Generate Churn and Default Tags</h2>
+<p>For the accounts that left the solar farm at any point, we generate
+Churn and Default ‘triggers’. The table below shows the variety of
+reasons listed why a particular account left either solar farm during
+the observed period. Most left the solar farm as a result of moving from
+the service area or no longer interested in the solar farm.</p>
+<p>Defaulted accounts are triggered when the leave reason is ‘Defaulted
+Payment’; every other leave reason is marked as churn, capturing a wider
+array of outcomes, from moving to health reasons. Table 1 shows how
+reasons listed for an account leaving a farm were mapped to Churn and
+Default triggers. Note, we categorize every default as a churn event as
+well for simplicity, however not every churn event is a default.</p>
+<div id="table-1-churn-and-default-triggers" class="section level4">
+<h4>Table 1: Churn and Default Triggers</h4>
+<table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+Table 1: Churn and Default Triggers, Grouped by Utility Accounts
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Reason
+</th>
+<th style="text-align:right;">
+Observed
+</th>
+<th style="text-align:left;">
+Trigger
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Moving out of service territory
+</td>
+<td style="text-align:right;">
+39
+</td>
+<td style="text-align:left;">
+Churn
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+No Longer Interested
+</td>
+<td style="text-align:right;">
+35
+</td>
+<td style="text-align:left;">
+Churn
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Billing Complaint
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:left;">
+Churn
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ineligible Meter
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:left;">
+Churn
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Defaulted Payment
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+Default
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Duplicate
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+Churn
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Churn
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+Churn
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Got Rooftop
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+Churn
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Health Issues
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+Churn
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="filtering-payment-methods" class="section level2">
+<h2>Filtering Payment Methods</h2>
+<p>For some accounts, both a credit card and direct deposit (ACH)
+payment methods were recorded for the same month. The duplicate values
+are identical, hence we are able to filter out these duplicate rows. To
+remove these entries, we first flip the dataframe by utility account ID,
+then isolate the duplicates and only take the payment method for direct
+deposit, however using credit card payment as the method would result in
+the same outcome, as the underlying performance or attribute data does
+not differ.</p>
+</div>
+<div id="append-experian-data" class="section level2">
+<h2>Append Experian Data</h2>
+<p>The data has been grouped by utility account IDs. As seen in Table 2,
+the information available as collected by Solstice includes:</p>
+<ul>
+<li>utility account number</li>
+<li>Participant ID</li>
+<li>Tenure (in months) of account</li>
+<li>payment method</li>
+<li>leave_reason, as described above</li>
+<li>kWh allotted to each utility account (note this figure is arrived at
+by dividing the raw kWh reported by 1,229: this is a project specific
+conversion rate)</li>
+<li>Churn and Default dummy variables</li>
+<li>solar farm identification</li>
+</ul>
+<div id="table-2-sample-of-data-collected-by-solstice"
+class="section level4">
+<h4>Table 2: Sample of Data Collected by Solstice</h4>
+<table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+Table 2: Sample of Data Collected by Solstice
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+utility_acct_number
+</th>
+<th style="text-align:right;">
+ParticipantID
+</th>
+<th style="text-align:right;">
+tenure
+</th>
+<th style="text-align:left;">
+payment_method
+</th>
+<th style="text-align:left;">
+leave_reason
+</th>
+<th style="text-align:right;">
+kwh_solar
+</th>
+<th style="text-align:right;">
+Churn
+</th>
+<th style="text-align:right;">
+Default
+</th>
+<th style="text-align:left;">
+solar_farm
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1262
+</td>
+<td style="text-align:right;">
+311
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:left;">
+card
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:right;">
+3.609
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Farm A
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1264
+</td>
+<td style="text-align:right;">
+386
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:left;">
+card
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:right;">
+7.585
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Farm A
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1265
+</td>
+<td style="text-align:right;">
+430
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:left;">
+card
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:right;">
+6.178
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Farm A
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1267
+</td>
+<td style="text-align:right;">
+473
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:left;">
+ach
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:right;">
+15.048
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Farm A
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1268
+</td>
+<td style="text-align:right;">
+105
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:left;">
+card
+</td>
+<td style="text-align:left;">
+Got Rooftop
+</td>
+<td style="text-align:right;">
+20.473
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Farm B
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1269
+</td>
+<td style="text-align:right;">
+554
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:left;">
+card
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:right;">
+8.747
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Farm A
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1270
+</td>
+<td style="text-align:right;">
+495
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:left;">
+card
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:right;">
+3.762
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Farm A
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1271
+</td>
+<td style="text-align:right;">
+509
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:left;">
+ach
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:right;">
+9.879
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Farm A
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1273
+</td>
+<td style="text-align:right;">
+547
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:left;">
+card
+</td>
+<td style="text-align:left;">
+Moving out of service territory
+</td>
+<td style="text-align:right;">
+6.292
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Farm B
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1276
+</td>
+<td style="text-align:right;">
+376
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:left;">
+ach
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:right;">
+6.239
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Farm A
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+1277
+</td>
+<td style="text-align:right;">
+209
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:left;">
+ach
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:right;">
+4.894
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Farm A
+</td>
+</tr>
+</tbody>
+</table>
+<p>To add additional data to the analysis, we contracted with Experian
+to provide additional demographic and socioeconomic data. This data was
+provided on the <em>Participant</em> level. Recall that multiple utility
+accounts may be held by a single participant. The data provided by
+Experian has a matching ‘ParticipantID’ tag, that corresponds to the
+Solstice data set.</p>
+<p>Note: Not all Participants and Utility accounts are able to be
+appended, due to limited data availability from Experian. The ‘pin rate’
+refers to the rate at which data is successfully collected for a record.
+For the 620 Participant_Ids, 506 received data, a pin rate of 81.6%.
+However, even successfully pinned records did not receive full data, or
+possibly received an ‘unknown’ response. These differences are observed
+in Tables 4 and 5.</p>
+<p>Data from Experian was provided for two different time periods,
+December 2020 and April 2022. The utility of having differing time
+periods is to allow for the secondary analysis, wherein change in credit
+scores is calculated and a difference of means test is conducted to
+determine if tenure in the solar farms is associated with any measurable
+change in credit score. An average credit score variable is created and
+used in the primary analysis as well.</p>
+<p>For the primary analysis, all other non-credit score Experian data is
+appended to the Solstice data set at the December 2020 time frame. The
+December 2020 data is chosen for two reasons: firstly, little change is
+observed or expected to be observed in demographic data such as
+homeownership status, education, marriage, and gender; hence there is
+little difference in terms of model construction between using one or
+the other source. Secondly, and more importantly, the data provided as
+of December 2020 is slightly more complete, meaning fewer data are
+missing for fewer participants.</p>
+<p>Table 3 below shows a sample of the appended data. Note that
+VANTAGE_V4_SCORE.x refers to the VantageScore as of April 2022, and
+VANTAGE_V4_SCORE.y refers to VantageScore as of December 2020.</p>
+</div>
+<div id="table-3-sample-of-appended-data" class="section level4">
+<h4>Table 3: Sample of Appended Data</h4>
+<table class=" lightable-classic table table-striped table-hover table-condensed table-responsive" style="font-family: Cambria; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<caption>
+Table 3: Sample of Appended Data
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+ParticipantID
+</th>
+<th style="text-align:left;">
+utility_acct_number
+</th>
+<th style="text-align:right;">
+tenure
+</th>
+<th style="text-align:left;">
+payment_method
+</th>
+<th style="text-align:left;">
+leave_reason
+</th>
+<th style="text-align:right;">
+kwh_solar
+</th>
+<th style="text-align:right;">
+Churn
+</th>
+<th style="text-align:right;">
+Default
+</th>
+<th style="text-align:left;">
+solar_farm
+</th>
+<th style="text-align:right;">
+VANTAGE_V4_SCORE.x
+</th>
+<th style="text-align:right;">
+VANTAGE_V4_SCORE.y
+</th>
+<th style="text-align:right;">
+Vantage_Diff
+</th>
+<th style="text-align:right;">
+INCOME_INSIGHT_SCORE
+</th>
+<th style="text-align:right;">
+Vantage_Avg
+</th>
+<th style="text-align:left;">
+GENDER
+</th>
+<th style="text-align:left;">
+MARRIAGE
+</th>
+<th style="text-align:left;">
+HOMEOWNER
+</th>
+<th style="text-align:left;">
+RENTER
+</th>
+<th style="text-align:left;">
+EDUCATION
+</th>
+<th style="text-align:left;">
+OCCUPATION
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+1193
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:left;">
+ach
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:right;">
+2.108
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Farm B
+</td>
+<td style="text-align:right;">
+817
+</td>
+<td style="text-align:right;">
+799
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+186
+</td>
+<td style="text-align:right;">
+808.0
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Unknown
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+Unknown
+</td>
+<td style="text-align:left;">
+Completed College
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+1791
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+card
+</td>
+<td style="text-align:left;">
+No Longer Interested
+</td>
+<td style="text-align:right;">
+5.570
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Farm B
+</td>
+<td style="text-align:right;">
+805
+</td>
+<td style="text-align:right;">
+782
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+117
+</td>
+<td style="text-align:right;">
+793.5
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Unknown
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+Unknown
+</td>
+<td style="text-align:left;">
+High School or Some College
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+1010
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:left;">
+card
+</td>
+<td style="text-align:left;">
+Got Rooftop
+</td>
+<td style="text-align:right;">
+16.890
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Farm B
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+1312
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:left;">
+card
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:right;">
+7.188
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Farm A
+</td>
+<td style="text-align:right;">
+794
+</td>
+<td style="text-align:right;">
+811
+</td>
+<td style="text-align:right;">
+-17
+</td>
+<td style="text-align:right;">
+217
+</td>
+<td style="text-align:right;">
+802.5
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Unknown
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:left;">
+Unknown
+</td>
+<td style="text-align:left;">
+Graduate Degree
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+1773
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:left;">
+card
+</td>
+<td style="text-align:left;">
+Moving out of service territory
+</td>
+<td style="text-align:right;">
+4.817
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Farm B
+</td>
+<td style="text-align:right;">
+805
+</td>
+<td style="text-align:right;">
+805
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+111
+</td>
+<td style="text-align:right;">
+805.0
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Unknown
+</td>
+<td style="text-align:left;">
+Unknown
+</td>
+<td style="text-align:left;">
+Unknown
+</td>
+<td style="text-align:left;">
+Graduate Degree
+</td>
+<td style="text-align:left;">
+Healthcare/Education Services
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+1761
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:left;">
+card
+</td>
+<td style="text-align:left;">
+Moving out of service territory
+</td>
+<td style="text-align:right;">
+2.288
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Farm B
+</td>
+<td style="text-align:right;">
+805
+</td>
+<td style="text-align:right;">
+805
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+111
+</td>
+<td style="text-align:right;">
+805.0
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Unknown
+</td>
+<td style="text-align:left;">
+Unknown
+</td>
+<td style="text-align:left;">
+Unknown
+</td>
+<td style="text-align:left;">
+Graduate Degree
+</td>
+<td style="text-align:left;">
+Healthcare/Education Services
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="descriptive-statistics" class="section level1">
+<h1>Descriptive Statistics</h1>
+<p>Account level summary statistics by solar farm are provided in Table
+4. Note, only 6 instances of default were observed. However, of the 812
+accounts, 118 or just over 14.5% of accounts, experienced churn.</p>
+<div id="table-4-summary-statistics-by-solar-farm"
+class="section level4">
+<h4>Table 4: Summary Statistics by Solar Farm</h4>
+<div id="nsdrclmcwg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#nsdrclmcwg .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#nsdrclmcwg .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#nsdrclmcwg .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#nsdrclmcwg .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#nsdrclmcwg .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nsdrclmcwg .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#nsdrclmcwg .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#nsdrclmcwg .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#nsdrclmcwg .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#nsdrclmcwg .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#nsdrclmcwg .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#nsdrclmcwg .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#nsdrclmcwg .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#nsdrclmcwg .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#nsdrclmcwg .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#nsdrclmcwg .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#nsdrclmcwg .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nsdrclmcwg .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#nsdrclmcwg .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#nsdrclmcwg .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nsdrclmcwg .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#nsdrclmcwg .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#nsdrclmcwg .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nsdrclmcwg .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nsdrclmcwg .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#nsdrclmcwg .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#nsdrclmcwg .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nsdrclmcwg .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#nsdrclmcwg .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nsdrclmcwg .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#nsdrclmcwg .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nsdrclmcwg .gt_left {
+  text-align: left;
+}
+
+#nsdrclmcwg .gt_center {
+  text-align: center;
+}
+
+#nsdrclmcwg .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#nsdrclmcwg .gt_font_normal {
+  font-weight: normal;
+}
+
+#nsdrclmcwg .gt_font_bold {
+  font-weight: bold;
+}
+
+#nsdrclmcwg .gt_font_italic {
+  font-style: italic;
+}
+
+#nsdrclmcwg .gt_super {
+  font-size: 65%;
+}
+
+#nsdrclmcwg .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#nsdrclmcwg .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#nsdrclmcwg .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#nsdrclmcwg .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#nsdrclmcwg .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#nsdrclmcwg .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Table 4: Summary Statistics by Solar Farm</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Overall</strong>, N = 812<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Farm A</strong>, N = 454<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Farm B</strong>, N = 358<sup class="gt_footnote_marks">1</sup></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Churn</td>
+<td class="gt_row gt_center">118 (15%)</td>
+<td class="gt_row gt_center">59 (13%)</td>
+<td class="gt_row gt_center">59 (16%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Default</td>
+<td class="gt_row gt_center">6 (0.7%)</td>
+<td class="gt_row gt_center">1 (0.2%)</td>
+<td class="gt_row gt_center">5 (1.4%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Average Tenure</td>
+<td class="gt_row gt_center">22 (20, 23)</td>
+<td class="gt_row gt_center">22 (20, 22)</td>
+<td class="gt_row gt_center">23 (22, 24)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Average kWh</td>
+<td class="gt_row gt_center">6.1 (3.8, 9.6)</td>
+<td class="gt_row gt_center">5.9 (3.5, 9.0)</td>
+<td class="gt_row gt_center">6.3 (4.2, 10.3)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Payment Method</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">ach</td>
+<td class="gt_row gt_center">239 (30%)</td>
+<td class="gt_row gt_center">125 (28%)</td>
+<td class="gt_row gt_center">114 (32%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">card</td>
+<td class="gt_row gt_center">565 (70%)</td>
+<td class="gt_row gt_center">322 (72%)</td>
+<td class="gt_row gt_center">243 (68%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Gender</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Female</td>
+<td class="gt_row gt_center">182 (49%)</td>
+<td class="gt_row gt_center">117 (51%)</td>
+<td class="gt_row gt_center">65 (44%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Male</td>
+<td class="gt_row gt_center">193 (51%)</td>
+<td class="gt_row gt_center">111 (49%)</td>
+<td class="gt_row gt_center">82 (56%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Marital Status</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Married</td>
+<td class="gt_row gt_center">228 (60%)</td>
+<td class="gt_row gt_center">134 (58%)</td>
+<td class="gt_row gt_center">94 (64%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Single</td>
+<td class="gt_row gt_center">33 (8.8%)</td>
+<td class="gt_row gt_center">27 (12%)</td>
+<td class="gt_row gt_center">6 (4.1%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Unknown</td>
+<td class="gt_row gt_center">116 (31%)</td>
+<td class="gt_row gt_center">69 (30%)</td>
+<td class="gt_row gt_center">47 (32%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Occupation</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Healthcare/Education Services</td>
+<td class="gt_row gt_center">25 (37%)</td>
+<td class="gt_row gt_center">16 (44%)</td>
+<td class="gt_row gt_center">9 (28%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Management/Technical</td>
+<td class="gt_row gt_center">6 (8.8%)</td>
+<td class="gt_row gt_center">0 (0%)</td>
+<td class="gt_row gt_center">6 (19%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Self Employed/Other</td>
+<td class="gt_row gt_center">23 (34%)</td>
+<td class="gt_row gt_center">14 (39%)</td>
+<td class="gt_row gt_center">9 (28%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Services</td>
+<td class="gt_row gt_center">14 (21%)</td>
+<td class="gt_row gt_center">6 (17%)</td>
+<td class="gt_row gt_center">8 (25%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Education</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Completed College</td>
+<td class="gt_row gt_center">99 (26%)</td>
+<td class="gt_row gt_center">61 (27%)</td>
+<td class="gt_row gt_center">38 (26%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Graduate Degree</td>
+<td class="gt_row gt_center">114 (30%)</td>
+<td class="gt_row gt_center">63 (27%)</td>
+<td class="gt_row gt_center">51 (35%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">High School or Some College</td>
+<td class="gt_row gt_center">150 (40%)</td>
+<td class="gt_row gt_center">95 (41%)</td>
+<td class="gt_row gt_center">55 (37%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Other</td>
+<td class="gt_row gt_center">14 (3.7%)</td>
+<td class="gt_row gt_center">11 (4.8%)</td>
+<td class="gt_row gt_center">3 (2.0%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Renter</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Unknown</td>
+<td class="gt_row gt_center">355 (94%)</td>
+<td class="gt_row gt_center">216 (94%)</td>
+<td class="gt_row gt_center">139 (95%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Yes</td>
+<td class="gt_row gt_center">22 (5.8%)</td>
+<td class="gt_row gt_center">14 (6.1%)</td>
+<td class="gt_row gt_center">8 (5.4%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Homeowner</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Unknown</td>
+<td class="gt_row gt_center">104 (28%)</td>
+<td class="gt_row gt_center">69 (30%)</td>
+<td class="gt_row gt_center">35 (24%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Yes</td>
+<td class="gt_row gt_center">273 (72%)</td>
+<td class="gt_row gt_center">161 (70%)</td>
+<td class="gt_row gt_center">112 (76%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">INCOME_INSIGHT_SCORE</td>
+<td class="gt_row gt_center">122 (96, 206)</td>
+<td class="gt_row gt_center">114 (92, 184)</td>
+<td class="gt_row gt_center">167 (102, 233)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Average VantageScore</td>
+<td class="gt_row gt_center">804 (778, 819)</td>
+<td class="gt_row gt_center">803 (774, 818)</td>
+<td class="gt_row gt_center">806 (788, 820)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">VantageScore April 2022</td>
+<td class="gt_row gt_center">805 (778, 820)</td>
+<td class="gt_row gt_center">804 (774, 819)</td>
+<td class="gt_row gt_center">807 (789, 820)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">VantageScore December 2020</td>
+<td class="gt_row gt_center">806 (778, 823)</td>
+<td class="gt_row gt_center">805 (777, 822)</td>
+<td class="gt_row gt_center">806 (785, 823)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">VantageScore Change</td>
+<td class="gt_row gt_center">0 (-11, 13)</td>
+<td class="gt_row gt_center">0 (-14, 12)</td>
+<td class="gt_row gt_center">0 (-8, 14)</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="4"><sup class="gt_footnote_marks">1</sup> n (%); Median (IQR)</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<p>Table 5 provides descriptive statistics grouped by tenure length.
+Average tenure for the entire dataset is just under two years (22
+months). Most observations of Churn occurred within the 6-12 month
+range, 81% of all observed churn.</p>
+</div>
+<div id="table-5-summary-statistics-by-tenure-length"
+class="section level4">
+<h4>Table 5: Summary Statistics by Tenure Length</h4>
+<div id="jgmnpkvtdq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#jgmnpkvtdq .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#jgmnpkvtdq .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jgmnpkvtdq .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#jgmnpkvtdq .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#jgmnpkvtdq .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jgmnpkvtdq .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jgmnpkvtdq .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#jgmnpkvtdq .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#jgmnpkvtdq .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#jgmnpkvtdq .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#jgmnpkvtdq .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#jgmnpkvtdq .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#jgmnpkvtdq .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#jgmnpkvtdq .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#jgmnpkvtdq .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#jgmnpkvtdq .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#jgmnpkvtdq .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jgmnpkvtdq .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#jgmnpkvtdq .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#jgmnpkvtdq .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jgmnpkvtdq .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#jgmnpkvtdq .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#jgmnpkvtdq .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jgmnpkvtdq .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jgmnpkvtdq .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#jgmnpkvtdq .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#jgmnpkvtdq .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jgmnpkvtdq .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jgmnpkvtdq .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jgmnpkvtdq .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jgmnpkvtdq .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jgmnpkvtdq .gt_left {
+  text-align: left;
+}
+
+#jgmnpkvtdq .gt_center {
+  text-align: center;
+}
+
+#jgmnpkvtdq .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#jgmnpkvtdq .gt_font_normal {
+  font-weight: normal;
+}
+
+#jgmnpkvtdq .gt_font_bold {
+  font-weight: bold;
+}
+
+#jgmnpkvtdq .gt_font_italic {
+  font-style: italic;
+}
+
+#jgmnpkvtdq .gt_super {
+  font-size: 65%;
+}
+
+#jgmnpkvtdq .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#jgmnpkvtdq .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#jgmnpkvtdq .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#jgmnpkvtdq .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#jgmnpkvtdq .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#jgmnpkvtdq .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Table 5: Summary Statistics by Tenure Length</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Overall</strong>, N = 788<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>&lt; 6 Months</strong>, N = 29<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>6-12 Months</strong>, N = 27<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>12-24 Months</strong>, N = 611<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Over 24 Months</strong>, N = 121<sup class="gt_footnote_marks">1</sup></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Churn</td>
+<td class="gt_row gt_center">110 (14%)</td>
+<td class="gt_row gt_center">12 (41%)</td>
+<td class="gt_row gt_center">22 (81%)</td>
+<td class="gt_row gt_center">74 (12%)</td>
+<td class="gt_row gt_center">2 (1.7%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Default</td>
+<td class="gt_row gt_center">5 (0.6%)</td>
+<td class="gt_row gt_center">0 (0%)</td>
+<td class="gt_row gt_center">1 (3.7%)</td>
+<td class="gt_row gt_center">3 (0.5%)</td>
+<td class="gt_row gt_center">1 (0.8%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Average Tenure</td>
+<td class="gt_row gt_center">22 (20, 23)</td>
+<td class="gt_row gt_center">4 (3, 5)</td>
+<td class="gt_row gt_center">10 (8, 10)</td>
+<td class="gt_row gt_center">22 (21, 22)</td>
+<td class="gt_row gt_center">25 (24, 25)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Average kWh</td>
+<td class="gt_row gt_center">6.2 (3.8, 9.6)</td>
+<td class="gt_row gt_center">3.7 (1.9, 5.6)</td>
+<td class="gt_row gt_center">6.4 (3.6, 12.6)</td>
+<td class="gt_row gt_center">6.1 (3.8, 9.2)</td>
+<td class="gt_row gt_center">7.3 (4.7, 10.8)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Payment Method</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">ach</td>
+<td class="gt_row gt_center">239 (31%)</td>
+<td class="gt_row gt_center">3 (14%)</td>
+<td class="gt_row gt_center">8 (30%)</td>
+<td class="gt_row gt_center">199 (33%)</td>
+<td class="gt_row gt_center">29 (24%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">card</td>
+<td class="gt_row gt_center">541 (69%)</td>
+<td class="gt_row gt_center">18 (86%)</td>
+<td class="gt_row gt_center">19 (70%)</td>
+<td class="gt_row gt_center">412 (67%)</td>
+<td class="gt_row gt_center">92 (76%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Gender</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Female</td>
+<td class="gt_row gt_center">171 (48%)</td>
+<td class="gt_row gt_center">7 (44%)</td>
+<td class="gt_row gt_center">4 (33%)</td>
+<td class="gt_row gt_center">140 (49%)</td>
+<td class="gt_row gt_center">20 (49%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Male</td>
+<td class="gt_row gt_center">186 (52%)</td>
+<td class="gt_row gt_center">9 (56%)</td>
+<td class="gt_row gt_center">8 (67%)</td>
+<td class="gt_row gt_center">148 (51%)</td>
+<td class="gt_row gt_center">21 (51%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Marital Status</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Married</td>
+<td class="gt_row gt_center">217 (60%)</td>
+<td class="gt_row gt_center">9 (56%)</td>
+<td class="gt_row gt_center">8 (67%)</td>
+<td class="gt_row gt_center">174 (60%)</td>
+<td class="gt_row gt_center">26 (63%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Single</td>
+<td class="gt_row gt_center">30 (8.4%)</td>
+<td class="gt_row gt_center">2 (12%)</td>
+<td class="gt_row gt_center">1 (8.3%)</td>
+<td class="gt_row gt_center">23 (7.9%)</td>
+<td class="gt_row gt_center">4 (9.8%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Unknown</td>
+<td class="gt_row gt_center">112 (31%)</td>
+<td class="gt_row gt_center">5 (31%)</td>
+<td class="gt_row gt_center">3 (25%)</td>
+<td class="gt_row gt_center">93 (32%)</td>
+<td class="gt_row gt_center">11 (27%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Occupation</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Healthcare/Education Services</td>
+<td class="gt_row gt_center">24 (38%)</td>
+<td class="gt_row gt_center">0 (0%)</td>
+<td class="gt_row gt_center">0 (0%)</td>
+<td class="gt_row gt_center">24 (47%)</td>
+<td class="gt_row gt_center">0 (0%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Management/Technical</td>
+<td class="gt_row gt_center">6 (9.4%)</td>
+<td class="gt_row gt_center">2 (67%)</td>
+<td class="gt_row gt_center">3 (100%)</td>
+<td class="gt_row gt_center">0 (0%)</td>
+<td class="gt_row gt_center">1 (14%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Self Employed/Other</td>
+<td class="gt_row gt_center">20 (31%)</td>
+<td class="gt_row gt_center">1 (33%)</td>
+<td class="gt_row gt_center">0 (0%)</td>
+<td class="gt_row gt_center">15 (29%)</td>
+<td class="gt_row gt_center">4 (57%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Services</td>
+<td class="gt_row gt_center">14 (22%)</td>
+<td class="gt_row gt_center">0 (0%)</td>
+<td class="gt_row gt_center">0 (0%)</td>
+<td class="gt_row gt_center">12 (24%)</td>
+<td class="gt_row gt_center">2 (29%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Education</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Completed College</td>
+<td class="gt_row gt_center">91 (25%)</td>
+<td class="gt_row gt_center">4 (25%)</td>
+<td class="gt_row gt_center">3 (25%)</td>
+<td class="gt_row gt_center">75 (26%)</td>
+<td class="gt_row gt_center">9 (22%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Graduate Degree</td>
+<td class="gt_row gt_center">111 (31%)</td>
+<td class="gt_row gt_center">2 (12%)</td>
+<td class="gt_row gt_center">5 (42%)</td>
+<td class="gt_row gt_center">94 (32%)</td>
+<td class="gt_row gt_center">10 (24%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">High School or Some College</td>
+<td class="gt_row gt_center">143 (40%)</td>
+<td class="gt_row gt_center">8 (50%)</td>
+<td class="gt_row gt_center">4 (33%)</td>
+<td class="gt_row gt_center">112 (39%)</td>
+<td class="gt_row gt_center">19 (46%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Other</td>
+<td class="gt_row gt_center">14 (3.9%)</td>
+<td class="gt_row gt_center">2 (12%)</td>
+<td class="gt_row gt_center">0 (0%)</td>
+<td class="gt_row gt_center">9 (3.1%)</td>
+<td class="gt_row gt_center">3 (7.3%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Renter</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Unknown</td>
+<td class="gt_row gt_center">338 (94%)</td>
+<td class="gt_row gt_center">14 (88%)</td>
+<td class="gt_row gt_center">11 (92%)</td>
+<td class="gt_row gt_center">276 (95%)</td>
+<td class="gt_row gt_center">37 (90%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Yes</td>
+<td class="gt_row gt_center">21 (5.8%)</td>
+<td class="gt_row gt_center">2 (12%)</td>
+<td class="gt_row gt_center">1 (8.3%)</td>
+<td class="gt_row gt_center">14 (4.8%)</td>
+<td class="gt_row gt_center">4 (9.8%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Homeowner</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Unknown</td>
+<td class="gt_row gt_center">94 (26%)</td>
+<td class="gt_row gt_center">6 (38%)</td>
+<td class="gt_row gt_center">2 (17%)</td>
+<td class="gt_row gt_center">74 (26%)</td>
+<td class="gt_row gt_center">12 (29%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Yes</td>
+<td class="gt_row gt_center">265 (74%)</td>
+<td class="gt_row gt_center">10 (62%)</td>
+<td class="gt_row gt_center">10 (83%)</td>
+<td class="gt_row gt_center">216 (74%)</td>
+<td class="gt_row gt_center">29 (71%)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">INCOME_INSIGHT_SCORE</td>
+<td class="gt_row gt_center">122 (97, 208)</td>
+<td class="gt_row gt_center">112 (78, 126)</td>
+<td class="gt_row gt_center">110 (90, 232)</td>
+<td class="gt_row gt_center">123 (97, 203)</td>
+<td class="gt_row gt_center">146 (98, 235)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">Average VantageScore</td>
+<td class="gt_row gt_center">804 (780, 819)</td>
+<td class="gt_row gt_center">784 (740, 798)</td>
+<td class="gt_row gt_center">788 (751, 809)</td>
+<td class="gt_row gt_center">805 (781, 820)</td>
+<td class="gt_row gt_center">809 (790, 819)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">VantageScore April 2022</td>
+<td class="gt_row gt_center">806 (779, 821)</td>
+<td class="gt_row gt_center">793 (758, 808)</td>
+<td class="gt_row gt_center">788 (704, 800)</td>
+<td class="gt_row gt_center">807 (779, 821)</td>
+<td class="gt_row gt_center">808 (794, 821)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">VantageScore December 2020</td>
+<td class="gt_row gt_center">806 (779, 823)</td>
+<td class="gt_row gt_center">781 (739, 800)</td>
+<td class="gt_row gt_center">795 (778, 815)</td>
+<td class="gt_row gt_center">806 (784, 824)</td>
+<td class="gt_row gt_center">810 (785, 826)</td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold;">VantageScore Change</td>
+<td class="gt_row gt_center">0 (-11, 13)</td>
+<td class="gt_row gt_center">-3 (-9, 20)</td>
+<td class="gt_row gt_center">-4 (-29, 7)</td>
+<td class="gt_row gt_center">0 (-13, 12)</td>
+<td class="gt_row gt_center">2 (-5, 13)</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="6"><sup class="gt_footnote_marks">1</sup> n (%); Median (IQR)</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+</div>
+</div>
+<div id="primary-analysis" class="section level1">
+<h1>Primary Analysis</h1>
+<div id="model" class="section level2">
+<h2>Model</h2>
+<p>To determine the probability an account will experience either churn
+or default, logistic regression is used to analyze likelihood of either
+churn or default, using the demographic and socieconomic data available
+from primary data collected. The model employed is described in
+below:</p>
+<p><span class="math display">\[\begin{equation}
+
+Churn_{Prob} = \beta_{0} + \beta_{1}Tenure + \beta_{2}kWh
++\beta_{3}Gender + \beta_{4}log(VantageScore) \\ + \beta_{5}Occupation +
+\beta_{6}Homeowner + \beta_{7}log(IncomeInsight)+ \beta_{8}Marriage +
+\beta_{9}Education
+
+\end{equation}\]</span></p>
+<p><span class="math display">\[\begin{equation}
+
+Default_{Prob} = \beta_{0} + \beta_{1}Tenure + \beta_{2}kWh
++\beta_{3}Gender + \beta_{4}log(VantageScore) \\ + \beta_{5}Occupation +
+\beta_{6}Homeowner + \beta_{7}log(IncomeInsight)+ \beta_{8}Marriage +
+\beta_{9}Education
+\end{equation}\]</span></p>
+<p>Logarithmic transformations for VantageScore and Income Insight Score
+are used. A number of models are considered, each taking different
+combinations of input data. The results are shown below in Table 6.</p>
+<div id="table-6-churn-models" class="section level4">
+<h4>Table 6: Churn Models</h4>
+<table style="text-align:center">
+<caption>
+<strong>Table 6: Churn Models</strong>
+</caption>
+<tr>
+<td colspan="6" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="5">
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="5" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="5">
+Churn
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+<td>
+(3)
+</td>
+<td>
+(4)
+</td>
+<td>
+(5)
+</td>
+</tr>
+<tr>
+<td colspan="6" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+tenure
+</td>
+<td>
+-0.195<sup>***</sup>
+</td>
+<td>
+-0.141<sup>***</sup>
+</td>
+<td>
+-0.152<sup>***</sup>
+</td>
+<td>
+-0.150<sup>***</sup>
+</td>
+<td>
+-0.185<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.021)
+</td>
+<td>
+(0.023)
+</td>
+<td>
+(0.024)
+</td>
+<td>
+(0.024)
+</td>
+<td>
+(0.070)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+kwh_solar
+</td>
+<td>
+-0.045
+</td>
+<td>
+-0.008
+</td>
+<td>
+</td>
+<td>
+-0.025
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.032)
+</td>
+<td>
+(0.028)
+</td>
+<td>
+</td>
+<td>
+(0.034)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+GENDERFemale
+</td>
+<td>
+</td>
+<td>
+-0.554<sup>*</sup>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+-0.019
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+(0.307)
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(0.658)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+log_Vantage_Avg
+</td>
+<td>
+0.164
+</td>
+<td>
+0.069
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+-0.083
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.180)
+</td>
+<td>
+(0.175)
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(0.267)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+OCCUPATIONManagement/Technical
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+0.067
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(1.397)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+OCCUPATIONSelf Employed/Other
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+0.191
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(0.809)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+OCCUPATIONServices
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+-0.657
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(0.965)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+HOMEOWNERYes
+</td>
+<td>
+</td>
+<td>
+0.088
+</td>
+<td>
+0.246
+</td>
+<td>
+</td>
+<td>
+1.315
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+(0.334)
+</td>
+<td>
+(0.355)
+</td>
+<td>
+</td>
+<td>
+(0.907)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+log_INCOME_INSIGHT_SCORE
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+0.045
+</td>
+<td>
+0.068
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(0.343)
+</td>
+<td>
+(0.340)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+MARRIAGEMarried
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+0.883
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(0.703)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+MARRIAGEUnknown
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+0.767
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(0.728)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+EDUCATIONGraduate Degree
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+0.491
+</td>
+<td>
+0.447
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(0.382)
+</td>
+<td>
+(0.386)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+EDUCATIONHigh School or Some College
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+-0.201
+</td>
+<td>
+-0.165
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(0.399)
+</td>
+<td>
+(0.402)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+EDUCATIONOther
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+-1.261
+</td>
+<td>
+-0.878
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(1.166)
+</td>
+<td>
+(1.148)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+1.214
+</td>
+<td>
+0.776
+</td>
+<td>
+0.745
+</td>
+<td>
+0.126
+</td>
+<td>
+2.068
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1.211)
+</td>
+<td>
+(1.208)
+</td>
+<td>
+(1.691)
+</td>
+<td>
+(1.761)
+</td>
+<td>
+(2.250)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="6" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+547
+</td>
+<td>
+375
+</td>
+<td>
+373
+</td>
+<td>
+373
+</td>
+<td>
+67
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Log Likelihood
+</td>
+<td>
+-200.005
+</td>
+<td>
+-149.166
+</td>
+<td>
+-145.738
+</td>
+<td>
+-144.801
+</td>
+<td>
+-31.512
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Akaike Inf. Crit.
+</td>
+<td>
+408.010
+</td>
+<td>
+310.333
+</td>
+<td>
+305.476
+</td>
+<td>
+307.601
+</td>
+<td>
+79.024
+</td>
+</tr>
+<tr>
+<td colspan="6" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td colspan="5" style="text-align:right">
+<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05;
+<sup></strong></em></sup>p&lt;0.01
+</td>
+</tr>
+</table>
+<p>From Table 6, it is noticeable how tenure length is consistently
+measured as statistically significant. This effect is measured even when
+including combinations of demographic and socioeconomic variables.
+Increased tenure lengths are associated with decreased probability of
+churn. For example, in Model 4, a one month increase in tenure is
+associated with a 0.15 decrease in log odds of churn. Taking the odds
+ratio of the monthly tenure variable, a one month increase in tenure is
+associated with a 14% decrease in the odds of churning. This change in
+probability of churn is visualized by the Logit Curve A in the
+Discussion section.</p>
+<p>This is one of the few statistically significant results observed in
+the analysis. The only other statistically significant variable was
+Gender. In model 2, Female compared to Male account holders are
+associated 43% decrease in odds of churn, controlling for tenure,
+VantageScore, occupation and owning one’s home.</p>
+<p>No other variables were associated with statistically significant
+effects on probability of churn.</p>
+</div>
+<div id="table-7-default-models" class="section level4">
+<h4>Table 7: Default Models</h4>
+<table style="text-align:center">
+<caption>
+<strong>Table 7: Default Models</strong>
+</caption>
+<tr>
+<td colspan="6" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="5">
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="5" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="5">
+Default
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+<td>
+(3)
+</td>
+<td>
+(4)
+</td>
+<td>
+(5)
+</td>
+</tr>
+<tr>
+<td colspan="6" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+tenure
+</td>
+<td>
+-0.104
+</td>
+<td>
+0.012
+</td>
+<td>
+-0.012
+</td>
+<td>
+0.111
+</td>
+<td>
+-0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.076)
+</td>
+<td>
+(0.209)
+</td>
+<td>
+(0.146)
+</td>
+<td>
+(0.218)
+</td>
+<td>
+(9,034.631)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+kwh_solar
+</td>
+<td>
+-0.263
+</td>
+<td>
+-0.257
+</td>
+<td>
+</td>
+<td>
+-0.220
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.258)
+</td>
+<td>
+(0.539)
+</td>
+<td>
+</td>
+<td>
+(0.449)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+GENDERFemale
+</td>
+<td>
+</td>
+<td>
+-56.242
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+-0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+(7,545.990)
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(92,400.530)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+log_Vantage_Avg
+</td>
+<td>
+-0.133
+</td>
+<td>
+-6.274
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.476)
+</td>
+<td>
+(5.208)
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(41,042.950)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+OCCUPATIONManagement/Technical
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+-0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(198,057.400)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+OCCUPATIONSelf Employed/Other
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+-0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(112,181.000)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+OCCUPATIONServices
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+-0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(122,774.100)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+HOMEOWNERYes
+</td>
+<td>
+</td>
+<td>
+55.105
+</td>
+<td>
+18.086
+</td>
+<td>
+</td>
+<td>
+-0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+(6,628.545)
+</td>
+<td>
+(6,529.975)
+</td>
+<td>
+</td>
+<td>
+(106,883.400)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+log_INCOME_INSIGHT_SCORE
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+-3.214
+</td>
+<td>
+-5.023
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(2.577)
+</td>
+<td>
+(4.802)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+MARRIAGEMarried
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+20.566
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(17,707.200)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+MARRIAGEUnknown
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+0.942
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(20,060.560)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+EDUCATIONGraduate Degree
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+0.689
+</td>
+<td>
+0.020
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(9,597.644)
+</td>
+<td>
+(14,127.030)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+EDUCATIONHigh School or Some College
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+17.956
+</td>
+<td>
+18.805
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(6,976.457)
+</td>
+<td>
+(10,230.370)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+EDUCATIONOther
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+0.139
+</td>
+<td>
+-0.253
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+(19,802.490)
+</td>
+<td>
+(27,799.450)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+-1.266
+</td>
+<td>
+-17.418
+</td>
+<td>
+-25.866
+</td>
+<td>
+-22.131
+</td>
+<td>
+-26.566
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(3.233)
+</td>
+<td>
+(6,628.459)
+</td>
+<td>
+(9,555.711)
+</td>
+<td>
+(20,450.070)
+</td>
+<td>
+(328,904.900)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="6" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+547
+</td>
+<td>
+375
+</td>
+<td>
+373
+</td>
+<td>
+373
+</td>
+<td>
+67
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Log Likelihood
+</td>
+<td>
+-16.727
+</td>
+<td>
+-5.079
+</td>
+<td>
+-4.662
+</td>
+<td>
+-4.161
+</td>
+<td>
+-0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Akaike Inf. Crit.
+</td>
+<td>
+41.454
+</td>
+<td>
+22.157
+</td>
+<td>
+23.324
+</td>
+<td>
+26.322
+</td>
+<td>
+16.000
+</td>
+</tr>
+<tr>
+<td colspan="6" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td colspan="5" style="text-align:right">
+<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05;
+<sup></strong></em></sup>p&lt;0.01
+</td>
+</tr>
+</table>
+<p>From Table 7, we see no significant effects on rates of Default.</p>
+</div>
+</div>
+</div>
+<div id="secondary-analysis" class="section level1">
+<h1>Secondary Analysis</h1>
+<p>The secondary analysis sought to determine if a measurable change can
+be determined in participant credit scores (VantageScore).</p>
+<p>The graph below shows boxplots of each VantageScore collected, at
+December 2020 and April 2022.</p>
+<p><img src="Churn-and-Default_files/figure-html/unnamed-chunk-18-1.png" width="768" /></p>
+<p>The histogram below plots the distribution of the scores by time
+period, and includes the standard scale and a logged comparison.</p>
+<p><img src="Churn-and-Default_files/figure-html/unnamed-chunk-19-1.png" width="768" />
+Using a Welch t-test, we measure the difference in means between the two
+groups. From the below, the means of the two groups are not
+statistically signifcant; therefore we cannot claim that credit scores
+for individuals in the solar farms were observed to have changed.</p>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  value by variable
+## t = -0.92527, df = 1051.9, p-value = 0.355
+## alternative hypothesis: true difference in means between group April 2022 and group December 2020 is not equal to 0
+## 95 percent confidence interval:
+##  -16.276750   5.845305
+## sample estimates:
+##    mean in group April 2022 mean in group December 2020 
+##                    781.0366                    786.2523</code></pre>
+</div>
+<div id="discussion" class="section level1">
+<h1>Discussion</h1>
+<p>From the primary analysis, we saw that tenure was consistently
+associated with lower rates of probability of churning. This held
+constant throughout all five models, suggesting that higher tenure,
+controlling for demographic and socioeconomic variables such as
+education and income, corresponds to higher rates of retention in solar
+farms. This relationship is visualized in Graph A below.</p>
+<p>Secondly, female account holders were less likely to churn compared
+to male account holders as seen in model 2. This effect is observed when
+controlling for homeownership status and VantageScore</p>
+<p>Finally, no other variables were observed to have statistically
+significant effect on likelihood of churn. Interestingly, this was
+observed for income and VantageScore Different levels of income or
+credit scores were not observed with statistically different rates of
+churn. Further research should be done in the area of LMI retention in
+solar farm, but from our research we did not see a significant
+difference in probability of churn between either income or credit
+data.</p>
+<p>In the Default model, as expected, such a low number of observations
+does not allow for any significant effects to be observed.</p>
+<p>The logit curves below show the relationship between the distribution
+of both tenure and days late with the probability of churning. The first
+graph shows that the longer the tenure, the lower the likelihood. The
+second graph shows that the days of late payments are generally not
+associated with likelihood of churn.</p>
+<div id="logit-curves" class="section level4">
+<h4>Logit Curves</h4>
+<p><img src="Churn-and-Default_files/figure-html/unnamed-chunk-23-1.png" width="768" /><img src="Churn-and-Default_files/figure-html/unnamed-chunk-23-2.png" width="768" /><img src="Churn-and-Default_files/figure-html/unnamed-chunk-23-3.png" width="768" /></p>
+<p>The goal of the secdonary analysis was to determine if any
+statistically significant difference is measured in VantageScore from
+the December 2020 to April 2022 timeframe for enrolled customers. No
+statistically significant effect was observed on credit score change
+after enrollment in solar farm.</p>
+</div>
+</div>
+</div>
+
+   
+   
+            
+      
+
+  <script>
+    $(document).ready(function () {
+
+			
+ 		
+	    });
+  </script>
+
+
+
+    <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+	var script = document.createElement("script");
+	script.type = "text/javascript";
+	script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+	document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+  
+</body>
+</html>
