@@ -149,6 +149,9 @@ survey$x_sr <- factor(survey$x_sr, levels=c("5% savings rate", "10% savings rate
 
 Table 1 shows the summary statistics for both the demographic and the contract attribute data. Contract varying terms such as savings rate, cancellation fee, contract pages and contract years were evenly divided so as to evaluate contract adoption rate relative to contract differences. Contracts were randomly assigned to responsees to review. The statistics below show how in aggregate, the distribution of contract attributes remained similar to their construction. 
 
+```{r}
+getwd()
+```
 
 
 
@@ -182,7 +185,7 @@ table1 <- tbl_summary(
 table1%>%
   as_gt() %>%             # convert to gt table
   gt::gtsave(             # save table as image
-    filename = "table1.png"
+    filename = "/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/Research Dissemination/SETO Manuscript/Tables and Figures/Community Priorities Table 1.png"
   )
 ```
 
@@ -288,8 +291,9 @@ graph_temp <- reshape2::melt(survey_race_graph, id.var='Race')
 
 
 g <- ggplot(graph_temp, aes(x=reorder(Race, -value), y=value))+geom_bar(aes(fill=variable),stat='identity', position='dodge') +theme_classic()+
-  xlab('') + ylab('Proportion') + labs(color='') +   ggtitle("Race Comparison 8 State Region")+
-  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) +  labs(caption = "Source: 2020 ACS 5-Year, Table B03002.")
+  xlab('') + ylab('Proportion') + labs(color='') +   ggtitle("Figure 1: Race Comparison 8 State Region")+
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5), legend.title = element_blank()
+        ) +  labs(caption = "Source: 2020 ACS 5-Year, Table B03002.") 
 
 ggplotly(g)%>% 
  layout(annotations = 
@@ -299,13 +303,11 @@ ggplotly(g)%>%
       font=list(size=11, color="Black"))
  )
 
+#save out to output table
 
 
+ggsave("/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/Research Dissemination/SETO Manuscript/Tables and Figures/Community Priorities Figure 1 Race Comparison.png")
 
-```
-
-```{r}
-getwd()
 ```
 
 
@@ -467,7 +469,7 @@ graph_temp <- reshape2::melt(survey_income_graph, id.var='Income')
 
 
 g <- ggplot(graph_temp, aes(x=Income, y=value))+geom_bar(aes(fill=variable),stat='identity', position='dodge') +theme_classic()+
-  xlab('') + ylab('Proportion') + labs(color='') +   ggtitle("Income Comparison 8 State Region")+
+  xlab('') + ylab('Proportion') + labs(color='') +   ggtitle("Figure 2: Income Comparison 8 State Region")+
   theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))+  labs(caption = "Source: 2018 HUD PD&R CHAS, Table 14.")
 
 
@@ -479,6 +481,7 @@ ggplotly(g)%>%
       font=list(size=11, color="Black"))
  )
 
+ggsave("/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/Research Dissemination/SETO Manuscript/Tables and Figures/Community Priorities Figure 2 Income Comparison.png")
 
 
 ```
@@ -566,7 +569,7 @@ graph_temp <- reshape2::melt(survey_race_graph, id.var='x_hs')
 
 
 g <- ggplot(graph_temp, aes(x=reorder(x_hs, -value), y=value))+geom_bar(aes(fill=variable),stat='identity', position='dodge') +theme_classic()+
-  xlab('') + ylab('Proportion') + labs(color='') +   ggtitle("Homeownership Comparison 8 State Region")+
+  xlab('') + ylab('Proportion') + labs(color='') +   ggtitle("Figure 3: Homeownership Comparison 8 State Region")+
   theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))+  labs(caption = "Source: 2020 ACS 5-Year, Table B25003.")
 
 ggplotly(g)%>% 
@@ -578,6 +581,7 @@ ggplotly(g)%>%
  )
 
 
+ggsave("/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/Research Dissemination/SETO Manuscript/Tables and Figures/Community Priorities Figure 3 Homeownership Comparison.png")
 
 
 
@@ -621,9 +625,14 @@ ggplotly(g)%>%
 
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+
 p <- ggplot(survey) +
-  geom_bar(aes(x=x_sr, fill=y_signup),
-           position = "dodge") +facet_wrap(~x_inc) + theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
+  geom_bar(aes(x=x_sr, fill=signup),
+           position = "dodge") +facet_wrap(~x_inc) + theme_classic() + 
+          theme(axis.text.x = element_text(angle = 45, vjust = 0.5,hjust=0.5)) + xlab("")
+
+# ggsave("/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/Research Dissemination/SETO Manuscript/Tables and Figures/Community Priorities Figure 4 Savings Rate and Income Crosstab.png")
+
 
 ggplotly(p)
 ```
@@ -639,8 +648,11 @@ ggplotly(p)
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 p <- ggplot(survey) +
-  geom_bar(aes(x=x_race, fill=y_signup),
-           position = "dodge") +facet_wrap(~x_sr) + theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
+  geom_bar(aes(x=x_race, fill=signup),
+           position = "dodge") +facet_wrap(~x_sr) + theme_classic() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("") +ggtitle("Figure 4: Savings Rate and Race Crosstab")
+
+# ggsave("/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/Research Dissemination/SETO Manuscript/Tables and Figures/Community Priorities Figure 5 Savings Rate and Race Crosstab.png")
+
 
 ggplotly(p)
 ```
@@ -656,8 +668,10 @@ ggplotly(p)
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 p <- ggplot(survey) +
-  geom_bar(aes(x=x_race, fill=y_signup),
-           position = "dodge") +facet_wrap(~x_inc) + theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
+  geom_bar(aes(x=x_race, fill=signup),
+           position = "dodge") +facet_wrap(~x_inc) + theme_classic() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
+
+# ggsave("/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/Research Dissemination/SETO Manuscript/Tables and Figures/Community Priorities Figure 6 Race and Income Crosstab.png")
 
 ggplotly(p)
 ```
@@ -675,24 +689,10 @@ ggplotly(p)
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 p <- ggplot(survey) +
-  geom_bar(aes(x=factor(x_cf), fill=y_signup),
-           position = "dodge") +facet_wrap(~x_inc) + theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
+  geom_bar(aes(x=factor(x_cf), fill=signup),
+           position = "dodge") +facet_wrap(~x_inc) + theme_classic() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
 
-ggplotly(p)
-```
-
-<style>
-#### Cancellation Fee & Race
-
-{
-   display: none;
- }
-</style>
-
-```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
-p <- ggplot(survey) +
-  geom_bar(aes(x=factor(x_cf), fill=y_signup),
-           position = "dodge") +facet_wrap(~x_race) + theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
+# ggsave("/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/Research Dissemination/SETO Manuscript/Tables and Figures/Community Priorities Figure 7 Cancellation Fee and Income Crosstab.png")
 
 ggplotly(p)
 ```
@@ -711,24 +711,16 @@ ggplotly(p)
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 p <- ggplot(survey) +
-  geom_bar(aes(x=factor(x_cly), fill=y_signup),
-           position = "dodge") +facet_wrap(~x_inc) + theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
+  geom_bar(aes(x=factor(x_cly), fill=signup),
+           position = "dodge") +facet_wrap(~x_inc) + theme_classic() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
+
+# ggsave("/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/Research Dissemination/SETO Manuscript/Tables and Figures/Community Priorities Figure 8 Contract Years and Income Crosstab.png")
+
 
 ggplotly(p)
 ```
 
  
-
-```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
-p <- ggplot(survey) +
-  geom_bar(aes(x=factor(x_cly), fill=y_signup),
-           position = "dodge") +facet_wrap(~x_race) + theme_minimal() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5)) + xlab("")
-
-ggplotly(p)
-```
-
-
-
 
 
 
