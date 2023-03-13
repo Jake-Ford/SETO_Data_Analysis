@@ -47,9 +47,9 @@ options(scipen = 100)
 
 ## Change the below to match your local drive ##
 
-input_folder <- '/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/SETO Data Analysis/'
+# input_folder <- '/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/SETO Data Analysis/'
 
-
+input_folder <- '/Users/jacobford/Library/CloudStorage/GoogleDrive-jake@solstice.us/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/'
 
 setwd(input_folder)
 
@@ -323,7 +323,7 @@ ggsave("/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low 
 under_thirty <- c('T11_est4','T11_est5','T11_est76','T11_est18','T11_est19',
                   'T11_est32','T11_est33','T11_est47','T11_est48','T11_est61','T11_est62','T11_est75',sep="|")
 
-chas_name <- paste(input_folder, "3. Churn and Default/Table11.csv", sep="")
+chas_name <- paste(input_folder, "3. Churn and Default/Central Hudson Preliminary Analysis/040/Table11.csv", sep="")
 
 chas_data_11 <- read.csv((chas_name))%>%
   filter(name %in% c("California", "Colorado", "Illinois", "Massachusetts", "Maryland",
@@ -766,7 +766,7 @@ From Table 1, seven models are presented analyzing changes in probability of sig
 
 
 ```{r showChoro1, echo=FALSE, message=FALSE, warning=FALSE}
-htmltools::includeHTML("/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Primary_Table_combined.html")
+htmltools::includeHTML("/Users/jacobford/Library/CloudStorage/GoogleDrive-jake@solstice.us/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Primary_Table_combined.html")
 ```
 
 
@@ -775,14 +775,14 @@ htmltools::includeHTML("/Volumes/GoogleDrive/Shared drives/*Solstice | Low Incom
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
-htmltools::includeHTML("/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Primary_Table2_combined_OR.html")
+htmltools::includeHTML("/Users/jacobford/Library/CloudStorage/GoogleDrive-jake@solstice.us/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Primary_Table2_combined_OR.html")
 ```
 
 
 ```{stata include=FALSE}
 
 
-use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
+use "/Users/jacobford/Library/CloudStorage/GoogleDrive-jake@solstice.us/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
 	
 quietly gen weight_race_int = int(weight_race)
 	
@@ -810,7 +810,7 @@ eststo clear
 ```
 
 ### Figure 1: Odds Ratio
-![](/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/graphs/Figure 001 - Odds Ratio.png)
+![](/Users/jacobford/Library/CloudStorage/GoogleDrive-jake@solstice.us/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/graphs/Figure 001 - Odds Ratio.png)
 The figure above reflects the odds ratios for Model 7. 
 
 **Main Takeaways**
@@ -848,7 +848,7 @@ The secondary analysis uses a multinomial logit model to investigate the degree 
 ```{stata echo=FALSE}
 
 
-use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
+use "/Users/jacobford/Library/CloudStorage/GoogleDrive-jake@solstice.us/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
 	
 
 quietly gen weight_race_int = int(weight_race)
@@ -911,7 +911,7 @@ eststo clear
 ```{stata echo=FALSE}
 
 
-use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
+use "/Users/jacobford/Library/CloudStorage/GoogleDrive-jake@solstice.us/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
 	
 
 quietly gen weight_race_int = int(weight_race)
@@ -965,7 +965,7 @@ eststo clear
 #### Figure 2: Savings Rate Margins Plot
 
 
-![Savings Rates Margin Plots.](/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Marginsplot Savings Rate by Race.png)
+![Savings Rates Margin Plots.](/Users/jacobford/Library/CloudStorage/GoogleDrive-jake@solstice.us/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Marginsplot Savings Rate by Race.png)
 
 ### Cancellation Fees
 
@@ -973,7 +973,7 @@ eststo clear
 ```{stata echo=FALSE}
 
 
-use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
+use "/Users/jacobford/Library/CloudStorage/GoogleDrive-jake@solstice.us/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
 	
 
 quietly gen weight_race_int = int(weight_race)
@@ -1027,7 +1027,7 @@ eststo clear
 ```{stata echo=FALSE}
 
 
-use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
+use "/Users/jacobford/Library/CloudStorage/GoogleDrive-jake@solstice.us/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
 	
 
 quietly gen weight_race_int = int(weight_race)
@@ -1081,7 +1081,7 @@ eststo clear
 
 
 
-![Cancellation Fees Margin Plots.](/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Marginsplot Fees by Income.png)
+![Cancellation Fees Margin Plots.](/Users/jacobford/Library/CloudStorage/GoogleDrive-jake@solstice.us/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Marginsplot Fees by Income.png)
 
 ### Contract Length (Years)
 
@@ -1089,7 +1089,7 @@ eststo clear
 ```{stata echo=FALSE}
 
 
-use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
+use "/Users/jacobford/Library/CloudStorage/GoogleDrive-jake@solstice.us/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
 	
 
 quietly gen weight_race_int = int(weight_race)
@@ -1145,7 +1145,7 @@ eststo clear
 ```{stata echo=FALSE}
 
 
-use "/Volumes/GoogleDrive/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
+use "/Users/jacobford/Library/CloudStorage/GoogleDrive-jake@solstice.us/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/QUALTRICS_survey_data_all.dta", clear
 	
 
 quietly gen weight_race_int = int(weight_race)
@@ -1200,7 +1200,7 @@ eststo clear
 #### Figure 4: Contract Length Margins Plot
 
 
-![Contract Years Margin Plots.](/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Marginsplot Years by Race.png)
+![Contract Years Margin Plots.](/Users/jacobford/Library/CloudStorage/GoogleDrive-jake@solstice.us/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Marginsplot Years by Race.png)
 
 # Discussion
 

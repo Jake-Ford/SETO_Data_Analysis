@@ -77,7 +77,7 @@ options(scipen = 100)
 
 ## Change the below to match your local drive ##
 
-input_folder <- '/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/SETO Data Analysis/3. Churn and Default/Files for NMR Review/'
+input_folder <- '/Users/jacobford/Library/CloudStorage/GoogleDrive-jake@solstice.us/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/3. Churn and Default/Files for NMR Review/'
 
 setwd(input_folder)
 
@@ -771,6 +771,9 @@ The goal of the secdonary analysis was to determine if any statistically signifi
 
 
 
+```{r}
+
+```
 
 
 
