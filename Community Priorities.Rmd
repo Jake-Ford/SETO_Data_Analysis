@@ -141,6 +141,9 @@ survey$x_sr <- factor(survey$x_sr, levels=c("5% savings rate", "10% savings rate
 
 
 
+```{r}
+getwd()
+```
 
 
 
@@ -149,9 +152,6 @@ survey$x_sr <- factor(survey$x_sr, levels=c("5% savings rate", "10% savings rate
 
 Table 1 shows the summary statistics for both the demographic and the contract attribute data. Contract varying terms such as savings rate, cancellation fee, contract pages and contract years were evenly divided so as to evaluate contract adoption rate relative to contract differences. Contracts were randomly assigned to responsees to review. The statistics below show how in aggregate, the distribution of contract attributes remained similar to their construction. 
 
-```{r}
-getwd()
-```
 
 
 
@@ -178,15 +178,17 @@ table1 <- tbl_summary(
   by=y_signup,
   missing='no',
   ) %>% # test for a difference between groups
-  modify_header(label = "**Table 1: Summary Statistics by Signup Status (No/Yes)**") %>% # update the column header
+  modify_header(label = "**Table 2: Summary Statistics by Signup Status (No/Yes)**") %>% # update the column header
   bold_labels() %>%
   add_p()
 
 table1%>%
   as_gt() %>%             # convert to gt table
   gt::gtsave(             # save table as image
-    filename = "/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/Research Dissemination/SETO Manuscript/Tables and Figures/Community Priorities Table 1.png"
+    filename = "/Users/jacobford/Documents/GitHub/SETO_Data_Analysis/Tables and Figures/Community Priorities Table 1.png"
   )
+
+
 ```
 
 
@@ -965,7 +967,7 @@ eststo clear
 #### Figure 2: Savings Rate Margins Plot
 
 
-![Savings Rates Margin Plots.](/Users/jacobford/Library/CloudStorage/GoogleDrive-jake@solstice.us/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Marginsplot Savings Rate by Race.png)
+![Savings Rates Margin Plots.](/Users/jacobford/Library/CloudStorage/GoogleDrive-jake@solstice.us/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/1. Community Solar Priorities/Qualtrics Survey/seto_survey/output/regressions/Marginsplot Savings Rate by Income.png)
 
 ### Cancellation Fees
 
