@@ -43,12 +43,12 @@ options(scipen = 100)
 
 ## Change the below to match your local drive ##
 
-input_folder <- '/Volumes/GoogleDrive-111165283491444964488/Shared drives/Solstice | Low Income Inclusion/05_Research/05.01_SETO/DOE SETO Project Implementation/Project Management/SETO Data Analysis/'
+input_folder <- '/Users/jacobford/Library/CloudStorage/GoogleDrive-jake@solstice.us/Shared drives/*Solstice | Low Income Inclusion/Projects/2019-2022 DOE SETO Contract Innovations/DOE SETO Project Implementation/Project Management/SETO Data Analysis/2. Developer and Financier/Data'
 
-dev_input = paste(input_folder, "2. Developer and Financier/", sep="")
+dev_input = paste(input_folder,  sep="")
 
 
-setwd(input_folder)
+
 
 
 ```
@@ -83,7 +83,7 @@ There were 254 unique responses.
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
-devd_raw <- read.csv(paste(dev_input, "input/Developer and Financier Survey_July 20, 2022_06.45.csv", sep=""))
+devd_raw <- read.csv(paste(dev_input, "/Developer and Financier Survey_July 20, 2022_06.45.csv", sep=""))
 
 
 
@@ -1124,14 +1124,17 @@ ggplotly(b, tooltip="text")
 
 
 
+
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 long_data <- stacked_data %>%
   mutate(
     pct_long = (value/218)
   )
 
-long_data$Importance <- factor(long_data$Importance, levels = c("Extremely important", "Very important", "Moderately important",
-                                                                "Slightly important", "Not at all important"))
+# long_data$Importance <- factor(long_data$Importance, levels = c("Extremely important", "Very important", "Moderately important",
+#                                                                 "Slightly important", "Not at all important"))
+
+long_data$Importances <- factor(long_data$Importance, levels = c("Not at all important", "Slightly important", "Moderately important", "Very important", "Extremely important"))
 
 
 long_data <- long_data %>%
@@ -1142,7 +1145,7 @@ long_data <- long_data %>%
   ))
 
 
-long_data$Importances <- factor(long_data$Importances, levels = c("Very/Extremely Important", "Slightly/Moderately Important", "Not at all important"))
+long_data$Importances <- factor(long_data$Importances, levels = c("Not at all important", "Slightly/Moderately Important", "Very/Extremely Important"))
 
 ggplot(data = long_data, aes(x = Factors , y =pct_long , fill=Importance,
                                      text=paste("Factor", Factors, "\nValue:", pct_long))) + 
@@ -1151,8 +1154,9 @@ ggplot(data = long_data, aes(x = Factors , y =pct_long , fill=Importance,
   coord_flip() + 
   xlab("") + 
   ylab("")+ 
-  theme_minimal() +
-  ggtitle("Factors to make Community Solar Accessible to LMI Customers")
+  theme_minimal() + 
+ ggtitle("Factors to make Community Solar Accessible to LMI Customers") +
+  scale_y_continuous(labels=scales::percent_format())
 
 
 ggplot(data = long_data, aes(x = Factors , y =pct_long , fill=Importances,
@@ -1163,12 +1167,115 @@ ggplot(data = long_data, aes(x = Factors , y =pct_long , fill=Importances,
   xlab("") + 
   ylab("")+ 
   theme_minimal() +
-  ggtitle("Factors to make Community Solar Accessible to LMI Customers")
+ #ggtitle("Factors to make Community Solar Accessible to LMI Customers")+
+  scale_y_continuous(labels=scales::percent_format())
+
+
+ex <- long_data %>% group_by(Factors, Importances) %>% summarise(pct_long = sum(pct_long))
       
 
 ```
 
 
+
+```{r}
+
+
+path <- "/Users/jacobford/Documents/GitHub/SETO_Data_Analysis/Tables and Figures"
+
+# Default plot values
+legend.nrow  <- 1
+legend.byrow <- FALSE
+font.base    <- 10 
+font.axis    <- 10 
+font.capt    <- font.base+1
+font.subt    <- font.base+2
+font.title   <- font.base+3
+line.size    <- 1 
+point.size   <- 2.25
+barwidth     <- 0.7
+aspect.ratio <- 0.7
+
+#==============================================================================#
+# Figure 1 ####
+#==============================================================================#
+
+# Dataset for figure
+df       <- ex
+filename <- "/figure 1"
+  
+# Number labels that go on top of each bar segment
+df$pct_long <- df$pct_long*100
+df$plotlab <- as.character(round(df$pct_long,0))
+df$plotlab[df$plotlab=="0"] <- ""
+plotlab <- df$plotlab
+  
+# Plot colors and bar/response order
+resp.color <- c("Very/Extremely Important"     ="#00AFBB",
+                "Slightly/Moderately Important"="goldenrod1",
+                "Not at all important"         ="#FC4E07")
+plot_fill_values <- resp.color
+resp.order <- names(resp.color)
+df$response <- factor(df$Importances,levels=resp.order)
+pos.resp <- resp.order[1]
+
+# The bars are ordered along the axis in descending order of "very/extremely important"
+order <- df %>%
+  dplyr::filter(Importances %in% pos.resp) %>%
+  dplyr::group_by(Factors) %>%
+  dplyr::summarise(pct=sum(pct_long))%>%
+  dplyr::arrange(pct) %>%
+  dplyr::distinct(Factors)
+df$Factors <-factor(df$Factors,levels=order$Factors)
+  
+# Set x, y, and color variables  
+xvar     <- df$Factors
+yvar     <- df$pct_long
+colorvar <- df$response
+  
+library(readxl)
+library(tidyverse)
+library(ggplot2)
+library(ggtext)
+
+# Generate plot  
+p <- ggplot(df, aes(x=xvar, y=yvar, fill=colorvar))+
+  geom_hline(yintercept=50, color="gray")+
+  geom_bar(aes(fill=colorvar), stat="identity", position=position_stack(reverse=TRUE), width=0.7)+
+  geom_text(position=position_stack(vjust=0.5, reverse=TRUE), aes(label=plotlab), size=3.5, color="white")+
+  scale_y_continuous(expand=c(0,0), limits=c(0,101), breaks=c(0,50,100), labels=c("0%","50%","100%"))+
+  scale_x_discrete(labels=function(x)lapply(strwrap(x, width=40, simplify=FALSE), paste, collapse="\n"), limits=levels(xvar))+
+  scale_fill_manual(values=plot_fill_values, guide=guide_legend(reverse=FALSE, nrow=legend.nrow, byrow=legend.byrow))+
+  ggtitle(label=paste0(lapply(strwrap("", width=70, simplify=FALSE), paste, collapse="\n")))+
+  theme(plot.title=element_text(size=font.title, face="bold", hjust=0.5))+
+  labs(x="", y=paste0("% of Respondents"))+
+  theme(axis.text.x=element_text(vjust=0, hjust=0.5, size=font.axis, color="gray30"))+
+  theme(axis.title.x=element_blank())+
+  theme(axis.text.y=element_text(vjust=0.5, hjust=1, size=font.axis, color="gray30"))+
+  theme(axis.title.y=element_text(vjust=0.5, hjust=0.5, size=font.axis, color="gray30"))+
+  theme(panel.background=element_blank())+
+  theme(panel.border=element_blank())+
+  theme(panel.grid=element_blank())+
+  theme(axis.line=element_line(colour="gray"))+
+  theme(axis.ticks=element_blank())+
+  theme(plot.caption=element_markdown(size=font.base, hjust=0, vjust=0.5, lineheight=1.2))+
+  theme(legend.title=element_blank())+
+  theme(legend.position="top")+
+  theme(legend.direction="vertical")+
+  theme(legend.justification="center")+
+  theme(legend.text=element_text(size=font.axis))+
+  theme(legend.key.size=unit(1,"lines"))+
+  theme(legend.key=element_blank())+
+  theme(aspect.ratio=aspect.ratio)+
+  theme(plot.margin=margin(0.25, 0.25, 0.25, 0.25, "in"))+
+  coord_flip()
+p
+ggsave(filename=paste0(path,filename,".png"), plot=p, device="png", scale=1, width=11, units="in", dpi=320)
+
+  
+
+
+```
 
 
 ### Factors: Influence decision to include LMI in projects {.tabset}
@@ -1416,31 +1523,113 @@ long_data <- long_data %>%
   ))
 
 
-long_data$Importances <- factor(long_data$Importances, levels = c("Very/Extremely Important", "Slightly/Moderately Important", "Not at all important"))
+#long_data$Importances <- factor(long_data$Importances, levels = c("Very/Extremely Important", "Slightly/Moderately Important", "Not at all important"))
+long_data$Importances <- factor(long_data$Importances, levels = c("Not at all important", "Slightly/Moderately Important", "Very/Extremely Important"))
 
 
-ggplot(data = long_data, aes(x = Factors , y =pct_long , fill=Importance,
-                                     text=paste("Factor", Factors, "\nValue:", pct_long))) + 
-  geom_bar(stat = 'identity') + 
-  #scale_colour_discrete("Importance")+
-  coord_flip() + 
-  xlab("") + 
-  ylab("")+ 
-  theme_minimal() +
-  ggtitle("Factors to make Community Solar Accessible to LMI Customers")
-
-
-ggplot(data = long_data, aes(x = Factors , y =pct_long , fill=Importances,
-                                     text=paste("Factor", Factors, "\nValue:", pct_long))) + 
-  geom_bar(stat = 'identity') + 
-  #scale_colour_discrete("Importance")+
-  coord_flip() + 
-  xlab("") + 
-  ylab("")+ 
-  theme_minimal() +
-  ggtitle("Factors to make Community Solar Accessible to LMI Customers")
+# ggplot(data = long_data, aes(x = Factors , y =pct_long , fill=Importance,
+#                                      text=paste("Factor", Factors, "\nValue:", pct_long))) + 
+#   geom_bar(stat = 'identity') + 
+#   #scale_colour_discrete("Importance")+
+#   coord_flip() + 
+#   xlab("") + 
+#   ylab("")+ 
+#   theme_minimal() +
+#  # ggtitle("Factors to make Community Solar Accessible to LMI Customers")+
+#   scale_y_continuous(labels=scales::percent_format())
+#       
+# 
+# ggplot(data = long_data, aes(x = Factors , y =pct_long , fill=Importances,
+#                                      text=paste("Factor", Factors, "\nValue:", pct_long))) + 
+#   geom_bar(stat = 'identity') + 
+#   #scale_colour_discrete("Importance")+
+#   coord_flip() + 
+#   xlab("") + 
+#   ylab("")+ 
+#   theme_minimal() +
+#  # ggtitle("Factors to make Community Solar Accessible to LMI Customers")+
+#   scale_y_continuous(labels=scales::percent_format())
       
+ex <- long_data %>% group_by(Factors, Importances) %>% summarise(pct_long = sum(pct_long))
 
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#==============================================================================#
+# Figure 2 ####
+#==============================================================================#
+
+# Dataset for figure
+df       <- ex
+filename <- "/figure 2"
+
+# Number labels that go on top of each bar segment
+df$pct_long <- df$pct_long*100
+df$plotlab <- as.character(round(df$pct_long,0))
+df$plotlab[df$plotlab=="0"] <- ""
+plotlab <- df$plotlab
+
+# Plot colors and bar/response order
+resp.color <- c("Very/Extremely Important"     ="#00AFBB",
+                "Slightly/Moderately Important"="goldenrod1",
+                "Not at all important"         ="#FC4E07")
+plot_fill_values <- resp.color
+resp.order <- names(resp.color)
+df$response <- factor(df$Importances,levels=resp.order)
+pos.resp <- resp.order[1]
+
+# The bars are ordered along the axis in descending order of "very/extremely important"
+order <- df %>%
+  dplyr::filter(Importances %in% pos.resp) %>%
+  dplyr::group_by(Factors) %>%
+  dplyr::summarise(pct=sum(pct_long))%>%
+  dplyr::arrange(pct) %>%
+  dplyr::distinct(Factors)
+df$Factors <-factor(df$Factors,levels=order$Factors)
+
+# Set x, y, and color variables  
+xvar     <- df$Factors
+yvar     <- df$pct_long
+colorvar <- df$response
+
+# Generate plot  
+p <- ggplot(df, aes(x=xvar, y=yvar, fill=colorvar))+
+  geom_hline(yintercept=50, color="gray")+
+  geom_bar(aes(fill=colorvar), stat="identity", position=position_stack(reverse=TRUE), width=0.7)+
+  geom_text(position=position_stack(vjust=0.5, reverse=TRUE), aes(label=plotlab), size=3.5, color="white")+
+  scale_y_continuous(expand=c(0,0), limits=c(0,101), breaks=c(0,50,100), labels=c("0%","50%","100%"))+
+  scale_x_discrete(labels=function(x)lapply(strwrap(x, width=40, simplify=FALSE), paste, collapse="\n"), limits=levels(xvar))+
+  scale_fill_manual(values=plot_fill_values, guide=guide_legend(reverse=FALSE, nrow=legend.nrow, byrow=legend.byrow))+
+  ggtitle(label=paste0(lapply(strwrap("", width=70, simplify=FALSE), paste, collapse="\n")))+
+  theme(plot.title=element_text(size=font.title, face="bold", hjust=0.5))+
+  labs(x="", y=paste0("% of Respondents"))+
+  theme(axis.text.x=element_text(vjust=0, hjust=0.5, size=font.axis, color="gray30"))+
+  theme(axis.title.x=element_blank())+
+  theme(axis.text.y=element_text(vjust=0.5, hjust=1, size=font.axis, color="gray30"))+
+  theme(axis.title.y=element_text(vjust=0.5, hjust=0.5, size=font.axis, color="gray30"))+
+  theme(panel.background=element_blank())+
+  theme(panel.border=element_blank())+
+  theme(panel.grid=element_blank())+
+  theme(axis.line=element_line(colour="gray"))+
+  theme(axis.ticks=element_blank())+
+  theme(plot.caption=element_markdown(size=font.base, hjust=0, vjust=0.5, lineheight=1.2))+
+  theme(legend.title=element_blank())+
+  theme(legend.position="top")+
+  theme(legend.direction="vertical")+
+  theme(legend.justification="center")+
+  theme(legend.text=element_text(size=font.axis))+
+  theme(legend.key.size=unit(1,"lines"))+
+  theme(legend.key=element_blank())+
+  theme(aspect.ratio=aspect.ratio)+
+  theme(plot.margin=margin(0.25, 0.25, 0.25, 0.25, "in"))+
+  coord_flip()
+p
+ggsave(filename=paste0(path,filename,".png"), plot=p, device="png", scale=1, width=11, units="in", dpi=320)
+
+#==============================================================================#
+# END ####
+#==============================================================================#
 ```
 
 
