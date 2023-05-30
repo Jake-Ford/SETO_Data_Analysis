@@ -860,14 +860,10 @@ ggplotly(p, tooltip="text")
  }
 </style>
 
-<style>
+
+
+
 ### Factors: Ability to make CS accessibility to LMI {.tabset}
-{
-   display: none;
- }
-</style>
-
-
 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
@@ -1147,28 +1143,28 @@ long_data <- long_data %>%
 
 long_data$Importances <- factor(long_data$Importances, levels = c("Not at all important", "Slightly/Moderately Important", "Very/Extremely Important"))
 
-ggplot(data = long_data, aes(x = Factors , y =pct_long , fill=Importance,
-                                     text=paste("Factor", Factors, "\nValue:", pct_long))) + 
-  geom_bar(stat = 'identity') + 
-  #scale_colour_discrete("Importance")+
-  coord_flip() + 
-  xlab("") + 
-  ylab("")+ 
-  theme_minimal() + 
- ggtitle("Factors to make Community Solar Accessible to LMI Customers") +
-  scale_y_continuous(labels=scales::percent_format())
-
-
-ggplot(data = long_data, aes(x = Factors , y =pct_long , fill=Importances,
-                                     text=paste("Factor", Factors, "\nValue:", pct_long))) + 
-  geom_bar(stat = 'identity') + 
-  #scale_colour_discrete("Importance")+
-  coord_flip() + 
-  xlab("") + 
-  ylab("")+ 
-  theme_minimal() +
- #ggtitle("Factors to make Community Solar Accessible to LMI Customers")+
-  scale_y_continuous(labels=scales::percent_format())
+# ggplot(data = long_data, aes(x = Factors , y =pct_long , fill=Importance,
+#                                      text=paste("Factor", Factors, "\nValue:", pct_long))) + 
+#   geom_bar(stat = 'identity') + 
+#   #scale_colour_discrete("Importance")+
+#   coord_flip() + 
+#   xlab("") + 
+#   ylab("")+ 
+#   theme_minimal() + 
+#  ggtitle("Factors to make Community Solar Accessible to LMI Customers") +
+#   scale_y_continuous(labels=scales::percent_format())
+# 
+# 
+# ggplot(data = long_data, aes(x = Factors , y =pct_long , fill=Importances,
+#                                      text=paste("Factor", Factors, "\nValue:", pct_long))) + 
+#   geom_bar(stat = 'identity') + 
+#   #scale_colour_discrete("Importance")+
+#   coord_flip() + 
+#   xlab("") + 
+#   ylab("")+ 
+#   theme_minimal() +
+#  #ggtitle("Factors to make Community Solar Accessible to LMI Customers")+
+#   scale_y_continuous(labels=scales::percent_format())
 
 
 ex <- long_data %>% group_by(Factors, Importances) %>% summarise(pct_long = sum(pct_long))
@@ -1178,7 +1174,7 @@ ex <- long_data %>% group_by(Factors, Importances) %>% summarise(pct_long = sum(
 
 
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 
 path <- "/Users/jacobford/Documents/GitHub/SETO_Data_Analysis/Tables and Figures"
@@ -2107,7 +2103,6 @@ ggplotly(b, tooltip="text")
 </style>
 
 
-COD = commerical operational date (?)
 
 
 
@@ -2284,8 +2279,6 @@ ggplotly(p)
 
 ```
 
-
--1
 
 
 
