@@ -90,12 +90,12 @@ Data cleaning mainly involves removing observations for one farm over a particul
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
 
-# 'Nautilus Raw Data for NMR.xlsx' contains the monthly enrollment records for the two sample solar farms - contains various account specific information. We rename this 'farm_data'. For the analysis, we do not differentiate between the two farm locations, however for descriptive statistics we break out the differences for additional clarity. 
+# 'Raw Data for NMR.xlsx' contains the monthly enrollment records for the two sample solar farms - contains various account specific information. We rename this 'farm_data'. For the analysis, we do not differentiate between the two farm locations, however for descriptive statistics we break out the differences for additional clarity. 
 
 # There are four main ID variables in the 'farm_data' data frame: user (user_id),  household (property_id), utility account (utility_acct_number), and Participant ID (ParticipantID). ParticipantID is a mask of user_id and is used to merge the data with Experian attributes. We decided to group the analysis by utility accounts. The reason is we are measuring is rate of churn/default, and the account is the unit that performs these actions; not the user which may hold multiple accounts. Household ID and utility account are very similar, but for consistency, we hereafter focus on utility account data
 
 
-farm_data <- read_excel(paste(input_folder, "Nautilus Raw Data for NMR.xlsx", sep=""), 
+farm_data <- read_excel(paste(input_folder, "Raw Data for NMR.xlsx", sep=""), 
     sheet = "final data")  %>%
   # make tag for Farm A properties after 9/2021 ; this results in just dropping October 2021 values for Farm A
   mutate(FH_bill_issuetag = case_when(
